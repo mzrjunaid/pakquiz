@@ -15,13 +15,21 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
+        $this->call(RoleSeeder::class);
+        $this->call(UserStatusSeeder::class);
+
         User::firstOrCreate(
             ['email' => 'test@example.com'],
             [
-                'name' => 'Test User',
-                'password' => 'password',
+                'name' => 'Junaid',
+                'email' => 'mzrjunaid@gmail.com',
+                'password' => '123.321A',
                 'email_verified_at' => now(),
+                'role_id' => 1,
+                'status_id' => 1,
             ]
         );
+
+        $this->call(UserSeeder::class);
     }
 }
