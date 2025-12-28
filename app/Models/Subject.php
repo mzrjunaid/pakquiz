@@ -51,4 +51,9 @@ class Subject extends Model
     {
         return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'subject');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

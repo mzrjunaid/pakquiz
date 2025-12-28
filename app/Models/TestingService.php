@@ -48,4 +48,9 @@ class TestingService extends Model
         return $this->hasOne(SeoMeta::class, 'page_id')
             ->where('page_type', 'service');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

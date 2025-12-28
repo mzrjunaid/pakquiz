@@ -59,4 +59,9 @@ class Mcq extends Model
     {
         return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'mcq');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

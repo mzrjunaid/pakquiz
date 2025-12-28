@@ -1,7 +1,10 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Admin;
 
+use App\Http\Controllers\Controller;
+use App\Models\Department;
+use Inertia\Inertia;
 use Illuminate\Http\Request;
 
 class DepartmentController extends Controller
@@ -11,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        //
+        dd('index');
     }
 
     /**
@@ -19,7 +22,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        //
+        dd('create');
     }
 
     /**
@@ -27,7 +30,7 @@ class DepartmentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd('store');
     }
 
     /**
@@ -35,7 +38,7 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        //
+        dd('show');
     }
 
     /**
@@ -43,7 +46,7 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        dd('edit');
     }
 
     /**
@@ -51,7 +54,7 @@ class DepartmentController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+        dd('update');
     }
 
     /**
@@ -59,6 +62,6 @@ class DepartmentController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+        dd('destroy');
     }
 }

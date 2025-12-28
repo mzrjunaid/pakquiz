@@ -66,4 +66,9 @@ class Paper extends Model
     {
         return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'paper');
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

@@ -35,4 +35,9 @@ class Department extends Model
             'name' => 'Unknown User'
         ]);
     }
+
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }

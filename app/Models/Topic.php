@@ -47,4 +47,8 @@ class Topic extends Model
         return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'topic');
     }
 
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 }
