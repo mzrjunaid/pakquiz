@@ -61,4 +61,35 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserStatus::class, 'status_id');
     }
+
+    public function departments()
+    {
+        return $this->hasmany(Department::class, 'created_by');
+    }
+
+    public function testingServices()
+    {
+        return $this->hasmany(TestingService::class, 'created_by');
+    }
+
+    public function subjects()
+    {
+        return $this->hasmany(Subject::class, 'created_by');
+    }
+
+    public function topics()
+    {
+        return $this->hasmany(Topic::class, 'created_by');
+    }
+
+
+    public function papers()
+    {
+        return $this->hasmany(Paper::class, 'created_by');
+    }
+
+    public function mcqs()
+    {
+        return $this->hasmany(Mcq::class, 'created_by');
+    }
 }

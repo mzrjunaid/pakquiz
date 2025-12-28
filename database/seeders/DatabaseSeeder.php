@@ -29,7 +29,25 @@ class DatabaseSeeder extends Seeder
                 'status_id' => 1,
             ]
         );
-
         $this->call(UserSeeder::class);
+
+        // 2. Departments and Testing Services
+        $this->call(DepartmentSeeder::class);
+        $this->call(TestingServiceSeeder::class);
+
+        // 3. Subjects
+        $this->call(SubjectSeeder::class);
+
+        // 4. Topics (depends on Subject)
+        $this->call(TopicSeeder::class);
+
+        // 5. Papers (depends on Department, Subject, TestingService)
+        $this->call(PaperSeeder::class);
+
+        // 6. MCQs (depends on Subject, Topic, Paper)
+        $this->call(McqSeeder::class);
+
+        // 7. MCQ Options (depends on MCQs)
+        $this->call(McqOptionSeeder::class);
     }
 }
