@@ -49,11 +49,21 @@ class Paper extends Model
         return $this->hasmany(Mcq::class, 'paper_id');
     }
 
-
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
+    }
+
+    public function fullTitle(): string
+    {
+        $year = $this->schedule_at->format('Y');
+        return "$this->name - ($year)";
+    }
+
+    public function seo()
+    {
+        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'paper');
     }
 }

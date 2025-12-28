@@ -42,4 +42,10 @@ class TestingService extends Model
             ]
         );
     }
+
+    public function seo()
+    {
+        return $this->hasOne(SeoMeta::class, 'page_id')
+            ->where('page_type', 'service');
+    }
 }

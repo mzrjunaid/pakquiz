@@ -49,5 +49,8 @@ class DatabaseSeeder extends Seeder
 
         // 7. MCQ Options (depends on MCQs)
         $this->call(McqOptionSeeder::class);
+
+        // 8. Seo Meta (depends on all Above)
+        $this->call(SeoMetaSeeder::class);
     }
 }

@@ -54,4 +54,9 @@ class Mcq extends Model
             'name' => 'Unknown User'
         ]);
     }
+
+    public function seo()
+    {
+        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'mcq');
+    }
 }
