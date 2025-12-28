@@ -23,6 +23,11 @@ class Mcq extends Model
         'created_by'
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+        'deleted_at' => 'datetime',
+    ];
+
     public function paper()
     {
         return $this->belongsTo(Topic::class);
@@ -45,6 +50,8 @@ class Mcq extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
+            'name' => 'Unknown User'
+        ]);
     }
 }

@@ -19,6 +19,10 @@ class Department extends Model
         'created_by',
     ];
 
+    protected $casts = [
+        'deleted_at' => 'datetime',
+    ];
+
 
     public function papers()
     {
@@ -27,6 +31,8 @@ class Department extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
+            'name' => 'Unknown User'
+        ]);
     }
 }

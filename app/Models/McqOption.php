@@ -18,7 +18,12 @@ class McqOption extends Model
         'sort_order'
     ];
 
-    // Relationship back to MCQ
+    protected $casts = [
+        'is_correct' => 'boolean',
+        'sort_order' => 'integer',
+        'deleted_at' => 'datetime',
+    ];
+
     public function mcq()
     {
         return $this->belongsTo(Mcq::class);

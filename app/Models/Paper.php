@@ -23,6 +23,12 @@ class Paper extends Model
         'created_by'
     ];
 
+    protected $casts = [
+        'schedule_at' => 'datetime',
+        'is_active' => 'boolean',
+        'deleted_at' => 'datetime',
+    ];
+
     public function department()
     {
         return $this->belongsTo(Department::class);
@@ -40,12 +46,14 @@ class Paper extends Model
 
     public function mcqs()
     {
-        return $this->belongsTo(Mcq::class, 'paper_id');
+        return $this->hasmany(Mcq::class, 'paper_id');
     }
 
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
+            'name' => 'Unknown User'
+        ]);
     }
 }

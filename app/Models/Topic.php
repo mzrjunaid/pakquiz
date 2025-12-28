@@ -20,6 +20,11 @@ class Topic extends Model
         'created_by'
     ];
 
+    protected $casts = [
+        'sort_order' => 'integer',
+        'deleted_at' => 'datetime',
+    ];
+
     public function subject()
     {
         return $this->belongsTo(Subject::class);
@@ -32,6 +37,8 @@ class Topic extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
+            'name' => 'Unknown User'
+        ]);
     }
 }

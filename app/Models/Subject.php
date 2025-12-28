@@ -19,6 +19,11 @@ class Subject extends Model
         'created_by'
     ];
 
+    protected $casts = [
+        'is_active' => 'boolean',
+        'deleted_at' => 'datetime',
+    ];
+
     public function topics()
     {
         return $this->hasMany(Topic::class, 'subject_id');
@@ -36,6 +41,8 @@ class Subject extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
+            'name' => 'Unknown User'
+        ]);
     }
 }

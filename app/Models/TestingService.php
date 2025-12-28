@@ -17,14 +17,29 @@ class TestingService extends Model
         'created_by'
     ];
 
-
     public function papers()
     {
         return $this->hasMany(Paper::class);
     }
 
+    public function mcqs()
+    {
+        return $this->hasManyThrough(
+            Mcq::class,
+            Paper::class,
+            'testing_service_id',
+            'paper_id',
+            'id',
+            'id'
+        );
+    }
+
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault();
+        return $this->belongsTo(User::class, 'created_by')->withDefault(
+            [
+                'name' => 'Unknown User'
+            ]
+        );
     }
 }
