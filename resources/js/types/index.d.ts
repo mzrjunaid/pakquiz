@@ -22,6 +22,14 @@ export interface NavItem {
     isActive?: boolean;
 }
 
+export interface NavItems {
+    title: string;
+    href: NonNullable<InertiaLinkProps['href']>;
+    icon?: LucideIcon | null;
+    isActive?: boolean;
+    subItems?: NavItem[];
+}
+
 export interface SharedData {
     name: string;
     quote: { message: string; author: string };

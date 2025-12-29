@@ -14,7 +14,7 @@ class DepartmentController extends Controller
      */
     public function index()
     {
-        dd('index');
+        return Inertia::render('admin/departments/index', []);
     }
 
     /**
@@ -22,7 +22,7 @@ class DepartmentController extends Controller
      */
     public function create()
     {
-        dd('create');
+        return Inertia::render('admin/departments/create', []);
     }
 
     /**
@@ -38,7 +38,7 @@ class DepartmentController extends Controller
      */
     public function show(string $id)
     {
-        dd('show');
+        return Inertia::render('admin/departments/show', []);
     }
 
     /**
@@ -46,7 +46,7 @@ class DepartmentController extends Controller
      */
     public function edit(string $id)
     {
-        dd('edit');
+        return Inertia::render('admin/departments/edit', []);
     }
 
     /**

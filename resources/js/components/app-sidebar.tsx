@@ -11,7 +11,7 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
-import { adminFooterNavItems, mainNavItems } from '@/config/navigation';
+import { adminFooterNavItems, adminMainNavItems } from '@/config/navigation';
 import { dashboard } from '@/routes/admin';
 import { SharedData } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -38,7 +38,7 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain items={mainNavItems} />
+                <NavMain navGroupTitle="Admin" items={adminMainNavItems} />
             </SidebarContent>
 
             <SidebarFooter>

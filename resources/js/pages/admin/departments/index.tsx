@@ -1,10 +1,10 @@
 import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
 import AdminLayout from '../components/admin-layout';
 
-export default function TestingServicesIndex() {
+export default function DepartmentsIndex() {
     return (
-        <AdminLayout title="Testing Services List">
-            <h2>Testing Service List</h2>
+        <AdminLayout title="Departments List">
+            <h2>Departments List</h2>
             <div className="grid auto-rows-min gap-4 md:grid-cols-3">
                 <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
                     <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
