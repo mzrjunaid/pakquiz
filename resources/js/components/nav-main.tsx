@@ -5,6 +5,7 @@ import {
     SidebarMenuButton,
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
+import { isActiveRoute } from '@/lib/route-utils';
 import { resolveUrl } from '@/lib/utils';
 import { type NavItem } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
@@ -19,7 +20,8 @@ export function NavMain({ items = [] }: { items: NavItem[] }) {
                     <SidebarMenuItem key={item.title}>
                         <SidebarMenuButton
                             asChild
-                            isActive={page.url.startsWith(
+                            isActive={isActiveRoute(
+                                page.url,
                                 resolveUrl(item.href),
                             )}
                             tooltip={{ children: item.title }}

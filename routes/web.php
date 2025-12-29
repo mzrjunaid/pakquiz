@@ -17,7 +17,7 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
-    Route::get('/', function () {
+    Route::get('dashboard', function () {
         return Inertia::render('dashboard');
     })->name('dashboard');
 
@@ -31,7 +31,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 
     Route::resource('mcqs', McqController::class);
 
-    Route::resource('seo', SeoMetaController::class);
+    // Route::resource('seo', SeoMetaController::class);
 });
 
 require __DIR__ . '/settings.php';

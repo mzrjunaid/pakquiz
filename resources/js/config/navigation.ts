@@ -1,12 +1,18 @@
 import { dashboard } from '@/routes/admin';
+import testingServices from '@/routes/admin/testing-services';
 import { type NavItem } from '@/types';
-import { BookOpen, Folder, LayoutGrid, Trash } from 'lucide-react';
+import { BookOpen, File, Folder, LayoutGrid, Trash } from 'lucide-react';
 
 export const mainNavItems: NavItem[] = [
     {
         title: 'Dashboard',
         href: dashboard(),
         icon: LayoutGrid,
+    },
+    {
+        title: 'Testing Services',
+        href: testingServices.index(),
+        icon: File,
     },
 ];
 
