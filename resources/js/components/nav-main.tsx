@@ -2,20 +2,21 @@ import {
     SidebarGroup,
     SidebarGroupLabel,
     SidebarMenu,
+    SidebarMenuAction,
     SidebarMenuButton,
     SidebarMenuItem,
-    SidebarMenuSub,
-    SidebarMenuSubItem,
 } from '@/components/ui/sidebar';
 import { isActiveRoute } from '@/lib/route-utils';
 import { resolveUrl } from '@/lib/utils';
 import { type NavItems } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
+import { MoreHorizontal } from 'lucide-react';
 import {
-    Collapsible,
-    CollapsibleContent,
-    CollapsibleTrigger,
-} from './ui/collapsible';
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuItem,
+    DropdownMenuTrigger,
+} from './ui/dropdown-menu';
 
 export function NavMain({
     items = [],
@@ -31,62 +32,38 @@ export function NavMain({
             <SidebarMenu>
                 {items.map((item) =>
                     item.subItems && item.subItems.length > 0 ? (
-                        <Collapsible
-                            defaultOpen
-                            className="group/collapsible"
-                            key={item.title}
-                        >
-                            <SidebarMenuItem>
-                                <CollapsibleTrigger asChild>
-                                    <SidebarMenuButton
-                                        isActive={isActiveRoute(
-                                            page.url,
-                                            resolveUrl(item.href),
-                                        )}
-                                        tooltip={{ children: item.title }}
-                                        asChild
-                                    >
-                                        <Link href={item.href} prefetch>
-                                            {item.icon && <item.icon />}
-                                            <span>{item.title}</span>
-                                        </Link>
-                                    </SidebarMenuButton>
-                                </CollapsibleTrigger>
+                        <SidebarMenuItem>
+                            <SidebarMenuButton
+                                isActive={isActiveRoute(
+                                    page.url,
+                                    resolveUrl(item.href),
+                                )}
+                                asChild
+                            >
+                                <Link href={item.href} prefetch>
+                                    {item.icon && <item.icon />}
+                                    <span>{item.title}</span>
+                                </Link>
+                            </SidebarMenuButton>
 
-                                <CollapsibleContent>
-                                    <SidebarMenuSub>
-                                        {item.subItems.map((item) => (
-                                            <SidebarMenuSubItem
-                                                key={item.title}
-                                            >
-                                                <SidebarMenuButton
-                                                    asChild
-                                                    isActive={isActiveRoute(
-                                                        page.url,
-                                                        resolveUrl(item.href),
-                                                    )}
-                                                    tooltip={{
-                                                        children: item.title,
-                                                    }}
-                                                >
-                                                    <Link
-                                                        href={item.href}
-                                                        prefetch
-                                                    >
-                                                        {item.icon && (
-                                                            <item.icon />
-                                                        )}
-                                                        <span>
-                                                            {item.title}
-                                                        </span>
-                                                    </Link>
-                                                </SidebarMenuButton>
-                                            </SidebarMenuSubItem>
-                                        ))}
-                                    </SidebarMenuSub>
-                                </CollapsibleContent>
-                            </SidebarMenuItem>
-                        </Collapsible>
+                            <DropdownMenu>
+                                <DropdownMenuTrigger asChild>
+                                    <SidebarMenuAction>
+                                        <MoreHorizontal />
+                                    </SidebarMenuAction>
+                                </DropdownMenuTrigger>
+                                <DropdownMenuContent side="right" align="start">
+                                    {item.subItems.map((item) => (
+                                        <DropdownMenuItem key={item.title}>
+                                            <Link href={item.href} prefetch>
+                                                {item.icon && <item.icon />}
+                                                <span>{item.title}</span>
+                                            </Link>
+                                        </DropdownMenuItem>
+                                    ))}
+                                </DropdownMenuContent>
+                            </DropdownMenu>
+                        </SidebarMenuItem>
                     ) : (
                         <SidebarMenuItem key={item.title}>
                             <SidebarMenuButton
