@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class PaperController extends Controller
 {
@@ -12,7 +13,7 @@ class PaperController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('admin/papers/index', []);
     }
 
     /**
@@ -20,7 +21,7 @@ class PaperController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/papers/create', []);
     }
 
     /**
@@ -36,7 +37,7 @@ class PaperController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('admin/papers/show', []);
     }
 
     /**
@@ -44,7 +45,7 @@ class PaperController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Inertia::render('admin/papers/edit', []);
     }
 
     /**

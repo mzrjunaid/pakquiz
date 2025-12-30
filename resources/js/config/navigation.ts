@@ -1,8 +1,11 @@
 import { dashboard } from '@/routes/admin';
-import departments from '@/routes/admin/departments';
+import mcqs from '@/routes/admin/mcqs';
+import papers from '@/routes/admin/papers';
+import seo from '@/routes/admin/seo';
+import subjects from '@/routes/admin/subjects';
 import testingServices from '@/routes/admin/testing-services';
 import { type NavItem, type NavItems } from '@/types';
-import { BookOpen, File, Folder, LayoutGrid, Trash } from 'lucide-react';
+import { BookOpen, Building, CheckCheck, Clipboard, File, FileArchive, FileBox, Folder, LayoutGrid, ShieldQuestion, Tag, Trash } from 'lucide-react';
 
 export const adminMainNavItems: NavItems[] = [
     {
@@ -13,22 +16,55 @@ export const adminMainNavItems: NavItems[] = [
     {
         title: 'Testing Services',
         href: testingServices.index(),
-        icon: File,
+        icon: Building,
         subItems: [
             {
-                title: 'Create',
+                title: 'Add Testing Service',
                 href: testingServices.create(),
             },
         ],
     },
     {
-        title: 'Departments',
-        href: departments.index(),
-        icon: File,
+        title: 'Subjets',
+        href: subjects.index(),
+        icon: FileBox,
         subItems: [
             {
-                title: 'Create',
-                href: departments.create(),
+                title: 'Add Subjects',
+                href: subjects.create(),
+            },
+        ],
+    },
+    {
+        title: 'Papers',
+        href: papers.index(),
+        icon: Clipboard,
+        subItems: [
+            {
+                title: 'Add Papers',
+                href: papers.create(),
+            },
+        ],
+    },
+    {
+        title: 'MCQs',
+        href: mcqs.index(),
+        icon: ShieldQuestion,
+        subItems: [
+            {
+                title: 'Add MCQ',
+                href: mcqs.create(),
+            },
+        ],
+    },
+    {
+        title: 'SEO Meta Info',
+        href: seo.index(),
+        icon: Tag,
+        subItems: [
+            {
+                title: 'Add SEO Meta Info',
+                href: seo.create(),
             },
         ],
     },

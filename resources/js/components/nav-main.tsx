@@ -32,7 +32,7 @@ export function NavMain({
             <SidebarMenu>
                 {items.map((item) =>
                     item.subItems && item.subItems.length > 0 ? (
-                        <SidebarMenuItem>
+                        <SidebarMenuItem key={`sidebar-${item.title}`}>
                             <SidebarMenuButton
                                 isActive={isActiveRoute(
                                     page.url,
@@ -54,7 +54,9 @@ export function NavMain({
                                 </DropdownMenuTrigger>
                                 <DropdownMenuContent side="right" align="start">
                                     {item.subItems.map((item) => (
-                                        <DropdownMenuItem key={item.title}>
+                                        <DropdownMenuItem
+                                            key={`sidebar-submenu-${item.title}`}
+                                        >
                                             <Link href={item.href} prefetch>
                                                 {item.icon && <item.icon />}
                                                 <span>{item.title}</span>
@@ -65,7 +67,7 @@ export function NavMain({
                             </DropdownMenu>
                         </SidebarMenuItem>
                     ) : (
-                        <SidebarMenuItem key={item.title}>
+                        <SidebarMenuItem key={`sidebar-${item.title}`}>
                             <SidebarMenuButton
                                 asChild
                                 isActive={isActiveRoute(

@@ -35,6 +35,7 @@ return new class extends Migration
 
             $table->index(['department_id', 'testing_service_id']);
             $table->index('subject_id');
+            $table->index('created_at');
         });
     }
 

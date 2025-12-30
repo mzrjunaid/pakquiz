@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class McqController extends Controller
 {
@@ -12,7 +13,7 @@ class McqController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('admin/mcqs/index', []);
     }
 
     /**
@@ -20,7 +21,7 @@ class McqController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/mcqs/create', []);
     }
 
     /**
@@ -36,7 +37,7 @@ class McqController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('admin/mcqs/show', []);
     }
 
     /**
@@ -44,7 +45,7 @@ class McqController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Inertia::render('admin/mcqs/edit', []);
     }
 
     /**

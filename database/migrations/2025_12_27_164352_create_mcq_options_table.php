@@ -32,8 +32,7 @@ return new class extends Migration
             $table->softDeletes();
 
             // Indexes for performance
-            $table->index('mcq_id');
-            $table->index('is_correct');
+            $table->index(['mcq_id', 'is_correct']);
         });
     }
 

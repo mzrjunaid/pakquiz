@@ -53,12 +53,20 @@ return new class extends Migration
             $table->timestamps();
             $table->softDeletes();
 
-            // Helpful indexes
+            // Primary filtering index for MCQs
             $table->index(['subject_id', 'topic_id', 'difficulty', 'is_active']);
-            $table->index(['subject_id', 'difficulty']);
+
+            // Lookup by paper
+            $table->index('paper_id');
+
+            // Optional: if mcq_type is filtered independently
             $table->index('mcq_type');
+
+            // Optional: if topic-only filtering exists
             $table->index('topic_id');
-            $table->index('is_active');
+
+            // Optional: for admin dashboards & recent MCQs
+            $table->index('created_at');
         });
     }
 

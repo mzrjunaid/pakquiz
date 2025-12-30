@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class SubjectController extends Controller
 {
@@ -13,7 +14,7 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        //
+        return Inertia::render('admin/subjects/index', []);
     }
 
     /**
@@ -21,7 +22,7 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        //
+        return Inertia::render('admin/subjects/create', []);
     }
 
     /**
@@ -37,7 +38,7 @@ class SubjectController extends Controller
      */
     public function show(string $id)
     {
-        //
+        return Inertia::render('admin/subjects/show', []);
     }
 
     /**
@@ -45,7 +46,7 @@ class SubjectController extends Controller
      */
     public function edit(string $id)
     {
-        //
+        return Inertia::render('admin/subjects/edit', []);
     }
 
     /**

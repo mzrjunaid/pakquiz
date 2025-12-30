@@ -56,6 +56,11 @@ class Paper extends Model
         ]);
     }
 
+    public function scopeWithoutMcqs($query)
+    {
+        return $query->doesntHave('mcqs');
+    }
+
     public function fullTitle(): string
     {
         $year = $this->schedule_at->format('Y');

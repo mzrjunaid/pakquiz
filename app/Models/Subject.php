@@ -46,6 +46,11 @@ class Subject extends Model
         ]);
     }
 
+    public function scopeWithoutTopics($query)
+    {
+        return $query->doesntHave('topics');
+    }
+
 
     public function seo()
     {

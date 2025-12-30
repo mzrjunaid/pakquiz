@@ -64,4 +64,14 @@ class Mcq extends Model
     {
         return 'slug';
     }
+
+    public function scopeWithoutOptions($query)
+    {
+        return $query->doesntHave('options');
+    }
+
+    public function scopeWithoutCorrectOption($query)
+    {
+        return $query->whereDoesntHave('options', fn($q) => $q->where('is_correct', true));
+    }
 }
