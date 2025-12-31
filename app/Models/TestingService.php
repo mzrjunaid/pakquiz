@@ -2,13 +2,14 @@
 
 namespace App\Models;
 
+use Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class TestingService extends Model
 {
     /** @use HasFactory<\Database\Factories\TestingServiceFactory> */
-    use HasFactory;
+    use HasFactory, Filterable;
 
     protected $fillable = [
         'name',

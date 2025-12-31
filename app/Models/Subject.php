@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -9,7 +10,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Subject extends Model
 {
     /** @use HasFactory<\Database\Factories\SubjectFactory> */
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Filterable;
 
     protected $fillable = [
         'name',

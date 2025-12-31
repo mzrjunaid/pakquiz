@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Filters\TestingServiceFilter;
 use App\Http\Controllers\Controller;
-
+use App\Models\TestingService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -12,9 +13,15 @@ class TestingServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, TestingServiceFilter $filter)
     {
 
+        $services = $filter
+            ->apply(TestingService::query())
+            ->paginate(10)
+            ->withQueryString();
+
+        dd($services);
 
         return Inertia::render('admin/services/index', []);
     }
