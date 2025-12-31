@@ -32,6 +32,7 @@ return new class extends Migration
 
             // Question data
             $table->text('question');
+            $table->string('slug')->unique();
 
             // Question behavior
             $table->enum('mcq_type', ['single', 'multiple', 'true_false'])

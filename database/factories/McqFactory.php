@@ -8,6 +8,7 @@ use App\Models\Subject;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Str;
 
 /**
  * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Mcq>
@@ -25,17 +26,21 @@ class McqFactory extends Factory
     public function definition(): array
     {
 
+        $question = $this->faker->sentence(12);
         $subject = Subject::query()->inRandomOrder()->first();
         $topic = Topic::query()->inRandomOrder()->first();
         $paper = Paper::query()->inRandomOrder()->first();
         $user = User::query()->inRandomOrder()->first();
+
+
 
         return [
             'paper_id' => $paper?->id ?? Paper::factory(),
             'subject_id' => $subject?->id ?? Subject::factory(),
             'topic_id' => $topic?->id ?? Topic::factory(),
 
-            'question' => $this->faker->sentence(12),
+            'question' => $question,
+            'slug' => Str::slug($question),
             'explanation' => $this->faker->paragraph(2),
 
             'difficulty' => $this->faker->randomElement(['easy', 'medium', 'hard']),

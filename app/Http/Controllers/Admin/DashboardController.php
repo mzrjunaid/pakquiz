@@ -17,10 +17,11 @@ class DashboardController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(DashboardService $dashboardService)
+    public function index(DashboardService $service)
     {
         return Inertia::render('admin/index', [
-            'dashboardStats' => $dashboardService->stats(),
+            'stats' => $service->stats(),
+            'latest' => $service->latest(),
         ]);
     }
 }

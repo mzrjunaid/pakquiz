@@ -2,6 +2,8 @@
 
 namespace App\Services;
 
+use App\Models\Mcq;
+use App\Models\Paper;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
@@ -10,7 +12,7 @@ class DashboardService
 {
     public function stats(): array
     {
-        return Cache::remember('dashboard.stats', now()->addMinutes(10), function () {
+        return Cache::remember('dashboard.stats', now()->addMinutes(5), function () {
             return [
                 'overview' => $this->overviewStats(),
                 'activity' => $this->activityStats(),
@@ -18,6 +20,56 @@ class DashboardService
             ];
         });
     }
+
+    public function latest()
+    {
+        return Cache::remember('dashboard.latest', now()->addMinutes(5), function () {
+            return [
+                'items' =>  $this->latestItems(),
+            ];
+        });
+    }
+
+
+
+    public function latestItems(): array
+    {
+
+        $latestMcqs =  Mcq::query()
+            ->latest()
+            ->limit(5)
+            ->get()
+            ->map(fn($mcq) => [
+                'id' => $mcq->id,
+                'slug' => $mcq->slug,
+                'title' => $mcq->question,
+                'type' => 'MCQ',
+                'subject' => $mcq->subject->name ?? '-',
+                'created_at' => $mcq->created_at->toDateString(),
+            ]);
+
+        $latestPapers = Paper::query()
+            ->latest()
+            ->limit(5)
+            ->get()
+            ->map(fn($paper) => [
+                'id' => $paper->id,
+                'slug' => $paper->slug,
+                'title' => $paper->name,
+                'type' => 'Paper',
+                'subject' => $paper->subject->name ?? '-',
+                'created_at' => $paper->created_at->toDateString(),
+            ]);
+        return $latestMcqs
+            ->merge($latestPapers)
+            ->sortByDesc('created_at')
+            ->take(10)
+            ->values()
+            ->toArray();
+    }
+
+
+
 
     /**
      * ONE QUERY
@@ -100,9 +152,20 @@ class DashboardService
         ]);
 
         return [
-            'mcqsToday' => $row->mcqs_today,
-            'mcqsThisWeek' => $row->mcqs_this_week,
-            'papersThisMonth' => $row->papers_this_month,
+            'mcqsToday' => [
+                'title' => 'Today MCQs',
+                'total' => $row->mcqs_today,
+            ],
+            'mcqsThisWeek' =>
+            [
+                'title' => 'This Week MCQs',
+                'total' => $row->mcqs_this_week,
+            ],
+
+            'papersThisMonth' => [
+                'title' => 'This Month Papers',
+                'total' => $row->papers_this_month,
+            ],
         ];
     }
 
@@ -144,10 +207,22 @@ class DashboardService
         ");
 
         return [
-            'mcqsWithoutOptions' => $row->mcqs_without_options,
-            'mcqsWithoutCorrectOption' => $row->mcqs_without_correct_option,
-            'subjectsWithoutTopics' => $row->subjects_without_topics,
-            'papersWithoutMcqs' => $row->papers_without_mcqs,
+            'mcqsWithoutOptions' => [
+                'title' => 'MCQs Without Options',
+                'total' => $row->mcqs_without_options,
+            ],
+            'mcqsWithoutCorrectOption' => [
+                'title' => 'MCQs Without Correct Option',
+                'total' => $row->mcqs_without_correct_option,
+            ],
+            'subjectsWithoutTopics' => [
+                'title' => 'Subjects Without Topics',
+                'total' => $row->subjects_without_topics,
+            ],
+            'papersWithoutMcqs' => [
+                'title' => 'Papers Without Mcqs',
+                'total' => $row->papers_without_mcqs,
+            ],
         ];
     }
 }

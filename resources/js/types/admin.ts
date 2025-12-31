@@ -12,24 +12,32 @@ export type OverviewKeys =
     | 'papers'
     | 'mcqs';
 
-export type ActivityStats = Record<
-    'mcqsToday' | 'mcqsThisWeek' | 'papersThisMonth',
-    number
->;
-export type QualityStats = Record<
+export type ActivityKeys = 'mcqsToday' | 'mcqsThisWeek' | 'papersThisMonth';
+
+export type QualityKeys =
     | 'mcqsWithoutOptions'
     | 'mcqsWithoutCorrectOption'
     | 'subjectsWithoutTopics'
-    | 'papersWithoutMcqs',
-    number
->;
+    | 'papersWithoutMcqs';
+
+export interface DashboardItem {
+    id: number;
+    title: string;
+    slug: string;
+    type: 'MCQ' | 'Paper';
+    subject: string;
+    created_at: string;
+}
 
 export interface DashboardStats {
     overview: Record<OverviewKeys, Overview>;
-    activity: ActivityStats;
-    quality: QualityStats;
+    activity: Record<ActivityKeys, Overview>;
+    quality: Record<QualityKeys, Overview>;
 }
 
 export interface DashboardProps {
-    dashboardStats: DashboardStats;
+    stats: DashboardStats;
+    latest: {
+        items: DashboardItem[];
+    };
 }
