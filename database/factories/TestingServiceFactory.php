@@ -24,8 +24,9 @@ class TestingServiceFactory extends Factory
     {
         $name = $this->faker->unique()->company;
         return [
-            'name' => $name,
             'slug' => Str::slug($name),
+            'name' => $name,
+            'short_name' => TestingService::makeShortName($name),
             'description' => $this->faker->sentence(12),
             'created_by' => User::query()->inRandomOrder()->first()->id ?? User::factory(),
         ];

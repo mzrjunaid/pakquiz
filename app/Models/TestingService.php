@@ -2,9 +2,10 @@
 
 namespace App\Models;
 
-use Filterable;
+use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class TestingService extends Model
 {
@@ -12,8 +13,9 @@ class TestingService extends Model
     use HasFactory, Filterable;
 
     protected $fillable = [
-        'name',
         'slug',
+        'name',
+        'short_name',
         'description',
         'created_by'
     ];
@@ -44,14 +46,34 @@ class TestingService extends Model
         );
     }
 
-    public function seo()
-    {
-        return $this->hasOne(SeoMeta::class, 'page_id')
-            ->where('page_type', 'service');
-    }
 
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    protected static function booted()
+    {
+        static::creating(function ($service) {
+            if (empty($service->short_name)) {
+                $service->short_name = self::makeShortName($service->name);
+            }
+        });
+    }
+
+    public static function makeShortName(string $name): string
+    {
+        $ignore = ['of', 'and', 'the'];
+
+        return collect(explode(' ', $name))
+            ->filter(fn($word) => ! in_array(Str::lower($word), $ignore))
+            ->map(fn($word) => Str::upper(Str::substr($word, 0, 1)))
+            ->implode('');
+    }
+
+    public function seo()
+    {
+        return $this->hasOne(SeoMeta::class, 'page_id')
+            ->where('page_type', 'service');
     }
 }

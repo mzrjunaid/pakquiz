@@ -1,7 +1,7 @@
 export interface Overview {
     title: string;
     description?: string;
-    total: number;
+    total?: number;
 }
 
 export type OverviewKeys =
@@ -41,3 +41,10 @@ export interface DashboardProps {
         items: DashboardItem[];
     };
 }
+
+import { Department } from './department';
+import { ResourcePaginator } from './pagination';
+import { TestingService } from './testing-service';
+
+export type TestingServiceResource = ResourcePaginator<TestingService>;
+export type DepartmentResource = ResourcePaginator<Department>;

@@ -1,7 +1,7 @@
 import { BreadcrumbItem } from '@/types';
 
 export function breadcrumb(currentUrl: string): BreadcrumbItem[] {
-    const clean = (url: string) => url.replace(/\/+$/, '');
+    const clean = (url: string) => url.split('?')[0].replace(/\/+$/, '');
 
     const segments = clean(currentUrl).split('/').filter(Boolean);
 

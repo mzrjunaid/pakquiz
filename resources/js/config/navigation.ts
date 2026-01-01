@@ -1,11 +1,23 @@
 import { dashboard } from '@/routes/admin';
+import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
 import papers from '@/routes/admin/papers';
 import seo from '@/routes/admin/seo';
 import subjects from '@/routes/admin/subjects';
 import testingServices from '@/routes/admin/testing-services';
 import { type NavItem, type NavItems } from '@/types';
-import { BookOpen, Building, CheckCheck, Clipboard, File, FileArchive, FileBox, Folder, LayoutGrid, ShieldQuestion, Tag, Trash } from 'lucide-react';
+import {
+    BookOpen,
+    Building,
+    Clipboard,
+    FileBox,
+    Folder,
+    LayoutGrid,
+    Paperclip,
+    ShieldQuestion,
+    Tag,
+    Trash,
+} from 'lucide-react';
 
 export const adminMainNavItems: NavItems[] = [
     {
@@ -14,9 +26,20 @@ export const adminMainNavItems: NavItems[] = [
         icon: LayoutGrid,
     },
     {
+        title: 'Department',
+        href: departments.index(),
+        icon: Building,
+        subItems: [
+            {
+                title: 'Add Department',
+                href: departments.create(),
+            },
+        ],
+    },
+    {
         title: 'Testing Services',
         href: testingServices.index(),
-        icon: Building,
+        icon: Paperclip,
         subItems: [
             {
                 title: 'Add Testing Service',

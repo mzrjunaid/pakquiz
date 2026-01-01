@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\TestingServiceFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\TestingServiceResource;
 use App\Models\TestingService;
+use App\Services\TestingServiceService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -16,14 +18,25 @@ class TestingServiceController extends Controller
     public function index(Request $request, TestingServiceFilter $filter)
     {
 
+
+        $serviceStats = (new TestingServiceService())->stats();
+
         $services = $filter
-            ->apply(TestingService::query())
-            ->paginate(10)
+            ->apply(TestingService::query()->with('createdBy'))
+            ->orderBy($request->input('sort_by', 'created_at'), $request->input('sort_order', 'desc'))
+            ->latest()
+            ->paginate(3)
             ->withQueryString();
 
-        dd($services);
-
-        return Inertia::render('admin/services/index', []);
+        return Inertia::render('admin/services/index', [
+            'testingServices' => TestingServiceResource::collection($services),
+            'filters' => $request->only([
+                'search',
+                'short_name',
+                'created_by',
+            ]),
+            'stats' => $serviceStats,
+        ]);
     }
 
     /**

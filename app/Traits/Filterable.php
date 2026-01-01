@@ -1,5 +1,8 @@
 <?php
 
+
+namespace App\Traits;
+
 use App\Filters\BaseFilter;
 
 trait Filterable
