@@ -3,10 +3,6 @@ import {
     getCoreRowModel,
     useReactTable,
     type ColumnDef,
-    type ColumnFiltersState,
-    type RowData,
-    type SortingState,
-    type VisibilityState,
 } from '@tanstack/react-table';
 
 import { Button } from '@/components/ui/button';
@@ -25,128 +21,102 @@ import {
     TableHeader,
     TableRow,
 } from '@/components/ui/table';
-import { PaginationLinks, PaginationMeta } from '@/types/pagination';
+import { useColumnVisibility } from '@/hooks/use-column-visibility';
+import { ServerTableParams } from '@/hooks/use-server-table';
+import { PaginationMeta } from '@/types/pagination';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
-import { TableFilters } from '../services';
 
 export type DataTableFilter<T> = {
-    key: keyof T;
+    key: keyof T | string; // allow server-only keys like "name"
     label: string;
-    type?: 'text' | 'select';
-    options?: { label: string; value: string }[]; // for select
+    debounce?: boolean; // default true for text fields
 };
 
-interface DataTableProps<TData extends RowData> {
+interface DataTableProps<TData> {
+    storageKey: string; // for column visibility persistence
     data: TData[];
     columns: ColumnDef<TData>[];
-    filterColumn?: keyof TData; // optional: which column to filter via search input
-    className?: string;
     meta: PaginationMeta;
-    links: PaginationLinks;
 
     filters?: DataTableFilter<TData>[];
-    filterValues?: TableFilters;
+    values: ServerTableParams;
 
-    onFilterChange?: (filters: Record<string, string>) => void;
+    // server actions
+    onFilterChange: (key: string, value?: string) => void;
+    onFilterChangeDebounced?: (key: string, value?: string) => void;
+    onPageChange: (page: number) => void;
+
+    // sorting (optional)
+    sort?: string;
+    direction?: string;
+    onSort?: (column: string) => void;
 }
 
-export function DataTable<TData extends RowData>({
+export function DataTable<TData>({
+    storageKey,
     data,
     columns,
-    filterColumn,
-    className,
     meta,
     filters = [],
+    values,
     onFilterChange,
+    onFilterChangeDebounced,
+    onPageChange,
+    sort,
+    direction,
+    onSort,
 }: DataTableProps<TData>) {
-    // Table states
-    const [sorting, setSorting] = useState<SortingState>([]);
-    const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-    const [columnVisibility, setColumnVisibility] = useState<VisibilityState>(
-        {},
-    );
-    const [rowSelection, setRowSelection] = useState({});
-    const [values, setValues] = useState<Record<string, string>>({});
-
-    const [pagination, setPagination] = useState({
-        pageIndex: meta.current_page - 1,
-        pageSize: meta.per_page,
-    });
-
-    function updateFilter(key: string, value: string) {
-        const updated = { ...values, [key]: value };
-        setValues(updated);
-        onFilterChange?.(updated);
-    }
+    const { visibility, setVisibility } = useColumnVisibility(storageKey);
 
     // eslint-disable-next-line react-hooks/incompatible-library
     const table = useReactTable({
-        data: data,
-        columns: columns,
-        pageCount: meta.last_page,
-        manualPagination: true,
-        manualSorting: true,
-        manualFiltering: true,
-
-        state: {
-            pagination,
-            sorting,
-            columnFilters,
-            columnVisibility,
-            rowSelection,
-        },
-
-        onPaginationChange: setPagination,
-        onSortingChange: setSorting,
-        onColumnVisibilityChange: setColumnVisibility,
-        onRowSelectionChange: setRowSelection,
-
-        onColumnFiltersChange: setColumnFilters,
-
+        data,
+        columns,
         getCoreRowModel: getCoreRowModel(),
+        state: { columnVisibility: visibility },
+        onColumnVisibilityChange: setVisibility,
+        meta: {
+            serverSort: { sort, direction, onSort },
+        },
     });
 
     const formatColumnLabel = (id: string) =>
         id.replace(/[-_]/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 
     return (
-        <div className={`px-3 py-6 ${className}`}>
-            <div className="items mb-2 flex justify-between">
+        <div className="space-y-4 px-3 py-6">
+            {/* Filters + Columns */}
+            <div className="flex flex-wrap items-center justify-between gap-3">
                 {filters.length > 0 && (
-                    <div className="flex gap-3">
-                        {filters.map((filter) => (
-                            <input
-                                key={String(filter.key)}
-                                placeholder={filter.label}
-                                className="h-9 rounded-md border px-3 text-sm"
-                                onChange={(e) =>
-                                    updateFilter(
-                                        String(filter.key),
-                                        e.target.value,
-                                    )
-                                }
-                            />
-                        ))}
+                    <div className="flex flex-wrap gap-3">
+                        {filters.map((filter) => {
+                            const key = String(filter.key);
+                            const val = values[key] ?? '';
+                            const useDebounce = filter.debounce !== false;
+
+                            return (
+                                <Input
+                                    key={key}
+                                    placeholder={filter.label}
+                                    value={val}
+                                    onChange={(e) => {
+                                        const v = e.target.value;
+                                        if (
+                                            useDebounce &&
+                                            onFilterChangeDebounced
+                                        ) {
+                                            onFilterChangeDebounced(key, v);
+                                        } else {
+                                            onFilterChange(key, v);
+                                        }
+                                    }}
+                                    className="max-w-xs"
+                                />
+                            );
+                        })}
                     </div>
                 )}
 
-                {filterColumn && (
-                    <Input
-                        placeholder={`Filter ${filterColumn.toString()}...`}
-                        value={
-                            (table
-                                .getColumn(filterColumn as string)
-                                ?.getFilterValue() as string) ?? ''
-                        }
-                        onChange={(e) =>
-                            table
-                                .getColumn(filterColumn as string)
-                                ?.setFilterValue(e.target.value)
-                        }
-                        className="max-w-sm"
-                    />
-                )}
                 <div className="flex justify-end">
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -175,6 +145,7 @@ export function DataTable<TData extends RowData>({
                 </div>
             </div>
 
+            {/* Table */}
             <div className="overflow-hidden rounded-md border">
                 <Table>
                     <TableHeader>
@@ -187,22 +158,27 @@ export function DataTable<TData extends RowData>({
                                             : flexRender(
                                                   header.column.columnDef
                                                       .header,
-                                                  header.getContext(),
+                                                  // You can pass sort metadata via meta if needed:
+                                                  {
+                                                      ...header.getContext(),
+                                                      // ts-expect-error - optional extra context for headers if you want
+                                                      serverSort: {
+                                                          sort,
+                                                          direction,
+                                                          onSort,
+                                                      },
+                                                  },
                                               )}
                                     </TableHead>
                                 ))}
                             </TableRow>
                         ))}
                     </TableHeader>
+
                     <TableBody>
                         {table.getRowModel().rows.length ? (
                             table.getRowModel().rows.map((row) => (
-                                <TableRow
-                                    key={row.id}
-                                    data-state={
-                                        row.getIsSelected() && 'selected'
-                                    }
-                                >
+                                <TableRow key={row.id}>
                                     {row.getVisibleCells().map((cell) => (
                                         <TableCell key={cell.id}>
                                             {flexRender(
@@ -228,39 +204,23 @@ export function DataTable<TData extends RowData>({
             </div>
 
             {/* Pagination */}
-            <div className="flex items-center justify-end space-x-2 py-4">
-                <div className="flex-1 text-sm text-muted-foreground">
-                    {table.getFilteredSelectedRowModel().rows.length} of{' '}
-                    {table.getFilteredRowModel().rows.length} row(s) selected.
-                </div>
-                <div className="space-x-2">
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                            setPagination((prev) => ({
-                                ...prev,
-                                pageIndex: prev.pageIndex - 1,
-                            }))
-                        }
-                        disabled={meta.current_page === 1}
-                    >
-                        Previous
-                    </Button>
-                    <Button
-                        variant="outline"
-                        size="sm"
-                        onClick={() =>
-                            setPagination((prev) => ({
-                                ...prev,
-                                pageIndex: prev.pageIndex + 1,
-                            }))
-                        }
-                        disabled={meta.current_page === meta.last_page}
-                    >
-                        Next
-                    </Button>
-                </div>
+            <div className="flex items-center justify-end gap-2 py-2">
+                <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={meta.current_page === 1}
+                    onClick={() => onPageChange(meta.current_page - 1)}
+                >
+                    Previous
+                </Button>
+                <Button
+                    variant="outline"
+                    size="sm"
+                    disabled={meta.current_page === meta.last_page}
+                    onClick={() => onPageChange(meta.current_page + 1)}
+                >
+                    Next
+                </Button>
             </div>
         </div>
     );
