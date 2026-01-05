@@ -2,7 +2,7 @@ import { router, usePage } from '@inertiajs/react';
 import { useCallback, useMemo } from 'react';
 import { useDebouncedCallback } from './use-debounced-callback';
 
-type Primitive = string | number | boolean | null | undefined;
+type Primitive = string | number | undefined;
 export type ServerTableParams = Record<string, Primitive>;
 
 interface UseServerTableOptions {

@@ -18,22 +18,40 @@ class TestingServiceController extends Controller
     public function index(Request $request, TestingServiceFilter $filter)
     {
 
+        $perPage = min(
+            max((int) $request->input('per_page', 3), 3),
+            100
+        );
+
+        $sortableColumns = ['id', 'name', 'short_name', 'created_at'];
+
+        $sortBy = in_array(
+            $request->input('sort_by'),
+            $sortableColumns,
+            true
+        )
+            ? $request->input('sort_by')
+            : 'created_at';
+
+        $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
 
         $serviceStats = (new TestingServiceService())->stats();
 
         $services = $filter
             ->apply(TestingService::query()->with('createdBy'))
-            ->orderBy($request->input('sort_by', 'created_at'), $request->input('sort_order', 'desc'))
-            ->latest()
-            ->paginate(3)
+            ->orderBy($sortBy, $sortOrder)
+            ->paginate($perPage)
             ->withQueryString();
 
         return Inertia::render('admin/services/index', [
             'testingServices' => TestingServiceResource::collection($services),
             'filters' => $request->only([
-                'search',
+                'name',
                 'short_name',
                 'created_by',
+                'per_page',
+                'sort_by',
+                'sort_order',
             ]),
             'stats' => $serviceStats,
         ]);

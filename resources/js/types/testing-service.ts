@@ -13,6 +13,9 @@ export interface TestingServiceFilters {
     search?: string;
     short_name?: string;
     created_by?: string;
+    per_page?: number;
+    sort_by?: string;
+    sort_order?: string;
 }
 
 export interface TestingServiceStats {
