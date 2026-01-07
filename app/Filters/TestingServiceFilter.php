@@ -7,7 +7,7 @@ class TestingServiceFilter extends BaseFilter
     protected function filters(): array
     {
         return [
-            'search' => 'search',
+            'name' => 'name',
             'short_name' => 'short_name',
             'status' => 'status',
             'type' => 'type',
@@ -15,7 +15,7 @@ class TestingServiceFilter extends BaseFilter
         ];
     }
 
-    protected function search($query, $value)
+    protected function name($query, $value)
     {
         $query->where('name', 'like', "%{$value}%");
     }

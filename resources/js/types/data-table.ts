@@ -1,7 +1,40 @@
+import { ColumnDef, Table } from '@tanstack/react-table';
+
 export type SerializableFilterValue = string | number;
 
+export interface DataTableToolbarProps<TData> {
+    table: Table<TData>;
+    searchValues: {
+        name: string;
+        short_name: string;
+        created_by: string;
+    };
+    onSearchValuesChange: (
+        values: Partial<DataTableToolbarProps<TData>['searchValues']>,
+    ) => void;
+    onSearch: () => void;
+    onClear: () => void;
+    hasActiveFilters: boolean;
+}
+export interface DataTablePaginationProps<TData> {
+    table: Table<TData>;
+    currentPage: number;
+    lastPage: number;
+    perPage: number;
+    total: number;
+    from: number | null;
+    to: number | null;
+    onPageChange: (page: number) => void;
+    onPerPageChange: (perPage: number) => void;
+}
+
+export interface DataTableProps<TData, TValue> {
+    columns: ColumnDef<TData, TValue>[];
+    data: TData[];
+}
+
 export interface Filters {
-    search?: string;
+    name?: string;
     is_active?: string;
     is_verified?: string;
     sort_by?: string;

@@ -1,15 +1,16 @@
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { SearchFiltersProps } from '@/types/testing-service';
+import { DataTableToolbarProps } from '@/types/data-table';
+
 import { Search, X } from 'lucide-react';
 
-export function SearchFilters({
+export function DataTableToolbar<TData>({
     searchValues,
     onSearchValuesChange,
     onSearch,
     onClear,
     hasActiveFilters,
-}: SearchFiltersProps) {
+}: DataTableToolbarProps<TData>) {
     const handleKeyPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
         if (e.key === 'Enter') {
             onSearch();
@@ -17,62 +18,54 @@ export function SearchFilters({
     };
 
     return (
-        <div className="rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+        <div className="rounded-md shadow bg-card p-4">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                <div className="space-y-2">
+                    <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Name
                     </label>
                     <Input
-                        type="text"
-                        value={searchValues.search}
+                        placeholder="Search by name..."
+                        value={searchValues.name}
                         onChange={(e) =>
-                            onSearchValuesChange({ search: e.target.value })
+                            onSearchValuesChange({ name: e.target.value })
                         }
                         onKeyDown={handleKeyPress}
-                        placeholder="Search by name..."
                     />
                 </div>
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                <div className="space-y-2">
+                    <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Short Name
                     </label>
                     <Input
-                        type="text"
+                        placeholder="Search by short name..."
                         value={searchValues.short_name}
                         onChange={(e) =>
                             onSearchValuesChange({ short_name: e.target.value })
                         }
                         onKeyDown={handleKeyPress}
-                        placeholder="Search by short name..."
                     />
                 </div>
-                <div>
-                    <label className="mb-1 block text-sm font-medium text-gray-700">
+                <div className="space-y-2">
+                    <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
                         Created By
                     </label>
                     <Input
-                        type="text"
+                        placeholder="Search by creator..."
                         value={searchValues.created_by}
                         onChange={(e) =>
                             onSearchValuesChange({ created_by: e.target.value })
                         }
                         onKeyDown={handleKeyPress}
-                        placeholder="Search by creator..."
                     />
                 </div>
                 <div className="flex items-end gap-2">
-                    <Button onClick={onSearch} variant="default">
-                        <div className="flex items-center justify-center gap-2">
-                            <Search className="h-4 w-4" />
-                            Search
-                        </div>
+                    <Button onClick={onSearch} className="flex-1">
+                        <Search className="mr-2 h-4 w-4" />
+                        Search
                     </Button>
                     {hasActiveFilters && (
-                        <Button
-                            onClick={onClear}
-                            className="rounded-md bg-gray-100 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-200 focus:ring-2 focus:ring-gray-500 focus:outline-none"
-                        >
+                        <Button onClick={onClear} variant="outline" size="icon">
                             <X className="h-4 w-4" />
                         </Button>
                     )}

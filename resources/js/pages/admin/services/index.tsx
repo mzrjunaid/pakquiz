@@ -8,8 +8,8 @@ import AdminLayout from '../components/admin-layout';
 
 import testingServicesRoute from '@/routes/admin/testing-services';
 
-import ServerDataTable from '../components/data-table';
 import StatsCard from '../components/stats-card';
+import TestingServicesTable from './components/data-table-index';
 
 export default function TestingServicesIndex({
     testingServices,
@@ -37,14 +37,12 @@ export default function TestingServicesIndex({
             <TextHeading as="h2" size="lg">
                 List
             </TextHeading>
-            <section className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                <ServerDataTable
+            <section className="relative min-h-[100vh] flex-1 overflow-hidden  md:min-h-min">
+                <TestingServicesTable
                     testingServices={testingServices}
                     filters={filters}
                     url={testingServicesRoute.index().url}
                 />
-                <pre>{JSON.stringify(filters, null, 2)}</pre>
-                <pre>{JSON.stringify(testingServices, null, 2)}</pre>
             </section>
         </AdminLayout>
     );

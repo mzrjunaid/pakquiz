@@ -1,3 +1,4 @@
+import { ResourcePaginator } from './pagination';
 import { SimpleUser } from './user';
 
 export interface TestingService {
@@ -10,7 +11,7 @@ export interface TestingService {
 }
 
 export interface TestingServiceFilters {
-    search?: string;
+    name?: string;
     short_name?: string;
     created_by?: string;
     sort_by?: string;
@@ -30,16 +31,10 @@ export interface TestingServiceStats {
     };
 }
 
-export interface SearchFiltersProps {
-    searchValues: {
-        search: string;
-        short_name: string;
-        created_by: string;
-    };
-    onSearchValuesChange: (
-        values: Partial<SearchFiltersProps['searchValues']>,
-    ) => void;
-    onSearch: () => void;
-    onClear: () => void;
-    hasActiveFilters: boolean;
+export interface TestingServicesTableProps {
+    testingServices: ResourcePaginator<TestingService>;
+    filters?: TestingServiceFilters;
+    url: string;
+    onEdit?: (service: TestingService) => void;
+    onDelete?: (service: TestingService) => void;
 }

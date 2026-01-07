@@ -19,7 +19,7 @@ class TestingServiceController extends Controller
     {
 
         $perPage = min(
-            max((int) $request->input('per_page', 3), 3),
+            max((int) $request->input('per_page', 10), 5),
             100
         );
 
