@@ -1,7 +1,5 @@
-import {
-    TestingServiceFilters,
-    TestingServicesTableProps,
-} from '@/types/testing-service';
+import { CommonFilters } from '@/types/admin';
+import { TestingServicesTableProps } from '@/types/testing-service';
 import { router } from '@inertiajs/react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -26,7 +24,7 @@ export default function TestingServicesTable({
         created_by: filters.created_by || '',
     });
 
-    const updateFilters = (newFilters: Partial<TestingServiceFilters>) => {
+    const updateFilters = (newFilters: Partial<CommonFilters>) => {
         router.get(
             url,
             { ...filters, ...newFilters },

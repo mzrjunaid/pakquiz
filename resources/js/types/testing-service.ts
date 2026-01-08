@@ -1,3 +1,4 @@
+import { CommonFilters } from './admin';
 import { ResourcePaginator } from './pagination';
 import { SimpleUser } from './user';
 
@@ -10,30 +11,9 @@ export interface TestingService {
     created_at: string;
 }
 
-export interface TestingServiceFilters {
-    name?: string;
-    short_name?: string;
-    created_by?: string;
-    sort_by?: string;
-    sort_order?: 'asc' | 'desc';
-    page?: number;
-    per_page?: number;
-}
-
-export interface TestingServiceStats {
-    total: number;
-    today: number;
-    this_week: number;
-    top_creator?: {
-        id: number;
-        name: string;
-        total_services: number;
-    };
-}
-
 export interface TestingServicesTableProps {
     testingServices: ResourcePaginator<TestingService>;
-    filters?: TestingServiceFilters;
+    filters?: CommonFilters;
     url: string;
     onEdit?: (service: TestingService) => void;
     onDelete?: (service: TestingService) => void;

@@ -41,4 +41,12 @@ class Department extends Model
     {
         return 'slug';
     }
+
+    public function scopeSortByCreator($query, string $direction)
+    {
+        return $query
+            ->leftJoin('users', 'departments.created_by', '=', 'users.id')
+            ->orderBy('users.name', $direction)
+            ->select('departments.*');
+    }
 }

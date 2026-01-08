@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Filters\TestingServiceFilter;
+use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\TestingServiceResource;
 use App\Models\TestingService;
@@ -15,7 +15,7 @@ class TestingServiceController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index(Request $request, TestingServiceFilter $filter)
+    public function index(Request $request, CommonFilter $filter)
     {
 
         $perPage = min(
@@ -35,7 +35,6 @@ class TestingServiceController extends Controller
 
         $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
 
-        $serviceStats = (new TestingServiceService())->stats();
 
         $services = $filter
             ->apply(TestingService::query()->with('createdBy'))
@@ -53,7 +52,7 @@ class TestingServiceController extends Controller
                 'sort_by',
                 'sort_order',
             ]),
-            'stats' => $serviceStats,
+            'stats' => (new TestingServiceService())->stats(),
         ]);
     }
 

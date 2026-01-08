@@ -1,9 +1,5 @@
 import { TextHeading } from '@/components/ui/typography';
-import { TestingServiceResource } from '@/types/admin';
-import {
-    TestingServiceFilters,
-    TestingServiceStats,
-} from '@/types/testing-service';
+import { CommonFilters, Stats, TestingServiceResource } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
 
 import testingServicesRoute from '@/routes/admin/testing-services';
@@ -17,8 +13,8 @@ export default function TestingServicesIndex({
     stats,
 }: {
     testingServices: TestingServiceResource;
-    filters: TestingServiceFilters;
-    stats: TestingServiceStats;
+    filters: CommonFilters;
+    stats: Stats;
 }) {
     return (
         <AdminLayout title="Testing Services List">
@@ -37,7 +33,7 @@ export default function TestingServicesIndex({
             <TextHeading as="h2" size="lg">
                 List
             </TextHeading>
-            <section className="relative min-h-[100vh] flex-1 overflow-hidden  md:min-h-min">
+            <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">
                 <TestingServicesTable
                     testingServices={testingServices}
                     filters={filters}
