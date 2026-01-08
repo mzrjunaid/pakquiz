@@ -45,6 +45,7 @@ export interface DashboardProps {
 export interface CommonFilters {
     name?: string;
     short_name?: string;
+    type?: string;
     created_by?: string;
     sort_by?: string;
     sort_order?: 'asc' | 'desc';
@@ -63,9 +64,19 @@ export interface Stats {
     };
 }
 
+export interface DataTableProps<TData> {
+    tableData: ResourcePaginator<TData>;
+    filters?: CommonFilters;
+    url: string;
+    onEdit?: (service: TData) => void;
+    onDelete?: (service: TData) => void;
+}
+type FilterValue = string | number | boolean | null | undefined;
+
 import { Department } from './department';
 import { ResourcePaginator } from './pagination';
 import { TestingService } from './testing-service';
 
+export type QueryFilters = Record<string, FilterValue>;
 export type TestingServiceResource = ResourcePaginator<TestingService>;
 export type DepartmentResource = ResourcePaginator<Department>;

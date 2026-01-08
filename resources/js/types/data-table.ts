@@ -1,14 +1,11 @@
 import { ColumnDef, Table } from '@tanstack/react-table';
+import { CommonFilters } from './admin';
 
 export type SerializableFilterValue = string | number;
 
 export interface DataTableToolbarProps<TData> {
     table: Table<TData>;
-    searchValues: {
-        name: string;
-        short_name: string;
-        created_by: string;
-    };
+    searchValues: CommonFilters;
     onSearchValuesChange: (
         values: Partial<DataTableToolbarProps<TData>['searchValues']>,
     ) => void;

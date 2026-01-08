@@ -30,12 +30,9 @@ export default function TestingServicesIndex({
                     total={stats.top_creator?.total_services}
                 />
             </div>
-            <TextHeading as="h2" size="lg">
-                List
-            </TextHeading>
             <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">
                 <TestingServicesTable
-                    testingServices={testingServices}
+                    tableData={testingServices}
                     filters={filters}
                     url={testingServicesRoute.index().url}
                 />

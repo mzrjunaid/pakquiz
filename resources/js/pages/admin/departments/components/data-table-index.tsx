@@ -1,6 +1,7 @@
 import { CommonFilters, DataTableProps } from '@/types/admin';
 
-import { TestingService } from '@/types/testing-service';
+import { cleanFilters } from '@/lib/clean-filters';
+import { Department } from '@/types/department';
 import { router } from '@inertiajs/react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -9,32 +10,35 @@ import { DataTablePagination } from '../../components/dataTable/data-table-pagin
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
 import { getColumns } from './data-table-columns';
 
-export default function TestingServicesTable({
+export default function DepartmentTable({
     tableData,
     filters = {},
     url,
     onEdit,
     onDelete,
-}: DataTableProps<TestingService>) {
+}: DataTableProps<Department>) {
     const { data, meta } = tableData;
     const { current_page, last_page, per_page, total, from, to } = meta;
 
     const [searchValues, setSearchValues] = useState({
         name: filters.name || '',
-        short_name: filters.short_name || '',
+        type: filters.type || '',
         created_by: filters.created_by || '',
     });
 
     const updateFilters = (newFilters: Partial<CommonFilters>) => {
-        router.get(
-            url,
-            { ...filters, ...newFilters },
-            {
-                preserveState: true,
-                preserveScroll: true,
-                replace: true,
-            },
-        );
+        const merged = {
+            ...filters,
+            ...newFilters,
+        };
+
+        const cleaned = cleanFilters(merged);
+
+        router.get(url, cleaned, {
+            preserveState: true,
+            preserveScroll: true,
+            replace: true,
+        });
     };
 
     const handleSort = (column: string) => {
@@ -61,7 +65,8 @@ export default function TestingServicesTable({
     };
 
     const clearFilters = () => {
-        setSearchValues({ name: '', short_name: '', created_by: '' });
+        setSearchValues({ name: '', type: '', created_by: '' });
+
         router.get(
             url,
             { per_page: filters.per_page || 10 },
@@ -82,7 +87,7 @@ export default function TestingServicesTable({
     };
 
     const hasActiveFilters = Boolean(
-        filters.name || filters.short_name || filters.created_by,
+        filters.name || filters.type || filters.created_by,
     );
 
     const columns = getColumns({
