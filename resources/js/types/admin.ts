@@ -75,8 +75,10 @@ type FilterValue = string | number | boolean | null | undefined;
 
 import { Department } from './department';
 import { ResourcePaginator } from './pagination';
+import { Subject } from './subject';
 import { TestingService } from './testing-service';
 
 export type QueryFilters = Record<string, FilterValue>;
 export type TestingServiceResource = ResourcePaginator<TestingService>;
 export type DepartmentResource = ResourcePaginator<Department>;
+export type SubjectResource = ResourcePaginator<Subject>;

@@ -40,7 +40,7 @@ class DepartmentController extends Controller
         return Inertia::render('admin/departments/index', [
             'departments' => DepartmentResource::collection($departments),
             'filters' => [
-                'search'     => $request->input('search', ''),
+                'name'     => $request->input('name', ''),
                 'type'       => $request->input('type', ''),
                 'created_by' => $request->input('created_by', ''),
                 'per_page'   => $request->integer('per_page', 10),

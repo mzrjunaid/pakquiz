@@ -6,6 +6,7 @@ use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\SubjectResource;
 use App\Models\Subject;
+use App\Models\Topic;
 use App\Services\SubjectService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,7 +25,7 @@ class SubjectController extends Controller
 
 
         $query = $filter->apply(
-            Subject::query()->with('createdBy')
+            Subject::query()->with(['createdBy', 'topics'])
         );
 
         $filter->applySorting(
@@ -36,11 +37,11 @@ class SubjectController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
+
         return Inertia::render('admin/subjects/index', [
             'subjects' => SubjectResource::collection($subjects),
             'filters' => [
-                'search'     => $request->input('search', ''),
-                'type'       => $request->input('type', ''),
+                'name'     => $request->input('name', ''),
                 'created_by' => $request->input('created_by', ''),
                 'per_page'   => $request->integer('per_page', 10),
                 'sort_by'   => $request->input('sort_by', 'created_at'),
