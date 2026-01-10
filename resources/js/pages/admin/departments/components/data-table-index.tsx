@@ -1,7 +1,7 @@
 import { CommonFilters, DataTableProps } from '@/types/admin';
 
 import { cleanFilters } from '@/lib/clean-filters';
-import { Department } from '@/types/department';
+import { Paper } from '@/types/paper';
 import { router } from '@inertiajs/react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -10,19 +10,18 @@ import { DataTablePagination } from '../../components/dataTable/data-table-pagin
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
 import { getColumns } from './data-table-columns';
 
-export default function DepartmentTable({
+export default function PaperTable({
     tableData,
     filters = {},
     url,
     onEdit,
     onDelete,
-}: DataTableProps<Department>) {
+}: DataTableProps<Paper>) {
     const { data, meta } = tableData;
     const { current_page, last_page, per_page, total, from, to } = meta;
 
     const [searchValues, setSearchValues] = useState({
         name: filters.name || '',
-        type: filters.type || '',
         created_by: filters.created_by || '',
     });
 
@@ -65,7 +64,7 @@ export default function DepartmentTable({
     };
 
     const clearFilters = () => {
-        setSearchValues({ name: '', type: '', created_by: '' });
+        setSearchValues({ name: '', created_by: '' });
 
         router.get(
             url,
@@ -86,9 +85,7 @@ export default function DepartmentTable({
         updateFilters({ per_page: perPage, page: 1 });
     };
 
-    const hasActiveFilters = Boolean(
-        filters.name || filters.type || filters.created_by,
-    );
+    const hasActiveFilters = Boolean(filters.name || filters.created_by);
 
     const columns = getColumns({
         onEdit,

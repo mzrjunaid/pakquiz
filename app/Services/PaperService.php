@@ -2,20 +2,20 @@
 
 namespace App\Services;
 
-use App\Models\TestingService;
+use App\Models\Paper;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 
-class TestingServiceService
+class PaperService
 {
 
     public function stats(): array
     {
-        return Cache::remember('testing_service_stats', now()->addMinutes(10), function () {
+        return Cache::remember('paper_stats', now()->addMinutes(10), function () {
 
             // Top creator query
-            $topCreator = DB::table('testing_services')
+            $topCreator = DB::table('papers')
                 ->select('created_by', DB::raw('COUNT(*) as total'))
                 ->groupBy('created_by')
                 ->orderByDesc('total')
@@ -34,9 +34,9 @@ class TestingServiceService
             }
 
             return [
-                'total'       => TestingService::query()->count(),
-                'today'       => TestingService::query()->whereDate('created_at', today())->count(),
-                'this_week'   => TestingService::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
+                'total'       => Paper::query()->count(),
+                'today'       => Paper::query()->whereDate('created_at', today())->count(),
+                'this_week'   => Paper::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
                 'top_creator' => $topCreatorData,
             ];
         });

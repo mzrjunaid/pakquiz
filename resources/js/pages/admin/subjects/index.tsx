@@ -25,7 +25,7 @@ export default function SubjectsIndex({
                 <StatsCard title="This Week" total={stats.this_week} />
                 <StatsCard
                     title={`Top Creator - ${stats.top_creator?.name}`}
-                    total={stats.top_creator?.total_services}
+                    total={stats.top_creator?.total_entries}
                 />
             </div>
             <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">

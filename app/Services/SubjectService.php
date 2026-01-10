@@ -28,7 +28,7 @@ class SubjectService
                     $topCreatorData = [
                         'id' => $user->id,
                         'name' => $user->name,
-                        'total_subjects' => $topCreator->total,
+                        'total_entries' => $topCreator->total,
                     ];
                 }
             }

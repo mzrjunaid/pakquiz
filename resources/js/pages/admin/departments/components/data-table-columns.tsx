@@ -9,13 +9,13 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import departments from '@/routes/admin/departments';
-import { Department } from '@/types/department';
+import { Paper } from '@/types/paper';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 interface ColumnsProps {
-    onEdit?: (service: Department) => void;
-    onDelete?: (service: Department) => void;
+    onEdit?: (service: Paper) => void;
+    onDelete?: (service: Paper) => void;
     onSort?: (column: string) => void;
 }
 
@@ -23,7 +23,7 @@ export const getColumns = ({
     onEdit,
     onDelete,
     onSort,
-}: ColumnsProps): ColumnDef<Department>[] => [
+}: ColumnsProps): ColumnDef<Paper>[] => [
     {
         accessorKey: 'id',
         header: () => {

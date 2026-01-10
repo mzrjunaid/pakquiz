@@ -28,7 +28,7 @@ class DepartmentService
                     $topCreatorData = [
                         'id' => $user->id,
                         'name' => $user->name,
-                        'total_services' => $topCreator->total,
+                        'total_entries' => $topCreator->total,
                     ];
                 }
             }
