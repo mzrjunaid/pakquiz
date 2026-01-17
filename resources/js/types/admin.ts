@@ -74,6 +74,7 @@ export interface DataTableProps<TData> {
 type FilterValue = string | number | boolean | null | undefined;
 
 import { Department } from './department';
+import { Mcq } from './mcq';
 import { ResourcePaginator } from './pagination';
 import { Paper } from './paper';
 import { Subject } from './subject';
@@ -84,3 +85,4 @@ export type TestingServiceResource = ResourcePaginator<TestingService>;
 export type DepartmentResource = ResourcePaginator<Department>;
 export type SubjectResource = ResourcePaginator<Subject>;
 export type PaperResource = ResourcePaginator<Paper>;
+export type McqsResource = ResourcePaginator<Mcq>;

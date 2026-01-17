@@ -1,24 +1,41 @@
-import { PlaceholderPattern } from '@/components/ui/placeholder-pattern';
+import { TextHeading } from '@/components/ui/typography';
+import mcqsRoute from '@/routes/admin/mcqs';
+import { CommonFilters, Stats } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
+import StatsCard from '../components/stats-card';
+import McqsTable from './components/data-table-index';
 
-export default function McqsIndex() {
+export default function McqsIndex({
+    mcqs,
+    stats,
+    filters,
+}: {
+    mcqs: any;
+    filters: CommonFilters;
+    stats: Stats;
+}) {
     return (
         <AdminLayout title="MCQs List">
-            <h2>MCQs List</h2>
-            <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
-                <div className="relative aspect-video overflow-hidden rounded-xl border border-sidebar-border/70 dark:border-sidebar-border">
-                    <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-                </div>
+            <TextHeading as="h1" size="xl" textColor="primary">
+                Papers
+            </TextHeading>
+            <div className="grid auto-rows-min gap-4 sm:grid-cols-2 md:grid-cols-4">
+                <StatsCard title="Total Testing Services" total={stats.total} />
+                <StatsCard title="Today" total={stats.today} />
+                <StatsCard title="This Week" total={stats.this_week} />
+                <StatsCard
+                    title={`Top Creator - ${stats.top_creator?.name}`}
+                    total={stats.top_creator?.total_entries}
+                />
             </div>
-            <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
-                <PlaceholderPattern className="absolute inset-0 size-full stroke-neutral-900/20 dark:stroke-neutral-100/20" />
-            </div>
+            <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">
+                <McqsTable
+                    tableData={mcqs}
+                    filters={filters}
+                    url={mcqsRoute.index().url}
+                />
+                <pre>{JSON.stringify(mcqs, null, 2)}</pre>
+            </section>
         </AdminLayout>
     );
 }

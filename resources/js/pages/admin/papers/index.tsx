@@ -1,9 +1,9 @@
 import { TextHeading } from '@/components/ui/typography';
-import subjectsRoute from '@/routes/admin/subjects';
+import papersRoute from '@/routes/admin/papers';
 import { CommonFilters, PaperResource, Stats } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
-import PaperTable from '../departments/components/data-table-index';
+import PaperTable from './components/data-table-index';
 
 export default function PapersIndex({
     papers,
@@ -15,7 +15,7 @@ export default function PapersIndex({
     stats: Stats;
 }) {
     return (
-        <AdminLayout title="Subjects List">
+        <AdminLayout title="Papers List">
             <TextHeading as="h1" size="xl" textColor="primary">
                 Papers
             </TextHeading>
@@ -32,7 +32,7 @@ export default function PapersIndex({
                 <PaperTable
                     tableData={papers}
                     filters={filters}
-                    url={subjectsRoute.index().url}
+                    url={papersRoute.index().url}
                 />
                 <pre>{JSON.stringify(papers, null, 2)}</pre>
             </section>

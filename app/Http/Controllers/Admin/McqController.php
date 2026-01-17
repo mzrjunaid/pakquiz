@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
+use App\Models\Mcq;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -11,9 +13,41 @@ class McqController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request, CommonFilter $filter, McqService $service)
     {
-        return Inertia::render('admin/mcqs/index', []);
+
+        $perPage = min(
+            max($request->integer('per_page', 10), 5),
+            100
+        );
+
+
+        $query = $filter->apply(
+            Mcq::query()->with(['createdBy', 'department', 'testingService', 'subject'])
+        );
+
+        $filter->applySorting(
+            $query,
+            ['id', 'name', 'created_by', 'created_at']
+        );
+
+        $mcqs = $query
+            ->paginate($perPage)
+            ->withQueryString();
+
+        return Inertia::render('admin/mcq/index', [
+            'mcqs' => McqResource::collection($mcqs),
+            'filters' => [
+                'name'     => $request->input('name', ''),
+                'type'       => $request->input('type', ''),
+                'created_by' => $request->input('created_by', ''),
+                'per_page'   => $request->integer('per_page', 10),
+                'sort_by'   => $request->input('sort_by', 'created_at'),
+                'sort_order' => $request->input('sort_order', 'desc'),
+            ],
+
+            'stats' => $service->stats(),
+        ]);
     }
 
     /**

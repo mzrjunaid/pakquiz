@@ -9,13 +9,14 @@ import {
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import departments from '@/routes/admin/departments';
-import { Department } from '@/types/department';
+import testingServices from '@/routes/admin/testing-services';
+import { Paper } from '@/types/paper';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 interface ColumnsProps {
-    onEdit?: (service: Department) => void;
-    onDelete?: (service: Department) => void;
+    onEdit?: (service: Paper) => void;
+    onDelete?: (service: Paper) => void;
     onSort?: (column: string) => void;
 }
 
@@ -23,7 +24,7 @@ export const getColumns = ({
     onEdit,
     onDelete,
     onSort,
-}: ColumnsProps): ColumnDef<Department>[] => [
+}: ColumnsProps): ColumnDef<Paper>[] => [
     {
         accessorKey: 'id',
         header: () => {
@@ -63,24 +64,66 @@ export const getColumns = ({
         ),
     },
     {
-        accessorKey: 'type',
+        accessorKey: 'schedule_at',
         header: () => {
             return (
                 <Button
                     variant="ghost"
-                    onClick={() => onSort?.('type')}
+                    onClick={() => onSort?.('schedule_at')}
                     className="-ml-4"
                 >
-                    Type
+                    Schedule
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
-        cell: ({ row }) => (
-            <span className="inline-flex items-center rounded-full bg-blue-100 px-2.5 py-0.5 text-xs font-medium text-blue-800">
-                {row.getValue('type')}
-            </span>
-        ),
+        cell: ({ row }) => <span>{row.getValue('schedule_at')}</span>,
+    },
+    {
+        accessorKey: 'department.name',
+        header: () => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => onSort?.('department.name')}
+                    className="-ml-4"
+                >
+                    Department
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const department = row.original.department;
+            return (
+                <TextLink href={departments.show(department?.slug)}>
+                    {department?.name}
+                </TextLink>
+            );
+        },
+    },
+    {
+        accessorKey: 'testing_service.name',
+        header: () => {
+            return (
+                <Button
+                    variant="ghost"
+                    onClick={() => onSort?.('testing_service.name')}
+                    className="-ml-4"
+                >
+                    Department
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const testing_service = row.original.testing_service;
+            return (
+                <TextLink href={testingServices.show(testing_service?.slug)}>
+                    {testing_service?.name}
+                </TextLink>
+            );
+        },
     },
     {
         accessorKey: 'created_by',

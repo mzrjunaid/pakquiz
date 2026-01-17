@@ -1,7 +1,7 @@
 import { CommonFilters, DataTableProps } from '@/types/admin';
 
 import { cleanFilters } from '@/lib/clean-filters';
-import { Department } from '@/types/department';
+import { Paper } from '@/types/paper';
 import { router } from '@inertiajs/react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
 import { useState } from 'react';
@@ -10,13 +10,13 @@ import { DataTablePagination } from '../../components/dataTable/data-table-pagin
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
 import { getColumns } from './data-table-columns';
 
-export default function PaperTable({
+export default function McqsTable({
     tableData,
     filters = {},
     url,
     onEdit,
     onDelete,
-}: DataTableProps<Department>) {
+}: DataTableProps<Paper>) {
     const { data, meta } = tableData;
     const { current_page, last_page, per_page, total, from, to } = meta;
 
