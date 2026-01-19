@@ -8,40 +8,48 @@ use App\Models\SeoMeta;
 use App\Models\Subject;
 use App\Models\TestingService;
 use App\Models\Topic;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Database\Eloquent\Model;
 
 class SeoMetaSeeder extends Seeder
 {
-    /**
-     * Run the database seeds.
-     */
     public function run(): void
     {
-        // Attach SEO to MCQs
-        Mcq::all()->each(function ($mcq) {
-            SeoMeta::factory()->forMcq($mcq)->create();
-        });
+        $this->seedForModels(Mcq::all());
+        $this->seedForModels(Paper::all());
+        $this->seedForModels(Subject::all());
+        $this->seedForModels(Topic::all());
+        $this->seedForModels(TestingService::all());
+    }
 
-        // Attach SEO to Papers
-        Paper::all()->each(function ($paper) {
-            SeoMeta::factory()->forPaper($paper)->create();
-        });
+    protected function seedForModels($models): void
+    {
+        $models->each(function (Model $model) {
 
-        // Attach SEO to Subjects
-        Subject::all()->each(function ($subject) {
-            SeoMeta::factory()->forSubject($subject)->create();
-        });
+            if (method_exists($model, 'seoMeta') && $model->seoMeta()->exists()) {
+                return;
+            }
 
-        // Attach SEO to Topics
-        Topic::all()->each(function ($topic) {
-            SeoMeta::factory()->forTopic($topic)->create();
+            SeoMeta::factory()
+                ->forPage($model, $this->seoOverrides($model))
+                ->create();
         });
+    }
 
+    protected function seoOverrides(Model $model): array
+    {
+        return match (true) {
 
-        // Attach SEO to Testing Services
-        TestingService::all()->each(function ($testingService) {
-            SeoMeta::factory()->forTestingService($testingService)->create();
-        });
+            $model instanceof Mcq => [
+                'description' => 'Practice this MCQ: ' . str($model->question)->limit(150),
+                'keywords'    => 'mcq,pak quiz,question',
+            ],
+
+            $model instanceof TestingService => [
+                'keywords' => 'ppsc,nts,fpsc,mcq,pak quiz,' . $model->name,
+            ],
+
+            default => [],
+        };
     }
 }

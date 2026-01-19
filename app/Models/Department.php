@@ -42,6 +42,11 @@ class Department extends Model
         return 'slug';
     }
 
+    public function seo()
+    {
+        return $this->morphOne(SeoMeta::class, 'page');
+    }
+
     public function scopeSortByCreator($query, string $direction)
     {
         return $query

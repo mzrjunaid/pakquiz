@@ -15,8 +15,9 @@ return new class extends Migration {
             $table->string('og_title')->nullable();    // Open Graph title
             $table->text('og_description')->nullable(); // Open Graph description
             $table->string('og_image')->nullable();    // Open Graph image URL
-            $table->string('page_type')->nullable();   // 'subject', 'topic', 'paper', 'service'
-            $table->unsignedBigInteger('page_id')->nullable(); // FK to the specific entity
+
+            $table->nullableMorphs('page');
+
             $table->timestamps();
         });
     }

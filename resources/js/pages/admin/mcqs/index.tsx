@@ -1,6 +1,6 @@
 import { TextHeading } from '@/components/ui/typography';
 import mcqsRoute from '@/routes/admin/mcqs';
-import { CommonFilters, Stats } from '@/types/admin';
+import { CommonFilters, McqsResource, Stats } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
 import McqsTable from './components/data-table-index';
@@ -10,7 +10,7 @@ export default function McqsIndex({
     stats,
     filters,
 }: {
-    mcqs: any;
+    mcqs: McqsResource;
     filters: CommonFilters;
     stats: Stats;
 }) {
@@ -34,7 +34,7 @@ export default function McqsIndex({
                     filters={filters}
                     url={mcqsRoute.index().url}
                 />
-                <pre>{JSON.stringify(mcqs, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}
             </section>
         </AdminLayout>
     );

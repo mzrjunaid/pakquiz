@@ -20,7 +20,7 @@ export default function PapersIndex({
                 Papers
             </TextHeading>
             <div className="grid auto-rows-min gap-4 sm:grid-cols-2 md:grid-cols-4">
-                <StatsCard title="Total Testing Services" total={stats.total} />
+                <StatsCard title="Total Papers" total={stats.total} />
                 <StatsCard title="Today" total={stats.today} />
                 <StatsCard title="This Week" total={stats.this_week} />
                 <StatsCard

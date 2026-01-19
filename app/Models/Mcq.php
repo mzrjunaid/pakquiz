@@ -31,7 +31,7 @@ class Mcq extends Model
 
     public function paper()
     {
-        return $this->belongsTo(Topic::class);
+        return $this->belongsTo(Paper::class);
     }
 
     public function subject()
@@ -41,7 +41,7 @@ class Mcq extends Model
 
     public function topic()
     {
-        return $this->belongsTo(Paper::class);
+        return $this->belongsTo(Topic::class);
     }
 
     public function options()
@@ -58,7 +58,7 @@ class Mcq extends Model
 
     public function seo()
     {
-        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'mcq');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function getRouteKeyName(): string

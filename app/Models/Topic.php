@@ -44,7 +44,7 @@ class Topic extends Model
 
     public function seo()
     {
-        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'topic');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function getRouteKeyName(): string

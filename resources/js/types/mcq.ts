@@ -1,3 +1,4 @@
+import { Paper } from './paper';
 import { SimpleUser } from './user';
 
 export interface Mcq {
@@ -7,15 +8,12 @@ export interface Mcq {
     created_by: SimpleUser;
     schedule_at: string;
     is_active: boolean;
-    department: {
-        name: string;
-        slug: string;
-    };
+    paper: Paper;
     subject: {
         name: string;
         slug: string;
     };
-    testing_service: {
+    topic: {
         name: string;
         slug: string;
     };

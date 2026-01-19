@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\McqResource;
 use App\Models\Mcq;
+use App\Services\McqService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -23,7 +25,7 @@ class McqController extends Controller
 
 
         $query = $filter->apply(
-            Mcq::query()->with(['createdBy', 'department', 'testingService', 'subject'])
+            Mcq::query()->with(['createdBy',  'paper', 'subject', 'topic'])
         );
 
         $filter->applySorting(
@@ -35,7 +37,7 @@ class McqController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
-        return Inertia::render('admin/mcq/index', [
+        return Inertia::render('admin/mcqs/index', [
             'mcqs' => McqResource::collection($mcqs),
             'filters' => [
                 'name'     => $request->input('name', ''),

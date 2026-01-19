@@ -8,15 +8,16 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import departments from '@/routes/admin/departments';
-import testingServices from '@/routes/admin/testing-services';
-import { Paper } from '@/types/paper';
+import mcqs from '@/routes/admin/mcqs';
+import papers from '@/routes/admin/papers';
+import subjects from '@/routes/admin/subjects';
+import { Mcq } from '@/types/mcq';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
 
 interface ColumnsProps {
-    onEdit?: (service: Paper) => void;
-    onDelete?: (service: Paper) => void;
+    onEdit?: (service: Mcq) => void;
+    onDelete?: (service: Mcq) => void;
     onSort?: (column: string) => void;
 }
 
@@ -24,7 +25,7 @@ export const getColumns = ({
     onEdit,
     onDelete,
     onSort,
-}: ColumnsProps): ColumnDef<Paper>[] => [
+}: ColumnsProps): ColumnDef<Mcq>[] => [
     {
         accessorKey: 'id',
         header: () => {
@@ -44,12 +45,12 @@ export const getColumns = ({
         ),
     },
     {
-        accessorKey: 'name',
+        accessorKey: 'question',
         header: () => {
             return (
                 <Button
                     variant="ghost"
-                    onClick={() => onSort?.('name')}
+                    onClick={() => onSort?.('question')}
                     className="-ml-4"
                 >
                     Name
@@ -58,8 +59,8 @@ export const getColumns = ({
             );
         },
         cell: ({ row }) => (
-            <TextLink href={departments.show(row.original.slug)}>
-                {row.getValue('name')}
+            <TextLink href={mcqs.show(row.original.slug)}>
+                {row.getValue('question')}
             </TextLink>
         ),
     },
@@ -80,49 +81,64 @@ export const getColumns = ({
         cell: ({ row }) => <span>{row.getValue('schedule_at')}</span>,
     },
     {
-        accessorKey: 'department.name',
+        accessorKey: 'paper.name',
         header: () => {
             return (
                 <Button
                     variant="ghost"
-                    onClick={() => onSort?.('department.name')}
+                    onClick={() => onSort?.('paper.name')}
                     className="-ml-4"
                 >
-                    Department
+                    Paper
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
         cell: ({ row }) => {
-            const department = row.original.department;
+            const paper = row.original.paper;
+            const slug = paper?.slug;
+            return <TextLink href={papers.show(slug)}>{paper?.name}</TextLink>;
+        },
+    },
+    {
+        accessorKey: 'subject.name',
+        header: () => {
             return (
-                <TextLink href={departments.show(department?.slug)}>
-                    {department?.name}
-                </TextLink>
+                <Button
+                    variant="ghost"
+                    onClick={() => onSort?.('subject.name')}
+                    className="-ml-4"
+                >
+                    Subject
+                    <ArrowUpDown className="ml-2 h-4 w-4" />
+                </Button>
+            );
+        },
+        cell: ({ row }) => {
+            const subject = row.original.subject;
+            const slug = subject?.slug;
+            return (
+                <TextLink href={subjects.show(slug)}>{subject?.name}</TextLink>
             );
         },
     },
     {
-        accessorKey: 'testing_service.name',
+        accessorKey: 'topic.name',
         header: () => {
             return (
                 <Button
                     variant="ghost"
-                    onClick={() => onSort?.('testing_service.name')}
+                    onClick={() => onSort?.('topic.name')}
                     className="-ml-4"
                 >
-                    Department
+                    Topic
                     <ArrowUpDown className="ml-2 h-4 w-4" />
                 </Button>
             );
         },
         cell: ({ row }) => {
-            const testing_service = row.original.testing_service;
-            return (
-                <TextLink href={testingServices.show(testing_service?.slug)}>
-                    {testing_service?.name}
-                </TextLink>
-            );
+            const topic = row.original.topic;
+            return <span>{topic?.name}</span>;
         },
     },
     {
@@ -180,7 +196,8 @@ export const getColumns = ({
                         <DropdownMenuItem
                             onClick={() =>
                                 navigator.clipboard.writeText(
-                                    service.id.toString(),
+                                    window.location.origin +
+                                        mcqs.show(service.slug).url,
                                 )
                             }
                         >

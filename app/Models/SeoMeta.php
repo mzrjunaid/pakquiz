@@ -18,8 +18,6 @@ class SeoMeta extends Model
         'og_title',
         'og_description',
         'og_image',
-        'page_type',
-        'page_id',
     ];
 
     /**
@@ -27,6 +25,24 @@ class SeoMeta extends Model
      */
     public function page()
     {
-        return $this->morphTo(null, 'page_type', 'page_id');
+        return $this->morphTo();
+    }
+
+    public static function stats()
+    {
+        $byType = self::select('page_type')
+            ->selectRaw('count(*) as total')
+            ->groupBy('page_type')
+            ->get()
+            ->mapWithKeys(function ($item) {
+                // Convert FQCN to just the model name
+                return [class_basename($item->page_type) => $item->total];
+            })
+            ->toArray();
+
+        return [
+            'total' => self::count(),
+            'by_type' => $byType,
+        ];
     }
 }

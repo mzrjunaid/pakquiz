@@ -70,7 +70,7 @@ class Paper extends Model
 
     public function seo()
     {
-        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'paper');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function getRouteKeyName(): string

@@ -55,7 +55,7 @@ class Subject extends Model
 
     public function seo()
     {
-        return $this->hasOne(SeoMeta::class, 'page_id')->where('page_type', 'subject');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function getRouteKeyName(): string
