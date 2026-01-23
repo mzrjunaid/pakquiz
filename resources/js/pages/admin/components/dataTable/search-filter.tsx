@@ -20,19 +20,36 @@ export function DataTableToolbar<TData>({
     return (
         <div className="rounded-md bg-card p-4 shadow">
             <div className="grid grid-cols-1 gap-4 md:grid-cols-4">
-                <div className="space-y-2">
-                    <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-                        Name
-                    </label>
-                    <Input
-                        placeholder="Search by name..."
-                        value={searchValues.name}
-                        onChange={(e) =>
-                            onSearchValuesChange({ name: e.target.value })
-                        }
-                        onKeyDown={handleKeyPress}
-                    />
-                </div>
+                {(searchValues.name == '' || searchValues.name) && (
+                    <div className="space-y-2">
+                        <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Name
+                        </label>
+                        <Input
+                            placeholder="Search by name..."
+                            value={searchValues.name}
+                            onChange={(e) =>
+                                onSearchValuesChange({ name: e.target.value })
+                            }
+                            onKeyDown={handleKeyPress}
+                        />
+                    </div>
+                )}
+                {(searchValues.title == '' || searchValues.title) && (
+                    <div className="space-y-2">
+                        <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Title
+                        </label>
+                        <Input
+                            placeholder="Search by title..."
+                            value={searchValues.title}
+                            onChange={(e) =>
+                                onSearchValuesChange({ title: e.target.value })
+                            }
+                            onKeyDown={handleKeyPress}
+                        />
+                    </div>
+                )}
                 {(searchValues.short_name == '' || searchValues.short_name) && (
                     <div className="space-y-2">
                         <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

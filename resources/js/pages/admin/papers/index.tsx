@@ -34,7 +34,7 @@ export default function PapersIndex({
                     filters={filters}
                     url={papersRoute.index().url}
                 />
-                <pre>{JSON.stringify(papers, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(papers, null, 2)}</pre> */}
             </section>
         </AdminLayout>
     );

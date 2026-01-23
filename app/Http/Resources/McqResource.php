@@ -34,9 +34,9 @@ class McqResource extends JsonResource
                 'id'   => $this->createdBy?->id,
                 'name' => $this->createdBy?->name,
             ],
-            'created_at' => Carbon::parse($this->created_at)->format('d-m-Y H:i:s'),
-            'updated_at' => Carbon::parse($this->updated_at)->format('d-m-Y H:i:s'),
-            'deleted_at' => Carbon::parse($this->deleted_at)->format('d-m-Y H:i:s'),
+            'created_at' => $this->created_at,
+            'updated_at' => $this->updated_at,
+            'deleted_at' => $this->deleted_at,
         ];
     }
 }

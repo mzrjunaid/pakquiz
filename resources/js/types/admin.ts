@@ -43,6 +43,8 @@ export interface DashboardProps {
 }
 
 export interface CommonFilters {
+    title?: string;
+    page_type?: string;
     name?: string;
     short_name?: string;
     type?: string;
@@ -77,6 +79,7 @@ import { Department } from './department';
 import { Mcq } from './mcq';
 import { ResourcePaginator } from './pagination';
 import { Paper } from './paper';
+import { SeoMeta } from './seo';
 import { Subject } from './subject';
 import { TestingService } from './testing-service';
 
@@ -86,3 +89,4 @@ export type DepartmentResource = ResourcePaginator<Department>;
 export type SubjectResource = ResourcePaginator<Subject>;
 export type PaperResource = ResourcePaginator<Paper>;
 export type McqsResource = ResourcePaginator<Mcq>;
+export type SeoMetaResource = ResourcePaginator<SeoMeta>;
