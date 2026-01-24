@@ -14,7 +14,7 @@ class PaperMigrationSeeder extends Seeder
         OldPaper::chunk(500, function ($oldPapers) {
             foreach ($oldPapers as $oldPaper) {
                 Paper::create([
-                    'id' => $oldPaper->id,
+                    'id' => $oldPaper->paper_id,
                     'name' => $oldPaper->paper,
                     'slug' => $oldPaper->slug,
                     'paper_year' => $oldPaper->paper_year,
