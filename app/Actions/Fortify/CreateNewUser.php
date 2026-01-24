@@ -46,6 +46,7 @@ class CreateNewUser implements CreatesNewUsers
             'email' => $input['email'],
             'password' => $input['password'],
             'role_id' => $roleId,
+            'status_id' => 2,
         ]);
     }
 }

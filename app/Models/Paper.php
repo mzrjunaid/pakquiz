@@ -17,6 +17,7 @@ class Paper extends Model
         'slug',
         'description',
         'schedule_at',
+        'paper_year',
         'department_id',
         'testing_service_id',
         'subject_id',
@@ -28,6 +29,8 @@ class Paper extends Model
         'schedule_at' => 'datetime',
         'is_active' => 'boolean',
         'deleted_at' => 'datetime',
+        'paper_year' => 'integer',
+        'created_by' => 'integer',
     ];
 
     public function department()

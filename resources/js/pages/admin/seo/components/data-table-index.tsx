@@ -22,6 +22,7 @@ export default function SeoMetaTable({
 
     const [searchValues, setSearchValues] = useState({
         title: filters.title || '',
+        page_type: filters.page_type || '',
     });
 
     const updateFilters = (newFilters: Partial<CommonFilters>) => {
@@ -63,7 +64,7 @@ export default function SeoMetaTable({
     };
 
     const clearFilters = () => {
-        setSearchValues({ title: '' });
+        setSearchValues({ title: '', page_type: '' });
 
         router.get(
             url,
@@ -84,7 +85,7 @@ export default function SeoMetaTable({
         updateFilters({ per_page: perPage, page: 1 });
     };
 
-    const hasActiveFilters = Boolean(filters.name || filters.created_by);
+    const hasActiveFilters = Boolean(filters.name || filters.page_type);
 
     const columns = getColumns({
         onEdit,

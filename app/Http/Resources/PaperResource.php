@@ -24,6 +24,7 @@ class PaperResource extends JsonResource
                 'name' => $this->createdBy?->name,
             ],
             'schedule_at' => Carbon::parse($this->schedule_at)->format('d-m-Y'),
+            'paper_year' => $this->paper_year,
             'is_active' => $this->is_active,
             'department' => [
                 'name' => $this->department?->name,

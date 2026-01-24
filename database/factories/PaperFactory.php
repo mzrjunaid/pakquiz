@@ -31,6 +31,7 @@ class PaperFactory extends Factory
             'slug' => Str::slug($name),
             'description' => $this->faker->sentence(15),
             'schedule_at' => $this->faker->dateTimeBetween('-2 months', '+2 months'),
+            'paper_yar' => $this->faker->year(),
             'is_active' => $this->faker->boolean(90), // 90% active
 
             'department_id' => Department::query()->inRandomOrder()->first()->id ?? Department::factory(),

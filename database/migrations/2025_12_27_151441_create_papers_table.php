@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->text('description')->nullable();
             $table->date('schedule_at')->nullable();
+            $table->unsignedInteger('paper_year')->nullable()->index();
 
             $table->boolean('is_active')->index();
 
