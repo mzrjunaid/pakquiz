@@ -3,12 +3,6 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
-use App\Models\Department;
-use App\Models\Mcq;
-use App\Models\Paper;
-use App\Models\Subject;
-use App\Models\TestingService;
-use App\Models\Topic;
 use App\Services\DashboardService;
 use Inertia\Inertia;
 

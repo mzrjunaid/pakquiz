@@ -44,7 +44,7 @@ export default function DashboardTable({ latest }: Props) {
                         className="*:text-center"
                     >
                         <TableCell>{index + 1}</TableCell>
-                        <TableCell className="font-medium !text-left">
+                        <TableCell className="max-w-xs truncate !text-left font-medium">
                             <TextLink
                                 href={
                                     item.type === 'MCQ'

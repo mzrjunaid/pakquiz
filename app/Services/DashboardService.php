@@ -35,37 +35,31 @@ class DashboardService
     public function latestItems(): array
     {
 
-        $latestMcqs =  Mcq::query()
+        $latestMcqs = Mcq::with('subject')
             ->latest()
             ->limit(5)
-            ->get()
-            ->map(fn($mcq) => [
-                'id' => $mcq->id,
-                'slug' => $mcq->slug,
-                'title' => $mcq->question,
-                'type' => 'MCQ',
-                'subject' => $mcq->subject->name ?? '-',
-                'created_at' => $mcq->created_at->toDateString(),
-            ]);
+            ->get();
 
-        $latestPapers = Paper::query()
+        $latestPapers = Paper::with('subject')
             ->latest()
             ->limit(5)
-            ->get()
-            ->map(fn($paper) => [
-                'id' => $paper->id,
-                'slug' => $paper->slug,
-                'title' => $paper->name,
-                'type' => 'Paper',
-                'subject' => $paper->subject->name ?? '-',
-                'created_at' => $paper->created_at->toDateString(),
-            ]);
-        return $latestMcqs
-            ->merge($latestPapers)
+            ->get();
+
+        $items = $latestMcqs
+            ->concat($latestPapers)
             ->sortByDesc('created_at')
-            ->take(10)
-            ->values()
-            ->toArray();
+            ->take(10);
+
+        return $items->map(function ($item) {
+            return [
+                'id' => $item->id,
+                'slug' => $item->slug,
+                'title' => $item->question ?? $item->name,
+                'type' => $item instanceof Mcq ? 'MCQ' : 'Paper',
+                'subject' => $item->subject->name ?? '-',
+                'created_at' => $item->created_at->toDateString(),
+            ];
+        })->all();
     }
 
 
