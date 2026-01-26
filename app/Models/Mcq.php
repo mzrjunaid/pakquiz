@@ -56,6 +56,11 @@ class Mcq extends Model
         ]);
     }
 
+    public function testingServices()
+    {
+        return $this->belongsToMany(TestingService::class);
+    }
+
     public function seo()
     {
         return $this->morphOne(SeoMeta::class, 'page');

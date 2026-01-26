@@ -20,7 +20,7 @@ export default function McqsIndex({
                 Papers
             </TextHeading>
             <div className="grid auto-rows-min gap-4 sm:grid-cols-2 md:grid-cols-4">
-                <StatsCard title="Total Testing Services" total={stats.total} />
+                <StatsCard title="Total Mcqs" total={stats.total} />
                 <StatsCard title="Today" total={stats.today} />
                 <StatsCard title="This Week" total={stats.this_week} />
                 <StatsCard
@@ -34,7 +34,6 @@ export default function McqsIndex({
                     filters={filters}
                     url={mcqsRoute.index().url}
                 />
-                {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}
             </section>
         </AdminLayout>
     );

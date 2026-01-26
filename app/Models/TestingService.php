@@ -27,6 +27,11 @@ class TestingService extends Model
 
     public function mcqs()
     {
+        return $this->belongsToMany(Mcq::class);
+    }
+
+    public function paperMcqs()
+    {
         return $this->hasManyThrough(
             Mcq::class,
             Paper::class,

@@ -65,22 +65,6 @@ export const getColumns = ({
         ),
     },
     {
-        accessorKey: 'schedule_at',
-        header: () => {
-            return (
-                <Button
-                    variant="ghost"
-                    onClick={() => onSort?.('schedule_at')}
-                    className="-ml-4"
-                >
-                    Schedule
-                    <ArrowUpDown className="ml-2 h-4 w-4" />
-                </Button>
-            );
-        },
-        cell: ({ row }) => <span>{row.getValue('schedule_at')}</span>,
-    },
-    {
         accessorKey: 'paper.name',
         header: () => {
             return (
