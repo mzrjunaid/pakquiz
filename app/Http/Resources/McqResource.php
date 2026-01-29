@@ -34,7 +34,7 @@ class McqResource extends JsonResource
                 'id'   => $this->createdBy?->id,
                 'name' => $this->createdBy?->name,
             ],
-            'created_at' => $this->created_at,
+            'created_at' => $this->created_at ? $this->created_at->toDateString() : 'null   ',
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
         ];

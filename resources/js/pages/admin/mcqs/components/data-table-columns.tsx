@@ -81,7 +81,11 @@ export const getColumns = ({
         cell: ({ row }) => {
             const paper = row.original.paper;
             const slug = paper?.slug;
-            return <TextLink href={papers.show(slug)}>{paper?.name}</TextLink>;
+            return (
+                paper && (
+                    <TextLink href={papers.show(slug)}>{paper?.name}</TextLink>
+                )
+            );
         },
     },
     {
@@ -102,7 +106,11 @@ export const getColumns = ({
             const subject = row.original.subject;
             const slug = subject?.slug;
             return (
-                <TextLink href={subjects.show(slug)}>{subject?.name}</TextLink>
+                subject && (
+                    <TextLink href={subjects.show(slug)}>
+                        {subject?.name}
+                    </TextLink>
+                )
             );
         },
     },

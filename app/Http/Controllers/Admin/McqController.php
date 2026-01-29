@@ -23,7 +23,6 @@ class McqController extends Controller
             100
         );
 
-
         $query = $filter->apply(
             Mcq::query()->with(['createdBy',  'paper', 'subject', 'topic'])
         );
