@@ -4,6 +4,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\DepartmentController;
 use App\Http\Controllers\Admin\McqController;
 use App\Http\Controllers\Admin\PaperController;
+use App\Http\Controllers\Admin\SchedulerController;
 use App\Http\Controllers\Admin\SeoMetaController;
 use App\Http\Controllers\Admin\TestingServiceController;
 use App\Http\Controllers\Admin\SubjectController;
@@ -19,9 +20,6 @@ Route::get('/', function () {
 })->name('home');
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
-    // Route::get('dashboard', function () {
-    //     return Inertia::render('dashboard');
-    // })->name('dashboard');
 
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
 
@@ -38,6 +36,10 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
     Route::resource('mcqs', McqController::class);
 
     Route::resource('seo', SeoMetaController::class);
+
+
+    Route::get('/run-seo-update', [SchedulerController::class, 'runSeoUpdate'])
+        ->name('run-seo-update');
 });
 
 require __DIR__ . '/settings.php';

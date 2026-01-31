@@ -11,8 +11,8 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return TestingService::query()
-            ->whereDoesntHave('seoMeta')
-            ->orWhereHas('seoMeta', function ($q) {
+            ->whereDoesntHave('seo')
+            ->orWhereHas('seo', function ($q) {
                 $q->whereColumn('seo_meta.updated_at', '<', 'testing_services.updated_at');
             })
             ->select('id', 'name')
@@ -24,7 +24,7 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
         $serviceName = trim($service->name);
 
         return [
-            'title' => "{$serviceName} MCQs (Solved) | {$serviceName} Past Papers | PakQuiz",
+            'title' => "{$serviceName} MCQs (Solved) | {$serviceName} Past Papers",
 
             'description' => "Prepare for {$serviceName} exams with solved MCQs, past papers, and online practice tests. Updated syllabus and exam-oriented questions for {$serviceName}.",
 

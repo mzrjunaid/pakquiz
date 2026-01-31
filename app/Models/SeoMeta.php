@@ -12,6 +12,8 @@ class SeoMeta extends Model
     protected $table = 'seo_meta';
 
     protected $fillable = [
+        'page_type',
+        'page_id',
         'title',
         'description',
         'keywords',
