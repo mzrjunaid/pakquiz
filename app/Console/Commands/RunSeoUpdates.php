@@ -2,6 +2,7 @@
 
 namespace App\Console\Commands;
 
+use App\Services\Seo\Updates\DepartmentSeoUpdate;
 use Illuminate\Console\Command;
 use App\Services\Seo\Updates\TestingServiceSeoUpdate;
 use App\Services\Seo\Updates\SubjectSeoUpdate;
@@ -15,6 +16,7 @@ class RunSeoUpdates extends Command
     protected $description = 'Run SEO updates for all models';
 
     protected array $updaters = [
+        'Department'     => DepartmentSeoUpdate::class,
         'TestingService' => TestingServiceSeoUpdate::class,
         'Subject'        => SubjectSeoUpdate::class,
         'Paper'          => PaperSeoUpdate::class,

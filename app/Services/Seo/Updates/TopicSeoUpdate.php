@@ -12,8 +12,6 @@ class TopicSeoUpdate extends BaseSeoUpdate
     {
         $query = Topic::query();
 
-        $query->where('id', '>', 0);
-
         $query->where(function (Builder $q) {
             $q->whereDoesntHave('seo')
                 ->orWhereHas('seo', function (Builder $q2) {
