@@ -1,7 +1,7 @@
-import { login, register } from '@/routes';
-import { dashboard } from '@/routes/admin';
+import AppLayout from '@/layouts/app-layout';
+import { breadcrumb } from '@/lib/breadcrumbs-utils';
 import { type SharedData } from '@/types';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Head, usePage } from '@inertiajs/react';
 
 export default function Welcome({
     canRegister = true,
@@ -9,8 +9,25 @@ export default function Welcome({
     canRegister?: boolean;
 }) {
     const { auth } = usePage<SharedData>().props;
-
+    const { url } = usePage();
+    const breadcrumbs = breadcrumb(url);
     return (
+        <AppLayout breadcrumbs={breadcrumbs}>
+            <Head title="Welcome">
+                <link rel="preconnect" href="https://fonts.bunny.net" />
+                <link
+                    href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
+                    rel="stylesheet"
+                />
+            </Head>
+            <div>Testing</div>
+        </AppLayout>
+    );
+}
+
+/*
+
+return (
         <>
             <Head title="Welcome">
                 <link rel="preconnect" href="https://fonts.bunny.net" />
@@ -806,4 +823,5 @@ export default function Welcome({
             </div>
         </>
     );
-}
+
+*/

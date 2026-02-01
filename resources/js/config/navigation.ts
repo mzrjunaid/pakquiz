@@ -1,3 +1,4 @@
+import { home } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
@@ -12,6 +13,7 @@ import {
     Clipboard,
     FileBox,
     Folder,
+    Home,
     LayoutGrid,
     Paperclip,
     ShieldQuestion,
@@ -98,6 +100,14 @@ export const adminFooterNavItems: NavItem[] = [
         title: 'Trash Bin',
         href: '#',
         icon: Trash,
+    },
+];
+
+export const publicMainNavItems: NavItems[] = [
+    {
+        title: 'Homepage',
+        href: home(),
+        icon: Home,
     },
 ];
 

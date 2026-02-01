@@ -1,10 +1,16 @@
 export function isActiveRoute(currentUrl: string, targetUrl: string) {
-    const clean = (url: string) => url.replace(/\/+$/, '');
+    const clean = (url: string) => url.replace(/\/+$/, '') || '/';
 
-    const current = clean(currentUrl).split('/');
-    const target = clean(targetUrl).split('/');
+    const current = clean(currentUrl);
+    const target = clean(targetUrl);
 
-    return target.every((segment, index) => {
-        return segment === current[index];
-    });
+    // exact-only routes
+    const exactRoutes = ['/', '/dashboard'];
+
+    if (exactRoutes.includes(target)) {
+        return current === target;
+    }
+
+    // prefix match for others
+    return current.startsWith(target + '/') || current === target;
 }
