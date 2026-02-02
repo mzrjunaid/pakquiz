@@ -58,7 +58,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::name('public.')->group(function () {
 
     Route::get('/search', [SearchController::class, 'index'])
-        ->name('public.search');
+        ->name('search');
 
     Route::get('/departments', [PublicDepartmentController::class, 'index'])->name('departments.index');
     Route::get('/departments/{department:slug}', [PublicDepartmentController::class, 'show'])->name('departments.show');

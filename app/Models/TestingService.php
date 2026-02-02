@@ -80,4 +80,9 @@ class TestingService extends Model
     {
         return $this->morphOne(SeoMeta::class, 'page');
     }
+
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 }

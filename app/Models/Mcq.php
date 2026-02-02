@@ -66,6 +66,11 @@ class Mcq extends Model
         return $this->morphOne(SeoMeta::class, 'page');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
