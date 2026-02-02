@@ -5,8 +5,14 @@ import { Head, usePage } from '@inertiajs/react';
 
 export default function Welcome({
     canRegister = true,
+    subjects,
+    latestPapers,
+    latestMcqs,
 }: {
     canRegister?: boolean;
+    subjects: any;
+    latestPapers: any;
+    latestMcqs: any;
 }) {
     const { auth } = usePage<SharedData>().props;
     const { url } = usePage();
@@ -21,6 +27,9 @@ export default function Welcome({
                 />
             </Head>
             <div>Testing</div>
+            <pre>{JSON.stringify(latestPapers, null, 2)}</pre>
+            <pre>{JSON.stringify(subjects, null, 2)}</pre>
+            <pre>{JSON.stringify(latestMcqs, null, 2)}</pre>
         </AppLayout>
     );
 }

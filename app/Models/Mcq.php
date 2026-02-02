@@ -80,4 +80,16 @@ class Mcq extends Model
     {
         return $query->whereDoesntHave('options', fn($q) => $q->where('is_correct', true));
     }
+
+
+    public function scopeLatestWithOptions($query, int $limit = 10)
+    {
+        return $query
+            ->select('id', 'question', 'slug')
+            ->latest()
+            ->with([
+                'options:id,mcq_id,option_text,is_correct'
+            ])
+            ->limit($limit);
+    }
 }
