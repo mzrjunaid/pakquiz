@@ -15,6 +15,7 @@ class McqSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return Mcq::query()
+            ->select('id', 'question', 'subject_id', 'paper_id', 'topic_id')
             ->where(function (Builder $q) {
                 $q->whereDoesntHave('seo')
                     ->orWhereHas(
@@ -29,8 +30,7 @@ class McqSeoUpdate extends BaseSeoUpdate
                 'paper.testingService:id,name',
                 'topic:id,name',
                 'tags:id,name',
-            ])
-            ->select('id', 'question', 'subject_id', 'paper_id', 'topic_id');
+            ]);
     }
 
     /**

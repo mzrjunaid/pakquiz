@@ -7,10 +7,8 @@ use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Page;
 use App\Models\Paper;
-use App\Models\SeoMeta;
 use App\Models\Subject;
 use App\Models\Topic;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -24,7 +22,10 @@ class HomeController extends Controller
     {
         $data = Cache::remember('home_page_data', now()->addSecond(), function () {
             return [
-                'pageSeo' => Page::where('key', 'home')->first(),
+
+                'canRegister' => Features::enabled(Features::registration()),
+                // load the page with its seo relation and pass the SeoMeta (or null) to the view
+                'pageSeo' => optional(Page::where('key', 'home')->with('seo')->first())->seo,
 
                 'departments' => Department::query()
                     ->select('id', 'name', 'slug')

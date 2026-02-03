@@ -8,6 +8,8 @@ class Keyword extends Model
 {
     protected $fillable = ['keyword'];
 
+    protected $hidden = ['pivot'];
+
     public function pages()
     {
         return $this->morphedByMany(Page::class, 'keywordable');

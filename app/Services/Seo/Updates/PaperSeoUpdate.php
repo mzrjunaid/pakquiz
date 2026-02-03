@@ -15,20 +15,22 @@ class PaperSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return Paper::query()
+            ->select('id', 'name', 'subject_id', 'testing_service_id')
             ->where(function (Builder $q) {
                 $q->whereDoesntHave('seo')
-                    ->orWhereHas(
-                        'seo',
-                        fn(Builder $q2) =>
-                        $q2->whereColumn('seo_meta.updated_at', '<', 'papers.updated_at')
-                    );
+                    ->orWhereHas('seo', function (Builder $q2) {
+                        $q2->whereColumn(
+                            $q2->getModel()->getTable() . '.updated_at',
+                            '<',
+                            'papers.updated_at'
+                        );
+                    });
             })
             ->with([
                 'subject:id,name',
                 'testingService:id,name',
                 'tags:id,name',
-            ])
-            ->select('id', 'name', 'subject_id', 'testing_service_id');
+            ]);
     }
 
     /**

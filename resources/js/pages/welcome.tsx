@@ -5,12 +5,14 @@ import { Head, usePage } from '@inertiajs/react';
 
 export default function Welcome({
     canRegister = true,
+    seo,
     pageSeo,
     subjects,
     latestPapers,
     latestMcqs,
 }: {
     canRegister?: boolean;
+    seo: any;
     pageSeo: any;
     subjects: any;
     latestPapers: any;
@@ -19,16 +21,72 @@ export default function Welcome({
     const { auth } = usePage<SharedData>().props;
     const { url } = usePage();
     const breadcrumbs = breadcrumb(url);
+
+    const homepageSchema = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {
+                '@type': 'WebSite',
+                '@id': 'https://www.pakquiz.com/#webpage',
+                url: 'https://www.pakquiz.com',
+                name: 'PAK QUIZ',
+                description:
+                    'Pak Quiz offers a vast collection of AI-Enhanced multiple-choice questions (MCQs) to help you prepare for various exams (PPSC, NTS, FPSC, CSS, PMS,... etc.)',
+                publisher: {
+                    '@id': 'https://www.pakquiz.com/#organization',
+                },
+                potentialAction: {
+                    '@type': 'SearchAction',
+                    target: 'https://www.pakquiz.com/search?q={search_term_string}',
+                    'query-input': 'required name=search_term_string',
+                },
+            },
+            // {
+            //     '@type': 'Organization',
+            //     '@id': 'https://www.pakquiz.com/#organization',
+            //     name: 'PAK QUIZ',
+            //     url: 'https://www.pakquiz.com',
+            //     logo: 'https://www.pakquiz.com/logo.png',
+            //     sameAs: [
+            //         'https://www.facebook.com/pakquiz',
+            //         'https://www.youtube.com/@pakquiz',
+            //         'https://www.tiktok.com/@pakquiz',
+            //         'https://twitter.com/pakquiz',
+            //     ],
+            //     contactPoint: {
+            //         '@type': 'ContactPoint',
+            //         contactType: 'Customer Support',
+            //         email: 'support@pakquiz.com',
+            //         areaServed: 'PK',
+            //         availableLanguage: ['English', 'Urdu'],
+            //     },
+            // },
+            {
+                '@type': 'WebPage',
+                '@id': 'https://www.pakquiz.com/#webpage',
+                url: 'https://www.pakquiz.com',
+                name: 'Pak Quiz – AI-Powered MCQs & Job Test Preparation',
+                description:
+                    'Pak Quiz offers a vast collection of AI-Enhanced multiple-choice questions (MCQs) to help you prepare for various exams (PPSC, NTS, FPSC, CSS, PMS,... etc.)',
+                inLanguage: 'en',
+                isPartOf: { '@id': 'https://www.pakquiz.com/#website' },
+                about: {
+                    '@type': 'EducationalOrganization',
+                    name: 'Pak Quiz',
+                    sameAs: 'https://www.pakquiz.com',
+                },
+            },
+        ],
+    };
+
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title="Welcome">
-                <link rel="preconnect" href="https://fonts.bunny.net" />
-                <link
-                    href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600"
-                    rel="stylesheet"
-                />
+            <Head title={seo.title}>
+                <script type="application/ld+json">
+                    {JSON.stringify(homepageSchema)}
+                </script>
             </Head>
-            <div>Testing</div>
+            <pre>{JSON.stringify(seo, null, 2)}</pre>
             <pre>{JSON.stringify(pageSeo, null, 2)}</pre>
             <pre>{JSON.stringify(latestPapers, null, 2)}</pre>
             <pre>{JSON.stringify(subjects, null, 2)}</pre>

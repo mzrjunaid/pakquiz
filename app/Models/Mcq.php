@@ -94,7 +94,7 @@ class Mcq extends Model
             ->latest()
             ->with([
                 'options:id,mcq_id,option_text,is_correct',
-                'tags:id,name' // select only id and name from tags
+                'tags:id,name,slug' // select only id and name from tags
             ])
             ->limit($limit);
     }

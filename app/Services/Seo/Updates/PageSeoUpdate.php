@@ -2,46 +2,53 @@
 
 namespace App\Services\Seo\Updates;
 
-use App\Models\SeoMeta;
-use App\Models\Keyword;
-use Illuminate\Database\Eloquent\Model;
-use Illuminate\Support\Arr;
-use Illuminate\Support\Str;
+use App\Models\Page;
+use App\Services\Seo\BaseSeoUpdate;
+use Illuminate\Database\Eloquent\Builder;
 
-class PageSeoUpdate
+class PageSeoUpdate extends BaseSeoUpdate
 {
     /**
-     * Update or create SEO meta for any page-like model
-     *
-     * @param  Model  $page
-     * @param  array  $data
+     * Pages needing SEO generation or refresh
      */
-    public function handle(Model $page, array $data): SeoMeta
+    protected function query(): Builder
     {
-        // 1️⃣ Create / Update seo_meta
-        $seo = SeoMeta::updateOrCreate(
-            [
-                'page_type' => get_class($page),
-                'page_id'   => $page->id,
-            ],
-            Arr::except($data, ['keywords'])
-        );
+        return Page::query()
+            ->select('id', 'title', 'description', 'keywords', 'updated_at')
+            ->where(function ($q) {
+                $q->whereDoesntHave('seo')
+                    ->orWhereHas('seo', function ($q2) {
+                        $q2->whereColumn('seo_meta.updated_at', '<', 'pages.updated_at');
+                    });
+            });
+    }
 
-        // 2️⃣ Sync keywords (if provided)
-        if (!empty($data['keywords']) && is_array($data['keywords'])) {
-            $keywordIds = collect($data['keywords'])
-                ->map(
-                    fn($k) =>
-                    Keyword::firstOrCreate(
-                        ['name' => $k],
-                        ['slug' => Str::slug($k)]
-                    )->id
-                )
-                ->toArray();
-
-            $seo->keywords()->sync($keywordIds);
+    /**
+     * Generate SEO payload for a Page model
+     */
+    protected function seoData($page): array
+    {
+        if (! $page instanceof Page) {
+            throw new \InvalidArgumentException('Expected instance of Page');
         }
 
-        return $seo;
+        $title = trim($page->title ?? '');
+        $description = trim($page->description ?? '');
+
+        // keywords may be stored as comma-separated string or as array
+        $keywords = [];
+        if (! empty($page->keywords)) {
+            if (is_array($page->keywords)) {
+                $keywords = $page->keywords;
+            } else {
+                $keywords = array_filter(array_map('trim', explode(',', $page->keywords)));
+            }
+        }
+
+        return [
+            'title' => $title ?: null,
+            'description' => $description ?: null,
+            'keywords' => $keywords,
+        ];
     }
 }

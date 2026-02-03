@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Services\Seo\SeoResolver;
 use Illuminate\Foundation\Inspiring;
 use Illuminate\Http\Request;
 use Inertia\Middleware;
@@ -45,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'seo' => app(SeoResolver::class)->resolve($request),
             'sidebarOpen' => (bool) ($request->cookie('sidebar_state', 'false') === 'true'),
         ];
     }

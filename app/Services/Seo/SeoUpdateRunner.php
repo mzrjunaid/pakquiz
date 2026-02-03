@@ -7,6 +7,7 @@ use App\Services\Seo\Updates\TopicSeoUpdate;
 use App\Services\Seo\Updates\PaperSeoUpdate;
 use App\Services\Seo\Updates\TestingServiceSeoUpdate;
 use App\Services\Seo\Updates\McqSeoUpdate;
+use App\Services\Seo\Updates\PageSeoUpdate;
 
 class SeoUpdateRunner
 {
@@ -29,5 +30,7 @@ class SeoUpdateRunner
 
         // 5️⃣ Update MCQs (depends on papers, topics, subjects)
         app(McqSeoUpdate::class)->handle();
+
+        app(PageSeoUpdate::class)->handle();
     }
 }

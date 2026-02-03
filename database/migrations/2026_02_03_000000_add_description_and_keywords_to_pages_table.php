@@ -11,11 +11,9 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('taggables', function (Blueprint $table) {
-            $table->id();
-            $table->foreignId('tag_id')->constrained()->cascadeOnDelete(); // tag reference
-            $table->morphs('taggable'); // creates taggable_id + taggable_type
-            $table->timestamps();
+        Schema::table('pages', function (Blueprint $table) {
+            $table->text('description')->nullable()->after('title');
+            $table->text('keywords')->nullable()->after('description');
         });
     }
 
@@ -24,6 +22,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('taggables');
+        Schema::table('pages', function (Blueprint $table) {
+            $table->dropColumn(['description', 'keywords']);
+        });
     }
 };

@@ -14,6 +14,7 @@ class SubjectSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return Subject::query()
+            ->select('id', 'name')
             ->where(function (Builder $q) {
                 // Subjects without SEO or with outdated SEO
                 $q->whereDoesntHave('seo')
@@ -27,8 +28,7 @@ class SubjectSeoUpdate extends BaseSeoUpdate
                 'papers:id,name,subject_id,testing_service_id',
                 'papers.testingService:id,name',
                 'tags:id,name', // load tags for SEO
-            ])
-            ->select('id', 'name');
+            ]);
     }
 
     /**
@@ -36,6 +36,27 @@ class SubjectSeoUpdate extends BaseSeoUpdate
      */
     protected function seoData($subject): array
     {
+
+        /**
+         * ✅ Global department (N/A)
+         */
+        if ((int) $subject->id === 0) {
+            return [
+                'title'       => 'Multiple General Subjects | PakQuiz',
+                'description' => 'Explore all general subjects with past papers and MCQs for exam preparation.',
+                'keywords'    => [
+                    'joint subjects',
+                    'general subjects',
+                    'past papers',
+                    'mcqs',
+                    'online test',
+                    'pakquiz',
+                ],
+            ];
+        }
+
+
+
         if (!$subject instanceof Subject) {
             throw new \InvalidArgumentException('Expected instance of Subject');
         }

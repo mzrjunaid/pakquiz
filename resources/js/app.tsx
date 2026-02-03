@@ -11,7 +11,7 @@ const appName =
     'Pak Quiz - AI Powered Learning (Job & Test Preparation)';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} - ${appName}` : appName),
+    title: (title) => (title ? `${title} | ${appName}` : appName),
     resolve: (name) =>
         resolvePageComponent(
             `./pages/${name}.tsx`,

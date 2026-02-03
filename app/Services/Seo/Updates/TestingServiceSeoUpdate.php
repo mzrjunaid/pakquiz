@@ -14,6 +14,7 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return TestingService::query()
+            ->select('id', 'name')
             ->where(function ($q) {
                 $q->whereDoesntHave('seo')
                     ->orWhereHas(
@@ -25,8 +26,7 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
             ->where('name', '!=', 'N/A')
             ->with([
                 'tags:id,name', // optional: include tags for SEO enrichment
-            ])
-            ->select('id', 'name');
+            ]);
     }
 
     /**

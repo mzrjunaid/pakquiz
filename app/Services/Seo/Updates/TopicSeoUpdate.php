@@ -14,6 +14,7 @@ class TopicSeoUpdate extends BaseSeoUpdate
     protected function query(): Builder
     {
         return Topic::query()
+            ->select('id', 'name', 'subject_id', 'updated_at')
             ->where(function (Builder $q) {
                 $q->whereDoesntHave('seo')
                     ->orWhereHas(
@@ -25,8 +26,7 @@ class TopicSeoUpdate extends BaseSeoUpdate
             ->with([
                 'subject:id,name,updated_at',
                 'tags:id,name', // include tags for SEO enrichment
-            ])
-            ->select('id', 'name', 'subject_id', 'updated_at');
+            ]);
     }
 
     /**

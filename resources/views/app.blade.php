@@ -23,26 +23,47 @@
     {{-- Inline style to set the HTML background color based on our theme in app.css --}}
     <style>
         html {
+            background-color: #ffffff;
             background-color: oklch(1 0 0);
         }
 
         html.dark {
+            background-color: #0a0a0a;
             background-color: oklch(0.145 0 0);
         }
     </style>
 
     <title inertia>{{ config('app.name', 'Pak Quiz - AI Powered Learning (Job & Test Preparation)') }}</title>
+    <meta
+        name="description"
+        content="Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan." />
 
-    <link rel="icon" href="/favicon.ico" sizes="any">
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml">
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+    <meta name="robots" content="index, follow" />
+    <link rel="canonical" href="{{ url()->current() }}" />
 
-    <link rel="preconnect" href="https://fonts.bunny.net">
+
+    <meta property="og:title" content="Pak Quiz – AI Powered Learning & Test Preparation">
+    <meta property="og:description" content="Practice MCQs, prepare past papers, and succeed in competitive exams across Pakistan.">
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Pak Quiz" />
+    <meta property="og:locale" content="en_PK" />
+
+    <link rel="icon" href="/favicon.ico" sizes="any" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+
+    <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet" />
 
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead
+
 </head>
 
 <body class="font-sans antialiased">

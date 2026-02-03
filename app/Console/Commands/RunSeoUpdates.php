@@ -9,6 +9,7 @@ use App\Services\Seo\Updates\SubjectSeoUpdate;
 use App\Services\Seo\Updates\PaperSeoUpdate;
 use App\Services\Seo\Updates\TopicSeoUpdate;
 use App\Services\Seo\Updates\McqSeoUpdate;
+use App\Services\Seo\Updates\PageSeoUpdate;
 
 class RunSeoUpdates extends Command
 {
@@ -17,6 +18,7 @@ class RunSeoUpdates extends Command
 
     protected array $updaters = [
         'Department'     => DepartmentSeoUpdate::class,
+        'Page'           => PageSeoUpdate::class,
         'TestingService' => TestingServiceSeoUpdate::class,
         'Subject'        => SubjectSeoUpdate::class,
         'Paper'          => PaperSeoUpdate::class,
