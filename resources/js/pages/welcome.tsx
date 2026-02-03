@@ -5,11 +5,13 @@ import { Head, usePage } from '@inertiajs/react';
 
 export default function Welcome({
     canRegister = true,
+    pageSeo,
     subjects,
     latestPapers,
     latestMcqs,
 }: {
     canRegister?: boolean;
+    pageSeo: any;
     subjects: any;
     latestPapers: any;
     latestMcqs: any;
@@ -27,6 +29,7 @@ export default function Welcome({
                 />
             </Head>
             <div>Testing</div>
+            <pre>{JSON.stringify(pageSeo, null, 2)}</pre>
             <pre>{JSON.stringify(latestPapers, null, 2)}</pre>
             <pre>{JSON.stringify(subjects, null, 2)}</pre>
             <pre>{JSON.stringify(latestMcqs, null, 2)}</pre>

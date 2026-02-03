@@ -10,6 +10,10 @@ abstract class BaseSeoUpdate
     abstract protected function query(): Builder;
     abstract protected function seoData($model): array;
 
+    public function __construct(
+        protected KeywordSyncService $keywordSync
+    ) {}
+
     public function handle(): void
     {
         $this->query()
@@ -22,20 +26,36 @@ abstract class BaseSeoUpdate
 
     protected function updateSeo($model): void
     {
-        $seoData = array_merge(
+        $rawSeoData = $this->seoData($model);
+
+        // 1️⃣ Extract keywords BEFORE persistence
+        $keywords = $rawSeoData['keywords'] ?? [];
+        unset($rawSeoData['keywords']);
+
+        // 2️⃣ Generate SEO meta (title, description, OG, etc.)
+        $seoPayload = array_merge(
             [
                 'page_type' => get_class($model),
                 'page_id'   => $model->id,
             ],
-            app(SeoMetaGeneratorService::class)->generate($this->seoData($model))
+            app(SeoMetaGeneratorService::class)->generate($rawSeoData)
         );
 
-        SeoMeta::updateOrCreate(
+        // 3️⃣ Persist SeoMeta
+        $seoMeta = SeoMeta::updateOrCreate(
             [
                 'page_type' => get_class($model),
                 'page_id'   => $model->id,
             ],
-            $seoData
+            $seoPayload
         );
+
+        // 4️⃣ Sync keywords separately (pivot-based)
+        if (! empty($keywords)) {
+            $this->keywordSync->sync(
+                model: $seoMeta,
+                keywords: $keywords
+            );
+        }
     }
 }

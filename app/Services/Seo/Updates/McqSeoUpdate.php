@@ -5,81 +5,107 @@ namespace App\Services\Seo\Updates;
 use App\Models\Mcq;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class McqSeoUpdate extends BaseSeoUpdate
 {
     /**
-     * Return a type-safe Eloquent Builder
-     *
-     * @return Builder
+     * Return MCQs needing SEO update
      */
     protected function query(): Builder
     {
-        $query = Mcq::query();
-
-        // Only update MCQs without SEO or outdated SEO
-        $query->where(function (Builder $q) {
-            $q->whereDoesntHave('seo')
-                ->orWhereHas('seo', function (Builder $q2) {
-                    $q2->whereColumn('seo_meta.updated_at', '<', 'mcqs.updated_at');
-                });
-        });
-
-        // Eager load all necessary relations
-        $query->with([
-            'subject:id,name',
-            'paper:id,name,testing_service_id',
-            'paper.testingService:id,name',
-            'topic:id,name',
-        ]);
-
-        // Select only required columns
-        $query->select('id', 'question', 'subject_id', 'paper_id', 'topic_id');
-
-        return $query; // Eloquent\Builder
+        return Mcq::query()
+            ->where(function (Builder $q) {
+                $q->whereDoesntHave('seo')
+                    ->orWhereHas(
+                        'seo',
+                        fn(Builder $q2) =>
+                        $q2->whereColumn('seo_meta.updated_at', '<', 'mcqs.updated_at')
+                    );
+            })
+            ->with([
+                'subject:id,name',
+                'paper:id,name,testing_service_id',
+                'paper.testingService:id,name',
+                'topic:id,name',
+                'tags:id,name',
+            ])
+            ->select('id', 'question', 'subject_id', 'paper_id', 'topic_id');
     }
 
+    /**
+     * Generate SEO metadata for a single MCQ
+     */
     protected function seoData($mcq): array
     {
-        $questionText = trim($mcq->question);
-        $topicTitle = $mcq->topic?->name ?? '';
-        $paperTitle = $mcq->paper?->name ?? '';
-        $subjectName = $mcq->subject?->name ?? '';
-        $serviceName = $mcq->paper?->testingService?->name ?? '';
+        if (!$mcq instanceof Mcq) {
+            throw new \InvalidArgumentException('Expected instance of Mcq');
+        }
 
-        // Build SEO title
-        $titleParts = array_filter([$questionText, $topicTitle, $paperTitle, $subjectName, $serviceName ? "{$serviceName} Past Papers" : null]);
-        $seoTitle = implode(' | ', $titleParts);
+        $question = trim($mcq->question);
+        $topic    = $mcq->topic?->name;
+        $paper    = $mcq->paper?->name;
+        $subject  = $mcq->subject?->name;
+        $service  = $mcq->paper?->testingService?->name;
 
-        // Build SEO description
-        $descParts = [];
-        if ($subjectName != 'N/A' && $subjectName) {
-            $descParts[] = "Prepare {$subjectName} exams";
-        }
-        if ($topicTitle) {
-            $descParts[] = "Topic: {$topicTitle}";
-        }
-        if ($paperTitle) {
-            $descParts[] = "Paper: {$paperTitle}";
-        }
-        if ($serviceName) {
-            $descParts[] = "from {$serviceName} past papers";
-        }
-        $descParts[] = "Practice MCQs and exam-oriented questions online";
-        $seoDescription = implode('. ', $descParts) . '.';
+        /*
+        |--------------------------------------------------------------------------
+        | TITLE (question is allowed here, but trimmed)
+        |--------------------------------------------------------------------------
+        */
+        $title = collect([
+            Str::limit($question, 70, ''),
+            $topic,
+            $paper,
+            $service ? "{$service} MCQs" : null,
+        ])
+            ->filter()
+            ->join(' | ');
 
-        // Build keywords
-        $keywords = array_unique(array_filter(array_merge(
-            [$questionText, $topicTitle, $paperTitle, $subjectName, $serviceName],
-            [$questionText . ' MCQs', $topicTitle . ' MCQs', $paperTitle . ' MCQs', $subjectName . ' MCQs'],
-            [$questionText . ' past papers', $topicTitle . ' past papers', $paperTitle . ' past papers'],
-            ['MCQs practice', 'online test', 'PakQuiz']
-        )));
+        /*
+        |--------------------------------------------------------------------------
+        | DESCRIPTION
+        |--------------------------------------------------------------------------
+        */
+        $description = collect([
+            "Practice solved MCQs",
+            $topic ? "from {$topic}" : null,
+            $subject ? "({$subject})" : null,
+            $paper ? "Paper: {$paper}" : null,
+            $service ? "for {$service} exams" : null,
+            "with explanations and online tests",
+        ])
+            ->filter()
+            ->join('. ') . '.';
+
+        /*
+        |--------------------------------------------------------------------------
+        | KEYWORDS (IMPORTANT: no full question text)
+        |--------------------------------------------------------------------------
+        */
+        $tagNames = $mcq->tags->pluck('name')->toArray();
+
+        $keywords = collect(array_merge([
+            $topic,
+            $paper,
+            $subject,
+            $service,
+            'MCQs',
+            'MCQs practice',
+            'online test',
+            'past papers',
+            'PakQuiz',
+        ], $tagNames))
+            ->filter()
+            ->map(fn($k) => strtolower(trim($k)))
+            ->unique()
+            ->values()
+            ->toArray();
 
         return [
-            'title' => $seoTitle,
-            'description' => $seoDescription,
-            'keywords' => $keywords,
+            'title'       => Str::limit($title, 60, ''),
+            'description' => Str::limit($description, 160, ''),
+            'keywords'    => $keywords,
         ];
     }
 }

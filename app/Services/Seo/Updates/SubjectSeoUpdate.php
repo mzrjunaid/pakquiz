@@ -4,72 +4,94 @@ namespace App\Services\Seo\Updates;
 
 use App\Models\Subject;
 use App\Services\Seo\BaseSeoUpdate;
-use Illuminate\Database\Eloquent\Builder; // make sure this is the Eloquent one
+use Illuminate\Database\Eloquent\Builder;
 
 class SubjectSeoUpdate extends BaseSeoUpdate
 {
     /**
-     * @return Builder
+     * Return a type-safe Eloquent Builder for Subjects needing SEO update
      */
     protected function query(): Builder
     {
-        // Start with Eloquent builder
-        $query = Subject::query();
-
-        // Apply conditions without breaking the Builder type
-        $query->where(function (Builder $q) {
-            $q->whereDoesntHave('seo')
-                ->orWhereHas('seo', function (Builder $q2) {
-                    $q2->whereColumn('seo_meta.updated_at', '<', 'subjects.updated_at');
-                });
-        });
-
-        // Eager load relations but DO NOT call get() or all()
-        $query->with(['papers.testingService:id,name']);
-
-        // Select only necessary columns
-        $query->select('id', 'name');
-
-        return $query; // This is still an Eloquent\Builder
+        return Subject::query()
+            ->where(function (Builder $q) {
+                // Subjects without SEO or with outdated SEO
+                $q->whereDoesntHave('seo')
+                    ->orWhereHas(
+                        'seo',
+                        fn(Builder $q2) =>
+                        $q2->whereColumn('seo_meta.updated_at', '<', 'subjects.updated_at')
+                    );
+            })
+            ->with([
+                'papers:id,name,subject_id,testing_service_id',
+                'papers.testingService:id,name',
+                'tags:id,name', // load tags for SEO
+            ])
+            ->select('id', 'name');
     }
 
+    /**
+     * Generate SEO data for a given Subject
+     */
     protected function seoData($subject): array
     {
+        if (!$subject instanceof Subject) {
+            throw new \InvalidArgumentException('Expected instance of Subject');
+        }
+
         $subjectName = trim($subject->name);
 
-        $papers = $subject->papers->take(5); // Limit for performance
-
+        // Use top 2 papers for title & description
+        $papers = $subject->papers->take(5);
         $paperNames = $papers->pluck('name')->toArray();
         $serviceNames = $papers->map(fn($paper) => $paper->testingService?->name)
             ->filter()
             ->unique()
             ->toArray();
 
-        $titleParts = array_filter(array_merge([$subjectName], $paperNames, $serviceNames));
-        $seoTitle = implode(' | ', $titleParts);
+        // Top 2 tags for title & description
+        $tags = $subject->tags->pluck('name')->take(2)->toArray();
+        $tagsString = $tags ? implode(', ', $tags) : null;
 
-        $descParts = ["Prepare {$subjectName} exams"];
+        // Build SEO title
+        $titleParts = array_filter(array_merge(
+            [$subjectName],
+            $tags ? [$tagsString] : [],
+            $paperNames,
+            $serviceNames
+        ));
+        $title = implode(' | ', $titleParts);
+
+        // Build SEO description
+        $descriptionParts = ["Prepare {$subjectName} exams"];
         if (!empty($serviceNames)) {
-            $descParts[] = "with " . implode(', ', $serviceNames) . " past papers";
+            $descriptionParts[] = "with " . implode(', ', $serviceNames) . " past papers";
         }
         if (!empty($paperNames)) {
-            $descParts[] = "Practice papers: " . implode(', ', $paperNames);
+            $descriptionParts[] = "Practice papers: " . implode(', ', $paperNames);
         }
-        $descParts[] = "Online MCQs and exam-oriented questions";
-        $seoDescription = implode('. ', $descParts) . '.';
+        if ($tagsString) {
+            $descriptionParts[] = "Topics include: {$tagsString}";
+        }
+        $descriptionParts[] = "Online MCQs and exam-oriented questions";
+        $description = implode('. ', $descriptionParts) . '.';
 
+        // Build rich keywords including all tags
+        $allTagNames = $subject->tags->pluck('name')->toArray();
         $keywords = array_unique(array_merge(
             [$subjectName],
             $paperNames,
             $serviceNames,
             array_map(fn($name) => "{$name} MCQs", $paperNames),
             array_map(fn($name) => "{$name} past papers", $paperNames),
+            $allTagNames,
             ['MCQs practice', 'online test', 'PakQuiz']
         ));
 
         return [
-            'title' => $seoTitle,
-            'description' => $seoDescription,
+            'title' => $title,
+            'description' => $description,
             'keywords' => $keywords,
         ];
     }

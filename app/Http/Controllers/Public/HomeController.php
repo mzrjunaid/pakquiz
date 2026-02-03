@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Models\Department;
 use App\Models\Mcq;
+use App\Models\Page;
 use App\Models\Paper;
 use App\Models\SeoMeta;
 use App\Models\Subject;
@@ -21,9 +22,9 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $data = Cache::remember('home_page_data', now()->addHours(6), function () {
+        $data = Cache::remember('home_page_data', now()->addSecond(), function () {
             return [
-                'seo' => SeoMeta::where('route', '/')->first(),
+                'pageSeo' => Page::where('key', 'home')->first(),
 
                 'departments' => Department::query()
                     ->select('id', 'name', 'slug')
@@ -53,6 +54,6 @@ class HomeController extends Controller
             ];
         });
 
-        return Inertia::render('public/home', $data);
+        return Inertia::render('welcome', $data);
     }
 }
