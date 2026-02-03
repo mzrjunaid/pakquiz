@@ -45,8 +45,11 @@ class McqSeoUpdate extends BaseSeoUpdate
         $question = trim($mcq->question);
         $topic    = $mcq->topic?->name;
         $paper    = $mcq->paper?->name;
-        $subject  = $mcq->subject?->name;
         $service  = $mcq->paper?->testingService?->name;
+
+
+        $subject = $mcq->subject?->name;
+        $subject = filled($subject) && $subject !== 'N/A' ? $subject : null;
 
         /*
         |--------------------------------------------------------------------------
