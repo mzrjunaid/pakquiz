@@ -33,24 +33,61 @@
         }
     </style>
 
-    <title inertia>{{ config('app.name', 'Pak Quiz - AI Powered Learning (Job & Test Preparation)') }}</title>
-    <meta
-        name="description"
-        content="Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan." />
+    <title inertia>{{ $page['props']['seo']['title'] ?? config('app.name') }}</title>
 
-    <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="{{ url()->current() }}" />
+    <meta name="description"
+        content="{{ $page['props']['seo']['description']
+          ?? 'Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan.' }}">
+
+    <meta name="robots" content="index, follow">
+
+    <link rel="canonical"
+        href="{{ $page['props']['seo']['canonical'] ?? url()->current() }}">
+
+    @if(!empty($page['props']['seo']['prev']))
+    <link rel="prev" href="{{ $page['props']['seo']['prev'] }}">
+    @endif
+
+    @if(!empty($page['props']['seo']['next']))
+    <link rel="next" href="{{ $page['props']['seo']['next'] }}">
+    @endif
 
 
-    <meta property="og:title" content="Pak Quiz – AI Powered Learning & Test Preparation">
-    <meta property="og:description" content="Practice MCQs, prepare past papers, and succeed in competitive exams across Pakistan.">
-    <meta property="og:type" content="website" />
-    <meta property="og:site_name" content="Pak Quiz" />
-    <meta property="og:locale" content="en_PK" />
+    {{-- ✅ Open Graph --}}
+    <meta property="og:title"
+        content="{{ $page['props']['seo']['og_title'] ?? 'Pak Quiz – AI Powered Learning & Test Preparation' }}">
 
-    <link rel="icon" href="/favicon.ico" sizes="any" />
-    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta property="og:description"
+        content="{{ $page['props']['seo']['og_description'] ?? 'Practice MCQs, prepare past papers, and succeed in competitive exams across Pakistan.' }}">
+
+    <meta property="og:image"
+        content="{{ $page['props']['seo']['og_image'] ?? asset('logo.png') }}">
+
+    <meta property="og:url"
+        content="{{ $page['props']['seo']['canonical'] ?? url()->current() }}">
+
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="Pak Quiz">
+    <meta property="og:locale" content="en_PK">
+
+
+    {{-- ✅ Twitter --}}
+    <meta name="twitter:card" content="summary_large_image">
+
+    <meta name="twitter:title"
+        content="{{ $page['props']['seo']['og_title'] ?? 'Pak Quiz – AI-Powered MCQs & Job Test Preparation' }}">
+
+    <meta name="twitter:description"
+        content="{{ $page['props']['seo']['og_description'] ?? 'Pak Quiz offers a vast collection of AI-enhanced MCQs to help you prepare for PPSC, NTS, FPSC, CSS, PMS, and other exams in Pakistan.' }}">
+
+    <meta name="twitter:image"
+        content="{{ $page['props']['seo']['og_image'] ?? asset('logo.png') }}">
+
+
+    {{-- Favicon --}}
+    <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
+    <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
+    <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
     <link rel="preconnect" href="https://fonts.bunny.net" />
     <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />

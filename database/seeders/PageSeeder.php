@@ -12,36 +12,69 @@ class PageSeeder extends Seeder
         $pages = [
 
             'home' => [
-                'title' => 'PAKQUIZ – Online MCQs, Past Papers & Test Preparation in Pakistan',
-                'description' => 'PAKQUIZ is Pakistan’s leading online quiz and test preparation platform. Practice MCQs, past papers, and mock tests for FPSC, PPSC, NTS, CSS, PMS, and academic exams.',
-                'keywords' => 'PAKQUIZ, Pakistan MCQs, online quiz Pakistan, FPSC preparation, PPSC preparation, NTS preparation, government jobs Pakistan, test preparation, solved MCQs, past papers'
+                'title' => 'PAKQUIZ – Online MCQs, Past Papers & Exam Preparation in Pakistan',
+                'description' => 'PAKQUIZ is Pakistan’s trusted exam preparation platform. Practice updated MCQs, solved past papers, and mock tests for FPSC, PPSC, NTS, CSS, PMS, and academic exams.',
+                'keywords' => 'PAKQUIZ, online MCQs Pakistan, past papers Pakistan, FPSC preparation, PPSC preparation, NTS preparation, CSS MCQs, government jobs test preparation'
             ],
 
             'mcqs' => [
-                'title' => 'MCQs Practice – Subject Wise & Topic Wise Questions | PAKQUIZ',
-                'description' => 'Practice thousands of subject-wise and topic-wise MCQs for government jobs and academic exams. Updated questions with correct answers on PAKQUIZ.',
-                'keywords' => 'MCQs Pakistan, online MCQs, subject wise MCQs, topic wise MCQs, solved MCQs, practice MCQs, quiz questions'
+                'title' => 'MCQs Practice Online – Subject & Topic Wise Questions',
+                'description' => 'Practice thousands of subject-wise and topic-wise MCQs for government jobs and competitive exams in Pakistan. Verified answers and updated questions.',
+                'keywords' => 'MCQs Pakistan, online MCQs, subject wise MCQs, topic wise MCQs, solved MCQs, practice questions, competitive exams'
             ],
 
             'papers' => [
-                'title' => 'Past Papers & Practice Tests for Competitive Exams | PAKQUIZ',
-                'description' => 'Explore solved past papers and practice tests for FPSC, PPSC, NTS, and other competitive exams in Pakistan.',
-                'keywords' => 'past papers Pakistan, FPSC papers, PPSC papers, NTS papers, solved papers, competitive exams Pakistan'
+                'title' => 'Solved Past Papers & Practice Tests for Competitive Exams',
+                'description' => 'Access solved past papers and practice tests for FPSC, PPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.',
+                'keywords' => 'past papers Pakistan, FPSC past papers, PPSC papers, NTS papers, solved papers, competitive exams preparation'
             ],
 
             'subjects' => [
-                'title' => 'Subjects & Topics for Exam Preparation | PAKQUIZ',
-                'description' => 'Browse exam subjects and topics with well-structured MCQs to strengthen your concepts and improve exam performance.',
-                'keywords' => 'exam subjects, test preparation subjects, general knowledge, current affairs, everyday science, English MCQs'
+                'title' => 'Exam Subjects & Topics for MCQs Practice',
+                'description' => 'Explore exam subjects and detailed topics with structured MCQs to improve concepts and score higher in competitive exams.',
+                'keywords' => 'exam subjects, MCQs subjects, general knowledge MCQs, current affairs MCQs, everyday science, English MCQs'
             ],
 
             'testing-services' => [
-                'title' => 'Testing Services & Exam Preparation | PAKQUIZ',
-                'description' => 'Prepare for FPSC, PPSC, NTS, CSS, PMS, and other testing services in Pakistan with updated MCQs and practice papers.',
-                'keywords' => 'FPSC, PPSC, NTS, CSS, PMS, testing services Pakistan, exam preparation'
+                'title' => 'Testing Services Preparation – FPSC, PPSC, NTS, CSS',
+                'description' => 'Prepare for FPSC, PPSC, NTS, CSS, PMS, and other testing services in Pakistan with updated MCQs and solved papers.',
+                'keywords' => 'testing services Pakistan, FPSC, PPSC, NTS, CSS, PMS, government testing services'
+            ],
+
+            /* -------------------- TRUST & SUPPORT PAGES -------------------- */
+
+            'help-centre' => [
+                'title' => 'Help Centre & FAQs',
+                'description' => 'Find answers to common questions about MCQs practice, past papers, accounts, and exam preparation on PAKQUIZ.',
+                'keywords' => 'PAKQUIZ help centre, FAQs, exam preparation help, MCQs support'
+            ],
+
+            'about-us' => [
+                'title' => 'About PAKQUIZ – Pakistan’s Online Exam Preparation Platform',
+                'description' => 'Learn about PAKQUIZ, our mission, and how we help students and job seekers prepare for competitive exams in Pakistan.',
+                'keywords' => 'about PAKQUIZ, exam preparation platform Pakistan, online MCQs website'
+            ],
+
+            'contact-us' => [
+                'title' => 'Contact Us',
+                'description' => 'Contact the PAKQUIZ team for support, feedback, or partnership inquiries related to MCQs and exam preparation.',
+                'keywords' => 'contact PAKQUIZ, support, exam preparation contact'
+            ],
+
+            'privacy-policy' => [
+                'title' => 'Privacy Policy',
+                'description' => 'Read how PAKQUIZ collects, uses, and protects your personal information while using our exam preparation services.',
+                'keywords' => 'privacy policy, data protection, user privacy, PAKQUIZ privacy'
+            ],
+
+            'terms-of-service' => [
+                'title' => 'Terms of Service',
+                'description' => 'Review the terms and conditions for using PAKQUIZ’s MCQs, past papers, and exam preparation services.',
+                'keywords' => 'terms of service, terms and conditions, PAKQUIZ terms'
             ],
 
         ];
+
 
         foreach ($pages as $key => $data) {
             Page::updateOrCreate(

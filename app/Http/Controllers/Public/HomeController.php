@@ -24,8 +24,6 @@ class HomeController extends Controller
             return [
 
                 'canRegister' => Features::enabled(Features::registration()),
-                // load the page with its seo relation and pass the SeoMeta (or null) to the view
-                'pageSeo' => optional(Page::where('key', 'home')->with('seo')->first())->seo,
 
                 'departments' => Department::query()
                     ->select('id', 'name', 'slug')
