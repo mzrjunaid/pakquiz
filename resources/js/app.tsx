@@ -6,12 +6,10 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { initializeTheme } from './hooks/use-appearance';
 
-const appName =
-    import.meta.env.VITE_APP_NAME ||
-    'Pak Quiz - AI Powered Learning (Job & Test Preparation)';
+const appName = import.meta.env.VITE_APP_NAME || 'Pak Quiz';
 
 createInertiaApp({
-    title: (title) => (title ? `${title} | ${appName}` : appName),
+    title: (title) => (title ? `${title} - ${appName}` : appName),
     resolve: (name) =>
         resolvePageComponent(
             `./pages/${name}.tsx`,

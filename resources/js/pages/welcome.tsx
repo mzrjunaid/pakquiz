@@ -86,6 +86,7 @@ export default function Welcome({
                     {JSON.stringify(homepageSchema)}
                 </script>
             </Head>
+
             <pre>{JSON.stringify(seo, null, 2)}</pre>
             <pre>{JSON.stringify(pageSeo, null, 2)}</pre>
             <pre>{JSON.stringify(latestPapers, null, 2)}</pre>

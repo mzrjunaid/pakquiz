@@ -55,4 +55,40 @@ class HomeController extends Controller
 
         return Inertia::render('welcome', $data);
     }
+
+
+
+
+    /**
+     * Display contact us Page
+     */
+    public function contact_us()
+    {
+        return Inertia::render('public/contact-us/index');
+    }
+
+    /**
+     * Display Privacy Policy Page
+     */
+    public function privacy_policy()
+    {
+        return Inertia::render('public/privacy-policy/index');
+    }
+
+
+    /**
+     * Display Privacy Policy Page
+     */
+    public function terms_of_service()
+    {
+        return Inertia::render('public/terms-of-service/index');
+    }
+
+    /**
+     * Display Privacy Policy Page
+     */
+    public function help_center()
+    {
+        return Inertia::render('public/help-center/index');
+    }
 }

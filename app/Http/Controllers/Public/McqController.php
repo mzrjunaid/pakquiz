@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Models\Mcq;
+use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class McqController extends Controller
 {
@@ -13,15 +15,21 @@ class McqController extends Controller
      */
     public function index()
     {
-        //
+        $query = Mcq::query();
+        $mcqs = $query->paginate(10); // Paginate the results, 10 per page
+        return Inertia::render('public/mcqs/index', [
+            'mcqs' => $mcqs,
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(Mcq $mcq)
+    public function show(Request $request, Mcq $mcq)
     {
-        //
+        return Inertia::render('public/mcqs/show', [
+            'mcq' => $mcq,
+            'seo' => app(SeoResolver::class)->resolve($request, $mcq),
+        ]);
     }
-
 }

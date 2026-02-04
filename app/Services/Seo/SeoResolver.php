@@ -10,26 +10,50 @@ class SeoResolver
 {
     public function resolve(Request $request, $model = null): array
     {
-        // 1. Model-based SEO (eager loaded)
-        if ($model && $model->relationLoaded('seo')) {
+        // 1. Model SEO (already eager loaded)
+        if ($model && $model->relationLoaded('seo') && $model->seo) {
             return $this->format($request, $model->seo);
         }
 
-        // 2. Model-based SEO (lazy)
+        // 2. Model SEO (lazy load, only if exists)
         if ($model && method_exists($model, 'seo')) {
-            return $this->format($request, $model->seo);
+            $seo = $model->seo()->first();
+
+            if ($seo) {
+                return $this->format($request, $seo);
+            }
         }
 
-        // 3. Page-based SEO (route name)
-        if ($routeName = $request->route()?->getName()) {
-            $seo = optional(
-                Page::where('key', $routeName)->with('seo')->first()
-            )->seo;
+        // 3. Page SEO (route-based)
+        $routeName = $request->route()?->getName();
 
-            return $this->format($request, $seo);
+        // dd($routeName);
+
+        // route should only explode if it's more than 2 parts
+        if (count(explode('.', $routeName)) > 2) {
+            $routeName = explode('.', $routeName)[1];
         }
 
-        // 4. Fallback
+        // dd($routeName);
+
+
+
+        // Should we check for route prefix?
+
+        if ($routeName) {
+            $page = Page::query()
+                ->where('key', $routeName)
+                ->with('seo')
+                ->first();
+
+            // dd($page);
+            if ($page && $page->seo) {
+
+                return $this->format($request, $page->seo);
+            }
+        }
+
+        // 4. Final fallback
         return $this->default($request);
     }
 
@@ -54,7 +78,6 @@ class SeoResolver
 
             'og_image'         => $seo?->og_image,
 
-            // ✅ Canonical injected here
             'canonical'        => $this->resolveCanonical($request),
         ];
     }
@@ -63,7 +86,7 @@ class SeoResolver
     {
         $url = $request->url();
 
-        // Allow pagination canonical
+        // Pagination-safe canonical
         if ($request->has('page')) {
             return $url . '?page=' . $request->integer('page');
         }

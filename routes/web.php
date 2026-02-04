@@ -54,6 +54,11 @@ use App\Http\Controllers\Public\{
 };
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
+Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
+Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('terms-of-service');
+Route::get('/help-center', [HomeController::class, 'help_center'])->name('help-center');
+Route::post('/set-mcq-mode', [HomeController::class, 'setMcqMode'])->name('set-mcq-mode');
 
 Route::name('public.')->group(function () {
 
@@ -71,6 +76,7 @@ Route::name('public.')->group(function () {
 
     Route::get('/subjects', [PublicSubjectController::class, 'index'])->name('subjects.index'); // optional
     Route::get('/subjects/{subject:slug}', [PublicSubjectController::class, 'show'])->name('subjects.show');
+    Route::get('/subjects/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic');
 
     Route::get('/papers', [PublicPaperController::class, 'index'])->name('papers.index'); // optional
     Route::get('/papers/{paper:slug}', [PublicPaperController::class, 'show'])->name('papers.show');

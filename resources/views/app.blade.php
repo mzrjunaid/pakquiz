@@ -35,6 +35,7 @@
 
     <title inertia>{{ $page['props']['seo']['title'] ?? config('app.name') }}</title>
 
+    {{-- ✅ Basic SEO --}}
     <meta name="description"
         content="{{ $page['props']['seo']['description']
           ?? 'Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan.' }}">
@@ -89,13 +90,17 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-    <link rel="preconnect" href="https://fonts.bunny.net" />
-    <link href="https://fonts.bunny.net/css?family=instrument-sans:400,500,600" rel="stylesheet" />
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <meta name="theme-color" content="#ffffff">
+
     <link
-        href="https://fonts.googleapis.com/css2?family=Noto+Nastaliq+Urdu:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet" />
+        rel="preload"
+        href="{{ asset('fonts/woff2/NotoNastaliqUrdu.woff2') }}"
+        as="font"
+        type="font/woff2"
+        crossorigin />
+
 
     @viteReactRefresh
     @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
