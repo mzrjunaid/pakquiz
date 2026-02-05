@@ -3,12 +3,16 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqResource;
+use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Page;
 use App\Models\Paper;
 use App\Models\Subject;
+use App\Models\Tag;
 use App\Models\Topic;
+use App\Models\User;
 use Illuminate\Support\Facades\Cache;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
@@ -22,7 +26,6 @@ class HomeController extends Controller
     {
         $data = Cache::remember('home_page_data', now()->addSecond(), function () {
             return [
-
                 'canRegister' => Features::enabled(Features::registration()),
 
                 'departments' => Department::query()
@@ -49,7 +52,16 @@ class HomeController extends Controller
                     ->limit(6)
                     ->get(),
 
-                'latestMcqs' => Mcq::latestWithOptions()->get(),
+                'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->get()),
+                'stats' => [
+                    'mcqs' => Mcq::count(),
+                    'papers' => Paper::count(),
+                    'subjects' => Subject::count(),
+                    'topics' => Topic::count(),
+                    'departments' => Department::count(),
+                    'tags' => Tag::count(),
+                    'users' => User::count(),
+                ],
             ];
         });
 
@@ -58,6 +70,14 @@ class HomeController extends Controller
 
 
 
+
+    /**
+     * Display About us Page
+     */
+    public function about_us()
+    {
+        return Inertia::render('public/about-us/index');
+    }
 
     /**
      * Display contact us Page

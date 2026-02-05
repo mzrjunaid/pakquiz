@@ -1,23 +1,18 @@
 import AppLayout from '@/layouts/app-layout';
 import { breadcrumb } from '@/lib/breadcrumbs-utils';
 import { type SharedData } from '@/types';
+import { HomeProps } from '@/types/public/home';
 import { Head, usePage } from '@inertiajs/react';
+import HeroSection from './public/homepage/components/HeroSection';
 
 export default function Welcome({
     canRegister = true,
     seo,
-    pageSeo,
     subjects,
     latestPapers,
+    stats,
     latestMcqs,
-}: {
-    canRegister?: boolean;
-    seo: any;
-    pageSeo: any;
-    subjects: any;
-    latestPapers: any;
-    latestMcqs: any;
-}) {
+}: HomeProps) {
     const { auth } = usePage<SharedData>().props;
     const { url } = usePage();
     const breadcrumbs = breadcrumb(url);
@@ -86,12 +81,13 @@ export default function Welcome({
                     {JSON.stringify(homepageSchema)}
                 </script>
             </Head>
-
-            <pre>{JSON.stringify(seo, null, 2)}</pre>
-            <pre>{JSON.stringify(pageSeo, null, 2)}</pre>
-            <pre>{JSON.stringify(latestPapers, null, 2)}</pre>
-            <pre>{JSON.stringify(subjects, null, 2)}</pre>
-            <pre>{JSON.stringify(latestMcqs, null, 2)}</pre>
+            <HeroSection sampleMcqs={latestMcqs} stats={stats} />
+            <pre>
+                {/* {JSON.stringify(seo, null, 2)} */}
+                {/* {JSON.stringify(subjects, null, 2)} */}
+                {/* {JSON.stringify(latestPapers, null, 2)} */}
+                {JSON.stringify(latestMcqs, null, 2)}
+            </pre>
         </AppLayout>
     );
 }

@@ -35,7 +35,7 @@ class PageSeeder extends Seeder
                 'keywords' => 'exam subjects, MCQs subjects, general knowledge MCQs, current affairs MCQs, everyday science, English MCQs'
             ],
 
-            'testing-services' => [
+            'testingServices' => [
                 'title' => 'Testing Services Preparation – FPSC, PPSC, NTS, CSS',
                 'description' => 'Prepare for FPSC, PPSC, NTS, CSS, PMS, and other testing services in Pakistan with updated MCQs and solved papers.',
                 'keywords' => 'testing services Pakistan, FPSC, PPSC, NTS, CSS, PMS, government testing services'
@@ -43,31 +43,31 @@ class PageSeeder extends Seeder
 
             /* -------------------- TRUST & SUPPORT PAGES -------------------- */
 
-            'help-centre' => [
+            'helpCentre' => [
                 'title' => 'Help Centre & FAQs',
                 'description' => 'Find answers to common questions about MCQs practice, past papers, accounts, and exam preparation on PAKQUIZ.',
                 'keywords' => 'PAKQUIZ help centre, FAQs, exam preparation help, MCQs support'
             ],
 
-            'about-us' => [
+            'aboutUs' => [
                 'title' => 'About PAKQUIZ – Pakistan’s Online Exam Preparation Platform',
                 'description' => 'Learn about PAKQUIZ, our mission, and how we help students and job seekers prepare for competitive exams in Pakistan.',
                 'keywords' => 'about PAKQUIZ, exam preparation platform Pakistan, online MCQs website'
             ],
 
-            'contact-us' => [
+            'contactUs' => [
                 'title' => 'Contact Us',
                 'description' => 'Contact the PAKQUIZ team for support, feedback, or partnership inquiries related to MCQs and exam preparation.',
                 'keywords' => 'contact PAKQUIZ, support, exam preparation contact'
             ],
 
-            'privacy-policy' => [
+            'privacyPolicy' => [
                 'title' => 'Privacy Policy',
                 'description' => 'Read how PAKQUIZ collects, uses, and protects your personal information while using our exam preparation services.',
                 'keywords' => 'privacy policy, data protection, user privacy, PAKQUIZ privacy'
             ],
 
-            'terms-of-service' => [
+            'termsOfService' => [
                 'title' => 'Terms of Service',
                 'description' => 'Review the terms and conditions for using PAKQUIZ’s MCQs, past papers, and exam preparation services.',
                 'keywords' => 'terms of service, terms and conditions, PAKQUIZ terms'

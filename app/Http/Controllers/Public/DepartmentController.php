@@ -29,7 +29,7 @@ class DepartmentController extends Controller
     {
         return Inertia::render('public/departments/show', [
             'department' => $department,
-            'seo' => app(SeoResolver::class)->resolve($request, $department),
+            // 'seo' => app(SeoResolver::class)->resolve($request, $department),
         ]);
     }
 }

@@ -54,11 +54,12 @@ use App\Http\Controllers\Public\{
 };
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contact-us');
-Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacy-policy');
-Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('terms-of-service');
-Route::get('/help-center', [HomeController::class, 'help_center'])->name('help-center');
-Route::post('/set-mcq-mode', [HomeController::class, 'setMcqMode'])->name('set-mcq-mode');
+Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
+Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');
+Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
+Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
+Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');
+Route::post('/set-mcq-mode', [HomeController::class, 'setMcqMode'])->name('McqMode');
 
 Route::name('public.')->group(function () {
 
@@ -68,20 +69,18 @@ Route::name('public.')->group(function () {
     Route::get('/departments', [PublicDepartmentController::class, 'index'])->name('departments.index');
     Route::get('/departments/{department:slug}', [PublicDepartmentController::class, 'show'])->name('departments.show');
 
-    Route::get('/testing-services', [PublicTestingServiceController::class, 'index'])->name('testing-services.index');
-    Route::get('/testing-services/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('testing-services.show');
+    Route::get('/testing-services', [PublicTestingServiceController::class, 'index'])->name('testingServices.index');
+    Route::get('/testing-services/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('testingServices.show');
 
     Route::get('/mcqs', [PublicMcqController::class, 'index'])->name('mcqs.index');
     Route::get('/mcqs/{mcq:slug}', [PublicMcqController::class, 'show'])->name('mcqs.show');
 
     Route::get('/subjects', [PublicSubjectController::class, 'index'])->name('subjects.index'); // optional
     Route::get('/subjects/{subject:slug}', [PublicSubjectController::class, 'show'])->name('subjects.show');
-    Route::get('/subjects/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic');
+    Route::get('/subjects/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic.show');
 
     Route::get('/papers', [PublicPaperController::class, 'index'])->name('papers.index'); // optional
     Route::get('/papers/{paper:slug}', [PublicPaperController::class, 'show'])->name('papers.show');
-
-    Route::get('/topics/{topic:slug}', [PublicTopicController::class, 'show'])->name('topics.show'); // if used
 
     Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
 });

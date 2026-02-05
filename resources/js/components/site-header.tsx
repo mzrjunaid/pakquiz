@@ -1,0 +1,94 @@
+import { useInitials } from '@/hooks/use-initials';
+import { useIsMobile } from '@/hooks/use-mobile';
+import { SharedData } from '@/types';
+import { Link, router, usePage } from '@inertiajs/react';
+import { ChevronsUpDown, UserCircle2 } from 'lucide-react';
+import AppLogo from './app-logo';
+// import AppMode from './app-mode';
+import { home } from '@/routes';
+import { PublicNavigationMenu } from './public-nav';
+import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
+import { Button } from './ui/button';
+import {
+    DropdownMenu,
+    DropdownMenuContent,
+    DropdownMenuTrigger,
+} from './ui/dropdown-menu';
+import { SidebarMenuButton, SidebarTrigger } from './ui/sidebar';
+import { UserMenuContent } from './user-menu-content';
+
+export default function PublicHeader() {
+    const { auth } = usePage<SharedData>().props;
+    const isMobile = useIsMobile();
+    const getInitials = useInitials();
+    return (
+        <nav className="sticky top-0 right-0 left-0 z-50 border-b shadow-sm backdrop-blur-lg">
+            <div className="mx-auto flex max-w-7xl items-center justify-between py-2 sm:px-6 lg:px-8">
+                {/* Mobile Sidebar Trigger */}
+                <SidebarTrigger className="ms-4 flex items-center transition-all md:left-0 xl:absolute" />
+                {/* Site Logo */}
+                <div className="flex items-center">
+                    <Link
+                        href={home()}
+                        prefetch
+                        // className="flex justify-center hover:bg-transparent"
+                    >
+                        <AppLogo className="h-12 object-contain" />
+                    </Link>
+                </div>
+                {/* Navigation Menu */}
+                <PublicNavigationMenu />
+                <div className="me-4 flex items-center space-x-4">
+                    {auth.user ? (
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <SidebarMenuButton
+                                    size="lg"
+                                    className="focus-visible:ring-0"
+                                >
+                                    <Avatar className="h-8 w-8 overflow-hidden rounded-full">
+                                        <AvatarImage
+                                            src={auth.user.avatar}
+                                            alt={auth.user.name}
+                                        />
+                                        <AvatarFallback className="rounded-lg bg-muted/35">
+                                            {getInitials(auth.user.name)}
+                                        </AvatarFallback>
+                                    </Avatar>
+                                    {!isMobile && (
+                                        <>
+                                            <div className="grid flex-1 text-left text-sm leading-tight">
+                                                <span className="truncate font-medium">
+                                                    {auth.user.name}
+                                                </span>
+                                            </div>
+                                            <ChevronsUpDown className="ml-auto size-4" />
+                                        </>
+                                    )}
+                                </SidebarMenuButton>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent
+                                className="w-(--radix-dropdown-menu-trigger-width) min-w-56 rounded-lg"
+                                align="end"
+                                side="bottom"
+                            >
+                                <UserMenuContent user={auth.user} />
+                            </DropdownMenuContent>
+                        </DropdownMenu>
+                    ) : (
+                        <Button
+                            variant="link"
+                            size="icon"
+                            className="size-6 text-foreground md:block"
+                            onClick={() => router.visit('/login')}
+                            asChild
+                        >
+                            <UserCircle2 />
+                        </Button>
+                    )}
+                    {/* {!isMobile && <AppMode />} */}
+                </div>
+            </div>
+        </nav>
+    );
+}

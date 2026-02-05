@@ -4,10 +4,12 @@ import { Head } from '@inertiajs/react';
 const TopicsPage = ({
     subject,
     topic,
+    mcqs,
     seo,
 }: {
     subject: any;
     topic: any;
+    mcqs: any;
     seo: any;
 }) => {
     return (
@@ -16,6 +18,7 @@ const TopicsPage = ({
             <pre>{JSON.stringify(seo, null, 2)}</pre>
             <pre>{JSON.stringify(subject, null, 2)}</pre>
             <pre>{JSON.stringify(topic, null, 2)}</pre>
+            <pre>{JSON.stringify(mcqs, null, 2)}</pre>
         </AppLayout>
     );
 };

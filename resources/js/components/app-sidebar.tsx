@@ -11,11 +11,8 @@ import {
     SidebarMenuItem,
 } from '@/components/ui/sidebar';
 
-import {
-    adminFooterNavItems,
-    adminMainNavItems,
-    publicMainNavItems,
-} from '@/config/navigation';
+import { adminFooterNavItems, adminMainNavItems } from '@/config/navigation';
+import { publicMainNavItems } from '@/config/public-navigation';
 import { home } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import { SharedData } from '@/types';
@@ -26,8 +23,12 @@ export function AppSidebar() {
     const { auth } = usePage<SharedData>().props;
     const { url } = usePage();
     const homepage = url.includes('admin') ? dashboard() : home();
+    const isDashboard = url === dashboard().url;
     return (
-        <Sidebar collapsible="icon" variant="sidebar">
+        <Sidebar
+            collapsible={isDashboard ? 'icon' : 'offcanvas'}
+            variant="sidebar"
+        >
             <SidebarHeader>
                 <SidebarMenu>
                     <SidebarMenuItem>

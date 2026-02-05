@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Http\Resources\McqResource;
 use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -90,11 +91,16 @@ class Mcq extends Model
     public function scopeLatestWithOptions($query, int $limit = 10)
     {
         return $query
-            ->select('id', 'question', 'slug')
+            ->select('id', 'paper_id', 'subject_id', 'topic_id', 'question', 'slug', 'difficulty', 'mcq_type', 'created_by')
+            ->where('is_active', true)
             ->latest()
             ->with([
                 'options:id,mcq_id,option_text,is_correct',
-                'tags:id,name,slug' // select only id and name from tags
+                'tags:id,name,slug',
+                'paper:id,name,slug',
+                'subject:id,name,slug',
+                'topic:id,name,slug',
+                'createdBy:id,name',
             ])
             ->limit($limit);
     }

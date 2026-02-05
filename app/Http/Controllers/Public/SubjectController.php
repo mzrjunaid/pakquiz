@@ -3,6 +3,10 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Paper\McqResource;
+use App\Http\Resources\Public\Paper\PaperResource;
+use App\Http\Resources\Public\Subject\SubjectResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Services\Seo\SeoResolver;
@@ -26,11 +30,42 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      */
+    // 'seo' => app(SeoResolver::class)->resolve($request, $subject),
     public function show(Request $request, Subject $subject)
     {
+        // Load subject relations (lightweight)
+        $subject->load([
+            'tags:id,name,slug',
+        ]);
+
+        // Subject MCQs (paginated & optimized)
+        $mcqs = $subject->mcqs()
+            ->select('id', 'question', 'slug', 'subject_id')
+            ->with([
+                'tags:id,name,slug',
+                'topic:id,name,slug',
+            ])
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        // dd($mcqs);
+
+        // Subject Papers (paginated & optimized)
+        $papers = $subject->papers()
+            ->select('id', 'title', 'slug', 'subject_id')
+            ->with([
+                'tags:id,name,slug',
+                'department:id,name,slug',
+            ])
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         return Inertia::render('public/subjects/show', [
-            'subject' => $subject,
-            'seo' => app(SeoResolver::class)->resolve($request, $subject),
+            'subject' => new SubjectResource($subject),
+            'mcqs'    => McqResource::collection($mcqs),
+            'papers'  =>  PaperResource::collection($papers),
         ]);
     }
 
@@ -39,10 +74,29 @@ class SubjectController extends Controller
      */
     public function topic(Request $request, Subject $subject, Topic $topic)
     {
+        // Load topic relations (lightweight)
+        $topic->load([
+            'tags:id,name,slug',
+        ]);
+
+        // Paginated MCQs (CRITICAL)
+        $mcqs = $topic->mcqs()
+            ->select('id', 'paper_id', 'question', 'slug', 'subject_id', 'topic_id', 'created_by', 'created_at')
+            ->with([
+                'subject:id,name,slug',
+                'topic:id,name,slug',
+                'createdBy:id,name',
+                'tags:id,name,slug',
+            ])
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
         return Inertia::render('public/topics/show', [
             'subject' => $subject,
             'topic' => $topic,
-            'seo' => app(SeoResolver::class)->resolve($request, $topic),
+            'mcqs'  => McqResource::collection($mcqs),
+            // 'seo' => app(SeoResolver::class)->resolve($request, $topic),
         ]);
     }
 }

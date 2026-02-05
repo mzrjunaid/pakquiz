@@ -1,30 +1,19 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Mcqs } from '@/types';
+import { mapStatsToUi } from '@/lib/map-stats-to-ui';
+import { Stats } from '@/types/public/home';
+import { Mcq } from '@/types/public/mcq';
 import { router } from '@inertiajs/react';
-import { Bot, Eye, LucideIcon, Play } from 'lucide-react';
-import HeroMcqPreview from './HeroMcqCard';
+import { Bot, Eye, Play } from 'lucide-react';
 
-// interface MCQ {
-//     id: string | number;
-//     question: string;
-//     options: string[];
-//     correctAnswer: number;
-//     subject: string;
-//     difficulty: string;
-//     views: number;
-//     aiEnhanced: boolean;
-//     tags: string[];
-//     explanation?: string;
-//     testService: string;
-// }
 interface Props {
-    stats: { number: string; label: string; icon: LucideIcon }[];
-    sampleMCQs: Mcqs[];
+    stats: Stats;
+    sampleMCQs: Mcq[];
     currentMCQ: number;
 }
 
-export default function HeroSection({ stats, currentMCQ, sampleMCQs }: Props) {
+export default function HeroSection({ stats, sampleMCQs }: Props) {
+    const uiStats = mapStatsToUi(stats);
     return (
         <section className="px-4 pt-6 pb-12 sm:px-6 md:pt-12 lg:px-8">
             <div className="mx-auto max-w-7xl">
@@ -37,12 +26,15 @@ export default function HeroSection({ stats, currentMCQ, sampleMCQs }: Props) {
 
                         <h1 className="mb-6 text-3xl leading-tight font-bold text-foreground md:text-5xl lg:text-6xl">
                             Master MCQs with
-                            <span className="block text-muted-foreground/65">Intelligent Practice</span>
+                            <span className="block text-muted-foreground/65">
+                                Intelligent Practice
+                            </span>
                         </h1>
 
                         <p className="mb-8 text-sm leading-relaxed md:text-xl">
-                            Access thousands of AI-enhanced multiple choice questions across subjects, jobs, and testing services. Practice smarter,
-                            not harder.
+                            Access thousands of AI-enhanced multiple choice
+                            questions across subjects, jobs, and testing
+                            services. Practice smarter, not harder.
                         </p>
 
                         <div className="mb-8 flex flex-col space-y-4 sm:flex-row sm:space-y-0 sm:space-x-4">
@@ -67,7 +59,7 @@ export default function HeroSection({ stats, currentMCQ, sampleMCQs }: Props) {
                         </div>
 
                         <div className="grid grid-cols-2 gap-6">
-                            {stats.slice(0, 2).map((stat, index) => (
+                            {uiStats.slice(0, 2).map((stat, index) => (
                                 <div
                                     key={index}
                                     // className="flex items-center rounded-lg border border-accent bg-card p-4 text-center text-card-foreground shadow-xl dark:border-white/20 dark:bg-white/20"
@@ -77,15 +69,22 @@ export default function HeroSection({ stats, currentMCQ, sampleMCQs }: Props) {
                                         <stat.icon className="h-6 w-6" />
                                     </div>
                                     <div className="w-full">
-                                        <div className="font-bold md:text-xl">{stat.number}</div>
-                                        <div className="text-xs md:text-sm">{stat.label}</div>
+                                        <div className="font-bold md:text-xl">
+                                            {stat.number}
+                                        </div>
+                                        <div className="text-xs md:text-sm">
+                                            {stat.label}
+                                        </div>
                                     </div>
                                 </div>
                             ))}
                         </div>
                     </div>
 
-                    <HeroMcqPreview currentMCQ={currentMCQ} sampleMCQs={sampleMCQs} />
+                    {/* <HeroMcqPreview
+                        currentMCQ={currentMCQ}
+                        sampleMCQs={sampleMCQs}
+                    /> */}
                 </div>
             </div>
         </section>

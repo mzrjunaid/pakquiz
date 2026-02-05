@@ -1,4 +1,3 @@
-import { home } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
@@ -8,12 +7,9 @@ import subjects from '@/routes/admin/subjects';
 import testingServices from '@/routes/admin/testing-services';
 import { type NavItem, type NavItems } from '@/types';
 import {
-    BookOpen,
     Building,
     Clipboard,
     FileBox,
-    Folder,
-    Home,
     LayoutGrid,
     Paperclip,
     ShieldQuestion,
@@ -100,34 +96,5 @@ export const adminFooterNavItems: NavItem[] = [
         title: 'Trash Bin',
         href: '#',
         icon: Trash,
-    },
-];
-
-export const publicMainNavItems: NavItems[] = [
-    {
-        title: 'Homepage',
-        href: home(),
-        icon: Home,
-    },
-];
-
-export const generalNavItems: NavItem[] = [
-    { title: 'Help Center', href: '/help-center' },
-    { title: 'Contact Us', href: '/contact-us' },
-    { title: 'Privacy Policy', href: '/privacy-policy' },
-    { title: 'Terms of Service', href: '/terms-of-service' },
-    { title: 'Join Us', href: '/join-us' },
-];
-
-export const footerNavItems: NavItem[] = [
-    {
-        title: 'Repository',
-        href: 'https://github.com/laravel/react-starter-kit',
-        icon: Folder,
-    },
-    {
-        title: 'Documentation',
-        href: 'https://laravel.com/docs/starter-kits#react',
-        icon: BookOpen,
     },
 ];
