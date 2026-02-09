@@ -80,6 +80,14 @@ class HomeController extends Controller
     }
 
     /**
+     * Display About us Page
+     */
+    public function join_us()
+    {
+        return Inertia::render('public/join-us/index');
+    }
+
+    /**
      * Display contact us Page
      */
     public function contact_us()

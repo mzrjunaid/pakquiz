@@ -1,10 +1,11 @@
 import { LucideIcon } from 'lucide-react';
+import { Seo } from '..';
 import { Mcq } from './mcq';
 
 export interface HomeProps {
     stats: Stats;
     canRegister?: boolean;
-    seo: any;
+    seo: Seo;
     subjects: any;
     latestPapers: any;
     latestMcqs: {

@@ -53,7 +53,7 @@ const McqMeta = ({
 };
 
 const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
-    const mcqMode = false;
+    const isQuizMode = false;
 
     const [selectedOptionId, setSelectedOptionId] = useState<number | null>(
         null,
@@ -64,9 +64,11 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
     const correctOption = mcq.options.find((o) => o.is_correct);
 
     const isCorrect = wasAnswered && selectedOptionId === correctOption?.id;
+    const showAnswers = !isQuizMode || wasAnswered;
 
     const handleOptionSelect = (optionId: number) => {
-        if (wasAnswered) return;
+        if (!isQuizMode) return; // ⛔ Study mode → no selection
+        if (wasAnswered) return; // ⛔ Already answered
         setSelectedOptionId(optionId);
     };
 
@@ -102,12 +104,12 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                     <Badge
                         variant="outline"
                         className={
-                            mcqMode
+                            isQuizMode
                                 ? 'border-red-400 text-red-500'
                                 : 'border-success text-success'
                         }
                     >
-                        {mcqMode ? '📝 Quiz' : '📖 Study'}
+                        {isQuizMode ? '📝 Quiz' : '📖 Study'}
                     </Badge>
                     {mcq.difficulty && (
                         <Badge
@@ -133,7 +135,8 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
 
                         <div className="grid gap-2 md:grid-cols-2 lg:gap-3">
                             {mcq.options.map((opt, optIdx) => {
-                                const isSelected = selectedOptionId === opt.id;
+                                const isSelected =
+                                    selectedOptionId === opt.id && wasAnswered;
 
                                 return (
                                     <button
@@ -141,9 +144,9 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                         onClick={() =>
                                             handleOptionSelect(opt.id)
                                         }
-                                        disabled={wasAnswered}
-                                        className={`w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base ${
-                                            opt.is_correct && wasAnswered
+                                        disabled={!isQuizMode || wasAnswered}
+                                        className={`w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base ${!isQuizMode ? 'cursor-not-allowed opacity-85' : 'cursor-pointer'} ${
+                                            opt.is_correct && showAnswers
                                                 ? 'border-green-500 bg-green-50'
                                                 : isSelected
                                                   ? 'border-destructive bg-red-50'
@@ -160,13 +163,13 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
 
                                             <span>{opt.option_text}</span>
 
-                                            {opt.is_correct && wasAnswered && (
+                                            {opt.is_correct && showAnswers && (
                                                 <span className="ml-auto text-xs font-semibold text-green-600">
                                                     ✓ Correct
                                                 </span>
                                             )}
 
-                                            {isSelected &&
+                                            {selectedOptionId === opt.id &&
                                                 wasAnswered &&
                                                 !opt.is_correct && (
                                                     <span className="ml-auto text-xs font-semibold text-destructive">
@@ -179,13 +182,19 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                             })}
                         </div>
 
-                        {!wasAnswered && (
+                        {isQuizMode && !wasAnswered && (
                             <p className="mt-3 text-sm text-gray-600 italic">
                                 Select an option
                             </p>
                         )}
 
-                        {wasAnswered && mcq.explanation && (
+                        {!isQuizMode && (
+                            <p className="mt-3 text-sm text-gray-500 italic">
+                                Study mode enabled — answers are disabled
+                            </p>
+                        )}
+
+                        {showAnswers && mcq.explanation && (
                             <Accordion
                                 type="single"
                                 collapsible

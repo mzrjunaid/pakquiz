@@ -4,6 +4,7 @@ import {
     demo,
     helpCenter,
     home,
+    joinUs,
     privacyPolicy,
     termsOfService,
 } from '@/routes';
@@ -29,6 +30,10 @@ export const generalNavItems: NavItem[] = [
         href: contactUs(),
     },
     {
+        title: 'Help Center',
+        href: helpCenter(),
+    },
+    {
         title: 'Privacy Policy',
         href: privacyPolicy(),
     },
@@ -38,7 +43,37 @@ export const generalNavItems: NavItem[] = [
     },
     {
         title: 'Join Us',
-        href: helpCenter(),
+        href: joinUs(),
+    },
+];
+
+export const subjectsNavItems: NavItem[] = [
+    {
+        title: 'General Knowledge',
+        href: home(),
+    },
+    {
+        title: 'Current Affairs',
+        href: home(),
+    },
+    {
+        title: 'Reasoning',
+        href: home(),
+    },
+];
+
+export const papersNavItems: NavItem[] = [
+    {
+        title: 'Latest Papers',
+        href: home(),
+    },
+    {
+        title: 'Past Papers',
+        href: home(),
+    },
+    {
+        title: 'Upcoming Papers',
+        href: home(),
     },
 ];
 
@@ -52,11 +87,13 @@ export const publicMainNavItems: NavItems[] = [
         title: 'Subjects',
         href: subjects.index(),
         icon: FileBox,
+        subItems: subjectsNavItems,
     },
     {
         title: 'Papers',
         href: papers.index(),
         icon: Clipboard,
+        subItems: papersNavItems,
     },
     {
         title: 'About Us',

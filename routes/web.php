@@ -58,6 +58,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');
+Route::get('/join-us', [HomeController::class, 'join_us'])->name('joinUs');
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
 Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
 Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');

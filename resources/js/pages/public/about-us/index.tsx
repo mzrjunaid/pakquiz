@@ -1,12 +1,13 @@
 import AppLayout from '@/layouts/app-layout';
+import { Seo } from '@/types';
 import { Head } from '@inertiajs/react';
+import AboutPakQuiz from './components/about-us-page';
 
-const AboutUs = ({ seo }: { seo: any }) => {
+const AboutUs = ({ seo }: { seo: Seo }) => {
     return (
         <AppLayout>
             <Head title={seo.title}></Head>
-            <h1>Contact Us</h1>
-            <pre>{JSON.stringify(seo, null, 2)}</pre>
+            <AboutPakQuiz />
         </AppLayout>
     );
 };

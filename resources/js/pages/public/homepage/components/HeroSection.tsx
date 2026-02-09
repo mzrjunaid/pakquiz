@@ -96,10 +96,6 @@ export default function HeroSection({ stats, mcq }: Props) {
                         idx={currentMCQ}
                         key={currentMCQ}
                     />
-                    {/* <HeroMcqPreview
-                        currentMCQ={currentMCQ}
-                        sampleMCQs={sampleMCQs}
-                    /> */}
                 </div>
             </div>
         </section>

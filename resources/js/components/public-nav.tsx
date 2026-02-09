@@ -27,7 +27,7 @@ export function PublicNavigationMenu() {
                     ) : (
                         <NavigationMenuItem key={index}>
                             <NavigationMenuTrigger>
-                                About Us
+                                {item.title}
                             </NavigationMenuTrigger>
                             <NavigationMenuContent>
                                 <ul className="grid w-[200px] gap-4">
