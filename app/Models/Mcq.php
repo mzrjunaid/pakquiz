@@ -7,6 +7,7 @@ use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Cache;
 
 class Mcq extends Model
 {
@@ -103,5 +104,16 @@ class Mcq extends Model
                 'createdBy:id,name',
             ])
             ->limit($limit);
+    }
+
+    protected static function booted()
+    {
+        static::saved(function () {
+            Cache::forget('demo_mcqs');
+        });
+
+        static::deleted(function () {
+            Cache::forget('demo_mcqs');
+        });
     }
 }

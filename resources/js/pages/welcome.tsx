@@ -81,7 +81,7 @@ export default function Welcome({
                     {JSON.stringify(homepageSchema)}
                 </script>
             </Head>
-            <HeroSection sampleMcqs={latestMcqs} stats={stats} />
+            <HeroSection mcq={latestMcqs.data} stats={stats} />
             <pre>
                 {/* {JSON.stringify(seo, null, 2)} */}
                 {/* {JSON.stringify(subjects, null, 2)} */}

@@ -7,7 +7,9 @@ export interface HomeProps {
     seo: any;
     subjects: any;
     latestPapers: any;
-    latestMcqs: Mcq[];
+    latestMcqs: {
+        data: Mcq[];
+    };
 }
 
 export interface Stats {

@@ -49,3 +49,20 @@ export interface User {
     updated_at: string;
     [key: string]: unknown; // This allows for additional properties...
 }
+
+export interface SeoKeyword {
+    id: number;
+    keyword: string;
+    created_at: string;
+    updated_at: string;
+}
+
+export interface Seo {
+    title: string;
+    description: string;
+    keywords: SeoKeyword[];
+    og_title: string;
+    og_description: string;
+    og_image: string;
+    canonical: url;
+}

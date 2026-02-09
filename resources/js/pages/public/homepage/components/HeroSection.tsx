@@ -1,3 +1,4 @@
+import McqCard from '@/components/mcq/mcq-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { mapStatsToUi } from '@/lib/map-stats-to-ui';
@@ -5,14 +6,23 @@ import { Stats } from '@/types/public/home';
 import { Mcq } from '@/types/public/mcq';
 import { router } from '@inertiajs/react';
 import { Bot, Eye, Play } from 'lucide-react';
+import { useEffect, useState } from 'react';
 
 interface Props {
     stats: Stats;
-    sampleMCQs: Mcq[];
-    currentMCQ: number;
+    mcq: Mcq[];
 }
 
-export default function HeroSection({ stats, sampleMCQs }: Props) {
+export default function HeroSection({ stats, mcq }: Props) {
+    const [currentMCQ, setCurrentMCQ] = useState(0);
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setCurrentMCQ((prev) => (prev + 1) % mcq.length);
+        }, 5000);
+        return () => clearInterval(interval);
+    }, [mcq.length]);
+
     const uiStats = mapStatsToUi(stats);
     return (
         <section className="px-4 pt-6 pb-12 sm:px-6 md:pt-12 lg:px-8">
@@ -81,6 +91,11 @@ export default function HeroSection({ stats, sampleMCQs }: Props) {
                         </div>
                     </div>
 
+                    <McqCard
+                        mcq={mcq[currentMCQ]}
+                        idx={currentMCQ}
+                        key={currentMCQ}
+                    />
                     {/* <HeroMcqPreview
                         currentMCQ={currentMCQ}
                         sampleMCQs={sampleMCQs}

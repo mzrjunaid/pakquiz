@@ -39,6 +39,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 });
 
 use App\Http\Controllers\Public\{
+    DemoController,
     HomeController,
     PremiumController,
     SearchController,
@@ -54,6 +55,7 @@ use App\Http\Controllers\Public\{
 };
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Demo\McqDemoResource;
 use App\Http\Resources\Public\Mcq\McqResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Department;
@@ -14,6 +15,7 @@ use App\Models\Tag;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
@@ -67,8 +69,6 @@ class HomeController extends Controller
 
         return Inertia::render('welcome', $data);
     }
-
-
 
 
     /**

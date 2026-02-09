@@ -1,6 +1,7 @@
 import {
     aboutUs,
     contactUs,
+    demo,
     helpCenter,
     home,
     privacyPolicy,
@@ -9,7 +10,14 @@ import {
 import papers from '@/routes/public/papers';
 import subjects from '@/routes/public/subjects';
 import { NavItem, NavItems } from '@/types';
-import { BookOpen, Clipboard, FileBox, Folder, Home } from 'lucide-react';
+import {
+    BookOpen,
+    Clipboard,
+    FileBox,
+    Folder,
+    Home,
+    NotepadText,
+} from 'lucide-react';
 
 export const generalNavItems: NavItem[] = [
     {
@@ -50,12 +58,16 @@ export const publicMainNavItems: NavItems[] = [
         href: papers.index(),
         icon: Clipboard,
     },
-
     {
         title: 'About Us',
         href: aboutUs(),
         icon: BookOpen,
         subItems: generalNavItems,
+    },
+    {
+        title: 'Demo',
+        href: demo(),
+        icon: NotepadText,
     },
 ];
 

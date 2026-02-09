@@ -35,11 +35,12 @@ class PageSeeder extends Seeder
                 'keywords' => 'exam subjects, MCQs subjects, general knowledge MCQs, current affairs MCQs, everyday science, English MCQs'
             ],
 
-            'testingServices' => [
-                'title' => 'Testing Services Preparation – FPSC, PPSC, NTS, CSS',
-                'description' => 'Prepare for FPSC, PPSC, NTS, CSS, PMS, and other testing services in Pakistan with updated MCQs and solved papers.',
-                'keywords' => 'testing services Pakistan, FPSC, PPSC, NTS, CSS, PMS, government testing services'
+            'demo' => [
+                'title' => 'Free Demo Tests for FPSC, PPSC, NTS & CSS Preparation',
+                'description' => 'Try free demo MCQ tests for FPSC, PPSC, NTS, CSS and PMS exams. Experience PakQuiz practice system before full preparation.',
+                'keywords' => 'PakQuiz, free demo tests, FPSC demo test, PPSC demo MCQs, NTS demo test, CSS demo preparation, online test demo PakQuiz'
             ],
+
 
             /* -------------------- TRUST & SUPPORT PAGES -------------------- */
 
