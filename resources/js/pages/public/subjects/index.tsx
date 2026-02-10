@@ -111,7 +111,7 @@ const SubjectsPage = () => {
                                     ))}
                                 </div>
                                 <SitePagination meta={meta} />
-                                {/* <pre>{JSON.stringify(meta, null, 2)}</pre> */}
+                                <pre>{JSON.stringify(meta, null, 2)}</pre>
                             </div>
                         </div>
 

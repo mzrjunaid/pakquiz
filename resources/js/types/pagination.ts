@@ -1,7 +1,7 @@
 export interface PaginationLink {
-    url: string | null;
+    url: string | null | undefined;
     label: string;
-    page: number | null;
+    page: number | null | undefined;
     active: boolean;
 }
 
@@ -32,7 +32,7 @@ export interface PaginationLinks {
 
 export interface PaginationMeta {
     current_page: number;
-    from: number | null;
+    from: number | null | undefined;
     last_page: number;
     links: PaginationLink[];
     path: string;

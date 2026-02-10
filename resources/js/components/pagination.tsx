@@ -18,25 +18,18 @@ import {
     SelectValue,
 } from '@/components/ui/select';
 import { PaginationMeta } from '@/types/pagination';
+import { router } from '@inertiajs/react';
 
-interface DataTablePaginationProps {
+interface PaginationProps {
     meta: PaginationMeta;
-    onPageChange: (page: number) => void;
-    onPerPageChange: (perPage: number) => void;
-    isLoading?: boolean;
 }
 
-export function SitePagination({
-    meta,
-    onPageChange,
-    onPerPageChange,
-    isLoading = false,
-}: DataTablePaginationProps) {
-    const { current_page, from, to, total, per_page, links } = meta;
+export function SitePagination({ meta }: PaginationProps) {
+    const { path, from, to, total, per_page, links } = meta;
 
     const handlePerPageChange = (value: string) => {
-        if (isLoading) return;
-        onPerPageChange(Number(value));
+        router.visit(`${path}?per_page=${value}`);
+        // onPerPageChange(Number(value));
     };
 
     // Don't render if there's no data
@@ -57,10 +50,10 @@ export function SitePagination({
     const nextLink = links.find((link) => link.label === 'Next &raquo;');
 
     return (
-        <div className="flex flex-col items-center justify-between gap-4 border-t px-4 py-4 md:flex-row md:px-6">
+        <div className="flex flex-col items-center justify-between gap-4 px-4 py-4 md:flex-row md:px-6">
             {/* Left side: Per page selector and results info */}
             <div className="flex items-center gap-6">
-                <Field orientation="horizontal" className="max-w-fit">
+                <Field orientation="horizontal" className="w-fit">
                     <FieldLabel
                         htmlFor="per-page"
                         className="text-sm text-muted-foreground"
@@ -70,7 +63,6 @@ export function SitePagination({
                     <Select
                         value={String(per_page)}
                         onValueChange={handlePerPageChange}
-                        disabled={isLoading}
                     >
                         <SelectTrigger className="h-9 w-20" id="per-page">
                             <SelectValue />
@@ -87,7 +79,7 @@ export function SitePagination({
                 </Field>
 
                 {/* Results summary */}
-                {/* <p className="text-sm text-muted-foreground">
+                <p className="text-sm text-muted-foreground">
                     {from && to ? (
                         <>
                             Showing <span className="font-medium">{from}</span>{' '}
@@ -97,24 +89,21 @@ export function SitePagination({
                     ) : (
                         <>No results</>
                     )}
-                </p> */}
+                </p>
             </div>
 
             {/* Right side: Pagination controls */}
             {pageLinks.length > 1 && (
-                <Pagination>
+                <Pagination className="w-fit">
                     <PaginationContent>
                         {/* Previous button */}
                         <PaginationItem>
                             <PaginationPrevious
                                 aria-label="Go to previous page"
-                                onClick={() =>
-                                    previousLink?.page &&
-                                    onPageChange(previousLink.page)
-                                }
-                                aria-disabled={!previousLink?.url || isLoading}
+                                href={previousLink?.url?.toString()}
+                                aria-disabled={!previousLink?.url}
                                 className={
-                                    !previousLink?.url || isLoading
+                                    !previousLink?.url
                                         ? 'pointer-events-none opacity-50'
                                         : 'cursor-pointer'
                                 }
@@ -128,18 +117,11 @@ export function SitePagination({
                                     <PaginationEllipsis />
                                 ) : (
                                     <PaginationLink
-                                        onClick={() =>
-                                            link.page && onPageChange(link.page)
-                                        }
+                                        href={link.url?.toString()}
                                         isActive={link.active}
                                         aria-label={`Go to page ${link.label}`}
                                         aria-current={
                                             link.active ? 'page' : undefined
-                                        }
-                                        className={
-                                            isLoading
-                                                ? 'pointer-events-none opacity-50'
-                                                : 'cursor-pointer'
                                         }
                                     >
                                         {link.label}
@@ -152,13 +134,10 @@ export function SitePagination({
                         <PaginationItem>
                             <PaginationNext
                                 aria-label="Go to next page"
-                                onClick={() =>
-                                    nextLink?.page &&
-                                    onPageChange(nextLink.page)
-                                }
-                                aria-disabled={!nextLink?.url || isLoading}
+                                href={nextLink?.url?.toString()}
+                                aria-disabled={!nextLink?.url}
                                 className={
-                                    !nextLink?.url || isLoading
+                                    !nextLink?.url
                                         ? 'pointer-events-none opacity-50'
                                         : 'cursor-pointer'
                                 }

@@ -18,8 +18,13 @@ class SubjectController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $request->validate([
+            "per_page" => 'integer',
+        ]);
+
+        $per_page = $request->per_page ? $request->per_page : 10;
 
         $query = Subject::query()
             ->select(['id', 'name', 'description',  'slug', 'created_by']);
@@ -40,7 +45,7 @@ class SubjectController extends Controller
                 'createdBy:id,name',
             ])
             ->latest()
-            ->paginate(10)
+            ->paginate($per_page)
             ->withQueryString();
 
         // dd($subjects);
