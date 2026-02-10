@@ -80,7 +80,7 @@ Route::name('public.')->group(function () {
 
     Route::get('/subjects', [PublicSubjectController::class, 'index'])->name('subjects.index'); // optional
     Route::get('/subjects/{subject:slug}', [PublicSubjectController::class, 'show'])->name('subjects.show');
-    Route::get('/subjects/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic.show');
+    Route::get('/subjects/{subject:slug}/topics/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic.show');
 
     Route::get('/papers', [PublicPaperController::class, 'index'])->name('papers.index'); // optional
     Route::get('/papers/{paper:slug}', [PublicPaperController::class, 'show'])->name('papers.show');

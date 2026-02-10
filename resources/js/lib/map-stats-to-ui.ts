@@ -2,6 +2,7 @@ import { Stats, UiStats } from '@/types/public/home';
 import {
     BookOpen,
     Building2,
+    ClipboardList,
     FileText,
     Layers,
     Tag,
@@ -18,7 +19,7 @@ export function mapStatsToUi(stats: Stats): UiStats[] {
         {
             number: stats.mcqs.toLocaleString(),
             label: 'MCQs Available',
-            icon: FileText,
+            icon: ClipboardList,
         },
         {
             number: stats.users.toLocaleString(),

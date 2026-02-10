@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources\Public\Subject;
 
+use App\Http\Resources\Public\TagResource;
 use App\Http\Resources\TopicResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -19,8 +20,14 @@ class SubjectResource extends JsonResource
             'id'         => $this->id,
             'name'       => $this->name,
             'slug'       => $this->slug,
-            'created_at' => $this->created_at->format('Y-m-d'),
-            'topics'     => TopicResource::collection($this->topics),
+            'description' => $this->description,
+            'created_by' => [
+                'id'   => $this->createdBy?->id,
+                'name' => $this->createdBy?->name,
+            ],
+            'topics'     => TopicResource::collection($this->whenLoaded('topics')),
+            'created_at' =>  $this->created_at ? $this->created_at->format('Y-m-d') : null,
+            'updated_at' =>  $this->updated_at ? $this->updated_at->format('Y-m-d') : null,
         ];
     }
 }

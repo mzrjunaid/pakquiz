@@ -9,7 +9,7 @@ interface Props {
 
 const PageTitle: React.FC<Props> = ({ title, subtitle, breadcrumbs }) => {
     return (
-        <div className="order-1 flex-1 lg:order-1">
+        <div className="order-0 flex-1 lg:order-0">
             {breadcrumbs && breadcrumbs.length > 0 && (
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
             )}

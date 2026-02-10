@@ -20,10 +20,33 @@ class SubjectController extends Controller
      */
     public function index()
     {
-        $query = Subject::query();
-        $subjects = $query->paginate(10); // Paginate the results, 10 per page
+
+        $query = Subject::query()
+            ->select(['id', 'name', 'description',  'slug', 'created_by']);
+
+        if (request()->filled('search')) {
+            $search = trim(request('search'));
+
+            $query->where('name', 'like', "%{$search}%");
+        }
+
+        $subjects = $query
+            ->with([
+                'topics' => function ($query) {
+                    $query->select(['id', 'subject_id', 'name', 'slug'])
+                        ->latest()   // order by created_at DESC
+                        ->take(3);   // limit 3 topics
+                },
+                'createdBy:id,name',
+            ])
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        // dd($subjects);
+
         return Inertia::render('public/subjects/index', [
-            'subjects' => $subjects,
+            'subjects' => SubjectResource::collection($subjects),
         ]);
     }
 
