@@ -39,6 +39,18 @@
     --color-secondary: var(--secondary);
     --color-secondary-foreground: var(--secondary-foreground);
 
+    --color-success: var(--success);
+    --color-success-foreground: var(--success-foreground);
+
+    --color-warning: var(--warning);
+    --color-warning-foreground: var(--warning-foreground);
+
+    --color-info: var(--info);
+    --color-info-foreground: var(--info-foreground);
+
+    --color-destrcutive: var(--destructive);
+    --color-destructive-foreground: var(--destructive-foreground);
+
     --color-muted: var(--muted);
     --color-muted-foreground: var(--muted-foreground);
 
@@ -71,7 +83,7 @@
 :root {
     --background: oklch(0.9747 0.0118 59.57);
     --foreground: oklch(0.15 0.08 25.66);
-    --card: oklch(0.8736 0.0611 52.22);
+    --card: oklch(0.9771 0.0125 236.62);
     --card-foreground: oklch(0.15 0.08 25.66);
     --popover: oklch(0.98 0.02 50);
     --popover-foreground: oklch(0.15 0.08 25.66);
@@ -83,7 +95,7 @@
     --muted-foreground: oklch(0.35 0.04 36.5);
     --accent: oklch(0.7749 0.05782 46.18);
     --accent-foreground: oklch(0.2 0.08 25.66);
-    --success: oklch(0.55 0.15 145);
+    --success: oklch(0.7227 0.192 149.58);
     --success-foreground: oklch(0.98 0.005 0);
     --warning: oklch(0.9785 0.031 92.94);
     --warning-foreground: oklch(47.3% 0.137 46.201);

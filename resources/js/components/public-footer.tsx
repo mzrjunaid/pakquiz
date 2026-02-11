@@ -4,7 +4,7 @@ import AppLogo from './app-logo';
 
 export default function PublicFooter() {
     return (
-        <footer className="border-t py-12">
+        <footer className="py-12">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
                 <div className="flex flex-wrap gap-6 md:grid md:grid-cols-4 md:gap-8">
                     <div>

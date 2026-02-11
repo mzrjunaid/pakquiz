@@ -11,7 +11,7 @@ const TopAdSection: React.FC<Props> = ({ className, adSlot }) => {
     const isMobile = useIsMobile();
     return (
         <section
-            className={`relative overflow-hidden py-6 lg:py-8 ${isMobile && !adSlot && 'hidden'} ${className}`}
+            className={`relative overflow-hidden border-b py-6 lg:py-8 ${isMobile && !adSlot && 'hidden'} ${className}`}
         >
             {/* Background with gradient and pattern */}
             <div className={`absolute inset-0 bg-background backdrop-blur-3xl`}>

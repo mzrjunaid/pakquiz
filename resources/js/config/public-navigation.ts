@@ -50,7 +50,7 @@ export const generalNavItems: NavItem[] = [
 export const subjectsNavItems: NavItem[] = [
     {
         title: 'General Knowledge',
-        href: home(),
+        href: `${subjects.index().url}/general-knowledge `,
     },
     {
         title: 'Current Affairs',

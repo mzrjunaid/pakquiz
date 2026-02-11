@@ -73,7 +73,7 @@ export default function HeroSection({ stats, mcq }: Props) {
                                 <div
                                     key={index}
                                     // className="flex items-center rounded-lg border border-accent bg-card p-4 text-center text-card-foreground shadow-xl dark:border-white/20 dark:bg-white/20"
-                                    className="flex items-center rounded-lg bg-card p-4 text-center"
+                                    className="flex items-center rounded-lg bg-card p-4 text-center shadow-md"
                                 >
                                     <div className="flex items-center justify-center rounded-full border-2 p-2.5">
                                         <stat.icon className="h-6 w-6" />

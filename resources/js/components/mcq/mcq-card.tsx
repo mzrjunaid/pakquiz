@@ -41,7 +41,7 @@ const McqMeta = ({
                 </Link>
             </Badge>
             {mcq_type && (
-                <Badge variant="secondary">{QuestionType[mcq_type]}</Badge>
+                <Badge variant="outline">{QuestionType[mcq_type]}</Badge>
             )}
             <Button variant="ghost" size="icon" asChild>
                 <Link href="#">
@@ -53,7 +53,7 @@ const McqMeta = ({
 };
 
 const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
-    const isQuizMode = false;
+    const isQuizMode = true;
 
     const [selectedOptionId, setSelectedOptionId] = useState<number | null>(
         null,
@@ -75,11 +75,11 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
     const getDifficultyBadgeVariant = (difficulty: string) => {
         switch (difficulty.toLowerCase()) {
             case 'easy':
-                return 'bg-green-100 py-1 text-green-700 hover:bg-green-200';
+                return 'bg-success/10 py-1 text-success hover:bg-success/20';
             case 'medium':
-                return 'bg-yellow-100 py-1 text-yellow-700 hover:bg-yellow-200';
+                return 'bg-card py-1 text-info-foreground hover:bg-yellow-100 border-yellow-500 capitalize';
             case 'hard':
-                return 'bg-red-100 py-1 text-red-700 hover:bg-red-200';
+                return 'bg-destructive/35 py-1 text-destructive-foreground hover:bg-destructive/50 border-destructive capitalize';
             default:
                 return 'bg-gray-100 py-1 text-gray-700 hover:bg-gray-200';
         }
@@ -89,15 +89,15 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
         <div
             className={`rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 ${
                 isCorrect
-                    ? 'border-green-300 bg-green-50'
+                    ? 'border-success bg-success/10'
                     : wasAnswered
-                      ? 'border-red-300 bg-red-50'
+                      ? 'border-destructive bg-destrcutive/10'
                       : 'border-card bg-card'
             }`}
         >
             <div className="mb-2 flex flex-col-reverse md:flex-row md:justify-between">
                 <div className="flex flex-wrap items-center gap-2 space-x-2">
-                    <Badge variant="secondary">
+                    <Badge variant="outline">
                         <Bot className="mr-1 h-3 w-3" />
                         AI
                     </Badge>
@@ -105,7 +105,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                         variant="outline"
                         className={
                             isQuizMode
-                                ? 'border-red-400 text-red-500'
+                                ? 'border-destructive text-destrcutive'
                                 : 'border-success text-success'
                         }
                     >
@@ -129,7 +129,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
             <div>
                 <div className="flex gap-3">
                     <div className="flex-1">
-                        <p className="my-3 text-sm font-semibold lg:text-base">
+                        <p className="my-6 text-sm font-semibold lg:text-base">
                             Question {idx + 1}: {mcq.question}
                         </p>
 
@@ -147,9 +147,9 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                         disabled={!isQuizMode || wasAnswered}
                                         className={`w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base ${!isQuizMode ? 'cursor-not-allowed opacity-85' : 'cursor-pointer'} ${
                                             opt.is_correct && showAnswers
-                                                ? 'border-green-500 bg-green-50'
+                                                ? 'border-success bg-success/5'
                                                 : isSelected
-                                                  ? 'border-destructive bg-red-50'
+                                                  ? 'border-destructive bg-destrcutive/10'
                                                   : 'border-gray-200 bg-white/60 hover:border-primary'
                                         } `}
                                     >
@@ -164,7 +164,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                             <span>{opt.option_text}</span>
 
                                             {opt.is_correct && showAnswers && (
-                                                <span className="ml-auto text-xs font-semibold text-green-600">
+                                                <span className="ml-auto text-xs font-semibold text-success">
                                                     ✓ Correct
                                                 </span>
                                             )}

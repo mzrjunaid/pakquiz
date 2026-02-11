@@ -25,7 +25,7 @@ export default function PageSidebar({
 
             {/* Features Overview */}
             {feature && (
-                <div className="rounded-lg bg-white p-6 shadow-md dark:bg-card">
+                <div className="rounded-lg bg-card p-6 shadow-md">
                     <h3 className="mb-4 text-lg font-semibold">
                         Platform Features
                     </h3>
@@ -54,7 +54,7 @@ export default function PageSidebar({
 
             {/* Most Repeating MCQs */}
             {mostRepeatingMCQ && (
-                <div className="rounded-lg bg-white p-4 shadow-md md:p-6">
+                <div className="rounded-lg bg-card p-4 shadow-md md:p-6">
                     <h3 className="mb-2 flex items-center text-lg font-semibold md:mb-4">
                         <TrendingUp className="mr-2 h-5 w-5" />
                         Most Repeating MCQs
@@ -94,7 +94,7 @@ export default function PageSidebar({
                     {stats.slice(2).map((stat, index) => (
                         <div
                             key={index}
-                            className="rounded-lg border border-gray-200 bg-white p-4 text-center"
+                            className="rounded-lg border border-gray-200 bg-card p-4 text-center"
                         >
                             <div className="mb-2 flex items-center justify-center">
                                 <stat.icon className="h-6 w-6 text-gray-600" />

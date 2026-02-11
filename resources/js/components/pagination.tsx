@@ -28,22 +28,34 @@ export function SitePagination({ meta }: PaginationProps) {
     const { path, from, to, total, per_page, links } = meta;
 
     const handlePerPageChange = (value: string) => {
-        router.visit(`${path}?per_page=${value}`);
-        // onPerPageChange(Number(value));
+        const params = new URLSearchParams(window.location.search);
+
+        const query = Object.fromEntries(params.entries());
+
+        router.get(
+            path,
+            {
+                ...query,
+                per_page: value,
+                page: 1,
+            },
+            {
+                preserveState: true,
+                preserveScroll: true,
+                replace: true,
+            },
+        );
     };
 
-    // Don't render if there's no data
     if (total === 0) {
         return null;
     }
 
-    // Filter out "Previous" and "Next" links from the main links array
     const pageLinks = links.filter(
         (link) =>
             link.label !== '&laquo; Previous' && link.label !== 'Next &raquo;',
     );
 
-    // Get Previous and Next links
     const previousLink = links.find(
         (link) => link.label === '&laquo; Previous',
     );
