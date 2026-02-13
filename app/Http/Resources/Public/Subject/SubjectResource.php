@@ -14,6 +14,9 @@ class SubjectResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
+    static public $wrap = null;
+
     public function toArray(Request $request): array
     {
         return [

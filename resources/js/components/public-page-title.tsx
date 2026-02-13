@@ -5,11 +5,17 @@ interface Props {
     title: string;
     subtitle?: string;
     breadcrumbs?: BreadcrumbItem[];
+    className?: string;
 }
 
-const PageTitle: React.FC<Props> = ({ title, subtitle, breadcrumbs }) => {
+const PageTitle: React.FC<Props> = ({
+    title,
+    subtitle,
+    breadcrumbs,
+    className,
+}) => {
     return (
-        <div className="order-0 flex-1 lg:order-0">
+        <div className={`order-0 mb-6 flex-1 lg:order-0 ${className}`}>
             {breadcrumbs && breadcrumbs.length > 0 && (
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
             )}

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Http\Resources\McqResource;
+use App\Filters\Public\McqsFilter;
 use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -115,5 +115,10 @@ class Mcq extends Model
         static::deleted(function () {
             Cache::forget('demo_mcqs');
         });
+    }
+
+    public function scopeFilter($query, array $filters)
+    {
+        return (new McqsFilter($filters))->apply($query);
     }
 }

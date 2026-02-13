@@ -14,6 +14,8 @@ export interface Option {
 export interface Subject {
     name: string;
     slug: string;
+    description?: string;
+    topics?: Topic[];
 }
 
 export interface Topic {

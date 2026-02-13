@@ -3,27 +3,32 @@
 namespace App\Filters;
 
 use Illuminate\Database\Eloquent\Builder;
-use Illuminate\Http\Request;
 
 abstract class BaseFilter
 {
-    protected Request $request;
+    protected Builder $builder;
+    protected array $filters;
 
-    public function __construct(Request $request)
+    public function __construct(array $filters = [])
     {
-        $this->request = $request;
+        $this->filters = $filters;
     }
 
-    public function apply(Builder $query): Builder
+    public function apply(Builder $builder): Builder
     {
-        foreach ($this->filters() as $filter => $method) {
-            if ($this->request->filled($filter)) {
-                $this->$method($query, $this->request->input($filter));
+        $this->builder = $builder;
+
+        foreach ($this->allowedFilters() as $filter => $method) {
+            if (
+                array_key_exists($filter, $this->filters) &&
+                filled($this->filters[$filter])
+            ) {
+                $this->$method($this->filters[$filter]);
             }
         }
 
-        return $query;
+        return $this->builder;
     }
 
-    abstract protected function filters(): array;
+    abstract protected function allowedFilters(): array;
 }

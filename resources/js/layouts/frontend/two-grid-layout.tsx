@@ -12,13 +12,9 @@ const MainSectionWithSidebarLayout: React.FC<Props> = ({
     scrollRef,
 }) => {
     return (
-        <section className="border-b" ref={scrollRef}>
+        <section className={`border-b ${className}`} ref={scrollRef}>
             <div className="mx-auto max-w-7xl px-3 py-8 lg:px-0">
-                <div
-                    className={`grid gap-6 lg:grid-cols-3 lg:gap-8 ${className}`}
-                >
-                    {children}
-                </div>
+                {children}
             </div>
         </section>
     );

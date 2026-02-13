@@ -145,7 +145,7 @@ export default function SearchBar({
                         <Button
                             type="button"
                             variant="ghost"
-                            size="icon"
+                            size="icon-sm"
                             onClick={() => setSearchTerm('')}
                         >
                             <X />
@@ -155,7 +155,8 @@ export default function SearchBar({
                     {searchTerm && (
                         <Button
                             type="button"
-                            size="icon"
+                            variant="ghost"
+                            size="icon-sm"
                             onClick={submitSearch}
                         >
                             <ArrowRight />

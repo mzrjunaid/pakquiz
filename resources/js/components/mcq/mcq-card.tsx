@@ -33,13 +33,18 @@ const McqMeta = ({
 }) => {
     return (
         <div className="flex items-center justify-end space-x-1">
-            <Badge variant="default" asChild>
-                <Link href="#" title={`View all Papers from ${subject?.name}`}>
-                    <span className="max-w-26 truncate md:max-w-36">
-                        {subject?.name}
-                    </span>
-                </Link>
-            </Badge>
+            {subject && (
+                <Badge variant="default" asChild>
+                    <Link
+                        href="#"
+                        title={`View all Papers from ${subject?.name}`}
+                    >
+                        <span className="max-w-26 truncate md:max-w-36">
+                            {subject?.name}
+                        </span>
+                    </Link>
+                </Badge>
+            )}
             {mcq_type && (
                 <Badge variant="outline">{QuestionType[mcq_type]}</Badge>
             )}
@@ -129,9 +134,11 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
             <div>
                 <div className="flex gap-3">
                     <div className="flex-1">
-                        <p className="my-6 text-sm font-semibold lg:text-base">
-                            Question {idx + 1}: {mcq.question}
-                        </p>
+                        <div className="my-6 text-sm font-semibold lg:text-base">
+                            <Link href={`/mcqs/${mcq.slug}`}>
+                                Question {idx + 1}: {mcq.question}
+                            </Link>
+                        </div>
 
                         <div className="grid gap-2 md:grid-cols-2 lg:gap-3">
                             {mcq.options.map((opt, optIdx) => {

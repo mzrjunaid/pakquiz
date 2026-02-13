@@ -48,17 +48,29 @@ export const generalNavItems: NavItem[] = [
 ];
 
 export const subjectsNavItems: NavItem[] = [
-    {
-        title: 'General Knowledge',
-        href: `${subjects.index().url}/general-knowledge `,
-    },
+    // {
+    //     title: 'General Knowledge',
+    //     href: `${subjects.index().url}/general-knowledge`,
+    // },
     {
         title: 'Current Affairs',
-        href: home(),
+        href: `${subjects.index().url}/current-affairs`,
     },
     {
-        title: 'Reasoning',
-        href: home(),
+        title: 'Everyday Science',
+        href: `${subjects.index().url}/everyday-science`,
+    },
+    {
+        title: 'Computer',
+        href: `${subjects.index().url}/computer`,
+    },
+    {
+        title: 'English',
+        href: `${subjects.index().url}/english`,
+    },
+    {
+        title: 'All Subjects',
+        href: subjects.index(),
     },
 ];
 

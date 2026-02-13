@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Public;
 
+use App\Filters\Pulic\McqsFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
@@ -52,6 +53,7 @@ class SubjectController extends Controller
 
         return Inertia::render('public/subjects/index', [
             'subjects' => SubjectResource::collection($subjects),
+            'seo' => app(SeoResolver::class)->resolve($request),
         ]);
     }
 
@@ -61,27 +63,55 @@ class SubjectController extends Controller
     // 'seo' => app(SeoResolver::class)->resolve($request, $subject),
     public function show(Request $request, Subject $subject)
     {
+        $perPage = min(
+            max($request->integer('per_page', 10), 5),
+            100
+        );
         // Load subject relations (lightweight)
         $subject->load([
+            'topics:id,subject_id,name,slug',
             'tags:id,name,slug',
         ]);
 
         // Subject MCQs (paginated & optimized)
         $mcqs = $subject->mcqs()
-            ->select('id', 'question', 'slug', 'subject_id')
-            ->with([
-                'tags:id,name,slug',
-                'topic:id,name,slug',
+            ->select([
+                'id',
+                'slug',
+                'question',
+                'explanation',
+                'mcq_type',
+                'subject_id',
+                'topic_id',
+                'paper_id',
+                'difficulty',
+                'created_by',
+                'created_at',
             ])
-            ->latest()
-            ->paginate(10)
+            ->with([
+                'topic:id,name,slug',
+                'tags:id,name,slug',
+                'options:id,mcq_id,option_text,is_correct',
+            ])
+            ->filter(
+                $request->only([
+                    'search',
+                    'topic',
+                    'paper',
+                    'tag',
+                    'difficulty',
+                    'year',
+                    'sort',
+                ])
+            )
+            ->paginate($perPage)
             ->withQueryString();
 
         // dd($mcqs);
 
         // Subject Papers (paginated & optimized)
         $papers = $subject->papers()
-            ->select('id', 'title', 'slug', 'subject_id')
+            ->select('id', 'name', 'slug', 'subject_id')
             ->with([
                 'tags:id,name,slug',
                 'department:id,name,slug',
@@ -94,6 +124,16 @@ class SubjectController extends Controller
             'subject' => new SubjectResource($subject),
             'mcqs'    => McqResource::collection($mcqs),
             'papers'  =>  PaperResource::collection($papers),
+            'seo' => app(SeoResolver::class)->resolve($request, $subject),
+            'filters' => $request->only([
+                'search',
+                'topic',
+                'paper',
+                'tag',
+                'difficulty',
+                'year',
+                'sort',
+            ]),
         ]);
     }
 
@@ -124,7 +164,7 @@ class SubjectController extends Controller
             'subject' => $subject,
             'topic' => $topic,
             'mcqs'  => McqResource::collection($mcqs),
-            // 'seo' => app(SeoResolver::class)->resolve($request, $topic),
+            'seo' => app(SeoResolver::class)->resolve($request, $topic),
         ]);
     }
 }

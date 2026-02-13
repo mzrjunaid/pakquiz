@@ -17,8 +17,10 @@ class McqResource extends JsonResource
     {
         return [
             'id'       => $this->id,
-            'question' => $this->question,
             'slug'     => $this->slug,
+
+            'question' => $this->question,
+            'explanation' => $this->explanation,
 
             // Relations (only when loaded)
             'subject' => $this->whenLoaded('subject', fn() => [
@@ -31,9 +33,19 @@ class McqResource extends JsonResource
                 'slug' => $this->topic->slug,
             ]),
 
-            'created_by' => $this->whenLoaded('createdBy', fn() => [
-                'name' => $this->createdBy->name,
-            ]),
+
+            'mcq_type' => $this->mcq_type,
+            'difficulty' => $this->difficulty,
+
+            'options' => $this->whenLoaded(
+                'options',
+                fn() =>
+                $this->options->map(fn($option) => [
+                    'id' => $option->id,
+                    'option_text' => $option->option_text,
+                    'is_correct' => $option->is_correct,
+                ])
+            ),
 
             // Meta
             'tags' => $this->whenLoaded(
@@ -46,7 +58,10 @@ class McqResource extends JsonResource
             ),
 
             // Timestamps (ISO = best for frontend)
-            'created_at' =>   Carbon::parse($this->created_at)->format('d-m-Y')
+            'created_at' =>   Carbon::parse($this->created_at)->format('d-m-Y'),
+            'created_by' => $this->whenLoaded('createdBy', fn() => [
+                'name' => $this->createdBy->name,
+            ]),
         ];
     }
 }

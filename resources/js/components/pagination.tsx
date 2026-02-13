@@ -62,48 +62,7 @@ export function SitePagination({ meta }: PaginationProps) {
     const nextLink = links.find((link) => link.label === 'Next &raquo;');
 
     return (
-        <div className="flex flex-col items-center justify-between gap-4 px-4 py-4 md:flex-row md:px-6">
-            {/* Left side: Per page selector and results info */}
-            <div className="flex items-center gap-6">
-                <Field orientation="horizontal" className="w-fit">
-                    <FieldLabel
-                        htmlFor="per-page"
-                        className="text-sm text-muted-foreground"
-                    >
-                        Per page
-                    </FieldLabel>
-                    <Select
-                        value={String(per_page)}
-                        onValueChange={handlePerPageChange}
-                    >
-                        <SelectTrigger className="h-9 w-20" id="per-page">
-                            <SelectValue />
-                        </SelectTrigger>
-                        <SelectContent align="start">
-                            <SelectGroup>
-                                <SelectItem value="10">10</SelectItem>
-                                <SelectItem value="25">25</SelectItem>
-                                <SelectItem value="50">50</SelectItem>
-                                <SelectItem value="100">100</SelectItem>
-                            </SelectGroup>
-                        </SelectContent>
-                    </Select>
-                </Field>
-
-                {/* Results summary */}
-                <p className="text-sm text-muted-foreground">
-                    {from && to ? (
-                        <>
-                            Showing <span className="font-medium">{from}</span>{' '}
-                            to <span className="font-medium">{to}</span> of{' '}
-                            <span className="font-medium">{total}</span> results
-                        </>
-                    ) : (
-                        <>No results</>
-                    )}
-                </p>
-            </div>
-
+        <div className="flex flex-col items-center justify-between gap-4 px-4 py-4 md:flex-col md:px-6">
             {/* Right side: Pagination controls */}
             {pageLinks.length > 1 && (
                 <Pagination className="w-fit">
@@ -158,6 +117,47 @@ export function SitePagination({ meta }: PaginationProps) {
                     </PaginationContent>
                 </Pagination>
             )}
+
+            {/* Left side: Per page selector and results info */}
+            <div className="flex items-center gap-6">
+                <Field orientation="horizontal" className="w-fit">
+                    <FieldLabel
+                        htmlFor="per-page"
+                        className="text-sm text-muted-foreground"
+                    >
+                        Per page
+                    </FieldLabel>
+                    <Select
+                        value={String(per_page)}
+                        onValueChange={handlePerPageChange}
+                    >
+                        <SelectTrigger className="h-9 w-20" id="per-page">
+                            <SelectValue />
+                        </SelectTrigger>
+                        <SelectContent align="start">
+                            <SelectGroup>
+                                <SelectItem value="10">10</SelectItem>
+                                <SelectItem value="25">25</SelectItem>
+                                <SelectItem value="50">50</SelectItem>
+                                <SelectItem value="100">100</SelectItem>
+                            </SelectGroup>
+                        </SelectContent>
+                    </Select>
+                </Field>
+
+                {/* Results summary */}
+                <p className="text-sm text-muted-foreground">
+                    {from && to ? (
+                        <>
+                            Showing <span className="font-medium">{from}</span>{' '}
+                            to <span className="font-medium">{to}</span> of{' '}
+                            <span className="font-medium">{total}</span> results
+                        </>
+                    ) : (
+                        <>No results</>
+                    )}
+                </p>
+            </div>
         </div>
     );
 }

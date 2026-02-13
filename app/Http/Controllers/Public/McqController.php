@@ -30,7 +30,7 @@ class McqController extends Controller
     {
         return Inertia::render('public/mcqs/show', [
             'mcq' => new McqResource($mcq),
-            // 'seo' => app(SeoResolver::class)->resolve($request, $mcq),
+            'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }
 }
