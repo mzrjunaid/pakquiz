@@ -62,32 +62,37 @@ export function SitePagination({ meta }: PaginationProps) {
     const nextLink = links.find((link) => link.label === 'Next &raquo;');
 
     return (
-        <div className="flex flex-col items-center justify-between gap-4 px-4 py-4 md:flex-col md:px-6">
+        <div className="flex flex-col items-center justify-between gap-5 py-4 md:flex-col">
             {/* Right side: Pagination controls */}
             {pageLinks.length > 1 && (
-                <Pagination className="w-fit">
-                    <PaginationContent>
+                <Pagination className="w-full">
+                    <PaginationContent className="w-full justify-center">
                         {/* Previous button */}
-                        <PaginationItem>
+                        <PaginationItem className="size-6 md:size-auto">
                             <PaginationPrevious
                                 aria-label="Go to previous page"
+                                size="sm"
                                 href={previousLink?.url?.toString()}
                                 aria-disabled={!previousLink?.url}
-                                className={
+                                className={`${
                                     !previousLink?.url
                                         ? 'pointer-events-none opacity-50'
                                         : 'cursor-pointer'
-                                }
+                                }`}
                             />
                         </PaginationItem>
 
                         {/* Page numbers */}
                         {pageLinks.map((link, index) => (
-                            <PaginationItem key={`page-${link.page}-${index}`}>
+                            <PaginationItem
+                                key={`page-${link.page}-${index}`}
+                                className="size-6 md:size-auto"
+                            >
                                 {link.label === '...' ? (
                                     <PaginationEllipsis />
                                 ) : (
                                     <PaginationLink
+                                        size="sm"
                                         href={link.url?.toString()}
                                         isActive={link.active}
                                         aria-label={`Go to page ${link.label}`}
@@ -102,11 +107,12 @@ export function SitePagination({ meta }: PaginationProps) {
                         ))}
 
                         {/* Next button */}
-                        <PaginationItem>
+                        <PaginationItem className="size-6 md:size-auto">
                             <PaginationNext
                                 aria-label="Go to next page"
                                 href={nextLink?.url?.toString()}
                                 aria-disabled={!nextLink?.url}
+                                size="sm"
                                 className={
                                     !nextLink?.url
                                         ? 'pointer-events-none opacity-50'
@@ -119,7 +125,7 @@ export function SitePagination({ meta }: PaginationProps) {
             )}
 
             {/* Left side: Per page selector and results info */}
-            <div className="flex items-center gap-6">
+            <div className="flex flex-col-reverse md:flex-row items-center gap-6">
                 <Field orientation="horizontal" className="w-fit">
                     <FieldLabel
                         htmlFor="per-page"

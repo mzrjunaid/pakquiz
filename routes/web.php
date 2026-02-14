@@ -65,27 +65,37 @@ Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCe
 Route::post('/set-mcq-mode', [HomeController::class, 'setMcqMode'])->name('McqMode');
 
 Route::name('public.')->group(function () {
-
     Route::get('/search', [SearchController::class, 'index'])
         ->name('search');
 
     Route::get('/departments', [PublicDepartmentController::class, 'index'])->name('departments.index');
     Route::get('/departments/{department:slug}', [PublicDepartmentController::class, 'show'])->name('departments.show');
 
-    Route::get('/testing-services', [PublicTestingServiceController::class, 'index'])->name('testingServices.index');
-    Route::get('/testing-services/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('testingServices.show');
+    Route::get('/testing-services', [PublicTestingServiceController::class, 'index'])->name('testing_services.index');
+    Route::get('/testing-services/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('testing_services.show');
 
     Route::get('/mcqs', [PublicMcqController::class, 'index'])->name('mcqs.index');
     Route::get('/mcqs/{mcq:slug}', [PublicMcqController::class, 'show'])->name('mcqs.show');
 
-    Route::get('/subjects', [PublicSubjectController::class, 'index'])->name('subjects.index'); // optional
-    Route::get('/subjects/{subject:slug}', [PublicSubjectController::class, 'show'])->name('subjects.show');
-    Route::get('/subjects/{subject:slug}/topics/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('subjects.topic.show');
+    Route::prefix('subjects')->name('subjects.')->group(function () {
+        Route::get('/', [PublicSubjectController::class, 'index'])->name('index'); // optional
+        Route::get('/{subject:slug}', [PublicSubjectController::class, 'show'])->name('show');
 
-    Route::get('/papers', [PublicPaperController::class, 'index'])->name('papers.index'); // optional
-    Route::get('/papers/{paper:slug}', [PublicPaperController::class, 'show'])->name('papers.show');
+        Route::get('/{subject:slug}/mcqs/{mcq:slug}', [PublicSubjectController::class, 'subject_mcq'])->name('mcq.show');
 
-    Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
+        Route::get('/{subject:slug}/topics/{topic:slug}', [PublicSubjectController::class, 'topic'])->name('topic.show');
+        Route::get('/{subject:slug}/topics/{topic:slug}/mcqs/{mcq:slug}', [PublicSubjectController::class, 'topic_mcq'])->name('topic.mcq.show');
+    });
+
+    Route::prefix('papers')->name('papers.')->group(function () {
+        Route::get('/', [PublicPaperController::class, 'index'])->name('index'); // optional
+        Route::get('/{paper:slug}', [PublicPaperController::class, 'show'])->name('show');
+        Route::get('/paper:slug}/mcqs/{mcq:slug}', [PublicPaperController::class, 'paper_mcq'])->name('mcq.show');
+    });
+
+    Route::middleware(['auth', 'verified', 'status:approved'])->group(function () {
+        Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
+    });
 });
 
 

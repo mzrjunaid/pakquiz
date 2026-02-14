@@ -6,7 +6,7 @@ use App\Filters\BaseFilter;
 
 class McqsFilter extends BaseFilter
 {
-    protected function allowedFilters(): array
+    protected function filters(): array
     {
         return [
             'search'     => 'search',

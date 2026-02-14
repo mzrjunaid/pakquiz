@@ -1,7 +1,15 @@
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
+import { Seo, SharedData } from '@/types';
+import { Mcq } from '@/types/public/mcq';
+import { Head, usePage } from '@inertiajs/react';
 
-const McqShow = ({ mcq, seo }: { mcq: any; seo: any }) => {
+interface McqProps extends SharedData {
+    mcq: Mcq;
+    seo: Seo;
+}
+
+const McqShow = () => {
+    const { seo, mcq } = usePage<McqProps>().props;
     return (
         <AppLayout>
             <Head title={seo.title}></Head>

@@ -18,7 +18,7 @@ abstract class BaseFilter
     {
         $this->builder = $builder;
 
-        foreach ($this->allowedFilters() as $filter => $method) {
+        foreach ($this->filters() as $filter => $method) {
             if (
                 array_key_exists($filter, $this->filters) &&
                 filled($this->filters[$filter])
@@ -30,5 +30,5 @@ abstract class BaseFilter
         return $this->builder;
     }
 
-    abstract protected function allowedFilters(): array;
+    abstract protected function filters(): array;
 }

@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers\Public;
 
-use App\Filters\Pulic\McqsFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\Subject\SubjectResource;
-use App\Http\Resources\TopicResource;
+use App\Models\Mcq;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Services\Seo\SeoResolver;
@@ -47,6 +46,7 @@ class SubjectController extends Controller
             ])
             ->latest()
             ->paginate($per_page)
+            ->onEachSide(2)
             ->withQueryString();
 
         // dd($subjects);
@@ -63,8 +63,11 @@ class SubjectController extends Controller
     // 'seo' => app(SeoResolver::class)->resolve($request, $subject),
     public function show(Request $request, Subject $subject)
     {
+
+        // dd($subject);
+
         $perPage = min(
-            max($request->integer('per_page', 10), 5),
+            max($request->integer('per_page', 10), 10),
             100
         );
         // Load subject relations (lightweight)
@@ -104,7 +107,9 @@ class SubjectController extends Controller
                     'sort',
                 ])
             )
+            // ->cursorPaginate($perPage)
             ->paginate($perPage)
+            ->onEachSide(1)
             ->withQueryString();
 
         // dd($mcqs);
@@ -117,7 +122,7 @@ class SubjectController extends Controller
                 'department:id,name,slug',
             ])
             ->latest()
-            ->paginate(10)
+            ->paginate($perPage)
             ->withQueryString();
 
         return Inertia::render('public/subjects/show', [
@@ -134,6 +139,22 @@ class SubjectController extends Controller
                 'year',
                 'sort',
             ]),
+        ]);
+    }
+
+    /**
+     * Display the specified Subject mcq resource.
+     */
+    public function subject_mcq(Request $request, Subject $subject, Mcq $mcq)
+    {
+        dd('here');
+        // Ensure topic belongs to subject
+        abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
+
+        return Inertia::render('public/mcqs/show', [
+            'subject' => $subject,
+            'mcq' => $mcq,
+            'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }
 
@@ -158,6 +179,7 @@ class SubjectController extends Controller
             ])
             ->latest()
             ->paginate(10)
+            ->onEachSide(2)
             ->withQueryString();
 
         return Inertia::render('public/topics/show', [
@@ -165,6 +187,21 @@ class SubjectController extends Controller
             'topic' => $topic,
             'mcqs'  => McqResource::collection($mcqs),
             'seo' => app(SeoResolver::class)->resolve($request, $topic),
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function topic_mcq(Request $request, Subject $subject, Topic $topic, Mcq $mcq)
+    {
+        dd('here');
+
+        return Inertia::render('public/topics/mcqs/show', [
+            'subject' => $subject,
+            'topic' => $topic,
+            'mcq' => $mcq,
+            'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }
 }

@@ -34,6 +34,12 @@ const SubjectPage = () => {
                     <div className="lg:col-span-2">
                         <PageTitle title={seo.title} />
 
+                        {/* <div className="mb-4">
+                            <p className="rounded-sm p-4 bg-accent/10 text-accent-foreground shadow">
+                                {subject.description}
+                            </p>
+                        </div> */}
+
                         <div className="space-y-4 md:space-y-6">
                             {/* Mode instruction */}
                             {!isQuizMode && (
@@ -81,7 +87,7 @@ const SubjectPage = () => {
             </MainSectionWithSidebarLayout>
 
             {/* <pre>{JSON.stringify(seo, null, 2)}</pre> */}
-            <pre>{JSON.stringify(subject, null, 2)}</pre>
+            {/* <pre>{JSON.stringify(mcqs.links, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(papers, null, 2)}</pre> */}
         </AppLayout>
     );

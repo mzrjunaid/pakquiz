@@ -28,6 +28,41 @@ class McqController extends Controller
      */
     public function show(Request $request, Mcq $mcq)
     {
+        dd('here');
+
+        if ($mcq->subject) {
+            dd('here');
+
+            if ($mcq->subject && $mcq->topic) {
+                // Ensure topic belongs to subject
+                abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
+
+                dd('here');
+
+                return redirect()->route('public.subjects.topic.mcq.show', [
+                    'subject' => $mcq->subject->slug,
+                    'topic'   => $mcq->topic->slug,
+                    'mcq'     => $mcq->slug,
+                ], 301);
+            }
+
+            return redirect()->route('public.subjects.mcq.show', [
+                'subject' => $mcq->subject->slug,
+                'mcq'     => $mcq->slug,
+            ], 301);
+        }
+
+        if ($mcq->subject) {
+            // Ensure topic belongs to subject
+            abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
+
+            return redirect()->route('public.subjects.topic.show', [
+                'subject' => $mcq->subject->slug,
+                'topic'   => $mcq->topic->slug,
+                'mcq'     => $mcq->slug,
+            ], 301);
+        }
+
         return Inertia::render('public/mcqs/show', [
             'mcq' => new McqResource($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
