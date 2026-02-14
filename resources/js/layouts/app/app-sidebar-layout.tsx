@@ -7,6 +7,7 @@ import PublicHeader from '@/components/site-header';
 import { type BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
 import { type PropsWithChildren } from 'react';
+import { Toaster } from 'sonner';
 
 export default function AppSidebarLayout({
     children,
@@ -25,6 +26,8 @@ export default function AppSidebarLayout({
                 )}
                 {children}
                 {!isAdmin && <PublicFooter />}
+
+                <Toaster position="bottom-center" />
             </AppContent>
         </AppShell>
     );

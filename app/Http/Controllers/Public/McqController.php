@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\Mcq\McqResource;
+use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Mcq;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
@@ -28,16 +29,16 @@ class McqController extends Controller
      */
     public function show(Request $request, Mcq $mcq)
     {
-        dd('here');
+        // dd('here');
 
         if ($mcq->subject) {
-            dd('here');
+            // dd('here');
 
             if ($mcq->subject && $mcq->topic) {
                 // Ensure topic belongs to subject
                 abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
 
-                dd('here');
+                // dd('here');
 
                 return redirect()->route('public.subjects.topic.mcq.show', [
                     'subject' => $mcq->subject->slug,
@@ -64,7 +65,7 @@ class McqController extends Controller
         }
 
         return Inertia::render('public/mcqs/show', [
-            'mcq' => new McqResource($mcq),
+            'mcq' => new McqWithOptionsResource($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }

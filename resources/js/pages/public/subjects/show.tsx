@@ -7,6 +7,7 @@ import SearchBar from '@/components/SearchBar';
 import TextLink from '@/components/text-link';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
+import publicMethod from '@/routes/public';
 import { Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq, Subject } from '@/types/public/mcq';
@@ -72,7 +73,9 @@ const SubjectPage = () => {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={`slug: ${topic.slug}`}
+                                                href={publicMethod.subjects.topic.show(
+                                                    { subject, topic },
+                                                )}
                                                 className="my-2 block"
                                             >
                                                 {topic.name}

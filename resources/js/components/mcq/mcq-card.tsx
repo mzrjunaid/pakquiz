@@ -1,4 +1,5 @@
 import { useIsMobile } from '@/hooks/use-mobile';
+import publicMethod from '@/routes/public';
 import { Mcq, Subject } from '@/types/public/mcq';
 import { Link } from '@inertiajs/react';
 import { Bot, Share2, Tag } from 'lucide-react';
@@ -14,7 +15,7 @@ import { Button } from '../ui/button';
 
 interface McqCardProps {
     mcq: Mcq;
-    idx: number;
+    idx?: number;
 }
 
 const QuestionType: Record<string, string> = {
@@ -33,10 +34,10 @@ const McqMeta = ({
 }) => {
     return (
         <div className="flex items-center justify-end space-x-1">
-            {subject && (
+            {subject?.name && (
                 <Badge variant="default" asChild>
                     <Link
-                        href="#"
+                        href={publicMethod.subjects.show(subject)}
                         title={`View all Papers from ${subject?.name}`}
                     >
                         <span className="max-w-26 truncate md:max-w-36">
@@ -136,7 +137,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                     <div className="flex-1">
                         <div className="my-6 text-sm font-semibold lg:text-base">
                             <Link href={`/mcqs/${mcq.slug}`}>
-                                Question {idx + 1}: {mcq.question}
+                                Question {idx ? idx + 1 : 1}: {mcq.question}
                             </Link>
                         </div>
 
@@ -253,24 +254,43 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                             className="px-3 py-1 font-semibold hover:!bg-accent"
                             asChild
                         >
-                            <Link href="#">
-                                {mcq.paper.testing_service.name}
+                            <Link href={publicMethod.papers.show(mcq.paper)}>
+                                {mcq.paper.name}
                             </Link>
                         </Badge>
-                        <Badge
-                            variant="default"
-                            className="hidden px-3 py-1 font-semibold sm:block"
-                            asChild
-                        >
-                            <Link
-                                href="#"
-                                title={`View all Papers from ${mcq.paper.department.name}`}
+                        {mcq.paper?.testing_service && (
+                            <Badge
+                                variant="secondary"
+                                className="px-3 py-1 font-semibold hover:!bg-accent"
+                                asChild
                             >
-                                <span className="truncate sm:max-w-26 md:max-w-36">
-                                    {mcq.paper.department.name}
-                                </span>
-                            </Link>
-                        </Badge>
+                                <Link
+                                    href={publicMethod.testing_services.show(
+                                        mcq.paper.testing_service,
+                                    )}
+                                >
+                                    {mcq.paper.testing_service.name}
+                                </Link>
+                            </Badge>
+                        )}
+                        {mcq.paper?.department && (
+                            <Badge
+                                variant="default"
+                                className="hidden px-3 py-1 font-semibold sm:block"
+                                asChild
+                            >
+                                <Link
+                                    href={publicMethod.departments.show(
+                                        mcq.paper.department,
+                                    )}
+                                    title={`View all Papers from ${mcq.paper.department.name}`}
+                                >
+                                    <span className="truncate sm:max-w-26 md:max-w-36">
+                                        {mcq.paper.department.name}
+                                    </span>
+                                </Link>
+                            </Badge>
+                        )}
                     </div>
                 )}
             </div>

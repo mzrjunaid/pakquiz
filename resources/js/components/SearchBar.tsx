@@ -121,7 +121,7 @@ export default function SearchBar({
     };
 
     return (
-        <div ref={dropdownRef} className="relative mx-auto max-w-2xl">
+        <div ref={dropdownRef} className="relative">
             {/* Input */}
             <div
                 className={`relative flex items-center rounded-lg bg-white transition ${isFocused ? 'shadow-lg ring-2 ring-primary' : 'shadow-md'}`}

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\Subject\SubjectResource;
@@ -63,8 +64,6 @@ class SubjectController extends Controller
     // 'seo' => app(SeoResolver::class)->resolve($request, $subject),
     public function show(Request $request, Subject $subject)
     {
-
-        // dd($subject);
 
         $perPage = min(
             max($request->integer('per_page', 10), 10),
@@ -147,13 +146,9 @@ class SubjectController extends Controller
      */
     public function subject_mcq(Request $request, Subject $subject, Mcq $mcq)
     {
-        dd('here');
-        // Ensure topic belongs to subject
-        abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
-
         return Inertia::render('public/mcqs/show', [
             'subject' => $subject,
-            'mcq' => $mcq,
+            'mcq' => new McqWithOptionsResource($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }
@@ -195,12 +190,11 @@ class SubjectController extends Controller
      */
     public function topic_mcq(Request $request, Subject $subject, Topic $topic, Mcq $mcq)
     {
-        dd('here');
 
-        return Inertia::render('public/topics/mcqs/show', [
+        return Inertia::render('public/mcqs/show', [
             'subject' => $subject,
             'topic' => $topic,
-            'mcq' => $mcq,
+            'mcq' => new McqWithOptionsResource($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }

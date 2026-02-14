@@ -16,6 +16,7 @@ class McqWithOptionsResource extends JsonResource
      * @return array<string, mixed>
      */
 
+    public static $wrap = null;
     public function toArray(Request $request)
     {
         return [
@@ -23,10 +24,7 @@ class McqWithOptionsResource extends JsonResource
             'slug' => $this->slug,
             'options' =>  OptionsResource::collection($this->options),
             'explanation' => $this->explanation,
-            'paper' =>  $this->paper ?  [
-                'name' => $this->paper?->name,
-                'slug' => $this->paper?->slug,
-            ] : null,
+            'paper' =>  $this->paper ? new PaperResource($this->paper) : null,
             'subject' => $this->subject ?  [
                 'name' => $this->subject?->name,
                 'slug' => $this->subject?->slug,
