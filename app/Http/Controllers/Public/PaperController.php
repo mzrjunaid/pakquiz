@@ -15,21 +15,27 @@ class PaperController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
+        $perPage = min(
+            max($request->integer('per_page', 25), 10),
+            100
+        );
+
         $query = Paper::query();
-        $papers = $query->paginate(10); // Paginate the results, 10 per page
+        $papers = $query->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();;
         return Inertia::render('public/papers/index', [
-            'papers' => $papers,
+            'papers' => PaperResource::collection($papers),
         ]);
     }
 
     /**
      * Display the specified resource.
      */
-    // 'seo' => app(SeoResolver::class)->resolve($request, $paper),
 
-    public function show(Paper $paper)
+    public function show(Request $request, Paper $paper)
     {
         // Load paper-specific relations (lightweight)
         $paper->load([
@@ -53,6 +59,7 @@ class PaperController extends Controller
         return Inertia::render('public/papers/show', [
             'paper' => new PaperResource($paper),
             'mcqs'  => McqResource::collection($mcqs),
+            'seo' => app(SeoResolver::class)->resolve($request, $paper),
         ]);
     }
 }
