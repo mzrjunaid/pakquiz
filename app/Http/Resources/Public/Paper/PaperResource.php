@@ -13,29 +13,30 @@ class PaperResource extends JsonResource
      *
      * @return array<string, mixed>
      */
+
+    public static $wrap = null;
+
     public function toArray(Request $request): array
     {
         return [
             'id' =>  $this->id,
             'name' => $this->name,
             'slug' => $this->slug,
-            'created_by' => [
-                'id'   => $this->createdBy?->id,
-                'name' => $this->createdBy?->name,
-            ],
-            'schedule_at' => Carbon::parse($this->schedule_at)->format('d-m-Y'),
+            'schedule_at' => $this->schedule_at ?  Carbon::parse($this->schedule_at)->format('d-m-Y') : null,
             'year' => $this->paper_year,
-            'is_active' => $this->is_active,
-            'department' => $this->whenLoaded('department'),
+            'department' => [
+                'name' => $this->department?->name,
+                'slug' => $this->department?->slug,
+            ],
             'subject' => [
                 'name' => $this->subject?->name,
                 'slug' => $this->subject?->slug,
             ],
             'testing_service' => [
                 'name' => $this->testingService?->name,
+                'short' => $this->testingService?->short_name,
                 'slug' => $this->testingService?->slug,
             ],
-            'tags'       => $this->whenLoaded('tags'),
             'created_at' => $this->created_at,
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,

@@ -17,6 +17,7 @@ export interface Paper {
     };
     testing_service: {
         name: string;
+        short: string;
         slug: string;
     };
     created_by: SimpleUser;

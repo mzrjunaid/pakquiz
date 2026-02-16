@@ -18,12 +18,14 @@ class PaperController extends Controller
     public function index(Request $request)
     {
         $perPage = min(
-            max($request->integer('per_page', 25), 10),
+            max($request->integer('per_page', 20), 10),
             100
         );
 
-        $query = Paper::query();
-        $papers = $query->paginate($perPage)
+
+        $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
+            ->where('is_active', '=', '1')
+            ->paginate($perPage)
             ->onEachSide(0)
             ->withQueryString();;
         return Inertia::render('public/papers/index', [
@@ -37,6 +39,11 @@ class PaperController extends Controller
 
     public function show(Request $request, Paper $paper)
     {
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
         // Load paper-specific relations (lightweight)
         $paper->load([
             'tags:id,name,slug',
@@ -51,9 +58,11 @@ class PaperController extends Controller
                 'topic:id,name,slug',
                 'createdBy:id,name',
                 'tags:id,name,slug',
+                'options:id,mcq_id,option_text,is_correct,sort_order'
             ])
             ->latest()
-            ->paginate(10)
+            ->paginate($perPage)
+            ->onEachSide(0)
             ->withQueryString();
 
         return Inertia::render('public/papers/show', [

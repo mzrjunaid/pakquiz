@@ -13,7 +13,7 @@ const MainSectionWithSidebarLayout: React.FC<Props> = ({
 }) => {
     return (
         <section className={`border-b ${className}`} ref={scrollRef}>
-            <div className="mx-auto max-w-7xl px-3 py-8 lg:px-0">
+            <div className="mx-auto max-w-7xl px-3 py-8 xl:px-0">
                 {children}
             </div>
         </section>
