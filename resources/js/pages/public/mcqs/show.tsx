@@ -1,27 +1,23 @@
-import FeatureCard from '@/components/feature-card';
 import SuggestionsForm from '@/components/form/suggestion-form';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
 import PageTitle from '@/components/public-page-title';
 import SearchBar from '@/components/SearchBar';
-import TextLink from '@/components/text-link';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
-import publicMethod from '@/routes/public';
+import mcqs from '@/routes/public/mcqs';
 import { Seo, SharedData } from '@/types';
-import { Mcq, Subject } from '@/types/public/mcq';
+import { Mcq } from '@/types/public/mcq';
 import { Head, usePage } from '@inertiajs/react';
-import { ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface McqProps extends SharedData {
-    subject: Subject;
     mcq: Mcq;
     seo: Seo;
 }
 
 const McqShow = () => {
-    const { seo, subject, mcq } = usePage<McqProps>().props;
+    const { seo, mcq } = usePage<McqProps>().props;
     return (
         <AppLayout>
             <Head title={seo.title}></Head>
@@ -29,17 +25,19 @@ const McqShow = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title + '...'} />
+                        <PageTitle title={'MCQ Detail'} />
                     </div>
                     <SearchBar />
                 </div>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                    <div className="lg:col-span-2 space-y-8">
-                        <McqCard mcq={mcq} />
+                    <div className="space-y-8 lg:col-span-2">
+                        <McqCard mcq={mcq} route={mcqs.show(mcq.slug)} />
                         <SuggestionsForm />
+
+                        <pre>{JSON.stringify(mcq, null, 2)}</pre>
                     </div>
                     <PageSidebar>
-                        {subject.topics && subject.topics.length > 1 && (
+                        {/* {subject.topics && subject.topics.length > 1 && (
                             <FeatureCard
                                 title="Topics"
                                 description={seo.description}
@@ -63,7 +61,7 @@ const McqShow = () => {
                                     ))}
                                 </div>
                             </FeatureCard>
-                        )}
+                        )} */}
                     </PageSidebar>
                 </div>
             </MainSectionWithSidebarLayout>

@@ -20,7 +20,7 @@ class McqController extends Controller
         $query = Mcq::query();
         $mcqs = $query->paginate(10); // Paginate the results, 10 per page
         return Inertia::render('public/mcqs/index', [
-            'mcqs' => McqResource::collection($mcqs),
+            'mcqs' => McqWithOptionsResource::collection($mcqs),
         ]);
     }
 
@@ -40,7 +40,7 @@ class McqController extends Controller
 
                 // dd('here');
 
-                return redirect()->route('public.subjects.topic.mcq.show', [
+                return redirect()->route('public.subjects.topics.mcq.show', [
                     'subject' => $mcq->subject->slug,
                     'topic'   => $mcq->topic->slug,
                     'mcq'     => $mcq->slug,
@@ -57,7 +57,7 @@ class McqController extends Controller
             // Ensure topic belongs to subject
             abort_if($mcq->topic->subject_id !== $mcq->subject_id, 404);
 
-            return redirect()->route('public.subjects.topic.show', [
+            return redirect()->route('public.subjects.topics.show', [
                 'subject' => $mcq->subject->slug,
                 'topic'   => $mcq->topic->slug,
                 'mcq'     => $mcq->slug,

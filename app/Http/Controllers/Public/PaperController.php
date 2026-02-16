@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
+use App\Models\Mcq;
 use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
@@ -69,6 +71,77 @@ class PaperController extends Controller
             'paper' => new PaperResource($paper),
             'mcqs'  => McqResource::collection($mcqs),
             'seo' => app(SeoResolver::class)->resolve($request, $paper),
+        ]);
+    }
+
+    /**
+     * Display Mcq of the specified resource.
+     */
+
+    public function paper_mcq(Request $request, Paper $paper, Mcq $mcq)
+    {
+        $mcq = $paper->mcqs()->with('options')->findOrFail($mcq->id);
+
+        return Inertia::render('public/mcqs/show', [
+            'mcq' => new McqWithOptionsResource($mcq),
+            'seo' => app(SeoResolver::class)->resolve($request, $mcq),
+        ]);
+    }
+
+    public function latest_papers(Request $request)
+    {
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
+        $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
+            ->where('is_active', '=', '1')
+            ->where('paper_year', '>=', date('2025'))
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();;
+        return Inertia::render('public/papers/index', [
+            'papers' => PaperResource::collection($papers),
+        ]);
+    }
+
+    public function past_papers(Request $request)
+    {
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
+        $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
+            ->where('is_active', '=', '1')
+            ->where('paper_year', '<', date('2025'))
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();;
+        return Inertia::render('public/papers/index', [
+            'papers' => PaperResource::collection($papers),
+        ]);
+    }
+
+    public function upcoming_papers(Request $request)
+    {
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
+        $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
+            ->where('is_active', '=', '1')
+            ->where('schedule_at', '>=', date('Y-m-d'))
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();;
+        return Inertia::render('public/papers/index', [
+            'papers' => PaperResource::collection($papers),
         ]);
     }
 }

@@ -67,3 +67,22 @@ export interface Seo {
     og_image: string;
     canonical: url;
 }
+
+export type McqRouteContext =
+    | {
+          type: 'paper';
+          paperSlug: string;
+      }
+    | {
+          type: 'subject';
+          subjectSlug: string;
+      }
+    | {
+          type: 'topic';
+          subjectSlug: string;
+          topicSlug: string;
+      }
+    | {
+          type: 'general';
+          mcqSlug: string;
+      };

@@ -54,19 +54,19 @@ export const subjectsNavItems: NavItem[] = [
     // },
     {
         title: 'Current Affairs',
-        href: `${subjects.index().url}/current-affairs`,
+        href: subjects.show({ subject: 'current-affairs' }),
     },
     {
         title: 'Everyday Science',
-        href: `${subjects.index().url}/everyday-science`,
+        href: subjects.show({ subject: 'everyday-science' }),
     },
     {
         title: 'Computer',
-        href: `${subjects.index().url}/computer`,
+        href: subjects.show({ subject: 'computer' }),
     },
     {
         title: 'English',
-        href: `${subjects.index().url}/english`,
+        href: subjects.show({ subject: 'english' }),
     },
     {
         title: 'All Subjects',
@@ -77,15 +77,19 @@ export const subjectsNavItems: NavItem[] = [
 export const papersNavItems: NavItem[] = [
     {
         title: 'Latest Papers',
-        href: home(),
+        href: papers.latest_papers(),
     },
     {
         title: 'Past Papers',
-        href: home(),
+        href: papers.past_papers(),
     },
     {
         title: 'Upcoming Papers',
-        href: home(),
+        href: papers.upcoming_papers(),
+    },
+    {
+        title: 'All Papers',
+        href: papers.index(),
     },
 ];
 

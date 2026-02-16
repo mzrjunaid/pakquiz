@@ -120,7 +120,12 @@ export default function Welcome({
                                     </p>
                                 )}
                                 {latestMcqs.data.map((mcq, idx) => (
-                                    <McqCard mcq={mcq} idx={idx} key={idx} />
+                                    <McqCard
+                                        mcq={mcq}
+                                        idx={idx}
+                                        key={idx}
+                                        route={mcqs.show(mcq.slug)}
+                                    />
                                 ))}
 
                                 <div className="flex justify-center">

@@ -1,3 +1,4 @@
+import { subject_mcq } from '@/actions/App/Http/Controllers/Public/SubjectController';
 import FeatureCard from '@/components/feature-card';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
@@ -26,6 +27,11 @@ export interface SubjectPageProps extends SharedData {
 const SubjectPage = () => {
     const { seo, mcqs, subject } = usePage<SubjectPageProps>().props;
     const isQuizMode = true;
+    const buildMcqLink = (slug: string) =>
+        subject_mcq({
+            subject: subject.slug,
+            mcq: slug,
+        });
     return (
         <AppLayout>
             <Head title={seo.title}></Head>
@@ -50,7 +56,12 @@ const SubjectPage = () => {
                                 </p>
                             )}
                             {mcqs.data.map((mcq, idx) => (
-                                <McqCard mcq={mcq} idx={idx} key={idx} />
+                                <McqCard
+                                    mcq={mcq}
+                                    idx={idx}
+                                    key={idx}
+                                    route={buildMcqLink(mcq.slug)}
+                                />
                             ))}
 
                             <SitePagination meta={mcqs.meta} />
@@ -73,7 +84,7 @@ const SubjectPage = () => {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.topic.show(
+                                                href={publicMethod.subjects.topics.show(
                                                     { subject, topic },
                                                 )}
                                                 className="my-2 block"

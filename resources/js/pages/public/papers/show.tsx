@@ -1,3 +1,4 @@
+import { paper_mcq } from '@/actions/App/Http/Controllers/Public/PaperController';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
 import { SitePagination } from '@/components/pagination';
@@ -19,6 +20,11 @@ interface PaperPageProps extends SharedData {
 
 const PaperPage = () => {
     const { seo, paper, mcqs } = usePage<PaperPageProps>().props;
+    const buildMcqLink = (slug: string) =>
+        paper_mcq({
+            paper: paper.slug,
+            mcq: slug,
+        });
     return (
         <AppLayout>
             <Head title={seo.title}></Head>
@@ -37,10 +43,13 @@ const PaperPage = () => {
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
                     <div className="space-y-8 lg:col-span-2">
                         {mcqs.data.map((mcq, idx) => (
-                            <McqCard mcq={mcq} idx={idx} key={idx} />
+                            <McqCard
+                                mcq={mcq}
+                                idx={idx}
+                                key={idx}
+                                route={buildMcqLink(mcq.slug)}
+                            />
                         ))}
-                        {/* <SuggestionsForm /> */}
-
                         <SitePagination meta={mcqs.meta} />
                     </div>
                     <PageSidebar>
@@ -72,10 +81,6 @@ const PaperPage = () => {
                     </PageSidebar>
                 </div>
             </MainSectionWithSidebarLayout>
-
-            {/* <pre>{JSON.stringify(seo, null, 2)}</pre> */}
-            <pre>{JSON.stringify(paper, null, 2)}</pre>
-            {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}
         </AppLayout>
     );
 };

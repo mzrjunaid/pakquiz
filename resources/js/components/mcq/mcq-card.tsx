@@ -1,6 +1,8 @@
 import { useIsMobile } from '@/hooks/use-mobile';
 import publicMethod from '@/routes/public';
+import papers from '@/routes/public/papers';
 import { Mcq, Subject } from '@/types/public/mcq';
+import { RouteDefinition } from '@/wayfinder';
 import { Link } from '@inertiajs/react';
 import { Bot, Share2, Tag } from 'lucide-react';
 import { useState } from 'react';
@@ -16,6 +18,7 @@ import { Button } from '../ui/button';
 interface McqCardProps {
     mcq: Mcq;
     idx?: number;
+    route: RouteDefinition<'get'>;
 }
 
 const QuestionType: Record<string, string> = {
@@ -37,7 +40,9 @@ const McqMeta = ({
             {subject?.name && (
                 <Badge variant="default" asChild>
                     <Link
-                        href={publicMethod.subjects.show(subject)}
+                        href={publicMethod.subjects.show({
+                            subject: subject.slug,
+                        })}
                         title={`View all Papers from ${subject?.name}`}
                     >
                         <span className="max-w-26 truncate md:max-w-36">
@@ -58,7 +63,7 @@ const McqMeta = ({
     );
 };
 
-const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
+const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
     const isQuizMode = true;
 
     const [selectedOptionId, setSelectedOptionId] = useState<number | null>(
@@ -136,7 +141,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                 <div className="flex gap-3">
                     <div className="flex-1">
                         <div className="my-6 text-sm font-semibold lg:text-base">
-                            <Link href={`/mcqs/${mcq.slug}`}>
+                            <Link href={route}>
                                 Question {idx ? idx + 1 : 1}: {mcq.question}
                             </Link>
                         </div>
@@ -223,7 +228,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                 </div>
             </div>
 
-            <div className="mt-4 flex justify-end md:justify-between">
+            <div className="mt-4 flex flex-wrap-reverse justify-end gap-6 md:justify-between">
                 {!isMobile && mcq?.tags && (
                     <div className="flex flex-col items-start gap-2 sm:flex-row sm:items-center">
                         <div className="flex items-center space-x-2">
@@ -232,7 +237,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                 Tags:
                             </span>
                         </div>
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex w-sm flex-wrap gap-2">
                             {mcq.tags.map((tag, idx) => (
                                 <Badge key={idx} variant="outline">
                                     <span className="max-w-20 truncate">
@@ -254,7 +259,12 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                             className="px-3 py-1 font-semibold hover:!bg-accent"
                             asChild
                         >
-                            <Link href={publicMethod.papers.show(mcq.paper)}>
+                            <Link
+                                href={papers.show({
+                                    paper: mcq.paper.slug,
+                                })}
+                                title={`View all mcqs from ${mcq.paper.name}`}
+                            >
                                 {mcq.paper.name}
                             </Link>
                         </Badge>
@@ -268,6 +278,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                     href={publicMethod.testing_services.show(
                                         mcq.paper.testing_service,
                                     )}
+                                    title={`View all Papers from ${mcq.paper.testing_service.name}`}
                                 >
                                     {mcq.paper.testing_service.name}
                                 </Link>
@@ -275,7 +286,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                         )}
                         {mcq.paper?.department && (
                             <Badge
-                                variant="default"
+                                variant="secondary"
                                 className="hidden px-3 py-1 font-semibold sm:block"
                                 asChild
                             >
@@ -283,7 +294,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx }) => {
                                     href={publicMethod.departments.show(
                                         mcq.paper.department,
                                     )}
-                                    title={`View all Papers from ${mcq.paper.department.name}`}
+                                    title={`View all Department Papers from ${mcq.paper.department.name}`}
                                 >
                                     <span className="truncate sm:max-w-26 md:max-w-36">
                                         {mcq.paper.department.name}
