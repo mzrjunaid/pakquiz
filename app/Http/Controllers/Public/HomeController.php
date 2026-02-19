@@ -30,13 +30,13 @@ class HomeController extends Controller
             return [
                 'canRegister' => Features::enabled(Features::registration()),
 
-                'departments' => Department::query()
+                'departments_list' => Department::query()
                     ->select('id', 'name', 'slug')
                     ->latest()
                     ->limit(6)
                     ->get(),
 
-                'subjects' => Subject::query()
+                'subjects_list' => Subject::query()
                     ->select('id', 'name', 'slug')
                     ->where('name', '!=', 'N/A')
                     ->withCount('mcqs')
@@ -44,7 +44,7 @@ class HomeController extends Controller
                     ->limit(8)
                     ->get(),
 
-                'topics' => Topic::query()
+                'topics_list' => Topic::query()
                     ->select('id', 'name', 'slug')
                     ->limit(6)
                     ->get(),

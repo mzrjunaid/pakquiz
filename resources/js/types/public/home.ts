@@ -6,13 +6,20 @@ export interface HomeProps {
     stats: Stats;
     canRegister?: boolean;
     seo: Seo;
-    departments: Department[];
-    subjects: Subject[];
+    departments_list: Department[];
+    topics_list: Topic[];
+    subjects_list: Subject[];
     latestPapers: LatestPapers[];
     latestMcqs: {
         data: Mcq[];
     };
 }
+
+export interface Topic {
+    name: string;
+    slug: string;
+}
+
 export interface Department {
     name: string;
     slug: string;

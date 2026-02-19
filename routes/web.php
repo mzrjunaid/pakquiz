@@ -108,4 +108,8 @@ Route::name('public.')->group(function () {
 });
 
 
+// Search Route and Search API Route
+Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
+
+
 require __DIR__ . '/settings.php';

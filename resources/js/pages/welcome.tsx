@@ -17,8 +17,9 @@ import PageSidebar from './public/homepage/components/page-sidebar';
 
 export default function Welcome({
     seo,
-    subjects,
-    departments,
+    subjects_list,
+    departments_list,
+    topics_list,
     latestPapers,
     stats,
     latestMcqs,
@@ -151,7 +152,7 @@ export default function Welcome({
                         <PageSidebar>
                             <FeatureCard title="Departments">
                                 <div className="md:px-2">
-                                    {departments.map((dept, idx) => (
+                                    {departments_list.map((dept, idx) => (
                                         <div
                                             className="flex items-center gap-1 text-sm"
                                             key={idx}
@@ -193,7 +194,7 @@ export default function Welcome({
                             </FeatureCard>
                             <FeatureCard title="Latest Subjects">
                                 <div className="md:px-2">
-                                    {subjects.map((subject, idx) => (
+                                    {subjects_list.map((subject, idx) => (
                                         <div
                                             className="flex items-center gap-1 text-sm"
                                             key={idx}
@@ -208,6 +209,28 @@ export default function Welcome({
                                                 className="my-2 block"
                                             >
                                                 {subject.name}
+                                            </TextLink>
+                                        </div>
+                                    ))}
+                                </div>
+                            </FeatureCard>
+                            <FeatureCard title="Latest Topics">
+                                <div className="md:px-2">
+                                    {topics_list.map((topic, idx) => (
+                                        <div
+                                            className="flex items-center gap-1 text-sm"
+                                            key={idx}
+                                        >
+                                            <ChevronRight size="16" />
+                                            <TextLink
+                                                href={publicMethod.subjects.show(
+                                                    {
+                                                        subject: topic.slug,
+                                                    },
+                                                )}
+                                                className="my-2 block"
+                                            >
+                                                {topic.name}
                                             </TextLink>
                                         </div>
                                     ))}

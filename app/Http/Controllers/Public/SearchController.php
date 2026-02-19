@@ -52,4 +52,64 @@ class SearchController extends Controller
             ],
         ]);
     }
+
+
+    public function suggestions(Request $request)
+    {
+        $query = trim($request->input('q', ''));
+        if (!$query) return response()->json([]);
+
+        $topics = Topic::select('id', 'name', 'slug')
+            ->where('name', 'like', "%{$query}%")
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'slug' => $m->slug,
+                'title' => $m->name,
+                'link' => route('public.topics.show', $m->slug),
+                'type' => 'Topic',
+            ]);
+
+        $subjects = Subject::select('id', 'name', 'slug')
+            ->where('name', 'like', "%{$query}%")
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'slug' => $m->slug,
+                'title' => $m->name,
+                'link' => route('public.subjects.show', $m->slug),
+                'type' => 'Subject',
+            ]);
+
+        $papers = Paper::select('id', 'name', 'slug')
+            ->where('name', 'like', "%{$query}%")
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'slug' => $m->slug,
+                'title' => $m->name,
+                'link' => route('public.papers.show', $m->slug),
+                'type' => 'Paper',
+            ]);
+
+        $mcqs = Mcq::select('id', 'question', 'slug')
+            ->where('question', 'like', "%{$query}%")
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'slug' => $m->slug,
+                'title' => $m->question,
+                'link' => route('public.mcqs.show', $m->slug),
+                'type' => 'MCQ',
+            ]);
+
+        return response()->json(
+            collect($subjects)
+                ->merge($topics)
+                ->merge($papers)
+                ->merge($mcqs)
+                ->take(12)
+                ->values()
+        );
+    }
 }

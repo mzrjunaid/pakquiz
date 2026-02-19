@@ -29,7 +29,7 @@ export default function PageSidebar({
                     <h3 className="mb-4 text-lg font-semibold">
                         Platform Features
                     </h3>
-                    <div className="space-y-4">
+                    <div className="space-y-2">
                         {features.map((feature, index) => (
                             <div
                                 key={index}
