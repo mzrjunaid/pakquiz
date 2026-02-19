@@ -38,6 +38,7 @@ class HomeController extends Controller
 
                 'subjects' => Subject::query()
                     ->select('id', 'name', 'slug')
+                    ->where('name', '!=', 'N/A')
                     ->withCount('mcqs')
                     ->orderByDesc('mcqs_count')
                     ->limit(8)

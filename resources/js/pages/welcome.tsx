@@ -1,18 +1,24 @@
 import CallToAction from '@/components/call-to-action';
+import FeatureCard from '@/components/feature-card';
 import McqCard from '@/components/mcq/mcq-card';
 import SearchBar from '@/components/SearchBar';
+import TextLink from '@/components/text-link';
 import { Button } from '@/components/ui/button';
 import AppLayout from '@/layouts/app-layout';
 import { breadcrumb } from '@/lib/breadcrumbs-utils';
+import publicMethod from '@/routes/public';
 import mcqs from '@/routes/public/mcqs';
+import papers from '@/routes/public/papers';
 import { HomeProps } from '@/types/public/home';
 import { Head, Link, usePage } from '@inertiajs/react';
+import { ChevronRight } from 'lucide-react';
 import HeroSection from './public/homepage/components/HeroSection';
 import PageSidebar from './public/homepage/components/page-sidebar';
 
 export default function Welcome({
     seo,
     subjects,
+    departments,
     latestPapers,
     stats,
     latestMcqs,
@@ -138,60 +144,80 @@ export default function Welcome({
                                         </Link>
                                     </Button>
                                 </div>
-
-                                {/* <SitePagination
-                                        meta={meta}
-                                        links={links}
-                                        scrollRef={scrollRef}
-                                    /> */}
                             </div>
                         </div>
 
                         {/* Sidebar */}
-                        <PageSidebar />
+                        <PageSidebar>
+                            <FeatureCard title="Departments">
+                                <div className="md:px-2">
+                                    {departments.map((dept, idx) => (
+                                        <div
+                                            className="flex items-center gap-1 text-sm"
+                                            key={idx}
+                                        >
+                                            <ChevronRight size="16" />
+                                            <TextLink
+                                                href={publicMethod.departments.show(
+                                                    {
+                                                        department: dept.slug,
+                                                    },
+                                                )}
+                                                className="my-2 line-clamp-1 overflow-hidden"
+                                            >
+                                                {dept.name}
+                                            </TextLink>
+                                        </div>
+                                    ))}
+                                </div>
+                            </FeatureCard>
+                            <FeatureCard title="Latest Papers">
+                                <div className="md:px-2">
+                                    {latestPapers.map((paper, idx) => (
+                                        <div
+                                            className="flex items-center gap-1 text-sm"
+                                            key={idx}
+                                        >
+                                            <ChevronRight size="16" />
+                                            <TextLink
+                                                href={papers.show({
+                                                    paper: paper.slug,
+                                                })}
+                                                className="my-2 block"
+                                            >
+                                                {paper.name}
+                                            </TextLink>
+                                        </div>
+                                    ))}
+                                </div>
+                            </FeatureCard>
+                            <FeatureCard title="Latest Subjects">
+                                <div className="md:px-2">
+                                    {subjects.map((subject, idx) => (
+                                        <div
+                                            className="flex items-center gap-1 text-sm"
+                                            key={idx}
+                                        >
+                                            <ChevronRight size="16" />
+                                            <TextLink
+                                                href={publicMethod.subjects.show(
+                                                    {
+                                                        subject: subject.slug,
+                                                    },
+                                                )}
+                                                className="my-2 block"
+                                            >
+                                                {subject.name}
+                                            </TextLink>
+                                        </div>
+                                    ))}
+                                </div>
+                            </FeatureCard>
+                        </PageSidebar>
                     </div>
                 </div>
             </section>
             <CallToAction />
-            <pre>
-                {/* {JSON.stringify(seo, null, 2)} */}
-                {/* {JSON.stringify(subjects, null, 2)} */}
-                {/* {JSON.stringify(latestPapers, null, 2)} */}
-                {/* {JSON.stringify(latestMcqs, null, 2)} */}
-            </pre>
         </AppLayout>
     );
 }
-
-/*
-            <div className="flex min-h-screen flex-col items-center bg-[#FDFDFC] p-6 text-[#1b1b18] lg:justify-center lg:p-8 dark:bg-[#0a0a0a]">
-                <header className="mb-6 w-full max-w-[335px] text-sm not-has-[nav]:hidden lg:max-w-4xl">
-                    <nav className="flex items-center justify-end gap-4">
-                        {auth.user ? (
-                            <Link
-                                href={dashboard()}
-                                className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                            >
-                                Dashboard
-                            </Link>
-                        ) : (
-                            <>
-                                <Link
-                                    href={login()}
-                                    className="inline-block rounded-sm border border-transparent px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#19140035] dark:text-[#EDEDEC] dark:hover:border-[#3E3E3A]"
-                                >
-                                    Log in
-                                </Link>
-                                {canRegister && (
-                                    <Link
-                                        href={register()}
-                                        className="inline-block rounded-sm border border-[#19140035] px-5 py-1.5 text-sm leading-normal text-[#1b1b18] hover:border-[#1915014a] dark:border-[#3E3E3A] dark:text-[#EDEDEC] dark:hover:border-[#62605b]"
-                                    >
-                                        Register
-                                    </Link>
-                                )}
-                            </>
-                        )}
-                    </nav>
-                </header>
-                */

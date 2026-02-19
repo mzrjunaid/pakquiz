@@ -139,7 +139,11 @@ class PaperController extends Controller
             ->latest()
             ->paginate($perPage)
             ->onEachSide(0)
-            ->withQueryString();;
+            ->withQueryString();
+
+        if ($papers->isEmpty()) {
+            return Inertia::render('public/coming-soon/index');
+        }
         return Inertia::render('public/papers/index', [
             'papers' => PaperResource::collection($papers),
         ]);
