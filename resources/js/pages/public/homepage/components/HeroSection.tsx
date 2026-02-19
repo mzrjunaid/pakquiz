@@ -1,7 +1,9 @@
 import McqCard from '@/components/mcq/mcq-card';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
+import { useIsMobile } from '@/hooks/use-mobile';
 import { mapStatsToUi } from '@/lib/map-stats-to-ui';
+import mcqs from '@/routes/public/mcqs';
 import { Stats } from '@/types/public/home';
 import { Mcq } from '@/types/public/mcq';
 import { router } from '@inertiajs/react';
@@ -15,6 +17,7 @@ interface Props {
 
 export default function HeroSection({ stats, mcq }: Props) {
     const [currentMCQ, setCurrentMCQ] = useState(0);
+    const isMobile = useIsMobile();
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -52,7 +55,9 @@ export default function HeroSection({ stats, mcq }: Props) {
                                 className="py-4 text-lg font-semibold transition-all md:!px-8"
                                 variant="default"
                                 size="lg"
-                                onClick={() => router.visit('/old-papers')}
+                                onClick={() =>
+                                    router.visit('/papers/past-papers')
+                                }
                             >
                                 <Play className="h-5 w-5" />
                                 Start Practicing
@@ -91,11 +96,14 @@ export default function HeroSection({ stats, mcq }: Props) {
                         </div>
                     </div>
 
-                    <McqCard
-                        mcq={mcq[currentMCQ]}
-                        idx={currentMCQ}
-                        key={currentMCQ}
-                    />
+                    {!isMobile && (
+                        <McqCard
+                            mcq={mcq[currentMCQ]}
+                            idx={currentMCQ}
+                            key={currentMCQ}
+                            route={mcqs.show(mcq[currentMCQ].slug)}
+                        />
+                    )}
                 </div>
             </div>
         </section>
