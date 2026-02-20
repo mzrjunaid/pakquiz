@@ -30,13 +30,39 @@ export default function Welcome({
     const homepageSchema = {
         '@context': 'https://schema.org',
         '@graph': [
+            // ORGANIZATION
+            {
+                '@type': 'Organization',
+                '@id': 'https://www.pakquiz.com/#organization',
+                name: 'Pak Quiz',
+                url: 'https://www.pakquiz.com',
+                logo: {
+                    '@type': 'ImageObject',
+                    url: 'https://www.pakquiz.com/logo.png',
+                },
+                sameAs: [
+                    'https://www.facebook.com/profile.php?id=61588211743083',
+                    'https://www.youtube.com/@pakquiz-ai',
+                    'https://www.tiktok.com/@pakquiz_ai',
+                ],
+                contactPoint: {
+                    '@type': 'ContactPoint',
+                    contactType: 'customer support',
+                    email: 'support@pakquiz.com',
+                    areaServed: 'PK',
+                    availableLanguage: ['English', 'Urdu'],
+                },
+            },
+
+            // WEBSITE
             {
                 '@type': 'WebSite',
-                '@id': 'https://www.pakquiz.com/#webpage',
+                '@id': 'https://www.pakquiz.com/#website',
                 url: 'https://www.pakquiz.com',
-                name: 'PAK QUIZ',
+                name: 'Pak Quiz',
                 description:
-                    'Pak Quiz offers a vast collection of AI-Enhanced multiple-choice questions (MCQs) to help you prepare for various exams (PPSC, NTS, FPSC, CSS, PMS,... etc.)',
+                    'Pak Quiz provides AI-powered multiple-choice questions (MCQs), past papers, and practice tests to help students prepare for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan.',
+                inLanguage: 'en',
                 publisher: {
                     '@id': 'https://www.pakquiz.com/#organization',
                 },
@@ -46,39 +72,21 @@ export default function Welcome({
                     'query-input': 'required name=search_term_string',
                 },
             },
-            // {
-            //     '@type': 'Organization',
-            //     '@id': 'https://www.pakquiz.com/#organization',
-            //     name: 'PAK QUIZ',
-            //     url: 'https://www.pakquiz.com',
-            //     logo: 'https://www.pakquiz.com/logo.png',
-            //     sameAs: [
-            //         'https://www.facebook.com/pakquiz',
-            //         'https://www.youtube.com/@pakquiz',
-            //         'https://www.tiktok.com/@pakquiz',
-            //         'https://twitter.com/pakquiz',
-            //     ],
-            //     contactPoint: {
-            //         '@type': 'ContactPoint',
-            //         contactType: 'Customer Support',
-            //         email: 'support@pakquiz.com',
-            //         areaServed: 'PK',
-            //         availableLanguage: ['English', 'Urdu'],
-            //     },
-            // },
+
+            // HOMEPAGE WEBPAGE
             {
                 '@type': 'WebPage',
                 '@id': 'https://www.pakquiz.com/#webpage',
                 url: 'https://www.pakquiz.com',
                 name: 'Pak Quiz – AI-Powered MCQs & Job Test Preparation',
                 description:
-                    'Pak Quiz offers a vast collection of AI-Enhanced multiple-choice questions (MCQs) to help you prepare for various exams (PPSC, NTS, FPSC, CSS, PMS,... etc.)',
+                    'Prepare for government and competitive exams in Pakistan with updated AI-powered MCQs, solved past papers, and structured practice tests.',
                 inLanguage: 'en',
-                isPartOf: { '@id': 'https://www.pakquiz.com/#website' },
+                isPartOf: {
+                    '@id': 'https://www.pakquiz.com/#website',
+                },
                 about: {
-                    '@type': 'EducationalOrganization',
-                    name: 'Pak Quiz',
-                    sameAs: 'https://www.pakquiz.com',
+                    '@id': 'https://www.pakquiz.com/#organization',
                 },
             },
         ],
