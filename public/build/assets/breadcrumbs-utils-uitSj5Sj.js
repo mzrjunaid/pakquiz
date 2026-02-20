@@ -1,0 +1,1 @@
+function s(t){const c=(e=>e.split("?")[0].replace(/\/+$/,""))(t).split("/").filter(Boolean),n=[];let a="";for(const e of c){if(e==="admin"){n.push({title:"Admin",href:"/admin/dashboard"}),a="/admin";continue}a+=`/${e}`,n.push({title:o(e),href:a})}return n}function o(t){return t.replace(/-/g," ").replace(/\b\w/g,r=>r.toUpperCase())}export{s as b};
