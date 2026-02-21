@@ -11,6 +11,8 @@ Artisan::command('inspire', function () {
 
 Schedule::command('seo:update')
     ->dailyAt('02:00')
-    ->withoutOverlapping()
-    ->onOneServer()
-    ->runInBackground();
+    ->withoutOverlapping();
+
+Schedule::command('sitemap:generate')
+    ->dailyAt('03:00')
+    ->withoutOverlapping();

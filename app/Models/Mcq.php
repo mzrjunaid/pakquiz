@@ -110,10 +110,13 @@ class Mcq extends Model
     {
         static::saved(function () {
             Cache::forget('demo_mcqs');
+            // Run sitemap generation in background if site is large
+            \App\Jobs\GenerateSitemapJob::dispatch();
         });
 
         static::deleted(function () {
             Cache::forget('demo_mcqs');
+            \App\Jobs\GenerateSitemapJob::dispatch();
         });
     }
 
