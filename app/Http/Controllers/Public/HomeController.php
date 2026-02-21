@@ -3,19 +3,17 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Public\Demo\McqDemoResource;
-use App\Http\Resources\Public\Mcq\McqResource;
+
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Department;
 use App\Models\Mcq;
-use App\Models\Page;
 use App\Models\Paper;
 use App\Models\Subject;
 use App\Models\Tag;
 use App\Models\Topic;
 use App\Models\User;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Request;
 use Inertia\Inertia;
 use Laravel\Fortify\Features;
 
@@ -119,5 +117,19 @@ class HomeController extends Controller
     public function help_center()
     {
         return Inertia::render('public/help-center/index');
+    }
+
+
+    /**
+     * Set MCQ Mode in session
+     */
+
+    public function setQuizMode(Request $request)
+    {
+        $request->validate([
+            'isQuizMode' => 'required|boolean',
+        ]);
+        session(['isQuizMode' => (bool) $request->boolean('isQuizMode')]);
+        return response()->noContent();
     }
 }

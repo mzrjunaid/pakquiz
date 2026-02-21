@@ -47,6 +47,7 @@ class HandleInertiaRequests extends Middleware
                 'user' => $request->user(),
             ],
             'seo' => app(SeoResolver::class)->resolve($request),
+            'isQuizMode' => fn() => session('isQuizMode', false),
             'sidebarOpen' => (bool) ($request->cookie('sidebar_state', 'false') === 'true'),
         ];
     }

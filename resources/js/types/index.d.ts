@@ -36,6 +36,7 @@ export interface SharedData {
     auth: Auth;
     seo: Seo;
     sidebarOpen: boolean;
+    isQuizMode: boolean;
     [key: string]: unknown;
 }
 

@@ -42,7 +42,9 @@ const SubjectsPage = () => {
                                         >
                                             <Link
                                                 href={publicMethod.subjects.show(
-                                                    subject.slug,
+                                                    {
+                                                        subject: subject.slug,
+                                                    },
                                                 )}
                                                 className="block space-y-2"
                                             >

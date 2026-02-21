@@ -1,4 +1,5 @@
 import { useIsMobile } from '@/hooks/use-mobile';
+import { useMcqMode } from '@/hooks/use-quiz-mode';
 import publicMethod from '@/routes/public';
 import papers from '@/routes/public/papers';
 import { Mcq, Subject } from '@/types/public/mcq';
@@ -64,7 +65,7 @@ const McqMeta = ({
 };
 
 const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
-    const isQuizMode = true;
+    const { isQuizMode } = useMcqMode();
 
     const [selectedOptionId, setSelectedOptionId] = useState<number | null>(
         null,

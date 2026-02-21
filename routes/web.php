@@ -62,7 +62,7 @@ Route::get('/join-us', [HomeController::class, 'join_us'])->name('joinUs');
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
 Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
 Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');
-Route::post('/set-mcq-mode', [HomeController::class, 'setMcqMode'])->name('McqMode');
+Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
 Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
