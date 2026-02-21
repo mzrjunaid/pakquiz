@@ -1,4 +1,8 @@
-import { generalNavItems } from '@/config/public-navigation';
+import {
+    generalNavItems,
+    papersNavItems,
+    subjectsNavItems,
+} from '@/config/public-navigation';
 import { Link } from '@inertiajs/react';
 import AppLogo from './app-logo';
 
@@ -6,7 +10,7 @@ export default function PublicFooter() {
     return (
         <footer className="py-12">
             <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
-                <div className="flex flex-wrap gap-6 md:grid md:grid-cols-4 md:gap-8">
+                <div className="flex flex-wrap gap-6 md:grid md:grid-cols-5 md:gap-8">
                     <div>
                         <div className="mb-4 flex items-center space-x-3">
                             <AppLogo />
@@ -18,7 +22,9 @@ export default function PublicFooter() {
                     </div>
 
                     <div>
-                        <h3 className="mb-3 font-semibold">Features</h3>
+                        <h3 className="mb-3 font-semibold">
+                            Coming Soon Features
+                        </h3>
                         <ul className="space-y-2 text-sm">
                             <li>AI-Enhanced MCQs</li>
                             <li>Mock Tests</li>
@@ -28,12 +34,34 @@ export default function PublicFooter() {
                     </div>
 
                     <div>
+                        <h3 className="mb-3 font-semibold">Papers</h3>
+                        <ul className="space-y-2 text-sm">
+                            {papersNavItems.map((item, index) => (
+                                <li key={index + 1}>
+                                    <Link
+                                        href={item.href}
+                                        className="hover:underline"
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            ))}
+                        </ul>
+                    </div>
+
+                    <div>
                         <h3 className="mb-3 font-semibold">Subjects</h3>
                         <ul className="space-y-2 text-sm">
-                            <li>Computer Science</li>
-                            <li>Mathematics</li>
-                            <li>Biology</li>
-                            <li>Physics & Chemistry</li>
+                            {subjectsNavItems.map((item, index) => (
+                                <li key={index + 1}>
+                                    <Link
+                                        href={item.href}
+                                        className="hover:underline"
+                                    >
+                                        {item.title}
+                                    </Link>
+                                </li>
+                            ))}
                         </ul>
                     </div>
 
