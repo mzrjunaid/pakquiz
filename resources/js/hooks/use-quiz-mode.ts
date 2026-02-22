@@ -7,7 +7,7 @@ export function useQuizMode() {
 
     const setIsQuizMode = (value: boolean) => {
         router.put(
-            setQuizMode(),
+            setQuizMode().url,
             {
                 isQuizMode: value,
             },
