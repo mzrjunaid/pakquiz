@@ -1,14 +1,14 @@
 import { useInitials } from '@/hooks/use-initials';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { SharedData } from '@/types';
-import { Link, router, usePage } from '@inertiajs/react';
-import { ChevronsUpDown, UserCircle2 } from 'lucide-react';
+import { Link, usePage } from '@inertiajs/react';
+import { ChevronsUpDown } from 'lucide-react';
 import AppLogo from './app-logo';
 // import AppMode from './app-mode';
 import { home } from '@/routes';
+import AppMode from './app-mode';
 import { PublicNavigationMenu } from './public-nav';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
-import { Button } from './ui/button';
 import {
     DropdownMenu,
     DropdownMenuContent,
@@ -76,17 +76,10 @@ export default function PublicHeader() {
                             </DropdownMenuContent>
                         </DropdownMenu>
                     ) : (
-                        <Button
-                            variant="link"
-                            size="icon"
-                            className="size-6 text-foreground md:block"
-                            onClick={() => router.visit('/login')}
-                            asChild
-                        >
-                            <UserCircle2 />
-                        </Button>
+                        <Link href="/login" className='text-sm font-semibold hover:underline hover:text-primary'>Login</Link>
                     )}
-                    {/* {!isMobile && <AppMode />} */}
+
+                    {!isMobile && <AppMode />}
                 </div>
             </div>
         </nav>
