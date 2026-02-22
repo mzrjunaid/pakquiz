@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
+import topics from '@/routes/public/subjects/topics';
 import { Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Subject } from '@/types/subject';
@@ -70,7 +71,13 @@ const SubjectsPage = () => {
                                                                     key={
                                                                         topic.id
                                                                     }
-                                                                    href={`/subjects/${subject.slug}/topics/${topic.slug}`}
+                                                                    href={topics.show(
+                                                                        {
+                                                                            subject:
+                                                                                subject.slug,
+                                                                            topic: topic.slug,
+                                                                        },
+                                                                    )}
                                                                 >
                                                                     <Badge className="cursor-pointer transition-colors hover:bg-primary/25 hover:text-primary">
                                                                         {

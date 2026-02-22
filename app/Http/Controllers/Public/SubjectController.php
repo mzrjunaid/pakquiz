@@ -156,7 +156,7 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function topic(Request $request, Subject $subject, Topic $topic)
+    public function topics_show(Request $request, Subject $subject, Topic $topic)
     {
         // Load topic relations (lightweight)
         $topic->load([
@@ -180,7 +180,7 @@ class SubjectController extends Controller
         return Inertia::render('public/topics/show', [
             'subject' => $subject,
             'topic' => $topic,
-            'mcqs'  => McqResource::collection($mcqs),
+            'mcqs'  => McqWithOptionsResource::collection($mcqs),
             'seo' => app(SeoResolver::class)->resolve($request, $topic),
         ]);
     }
