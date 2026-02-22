@@ -6,7 +6,7 @@ import { Mcq, Subject } from '@/types/public/mcq';
 import { RouteDefinition } from '@/wayfinder';
 import { Link } from '@inertiajs/react';
 import { Bot, Share2, Tag } from 'lucide-react';
-import { useState } from 'react';
+import { ReactNode, useState } from 'react';
 import {
     Accordion,
     AccordionContent,
@@ -64,6 +64,58 @@ const McqMeta = ({
     );
 };
 
+const McqHeader = ({
+    isQuizMode,
+    difficulty,
+    children,
+}: {
+    isQuizMode: boolean;
+    difficulty: string;
+    children: ReactNode;
+}) => {
+    const getDifficultyBadgeVariant = (difficulty: string) => {
+        switch (difficulty.toLowerCase()) {
+            case 'easy':
+                return 'bg-success/10 py-1 text-success hover:bg-success/20';
+            case 'medium':
+                return 'bg-card py-1 text-info-foreground hover:bg-yellow-100 border-yellow-500 capitalize';
+            case 'hard':
+                return 'bg-destructive/35 py-1 text-destructive-foreground hover:bg-destructive/50 border-destructive capitalize';
+            default:
+                return 'bg-gray-100 py-1 text-gray-700 hover:bg-gray-200';
+        }
+    };
+    return (
+        <div className="mb-2 flex flex-col-reverse md:flex-row md:justify-between">
+            <div className="flex flex-wrap items-center gap-2 space-x-2">
+                <Badge variant="outline">
+                    <Bot className="mr-1 h-3 w-3" />
+                    AI
+                </Badge>
+                <Badge
+                    variant="outline"
+                    className={
+                        isQuizMode
+                            ? 'border-destructive text-destrcutive'
+                            : 'border-success text-success'
+                    }
+                >
+                    {isQuizMode ? '📝 Quiz' : '📖 Study'}
+                </Badge>
+                {difficulty && (
+                    <Badge
+                        variant="secondary"
+                        className={getDifficultyBadgeVariant(difficulty)}
+                    >
+                        {difficulty}
+                    </Badge>
+                )}
+            </div>
+            {children}
+        </div>
+    );
+};
+
 const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
     const { isQuizMode } = useMcqMode();
 
@@ -84,19 +136,6 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
         setSelectedOptionId(optionId);
     };
 
-    const getDifficultyBadgeVariant = (difficulty: string) => {
-        switch (difficulty.toLowerCase()) {
-            case 'easy':
-                return 'bg-success/10 py-1 text-success hover:bg-success/20';
-            case 'medium':
-                return 'bg-card py-1 text-info-foreground hover:bg-yellow-100 border-yellow-500 capitalize';
-            case 'hard':
-                return 'bg-destructive/35 py-1 text-destructive-foreground hover:bg-destructive/50 border-destructive capitalize';
-            default:
-                return 'bg-gray-100 py-1 text-gray-700 hover:bg-gray-200';
-        }
-    };
-
     return (
         <div
             className={`rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 ${
@@ -107,37 +146,11 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                       : 'border-card bg-card'
             }`}
         >
-            <div className="mb-2 flex flex-col-reverse md:flex-row md:justify-between">
-                <div className="flex flex-wrap items-center gap-2 space-x-2">
-                    <Badge variant="outline">
-                        <Bot className="mr-1 h-3 w-3" />
-                        AI
-                    </Badge>
-                    <Badge
-                        variant="outline"
-                        className={
-                            isQuizMode
-                                ? 'border-destructive text-destrcutive'
-                                : 'border-success text-success'
-                        }
-                    >
-                        {isQuizMode ? '📝 Quiz' : '📖 Study'}
-                    </Badge>
-                    {mcq.difficulty && (
-                        <Badge
-                            variant="secondary"
-                            className={getDifficultyBadgeVariant(
-                                mcq.difficulty,
-                            )}
-                        >
-                            {mcq.difficulty}
-                        </Badge>
-                    )}
-                </div>
+            <McqHeader isQuizMode={isQuizMode} difficulty={mcq.difficulty}>
                 {!isMobile && (
                     <McqMeta mcq_type={mcq.mcq_type} subject={mcq.subject} />
                 )}
-            </div>
+            </McqHeader>
             <div>
                 <div className="flex gap-3">
                     <div className="flex-1">
@@ -175,7 +188,10 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                                 .
                                             </span>
 
-                                            <span>{opt.option_text}</span>
+                                            <span>
+                                                {opt.option_text} -{' '}
+                                                {opt.sort_order}
+                                            </span>
 
                                             {opt.is_correct && showAnswers && (
                                                 <span className="ml-auto text-xs font-semibold text-success">

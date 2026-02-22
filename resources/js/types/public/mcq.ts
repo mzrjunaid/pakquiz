@@ -8,6 +8,7 @@ import { Paper } from './paper';
 export interface Option {
     id: number;
     option_text: string;
+    sort_order: number;
     is_correct: boolean;
 }
 

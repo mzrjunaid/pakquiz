@@ -48,7 +48,7 @@ class Mcq extends Model
 
     public function options()
     {
-        return $this->hasMany(McqOption::class);
+        return $this->hasMany(McqOption::class)->orderBy('sort_order');;
     }
 
     public function createdBy()

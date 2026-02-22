@@ -17,6 +17,7 @@ class OptionsResource extends JsonResource
         return [
             "id" => $this->id,
             'option_text' => $this->option_text,
+            'sort_order' => $this->sort_order,
             'is_correct' => $this->is_correct,
         ];
     }
