@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\McqResource;
+use App\Http\Resources\Admin\McqShowResource;
 use App\Models\Mcq;
 use App\Services\McqService;
 use Illuminate\Http\Request;
@@ -23,29 +24,35 @@ class McqController extends Controller
             100
         );
 
-        $query = $filter->apply(
-            Mcq::query()->with(['createdBy',  'paper', 'subject', 'topic'])
-        );
+        $sortableColumns = ['id', 'name', 'short_name', 'created_at'];
 
-        $filter->applySorting(
-            $query,
-            ['id', 'name', 'created_by', 'created_at']
-        );
+        $sortBy = in_array(
+            $request->input('sort_by'),
+            $sortableColumns,
+            true
+        )
+            ? $request->input('sort_by')
+            : 'created_at';
 
-        $mcqs = $query
+        $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
+
+
+        $mcqs = $filter
+            ->apply(Mcq::query()->with(['createdBy',  'paper', 'subject', 'topic']))
+            ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
             ->withQueryString();
 
         return Inertia::render('admin/mcqs/index', [
             'mcqs' => McqResource::collection($mcqs),
-            'filters' => [
-                'name'     => $request->input('name', ''),
-                'type'       => $request->input('type', ''),
-                'created_by' => $request->input('created_by', ''),
-                'per_page'   => $request->integer('per_page', 10),
-                'sort_by'   => $request->input('sort_by', 'created_at'),
-                'sort_order' => $request->input('sort_order', 'desc'),
-            ],
+            'filters' => $request->only([
+                'name',
+                'short_name',
+                'created_by',
+                'per_page',
+                'sort_by',
+                'sort_order',
+            ]),
 
             'stats' => $service->stats(),
         ]);
@@ -70,9 +77,16 @@ class McqController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Mcq $mcq)
     {
-        return Inertia::render('admin/mcqs/show', []);
+        $mcq->loadMissing([
+            'options:id,mcq_id,option_text,is_correct,sort_order',
+            'tags:id,name,slug'
+        ]);
+
+        return Inertia::render('admin/mcqs/show', [
+            'mcq' => McqShowResource::make($mcq),
+        ]);
     }
 
     /**

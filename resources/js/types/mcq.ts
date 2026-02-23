@@ -1,10 +1,12 @@
 import { Paper } from './paper';
+import { Option, Tag } from './public/mcq';
 import { SimpleUser } from './user';
 
 export interface Mcq {
     id: number;
-    name: string;
+    question: string;
     slug: string;
+    explanation: string;
     created_by: SimpleUser;
     schedule_at: string;
     is_active: boolean;
@@ -17,6 +19,10 @@ export interface Mcq {
         name: string;
         slug: string;
     };
+    options: Option[];
+    tags: Tag[];
+    type: string;
+    difficulty: string;
     created_at: string;
     updated_at: string;
     deleted_at?: string;

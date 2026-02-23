@@ -23,30 +23,36 @@ class PaperController extends Controller
             100
         );
 
+        $sortableColumns = ['id', 'name', 'short_name', 'created_at'];
 
-        $query = $filter->apply(
-            Paper::query()->with(['createdBy', 'department', 'testingService', 'subject'])
-        );
+        $sortBy = in_array(
+            $request->input('sort_by'),
+            $sortableColumns,
+            true
+        )
+            ? $request->input('sort_by')
+            : 'created_at';
 
-        $filter->applySorting(
-            $query,
-            ['id', 'name', 'created_by', 'created_at']
-        );
+        $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
 
-        $papers = $query
+
+        $papers = $filter
+            ->apply(Paper::query()->with(['createdBy', 'department', 'testingService', 'subject']))
+            ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
             ->withQueryString();
 
+
         return Inertia::render('admin/papers/index', [
             'papers' => PaperResource::collection($papers),
-            'filters' => [
-                'name'     => $request->input('name', ''),
-                'type'       => $request->input('type', ''),
-                'created_by' => $request->input('created_by', ''),
-                'per_page'   => $request->integer('per_page', 10),
-                'sort_by'   => $request->input('sort_by', 'created_at'),
-                'sort_order' => $request->input('sort_order', 'desc'),
-            ],
+            'filters' => $request->only([
+                'name',
+                'short_name',
+                'created_by',
+                'per_page',
+                'sort_by',
+                'sort_order',
+            ]),
 
             'stats' => $service->stats(),
         ]);

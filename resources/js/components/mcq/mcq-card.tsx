@@ -188,10 +188,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                                 .
                                             </span>
 
-                                            <span>
-                                                {opt.option_text} -{' '}
-                                                {opt.sort_order}
-                                            </span>
+                                            <span>{opt.option_text}</span>
 
                                             {opt.is_correct && showAnswers && (
                                                 <span className="ml-auto text-xs font-semibold text-success">

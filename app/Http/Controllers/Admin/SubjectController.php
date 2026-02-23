@@ -23,31 +23,35 @@ class SubjectController extends Controller
             100
         );
 
+        $sortableColumns = ['id', 'name', 'short_name', 'created_at'];
 
-        $query = $filter->apply(
-            Subject::query()->with(['createdBy', 'topics'])
-        );
+        $sortBy = in_array(
+            $request->input('sort_by'),
+            $sortableColumns,
+            true
+        )
+            ? $request->input('sort_by')
+            : 'created_at';
 
-        $filter->applySorting(
-            $query,
-            ['id', 'name', 'created_by', 'created_at']
-        );
+        $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
 
-        $subjects = $query
+
+        $subjects = $filter
+            ->apply(Subject::query()->with(['createdBy', 'topics']))
+            ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
             ->withQueryString();
 
-
         return Inertia::render('admin/subjects/index', [
             'subjects' => SubjectResource::collection($subjects),
-            'filters' => [
-                'name'     => $request->input('name', ''),
-                'created_by' => $request->input('created_by', ''),
-                'per_page'   => $request->integer('per_page', 10),
-                'sort_by'   => $request->input('sort_by', 'created_at'),
-                'sort_order' => $request->input('sort_order', 'desc'),
-            ],
-
+            'filters' => $request->only([
+                'name',
+                'short_name',
+                'created_by',
+                'per_page',
+                'sort_by',
+                'sort_order',
+            ]),
             'stats' => $service->stats(),
         ]);
     }

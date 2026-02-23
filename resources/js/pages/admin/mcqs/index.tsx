@@ -34,7 +34,7 @@ export default function McqsIndex({
                     filters={filters}
                     url={mcqsRoute.index().url}
                 />
-                <pre>{JSON.stringify(mcqs, null, 2)}</pre>
+                {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}
             </section>
         </AdminLayout>
     );
