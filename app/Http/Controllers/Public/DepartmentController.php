@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\DepartmentResource;
+use App\Http\Resources\Public\Dept\DeptResource;
 use App\Models\Department;
+use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,12 +16,29 @@ class DepartmentController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $query = Department::query();
-        $departments = $query->paginate(10); // Paginate the results, 10 per page
+        $perPage = min(
+            max($request->integer('per_page', 20), 10),
+            100
+        );
+
+
+        $departments = Department::query()
+            ->with([
+                'papers' => function ($query) {
+                    $query->select('id', 'department_id', 'name', 'slug')
+                        ->latest()
+                        ->limit(3);
+                }
+            ])
+            ->where('name', '!=', 'N/A')
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
         return Inertia::render('public/departments/index', [
-            'departments' => $departments,
+            'departments' => DeptResource::collection($departments),
         ]);
     }
 

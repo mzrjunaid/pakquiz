@@ -68,11 +68,17 @@ Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
         ->name('search');
 
-    Route::get('/departments', [PublicDepartmentController::class, 'index'])->name('departments.index');
-    Route::get('/departments/{department:slug}/papers', [PublicDepartmentController::class, 'show'])->name('departments.show');
+    Route::prefix('departments')->name('departments.')->group(function () {
+        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
+        Route::get('/{department:slug}/papers', [PublicDepartmentController::class, 'show'])->name('show');
+    });
 
-    Route::get('/testing-services', [PublicTestingServiceController::class, 'index'])->name('testing_services.index');
-    Route::get('/testing-services/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('testing_services.show');
+    Route::prefix('testing-services')->name('testing_services')->group(function () {
+        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('.index');
+        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
+    });
+
+
 
     Route::get('/mcqs', [PublicMcqController::class, 'index'])->name('mcqs.index');
     Route::get('/mcqs/{mcq:slug}', [PublicMcqController::class, 'show'])->name('mcqs.show');

@@ -29,6 +29,18 @@ class PageSeeder extends Seeder
                 'keywords' => 'past papers Pakistan, FPSC past papers, PPSC papers, NTS papers, solved papers, competitive exams preparation'
             ],
 
+            'departments' => [
+                'title' => 'Government & Private Departments in Pakistan – Jobs, MCQs & Papers',
+                'description' => 'Browse government and private departments in Pakistan including Punjab Police, Fisheries, Health, Education, WAPDA, FIA and more. Access department-wise MCQs, past papers and job test preparation materials.',
+                'keywords' => 'Pakistan departments jobs, Punjab Police MCQs, Fisheries department jobs, government departments Pakistan, private departments Pakistan, department wise past papers, job test preparation Pakistan'
+            ],
+
+            'testing_services' => [
+                'title' => 'Testing Services in Pakistan – FPSC, PPSC, NTS, CSS, PMS MCQs & Papers',
+                'description' => 'Prepare for FPSC, PPSC, NTS, CSS, PMS and other testing services in Pakistan with updated MCQs, solved past papers, syllabus-based questions and practice tests.',
+                'keywords' => 'FPSC MCQs, PPSC past papers, NTS solved papers, CSS preparation Pakistan, PMS exam MCQs, testing services Pakistan, competitive exam preparation'
+            ],
+
             'subjects' => [
                 'title' => 'Exam Subjects & Topics for MCQs Practice',
                 'description' => 'Explore exam subjects and detailed topics with structured MCQs to improve concepts and score higher in competitive exams.',
