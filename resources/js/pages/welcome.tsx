@@ -158,28 +158,6 @@ export default function Welcome({
 
                         {/* Sidebar */}
                         <PageSidebar>
-                            <FeatureCard title="Departments">
-                                <div className="md:px-2">
-                                    {departments_list.map((dept, idx) => (
-                                        <div
-                                            className="flex items-center gap-1 text-sm"
-                                            key={idx}
-                                        >
-                                            <ChevronRight size="16" />
-                                            <TextLink
-                                                href={publicMethod.departments.show(
-                                                    {
-                                                        department: dept.slug,
-                                                    },
-                                                )}
-                                                className="my-2 line-clamp-1 overflow-hidden"
-                                            >
-                                                {dept.name}
-                                            </TextLink>
-                                        </div>
-                                    ))}
-                                </div>
-                            </FeatureCard>
                             <FeatureCard title="Latest Papers">
                                 <div className="md:px-2">
                                     {latestPapers.map((paper, idx) => (
@@ -239,6 +217,28 @@ export default function Welcome({
                                                 className="my-2 block"
                                             >
                                                 {topic.name}
+                                            </TextLink>
+                                        </div>
+                                    ))}
+                                </div>
+                            </FeatureCard>
+                            <FeatureCard title="Departments">
+                                <div className="md:px-2">
+                                    {departments_list.map((dept, idx) => (
+                                        <div
+                                            className="flex items-center gap-1 text-sm"
+                                            key={idx}
+                                        >
+                                            <ChevronRight size="16" />
+                                            <TextLink
+                                                href={publicMethod.departments.show(
+                                                    {
+                                                        department: dept.slug,
+                                                    },
+                                                )}
+                                                className="my-2 line-clamp-1 overflow-hidden"
+                                            >
+                                                {dept.name}
                                             </TextLink>
                                         </div>
                                     ))}

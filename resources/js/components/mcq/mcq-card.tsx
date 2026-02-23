@@ -192,7 +192,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
 
                                             {opt.is_correct && showAnswers && (
                                                 <span className="ml-auto text-xs font-semibold text-success">
-                                                    ✓ Correct
+                                                    ✓
                                                 </span>
                                             )}
 
@@ -200,7 +200,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                                 wasAnswered &&
                                                 !opt.is_correct && (
                                                     <span className="ml-auto text-xs font-semibold text-destructive">
-                                                        ✗ Your Answer
+                                                        ✗
                                                     </span>
                                                 )}
                                         </div>
@@ -292,9 +292,9 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                     href={publicMethod.testing_services.show(
                                         mcq.paper.testing_service,
                                     )}
-                                    title={`View all Papers from ${mcq.paper.testing_service.name}`}
+                                    title={`View all Papers from ${mcq.paper.testing_service.short}`}
                                 >
-                                    {mcq.paper.testing_service.name}
+                                    {mcq.paper.testing_service.short}
                                 </Link>
                             </Badge>
                         )}

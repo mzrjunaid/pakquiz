@@ -89,8 +89,6 @@ const PapersPage = () => {
                         </div>
 
                         <SitePagination meta={meta} />
-
-                        {/* <pre>{JSON.stringify(papers, null, 2)}</pre> */}
                     </div>
                     <PageSidebar />
                 </div>

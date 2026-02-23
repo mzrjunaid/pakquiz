@@ -3,7 +3,9 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Http\Resources\Public\Mcq\McqResource;
+use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Mcq;
 use App\Services\Seo\SeoResolver;
@@ -15,12 +17,22 @@ class McqController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        $query = Mcq::query();
-        $mcqs = $query->paginate(10); // Paginate the results, 10 per page
+        $perPage = min(
+            max($request->integer('per_page', 10), 5),
+            100
+        );
+
+        $mcqs = Mcq::query()->paginate($perPage)->withQueryString(); // or ->get()
+        $resource =  McqIndexCollection::make($mcqs);
+
+        // All MCQs
+        $schema = $resource->toItemListSchema();
+
         return Inertia::render('public/mcqs/index', [
-            'mcqs' => McqWithOptionsResource::collection($mcqs),
+            'mcqs' => $resource,
+            'schema' => $schema,
         ]);
     }
 
@@ -30,6 +42,25 @@ class McqController extends Controller
     public function show(Request $request, Mcq $mcq)
     {
         // dd('here');
+
+        if ($mcq->paper) {
+            // dd('here');
+            // if ($mcq->paper && $mcq->paper->testingService) {
+            //     // Ensure paper belongs to testing service
+            //     abort_if($mcq->paper->testingService_id !== $mcq->paper->testingService_id, 404);
+
+            //     return redirect()->route('public.testing_services.papers.mcq.show', [
+            //         'testing_service' => $mcq->paper->testingService->slug,
+            //         'paper'           => $mcq->paper->slug,
+            //         'mcq'             => $mcq->slug,
+            //     ], 301);
+            // }
+
+            return redirect()->route('public.papers.mcq.show', [
+                'paper' => $mcq->paper->slug,
+                'mcq'   => $mcq->slug,
+            ], 301);
+        }
 
         if ($mcq->subject) {
             // dd('here');
@@ -65,7 +96,7 @@ class McqController extends Controller
         }
 
         return Inertia::render('public/mcqs/show', [
-            'mcq' => new McqWithOptionsResource($mcq),
+            'mcq' =>  McqShowResource::make($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }

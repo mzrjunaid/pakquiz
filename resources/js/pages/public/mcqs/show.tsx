@@ -20,12 +20,19 @@ const McqShow = () => {
     const { seo, mcq } = usePage<McqProps>().props;
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <Head title={seo.title}>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: JSON.stringify(mcq.schema),
+                    }}
+                />
+            </Head>
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={'MCQ Detail'} />
+                        <PageTitle title={`Detail of Mcq: ${mcq.question}`} />
                     </div>
                     <SearchBar />
                 </div>
@@ -33,35 +40,9 @@ const McqShow = () => {
                     <div className="space-y-8 lg:col-span-2">
                         <McqCard mcq={mcq} route={mcqs.show(mcq.slug)} />
                         <SuggestionsForm />
-
-                        <pre>{JSON.stringify(mcq, null, 2)}</pre>
                     </div>
                     <PageSidebar>
-                        {/* {subject.topics && subject.topics.length > 1 && (
-                            <FeatureCard
-                                title="Topics"
-                                description={seo.description}
-                            >
-                                <div className="md:px-2">
-                                    {subject.topics?.map((topic, idx) => (
-                                        <div
-                                            className="flex items-center gap-1 text-sm"
-                                            key={idx}
-                                        >
-                                            <ChevronRight size="16" />
-                                            <TextLink
-                                                href={publicMethod.subjects.topic.show(
-                                                    { subject, topic },
-                                                )}
-                                                className="my-2 block"
-                                            >
-                                                {topic.name}
-                                            </TextLink>
-                                        </div>
-                                    ))}
-                                </div>
-                            </FeatureCard>
-                        )} */}
+
                     </PageSidebar>
                 </div>
             </MainSectionWithSidebarLayout>

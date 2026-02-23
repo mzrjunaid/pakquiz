@@ -1,3 +1,4 @@
+import { JsonLdThing } from '..';
 import { SimpleUser } from '../user';
 import { Paper } from './paper';
 
@@ -55,4 +56,7 @@ export interface Mcq {
 
     created_by: SimpleUser;
     created_at: string;
+
+    /* JSON-LD Schema.org representation */
+    schema: JsonLdThing;
 }

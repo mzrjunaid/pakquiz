@@ -9,7 +9,7 @@ import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
 import topics from '@/routes/public/subjects/topics';
-import { Seo, SharedData } from '@/types';
+import { JsonIndexableThing, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq, Subject, Topic } from '@/types/public/mcq';
 import { Head, usePage } from '@inertiajs/react';
@@ -21,10 +21,12 @@ export interface SubjectPageProps extends SharedData {
     subject: Subject;
     topic: Topic;
     mcqs: ResourcePaginator<Mcq>;
+    schema: JsonIndexableThing;
 }
 
 const TopicPage = () => {
-    const { seo, mcqs, subject, topic } = usePage<SubjectPageProps>().props;
+    const { seo, mcqs, subject, topic, schema } =
+        usePage<SubjectPageProps>().props;
     const isQuizMode = true;
     const buildMcqLink = (slug: string) =>
         topics.mcq.show({
@@ -34,7 +36,12 @@ const TopicPage = () => {
         });
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <Head title={seo.title}>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                />
+            </Head>
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
@@ -101,7 +108,7 @@ const TopicPage = () => {
             </MainSectionWithSidebarLayout>
 
             {/* <pre>{JSON.stringify(seo, null, 2)}</pre> */}
-            {/* <pre>{JSON.stringify(mcqs.links, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(schema, null, 2)}</pre> */}
             {/* <pre>{JSON.stringify(papers, null, 2)}</pre> */}
         </AppLayout>
     );

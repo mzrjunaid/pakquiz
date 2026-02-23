@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqIndexCollection;
+use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
@@ -23,7 +25,6 @@ class PaperController extends Controller
             max($request->integer('per_page', 20), 10),
             100
         );
-
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
             ->where('is_active', '=', '1')
@@ -46,6 +47,8 @@ class PaperController extends Controller
             100
         );
 
+
+
         // Load paper-specific relations (lightweight)
         $paper->load([
             'tags:id,name,slug',
@@ -67,10 +70,16 @@ class PaperController extends Controller
             ->onEachSide(0)
             ->withQueryString();
 
+        $resource =  McqIndexCollection::make($mcqs);
+
+        // All MCQs
+        $schema = $resource->toItemListSchema('Paper', $paper->name, route('public.papers.show', $paper->slug));
+
         return Inertia::render('public/papers/show', [
             'paper' => new PaperResource($paper),
-            'mcqs'  => McqResource::collection($mcqs),
+            'mcqs'  => $resource,
             'seo' => app(SeoResolver::class)->resolve($request, $paper),
+            'schema' => $schema,
         ]);
     }
 
@@ -82,8 +91,17 @@ class PaperController extends Controller
     {
         $mcq = $paper->mcqs()->with('options')->findOrFail($mcq->id);
 
+        $mcq->load([
+            'paper',
+            'subject:id,name,slug',
+            'topic:id,name,slug',
+            'createdBy:id,name',
+            'tags:id,name,slug',
+            'options:id,mcq_id,option_text,is_correct,sort_order'
+        ]);
+
         return Inertia::render('public/mcqs/show', [
-            'mcq' => new McqWithOptionsResource($mcq),
+            'mcq' => McqShowResource::make($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }

@@ -6,7 +6,7 @@ import PageTitle from '@/components/public-page-title';
 import SearchBar from '@/components/SearchBar';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
-import { SharedData } from '@/types';
+import { JsonIndexableThing, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq } from '@/types/public/mcq';
 import { Paper } from '@/types/public/paper';
@@ -16,10 +16,11 @@ import PageSidebar from '../homepage/components/page-sidebar';
 interface PaperPageProps extends SharedData {
     paper: Paper;
     mcqs: ResourcePaginator<Mcq>;
+    schema: JsonIndexableThing;
 }
 
 const PaperPage = () => {
-    const { seo, paper, mcqs } = usePage<PaperPageProps>().props;
+    const { seo, paper, mcqs, schema } = usePage<PaperPageProps>().props;
     const buildMcqLink = (slug: string) =>
         paper_mcq({
             paper: paper.slug,
@@ -27,7 +28,12 @@ const PaperPage = () => {
         });
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <Head title={seo.title}>
+                <script
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
+                />
+            </Head>
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">

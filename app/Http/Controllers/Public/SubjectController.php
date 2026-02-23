@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Mcq\McqIndexCollection;
+use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
@@ -124,9 +126,14 @@ class SubjectController extends Controller
             ->paginate($perPage)
             ->withQueryString();
 
+        $resource =  McqIndexCollection::make($mcqs);
+
+        // All MCQs
+        $schema = $resource->toItemListSchema('Subject', $subject->name, route('public.subjects.show', $subject->slug));
+
         return Inertia::render('public/subjects/show', [
             'subject' => new SubjectResource($subject),
-            'mcqs'    => McqResource::collection($mcqs),
+            'mcqs'    => $resource,
             'papers'  =>  PaperResource::collection($papers),
             'seo' => app(SeoResolver::class)->resolve($request, $subject),
             'filters' => $request->only([
@@ -138,6 +145,7 @@ class SubjectController extends Controller
                 'year',
                 'sort',
             ]),
+            'schema' => $schema,
         ]);
     }
 
@@ -148,7 +156,7 @@ class SubjectController extends Controller
     {
         return Inertia::render('public/mcqs/show', [
             'subject' => $subject,
-            'mcq' => new McqWithOptionsResource($mcq),
+            'mcq' => McqShowResource::make($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }
@@ -177,11 +185,21 @@ class SubjectController extends Controller
             ->onEachSide(2)
             ->withQueryString();
 
+        $resource =  McqIndexCollection::make($mcqs);
+
+        // All MCQs
+        $schema = $resource->toItemListSchema(
+            'Topic',
+            $topic->name,
+            route('public.subjects.topics.show', ['subject' => $subject->slug, 'topic' => $topic->slug])
+        );
+
         return Inertia::render('public/topics/show', [
             'subject' => $subject,
             'topic' => $topic,
-            'mcqs'  => McqWithOptionsResource::collection($mcqs),
+            'mcqs'  => $resource,
             'seo' => app(SeoResolver::class)->resolve($request, $topic),
+            'schema' => $schema
         ]);
     }
 
@@ -194,7 +212,7 @@ class SubjectController extends Controller
         return Inertia::render('public/mcqs/show', [
             'subject' => $subject,
             'topic' => $topic,
-            'mcq' => new McqWithOptionsResource($mcq),
+            'mcq' => McqShowResource::make($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
         ]);
     }

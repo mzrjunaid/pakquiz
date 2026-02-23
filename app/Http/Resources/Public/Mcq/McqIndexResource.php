@@ -2,15 +2,12 @@
 
 namespace App\Http\Resources\Public\Mcq;
 
-use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\TagResource;
-use App\Support\Seo\SchemaBuilder;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\URL;
 
-class McqWithOptionsResource extends JsonResource
+class McqIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.

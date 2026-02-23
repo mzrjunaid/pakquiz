@@ -87,3 +87,52 @@ export type McqRouteContext =
           type: 'general';
           mcqSlug: string;
       };
+
+export interface JsonLdThing {
+    '@context'?: string;
+    '@type': string;
+    '@id'?: string;
+    name?: string;
+    description?: string;
+    url?: string;
+    about?: {
+        '@type': string;
+        name: string;
+    } | null;
+    provider?: {
+        '@type': string;
+        name: string;
+    } | null;
+    hasPart?: {
+        '@type': string;
+        name: string;
+        text?: string;
+        answerCount?: number;
+        acceptedAnswer?: {
+            '@type': string;
+            text: string;
+        } | null;
+        suggestedAnswer?: Array<{
+            '@type': string;
+            text: string;
+        }>;
+    } | null;
+    [key: string]: unknown;
+}
+
+export interface JsonQuestion {
+    '@type': string;
+    position: number;
+    url: string;
+    name: string;
+}
+
+export interface JsonIndexableThing {
+    '@context': string;
+    '@type': string;
+    name: string;
+    description: string;
+    url: string;
+    numberOfItems: number;
+    itemListElement: JsonQuestion[];
+}
