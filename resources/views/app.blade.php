@@ -33,40 +33,26 @@
         }
     </style>
 
-    <title inertia>{{ $page['props']['seo']['title'] ?? config('app.name') }}</title>
+    <title inertia>{{ $page['props']['seo']['title']}} - PAKQUIZ</title>
 
     {{-- ✅ Basic SEO --}}
-    <meta name="description"
-        content="{{ $page['props']['seo']['description']
-          ?? 'Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan.' }}">
-
+    <meta name="description" content="{{ $page['props']['seo']['description'] }}" />
+    <!-- ?? 'Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan.'  -->
     <meta name="robots" content="index, follow">
-
-    <link rel="canonical"
-        href="{{ $page['props']['seo']['canonical'] ?? url()->current() }}">
-
+    <link rel="canonical" href="{{ $page['props']['seo']['canonical'] }}">
     @if(!empty($page['props']['seo']['prev']))
     <link rel="prev" href="{{ $page['props']['seo']['prev'] }}">
     @endif
-
     @if(!empty($page['props']['seo']['next']))
     <link rel="next" href="{{ $page['props']['seo']['next'] }}">
     @endif
 
 
     {{-- ✅ Open Graph --}}
-    <meta property="og:title"
-        content="{{ $page['props']['seo']['og_title'] ?? 'Pak Quiz – AI Powered Learning & Test Preparation' }}">
-
-    <meta property="og:description"
-        content="{{ $page['props']['seo']['og_description'] ?? 'Practice MCQs, prepare past papers, and succeed in competitive exams across Pakistan.' }}">
-
-    <meta property="og:image"
-        content="{{ $page['props']['seo']['og_image'] ?? asset('logo.png') }}">
-
-    <meta property="og:url"
-        content="{{ $page['props']['seo']['canonical'] ?? url()->current() }}">
-
+    <meta property="og:title" content="{{ $page['props']['seo']['og_title'] }}" />
+    <meta property="og:description" content="{{ $page['props']['seo']['og_description'] }}" />
+    <meta property="og:image" content="{{ $page['props']['seo']['og_image'] }}" />
+    <meta property="og:url" content="{{ $page['props']['seo']['canonical'] }}">
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Pak Quiz">
     <meta property="og:locale" content="en_PK">
@@ -74,15 +60,9 @@
 
     {{-- ✅ Twitter --}}
     <meta name="twitter:card" content="summary_large_image">
-
-    <meta name="twitter:title"
-        content="{{ $page['props']['seo']['og_title'] ?? 'Pak Quiz – AI-Powered MCQs & Job Test Preparation' }}">
-
-    <meta name="twitter:description"
-        content="{{ $page['props']['seo']['og_description'] ?? 'Pak Quiz offers a vast collection of AI-enhanced MCQs to help you prepare for PPSC, NTS, FPSC, CSS, PMS, and other exams in Pakistan.' }}">
-
-    <meta name="twitter:image"
-        content="{{ $page['props']['seo']['og_image'] ?? asset('logo.png') }}">
+    <meta name="twitter:title" content="{{ $page['props']['seo']['og_title'] }}" />
+    <meta name="twitter:description" content="{{ $page['props']['seo']['og_description'] }}" />
+    <meta name="twitter:image" content="{{ $page['props']['seo']['og_image'] }}" />
 
 
     {{-- Favicon --}}
