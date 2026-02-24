@@ -73,8 +73,8 @@ Route::name('public.')->group(function () {
         Route::get('/{department:slug}/papers', [PublicDepartmentController::class, 'show'])->name('show');
     });
 
-    Route::prefix('testing-services')->name('testing_services')->group(function () {
-        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('.index');
+    Route::prefix('testing-services')->name('testing_services.')->group(function () {
+        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
         Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
     });
 

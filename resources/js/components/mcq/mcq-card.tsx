@@ -2,6 +2,7 @@ import { useIsMobile } from '@/hooks/use-mobile';
 import { useQuizMode } from '@/hooks/use-quiz-mode';
 import publicMethod from '@/routes/public';
 import papers from '@/routes/public/papers';
+import testing_services from '@/routes/public/testing_services';
 import { Mcq, Subject } from '@/types/public/mcq';
 import { RouteDefinition } from '@/wayfinder';
 import { Link } from '@inertiajs/react';
@@ -289,9 +290,9 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                 asChild
                             >
                                 <Link
-                                    href={publicMethod.testing_services.show(
-                                        mcq.paper.testing_service,
-                                    )}
+                                    href={testing_services.show({
+                                        slug: mcq.paper.testing_service.slug,
+                                    })}
                                     title={`View all Papers from ${mcq.paper.testing_service.short}`}
                                 >
                                     {mcq.paper.testing_service.short}
