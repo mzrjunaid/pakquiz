@@ -1,5 +1,5 @@
+import AppCenterHead from '@/components/app-center-head';
 import AppLayout from '@/layouts/app-layout';
-import { Head } from '@inertiajs/react';
 
 const TestingServicesPage = ({
     testingServices,
@@ -10,7 +10,7 @@ const TestingServicesPage = ({
 }) => {
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <AppCenterHead />
             <pre>{JSON.stringify(seo, null, 2)}</pre>
             <pre>{JSON.stringify(testingServices, null, 2)}</pre>
         </AppLayout>

@@ -1,3 +1,4 @@
+import AppCenterHead from '@/components/app-center-head';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import { SitePagination } from '@/components/pagination';
 import PageTitle from '@/components/public-page-title';
@@ -10,7 +11,7 @@ import topics from '@/routes/public/subjects/topics';
 import { Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Subject } from '@/types/subject';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
@@ -27,7 +28,7 @@ const SubjectsPage = () => {
 
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <AppCenterHead />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">

@@ -1,3 +1,4 @@
+import AppCenterHead from '@/components/app-center-head';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import { SitePagination } from '@/components/pagination';
 import PageTitle from '@/components/public-page-title';
@@ -9,7 +10,7 @@ import publicMethod from '@/routes/public';
 import { Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Paper } from '@/types/public/paper';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Building, ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
@@ -25,7 +26,7 @@ const PapersPage = () => {
     } = usePage<PapersPageProps>().props;
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <AppCenterHead />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">

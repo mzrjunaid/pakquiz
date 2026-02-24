@@ -1,4 +1,5 @@
 import { subject_mcq } from '@/actions/App/Http/Controllers/Public/SubjectController';
+import AppCenterHead from '@/components/app-center-head';
 import FeatureCard from '@/components/feature-card';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
@@ -13,7 +14,7 @@ import { JsonIndexableThing, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq, Subject } from '@/types/public/mcq';
 import { Paper } from '@/types/public/paper';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
@@ -35,12 +36,7 @@ const SubjectPage = () => {
         });
     return (
         <AppLayout>
-            <Head title={seo.title}>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-                />
-            </Head>
+            <AppCenterHead schema={schema} />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">

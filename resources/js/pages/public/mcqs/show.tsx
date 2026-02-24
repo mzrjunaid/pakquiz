@@ -1,3 +1,4 @@
+import AppCenterHead from '@/components/app-center-head';
 import SuggestionsForm from '@/components/form/suggestion-form';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
@@ -8,7 +9,7 @@ import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import mcqs from '@/routes/public/mcqs';
 import { Seo, SharedData } from '@/types';
 import { Mcq } from '@/types/public/mcq';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface McqProps extends SharedData {
@@ -17,17 +18,10 @@ interface McqProps extends SharedData {
 }
 
 const McqShow = () => {
-    const { seo, mcq } = usePage<McqProps>().props;
+    const { mcq } = usePage<McqProps>().props;
     return (
         <AppLayout>
-            <Head title={seo.title}>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(mcq.schema),
-                    }}
-                />
-            </Head>
+            <AppCenterHead schema={mcq.schema} />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
@@ -41,9 +35,7 @@ const McqShow = () => {
                         <McqCard mcq={mcq} route={mcqs.show(mcq.slug)} />
                         <SuggestionsForm />
                     </div>
-                    <PageSidebar>
-
-                    </PageSidebar>
+                    <PageSidebar></PageSidebar>
                 </div>
             </MainSectionWithSidebarLayout>
         </AppLayout>

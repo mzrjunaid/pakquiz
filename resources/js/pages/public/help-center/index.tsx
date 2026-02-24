@@ -1,7 +1,7 @@
 import PageTitle from '@/components/public-page-title';
 import AppLayout from '@/layouts/app-layout';
 
-import { Head } from '@inertiajs/react';
+import AppCenterHead from '@/components/app-center-head';
 import { HelpCenterPage } from './components/help-center-page';
 
 const HelpCenter: React.FC = () => {
@@ -93,16 +93,8 @@ const HelpCenter: React.FC = () => {
     };
     return (
         <AppLayout>
-            <Head title="Help Center">
-                <meta
-                    name="description"
-                    content="Find answers to common questions about PAK QUIZ, MCQs practice, jobs updates, premium membership, and more."
-                />
-                <script type="application/ld+json">
-                    {JSON.stringify(faqSchema)}
-                </script>
-            </Head>
-            <section className="mx-auto max-w-7xl lg:w-7xl py-12 px-3">
+            <AppCenterHead schema={faqSchema} />
+            <section className="mx-auto max-w-7xl px-3 py-12 lg:w-7xl">
                 <PageTitle
                     title="Help Center"
                     subtitle="Find answers to your questions and learn how to use PAK QUIZ effectively"

@@ -33,36 +33,38 @@
         }
     </style>
 
-    <title inertia>{{ $page['props']['seo']['title']}} - PAKQUIZ</title>
+    <title inertia>{{ $page['props']['seo']['title']}}</title>
 
     {{-- ✅ Basic SEO --}}
-    <meta name="description" content="{{ $page['props']['seo']['description'] }}" />
     <!-- ?? 'Pak Quiz is an AI-powered learning platform offering MCQs, past papers, and job test preparation for FPSC, PPSC, NTS, and other exams in Pakistan.'  -->
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ $page['props']['seo']['canonical'] }}">
+
+    <meta inertia name="description" content="{{ $page['props']['seo']['description'] }}" />
+    <meta inertia name="robots" content="index, follow" />
+    <link inertia rel="canonical" href="{{ $page['props']['seo']['canonical'] }}" />
     @if(!empty($page['props']['seo']['prev']))
-    <link rel="prev" href="{{ $page['props']['seo']['prev'] }}">
+    <link inertia rel="prev" href="{{ $page['props']['seo']['prev'] }}" />
     @endif
     @if(!empty($page['props']['seo']['next']))
-    <link rel="next" href="{{ $page['props']['seo']['next'] }}">
+    <link inertia rel="next" href="{{ $page['props']['seo']['next'] }}" />
     @endif
 
 
     {{-- ✅ Open Graph --}}
-    <meta property="og:title" content="{{ $page['props']['seo']['og_title'] }}" />
-    <meta property="og:description" content="{{ $page['props']['seo']['og_description'] }}" />
-    <meta property="og:image" content="{{ $page['props']['seo']['og_image'] }}" />
-    <meta property="og:url" content="{{ $page['props']['seo']['canonical'] }}">
+    <meta inertia property="og:title" content="{{ $page['props']['seo']['og_title'] }}" />
+    <meta inertia property="og:description" content="{{ $page['props']['seo']['og_description'] }}" />
+    <meta inertia property="og:image" content="{{ $page['props']['seo']['og_image'] }}" />
+    <meta inertia property="og:url" content="{{ $page['props']['seo']['canonical'] }}" />
+
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="Pak Quiz">
     <meta property="og:locale" content="en_PK">
 
 
     {{-- ✅ Twitter --}}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $page['props']['seo']['og_title'] }}" />
-    <meta name="twitter:description" content="{{ $page['props']['seo']['og_description'] }}" />
-    <meta name="twitter:image" content="{{ $page['props']['seo']['og_image'] }}" />
+    <meta inertia name="twitter:card" content="summary_large_image" />
+    <meta inertia name="twitter:title" content="{{ $page['props']['seo']['og_title'] }}" />
+    <meta inertia name="twitter:description" content="{{ $page['props']['seo']['og_description'] }}" />
+    <meta inertia name="twitter:image" content="{{ $page['props']['seo']['og_image'] }}" />
 
 
     {{-- Favicon --}}

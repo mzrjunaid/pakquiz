@@ -1,3 +1,4 @@
+import AppCenterHead from '@/components/app-center-head';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
 import { SitePagination } from '@/components/pagination';
@@ -9,7 +10,7 @@ import mcqsRoute from '@/routes/public/mcqs';
 import { JsonIndexableThing, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq } from '@/types/public/mcq';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface Props extends SharedData {
@@ -23,12 +24,7 @@ const McqsPage = () => {
 
     return (
         <AppLayout>
-            <Head title={seo.title}>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-                />
-            </Head>
+            <AppCenterHead schema={schema} />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">

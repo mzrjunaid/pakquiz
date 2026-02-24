@@ -46,6 +46,7 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $request->user(),
             ],
+            'base_url' => config('app.url'),
             'seo' => app(SeoResolver::class)->resolve($request),
             'isQuizMode' => fn() => session('isQuizMode', false),
             'sidebarOpen' => (bool) ($request->cookie('sidebar_state', 'false') === 'true'),

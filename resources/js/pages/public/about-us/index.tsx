@@ -1,12 +1,11 @@
+import AppCenterHead from '@/components/app-center-head';
 import AppLayout from '@/layouts/app-layout';
-import { Seo } from '@/types';
-import { Head } from '@inertiajs/react';
 import AboutPakQuiz from './components/about-us-page';
 
-const AboutUs = ({ seo }: { seo: Seo }) => {
+const AboutUs = () => {
     return (
         <AppLayout>
-            <Head title={seo.title}></Head>
+            <AppCenterHead />
             <AboutPakQuiz />
         </AppLayout>
     );

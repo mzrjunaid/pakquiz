@@ -1,3 +1,4 @@
+import AppCenterHead from '@/components/app-center-head';
 import CallToAction from '@/components/call-to-action';
 import FeatureCard from '@/components/feature-card';
 import McqCard from '@/components/mcq/mcq-card';
@@ -10,13 +11,12 @@ import publicMethod from '@/routes/public';
 import mcqs from '@/routes/public/mcqs';
 import papers from '@/routes/public/papers';
 import { HomeProps } from '@/types/public/home';
-import { Head, Link, usePage } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 import HeroSection from './public/homepage/components/HeroSection';
 import PageSidebar from './public/homepage/components/page-sidebar';
 
 export default function Welcome({
-    seo,
     subjects_list,
     departments_list,
     topics_list,
@@ -96,11 +96,7 @@ export default function Welcome({
 
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
-            <Head title={seo.title}>
-                <script type="application/ld+json">
-                    {JSON.stringify(homepageSchema)}
-                </script>
-            </Head>
+            <AppCenterHead schema={homepageSchema} />
             <HeroSection mcq={latestMcqs.data} stats={stats} />
             <section className="border-y px-4 py-6 sm:px-6 md:py-16 lg:px-8">
                 <div className="mx-auto max-w-7xl">

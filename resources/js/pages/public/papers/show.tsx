@@ -1,4 +1,5 @@
 import { paper_mcq } from '@/actions/App/Http/Controllers/Public/PaperController';
+import AppCenterHead from '@/components/app-center-head';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import McqCard from '@/components/mcq/mcq-card';
 import { SitePagination } from '@/components/pagination';
@@ -10,7 +11,7 @@ import { JsonIndexableThing, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq } from '@/types/public/mcq';
 import { Paper } from '@/types/public/paper';
-import { Head, usePage } from '@inertiajs/react';
+import { usePage } from '@inertiajs/react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface PaperPageProps extends SharedData {
@@ -20,7 +21,7 @@ interface PaperPageProps extends SharedData {
 }
 
 const PaperPage = () => {
-    const { seo, paper, mcqs, schema } = usePage<PaperPageProps>().props;
+    const { paper, mcqs, schema } = usePage<PaperPageProps>().props;
     const buildMcqLink = (slug: string) =>
         paper_mcq({
             paper: paper.slug,
@@ -28,12 +29,7 @@ const PaperPage = () => {
         });
     return (
         <AppLayout>
-            <Head title={seo.title}>
-                <script
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }}
-                />
-            </Head>
+            <AppCenterHead schema={schema} />
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">

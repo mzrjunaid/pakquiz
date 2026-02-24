@@ -35,6 +35,7 @@ export interface SharedData {
     quote: { message: string; author: string };
     auth: Auth;
     seo: Seo;
+    base_url: string;
     sidebarOpen: boolean;
     isQuizMode: boolean;
     [key: string]: unknown;
@@ -67,6 +68,9 @@ export interface Seo {
     og_description: string;
     og_image: string;
     canonical: url;
+    prev: url | null;
+    next: url | null;
+    [key: string]: unknown;
 }
 
 export type McqRouteContext =
