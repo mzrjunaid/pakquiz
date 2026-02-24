@@ -24,11 +24,13 @@ interface SearchResult {
 interface SearchBarProps {
     placeholder?: string;
     redirectOnSubmit?: boolean;
+    className?: string;
 }
 
 export default function SearchBar({
     placeholder = 'Search MCQs, Papers, or Topics...',
     redirectOnSubmit = true,
+    className,
 }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState('');
     const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
@@ -121,7 +123,7 @@ export default function SearchBar({
     };
 
     return (
-        <div ref={dropdownRef} className="relative">
+        <div ref={dropdownRef} className={`relative ${className}`}>
             {/* Input */}
             <div
                 className={`relative flex items-center rounded-lg bg-white transition ${isFocused ? 'shadow-lg ring-2 ring-primary' : 'shadow-md'}`}

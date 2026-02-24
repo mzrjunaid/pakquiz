@@ -5,9 +5,10 @@ import papers from '@/routes/public/papers';
 import testing_services from '@/routes/public/testing_services';
 import { Mcq, Subject } from '@/types/public/mcq';
 import { RouteDefinition } from '@/wayfinder';
-import { Link } from '@inertiajs/react';
+import { Link, usePage } from '@inertiajs/react';
 import { Bot, Share2, Tag } from 'lucide-react';
 import { ReactNode, useState } from 'react';
+import { toast } from 'sonner';
 import {
     Accordion,
     AccordionContent,
@@ -30,13 +31,27 @@ const QuestionType: Record<string, string> = {
     single_a: 'Single Answer',
 };
 
-const McqMeta = ({
+export const McqMeta = ({
     subject,
     mcq_type,
+    route,
 }: {
     subject?: Subject;
     mcq_type: string;
+    route: RouteDefinition<'get'>;
 }) => {
+    const { base_url } = usePage().props;
+
+    const shareLink = async () => {
+        const url = base_url + route.url;
+        try {
+            await navigator.clipboard.writeText(url);
+            toast.success('Link copied. You can now share it.');
+        } catch (err) {
+            console.error('Failed to copy', err);
+        }
+    };
+
     return (
         <div className="flex items-center justify-end space-x-1">
             {subject?.name && (
@@ -56,21 +71,19 @@ const McqMeta = ({
             {mcq_type && (
                 <Badge variant="outline">{QuestionType[mcq_type]}</Badge>
             )}
-            <Button variant="ghost" size="icon" asChild>
-                <Link href="#">
-                    <Share2 />
-                </Link>
+            <Button variant="ghost" size="icon" onClick={shareLink}>
+                <Share2 />
             </Button>
         </div>
     );
 };
 
-const McqHeader = ({
+export const McqHeader = ({
     isQuizMode,
     difficulty,
     children,
 }: {
-    isQuizMode: boolean;
+    isQuizMode?: boolean;
     difficulty: string;
     children: ReactNode;
 }) => {
@@ -79,7 +92,7 @@ const McqHeader = ({
             case 'easy':
                 return 'bg-success/10 py-1 text-success hover:bg-success/20';
             case 'medium':
-                return 'bg-card py-1 text-info-foreground hover:bg-yellow-100 border-yellow-500 capitalize';
+                return 'bg-transparent py-1 text-info-foreground hover:bg-yellow-100 border-yellow-500 capitalize';
             case 'hard':
                 return 'bg-destructive/35 py-1 text-destructive-foreground hover:bg-destructive/50 border-destructive capitalize';
             default:
@@ -149,7 +162,11 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
         >
             <McqHeader isQuizMode={isQuizMode} difficulty={mcq.difficulty}>
                 {!isMobile && (
-                    <McqMeta mcq_type={mcq.mcq_type} subject={mcq.subject} />
+                    <McqMeta
+                        mcq_type={mcq.mcq_type}
+                        subject={mcq.subject}
+                        route={route}
+                    />
                 )}
             </McqHeader>
             <div>
@@ -252,10 +269,13 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                 Tags:
                             </span>
                         </div>
-                        <div className="flex w-sm flex-wrap gap-2">
+                        <div className="flex w-full flex-wrap gap-2">
                             {mcq.tags.map((tag, idx) => (
                                 <Badge key={idx} variant="outline">
-                                    <span className="max-w-20 truncate">
+                                    <span
+                                        className="max-w-sm truncate"
+                                        title={tag.name}
+                                    >
                                         {tag.name}
                                     </span>
                                 </Badge>
@@ -264,14 +284,18 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                     </div>
                 )}
                 {isMobile && (
-                    <McqMeta mcq_type={mcq.mcq_type} subject={mcq.subject} />
+                    <McqMeta
+                        mcq_type={mcq.mcq_type}
+                        subject={mcq.subject}
+                        route={route}
+                    />
                 )}
 
                 {mcq.paper && (
                     <div className="flex items-center space-x-2">
                         <Badge
                             variant="secondary"
-                            className="px-3 py-1 font-semibold hover:!bg-accent"
+                            className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent"
                             asChild
                         >
                             <Link
@@ -286,7 +310,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                         {mcq.paper?.testing_service && (
                             <Badge
                                 variant="secondary"
-                                className="px-3 py-1 font-semibold hover:!bg-accent"
+                                className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent"
                                 asChild
                             >
                                 <Link
@@ -302,7 +326,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                         {mcq.paper?.department && (
                             <Badge
                                 variant="secondary"
-                                className="hidden px-3 py-1 font-semibold sm:block"
+                                className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold sm:block"
                                 asChild
                             >
                                 <Link
