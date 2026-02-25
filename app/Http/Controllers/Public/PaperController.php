@@ -43,7 +43,6 @@ class PaperController extends Controller
 
     public function show(
         Request $request,
-        Department $department,
         Paper $paper
     ) {
         $perPage = min(
@@ -87,15 +86,13 @@ class PaperController extends Controller
         $schema = $resource->toItemListSchema(
             'Paper',
             $paper->name,
-            route('public.departments.papers.show', [
-                'department' => $department->slug,
+            route('public.papers.show', [
                 'paper' => $paper->slug,
             ])
         );
 
         return Inertia::render('public/papers/show', [
-            'department' => $department->only('id', 'name', 'slug'),
-            'paper'      => new PaperResource($paper),
+            'paper'      => PaperResource::make($paper),
             'mcqs'       => $resource,
             'seo'        => app(SeoResolver::class)->resolve($request, $paper),
             'schema'     => $schema,

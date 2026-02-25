@@ -86,8 +86,13 @@ const SubjectPage = () => {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.topics.show(
-                                                    { subject, topic },
+                                                href={publicMethod.subjects.show.get(
+                                                    subject.slug,
+                                                    {
+                                                        query: {
+                                                            topic: topic.slug,
+                                                        },
+                                                    },
                                                 )}
                                                 className="my-2 block"
                                             >

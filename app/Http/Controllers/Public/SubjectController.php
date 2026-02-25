@@ -66,7 +66,6 @@ class SubjectController extends Controller
     // 'seo' => app(SeoResolver::class)->resolve($request, $subject),
     public function show(Request $request, Subject $subject)
     {
-
         $perPage = min(
             max($request->integer('per_page', 10), 10),
             100

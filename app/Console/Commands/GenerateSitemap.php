@@ -105,12 +105,24 @@ class GenerateSitemap extends Command
     {
         $handle = $this->openFile('sitemap-papers.xml');
 
-        Paper::select('slug', 'updated_at')
+        Paper::query()
+            ->select('id', 'slug', 'department_id', 'updated_at')
+            ->with('department:id,slug')
             ->chunk(200, function ($papers) use ($handle) {
+
                 foreach ($papers as $paper) {
+
+                    // Safety check (should never be null in proper DB)
+                    if (!$paper->department) {
+                        continue;
+                    }
+
                     $this->writeUrl(
                         $handle,
-                        url("/papers/{$paper->slug}"),
+                        route('public.departments.papers.show', [
+                            'department' => $paper->department->slug,
+                            'paper' => $paper->slug,
+                        ]),
                         $paper->updated_at,
                         'weekly',
                         '0.8'
@@ -219,22 +231,33 @@ class GenerateSitemap extends Command
 
     private function buildMcqUrl($mcq)
     {
-        // If belongs to paper
-        if ($mcq->paper) {
-            return url("/papers/{$mcq->paper->slug}/mcqs/{$mcq->slug}");
+        // 1️⃣ MCQ belongs to a Paper (department paper)
+        if ($mcq->paper && $mcq->paper->department) {
+            return route('public.departments.papers.mcqs.show', [
+                'department' => $mcq->paper->department->slug,
+                'paper' => $mcq->paper->slug,
+                'mcq' => $mcq->slug,
+            ]);
         }
 
-        // If belongs to subject + topic
-        if ($mcq->subject && $mcq->topic) {
-            return url("/subjects/{$mcq->subject->slug}/topics/{$mcq->topic->slug}/mcqs/{$mcq->slug}");
-        }
+        // 2️⃣ MCQ belongs to a Custom Paper (if this feature exists)
+        // if ($mcq->customPaper) {
+        //     return route('custom-papers.show', [
+        //         'customPaper' => $mcq->customPaper->slug,
+        //     ]);
+        // }
 
-        // If only subject
+        // 3️⃣ Orphan MCQ (belongs to Subject but no Paper)
         if ($mcq->subject) {
-            return url("/subjects/{$mcq->subject->slug}/mcqs/{$mcq->slug}");
+            return route('public.subjects.mcq.show', [
+                'subject' => $mcq->subject->slug,
+                'mcq' => $mcq->slug,
+            ]);
         }
 
-        // Orphan fallback
-        return url("/mcqs/{$mcq->slug}");
+        // 4️⃣ Fallback for completely orphan MCQs
+        return route('public.mcqs.show', [
+            'mcq' => $mcq->slug,
+        ]);
     }
 }
