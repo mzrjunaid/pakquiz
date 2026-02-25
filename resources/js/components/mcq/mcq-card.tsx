@@ -150,6 +150,9 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
         setSelectedOptionId(optionId);
     };
 
+    const badgeStyle =
+        'block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent';
+
     return (
         <div
             className={`rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 ${
@@ -292,10 +295,10 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                 )}
 
                 {mcq.paper && (
-                    <div className="flex items-center space-x-2">
+                    <div className="flex flex-wrap gap-y-2 items-center space-x-2">
                         <Badge
                             variant="secondary"
-                            className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent"
+                            className={badgeStyle}
                             asChild
                         >
                             <Link
@@ -310,7 +313,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                         {mcq.paper?.testing_service && (
                             <Badge
                                 variant="secondary"
-                                className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent"
+                                className={badgeStyle}
                                 asChild
                             >
                                 <Link
@@ -326,7 +329,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                         {mcq.paper?.department && (
                             <Badge
                                 variant="secondary"
-                                className="block max-w-3xs truncate overflow-hidden px-3 py-1 font-semibold sm:block"
+                                className={badgeStyle}
                                 asChild
                             >
                                 <Link

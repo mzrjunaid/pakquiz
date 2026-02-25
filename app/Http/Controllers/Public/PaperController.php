@@ -8,6 +8,7 @@ use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
+use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
@@ -40,46 +41,64 @@ class PaperController extends Controller
      * Display the specified resource.
      */
 
-    public function show(Request $request, Paper $paper)
-    {
+    public function show(
+        Request $request,
+        Department $department,
+        Paper $paper
+    ) {
         $perPage = min(
             max($request->integer('per_page', 10), 10),
             100
         );
 
-
-
-        // Load paper-specific relations (lightweight)
+        // Load lightweight relations
         $paper->load([
             'tags:id,name,slug',
             'department:id,name,slug',
         ]);
 
-        // Paginated MCQs (CRITICAL)
+        // Paginated MCQs
         $mcqs = $paper->mcqs()
-            ->select('id', 'paper_id', 'question', 'slug', 'subject_id', 'topic_id', 'created_by', 'created_at')
+            ->select([
+                'id',
+                'paper_id',
+                'question',
+                'slug',
+                'subject_id',
+                'topic_id',
+                'created_by',
+                'created_at',
+            ])
             ->with([
                 'subject:id,name,slug',
                 'topic:id,name,slug',
                 'createdBy:id,name',
                 'tags:id,name,slug',
-                'options:id,mcq_id,option_text,is_correct,sort_order'
+                'options:id,mcq_id,option_text,is_correct,sort_order',
             ])
             ->latest()
             ->paginate($perPage)
             ->onEachSide(0)
             ->withQueryString();
 
-        $resource =  McqIndexCollection::make($mcqs);
+        $resource = McqIndexCollection::make($mcqs);
 
-        // All MCQs
-        $schema = $resource->toItemListSchema('Paper', $paper->name, route('public.papers.show', $paper->slug));
+        // IMPORTANT: use nested route for schema
+        $schema = $resource->toItemListSchema(
+            'Paper',
+            $paper->name,
+            route('public.departments.papers.show', [
+                'department' => $department->slug,
+                'paper' => $paper->slug,
+            ])
+        );
 
         return Inertia::render('public/papers/show', [
-            'paper' => new PaperResource($paper),
-            'mcqs'  => $resource,
-            'seo' => app(SeoResolver::class)->resolve($request, $paper),
-            'schema' => $schema,
+            'department' => $department->only('id', 'name', 'slug'),
+            'paper'      => new PaperResource($paper),
+            'mcqs'       => $resource,
+            'seo'        => app(SeoResolver::class)->resolve($request, $paper),
+            'schema'     => $schema,
         ]);
     }
 
@@ -87,7 +106,7 @@ class PaperController extends Controller
      * Display Mcq of the specified resource.
      */
 
-    public function paper_mcq(Request $request, Paper $paper, Mcq $mcq)
+    public function paper_mcq(Request $request, Department $department, Paper $paper, Mcq $mcq)
     {
         $mcq = $paper->mcqs()->with('options')->findOrFail($mcq->id);
 

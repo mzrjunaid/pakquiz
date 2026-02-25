@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\DepartmentResource;
 use App\Http\Resources\Public\Dept\DeptResource;
+use App\Http\Resources\Public\Paper\PaperResource;
 use App\Models\Department;
 use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
@@ -19,7 +20,7 @@ class DepartmentController extends Controller
     public function index(Request $request)
     {
         $perPage = min(
-            max($request->integer('per_page', 20), 10),
+            max($request->integer('per_page', 10), 10),
             100
         );
 
@@ -47,8 +48,21 @@ class DepartmentController extends Controller
      */
     public function show(Request $request, Department $department)
     {
-        return Inertia::render('public/departments/show', [
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
+        $papers = Paper::query()
+            ->where('department_id', $department->id)
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
+        return Inertia::render('public/papers/index', [
             'department' => $department,
+            'papers' => PaperResource::collection($papers),
             // 'seo' => app(SeoResolver::class)->resolve($request, $department),
         ]);
     }

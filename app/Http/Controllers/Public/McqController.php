@@ -56,6 +56,17 @@ class McqController extends Controller
             //     ], 301);
             // }
 
+            if ($mcq->paper && $mcq->paper->department) {
+                // Ensure paper belongs to department
+                abort_if($mcq->paper->department_id !== $mcq->paper->department_id, 404);
+
+                return redirect()->route('public.departments.papers.mcq.show', [
+                    'department' => $mcq->paper->department->slug,
+                    'paper'      => $mcq->paper->slug,
+                    'mcq'        => $mcq->slug,
+                ], 301);
+            }
+
             return redirect()->route('public.papers.mcq.show', [
                 'paper' => $mcq->paper->slug,
                 'mcq'   => $mcq->slug,

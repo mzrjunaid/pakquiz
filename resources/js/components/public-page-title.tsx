@@ -15,7 +15,9 @@ const PageTitle: React.FC<Props> = ({
     className,
 }) => {
     return (
-        <div className={`order-0 flex-1 md:mb-6 lg:order-0 text-center ${className}`}>
+        <div
+            className={`order-0 flex-1 text-center md:mb-6 lg:order-0 ${className}`}
+        >
             {breadcrumbs && breadcrumbs.length > 0 && (
                 <Breadcrumbs breadcrumbs={breadcrumbs} />
             )}

@@ -68,10 +68,31 @@ Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
         ->name('search');
 
-    Route::prefix('departments')->name('departments.')->group(function () {
-        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
-        Route::get('/{department:slug}/papers', [PublicDepartmentController::class, 'show'])->name('show');
-    });
+    Route::prefix('departments')
+        ->name('departments.')
+        ->group(function () {
+
+            Route::get('/', [PublicDepartmentController::class, 'index'])
+                ->name('index');
+
+            Route::scopeBindings()->group(function () {
+
+                Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])
+                    ->name('show');
+
+                Route::get('/{department:slug}/papers', [PublicPaperController::class, 'index'])
+                    ->name('papers.index');
+
+                Route::get('/{department:slug}/papers/{paper:slug}/mcqs', [PublicPaperController::class, 'show'])
+                    ->name('papers.show');
+
+                Route::get(
+                    '/{department:slug}/papers/{paper:slug}/mcqs/{mcq:slug}',
+                    [PublicPaperController::class, 'paper_mcq']
+                )
+                    ->name('papers.mcq.show');
+            });
+        });
 
     Route::prefix('testing-services')->name('testing_services.')->group(function () {
         Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
