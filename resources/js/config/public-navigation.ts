@@ -9,7 +9,7 @@ import {
     termsOfService,
 } from '@/routes';
 import papers from '@/routes/public/papers';
-import subjects from '@/routes/public/subjects';
+import subject from '@/routes/public/subject';
 import { NavItem, NavItems } from '@/types';
 import {
     BookOpen,
@@ -54,23 +54,23 @@ export const subjectsNavItems: NavItem[] = [
     // },
     {
         title: 'Current Affairs',
-        href: subjects.show({ subject: 'current-affairs' }),
+        href: subject.show({ subject: 'current-affairs' }),
     },
     {
         title: 'Everyday Science',
-        href: subjects.show({ subject: 'everyday-science' }),
+        href: subject.show({ subject: 'everyday-science' }),
     },
     {
         title: 'Computer',
-        href: subjects.show({ subject: 'computer' }),
+        href: subject.show({ subject: 'computer' }),
     },
     {
         title: 'English',
-        href: subjects.show({ subject: 'english' }),
+        href: subject.show({ subject: 'english' }),
     },
     {
         title: 'All Subjects',
-        href: subjects.index(),
+        href: subject.index(),
     },
 ];
 
@@ -101,7 +101,7 @@ export const publicMainNavItems: NavItems[] = [
     },
     {
         title: 'Subjects',
-        href: subjects.index(),
+        href: subject.index(),
         icon: FileBox,
         subItems: subjectsNavItems,
     },

@@ -163,9 +163,7 @@ export default function Welcome({
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={papers.show({
-                                                    paper: paper.slug,
-                                                })}
+                                                href={papers.show(paper.slug)}
                                                 className="my-2 block"
                                             >
                                                 {paper.name}
@@ -183,7 +181,7 @@ export default function Welcome({
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.show(
+                                                href={publicMethod.subject.show(
                                                     {
                                                         subject: subject.slug,
                                                     },
@@ -205,9 +203,10 @@ export default function Welcome({
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.show(
+                                                href={publicMethod.subject.topic.show(
                                                     {
                                                         subject: topic.slug,
+                                                        topic: topic.slug,
                                                     },
                                                 )}
                                                 className="my-2 block"

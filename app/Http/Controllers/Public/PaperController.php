@@ -189,37 +189,39 @@ class PaperController extends Controller
 
     public function categoryIndex(Request $request, string $category)
     {
-        // Map the URL segment to your database column values if they differ
-        // e.g., 'past-papers' in URL -> 'past' in database
-
         $perPage = min(
             max($request->integer('per_page', 10), 10),
             100
         );
-
-
 
         $type = str_replace('-papers', '', $category);
 
         if (!in_array($type, ['latest', 'past', 'upcoming'])) {
             abort(404);
         }
+        $today = now()->toDateTimeString();
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
-            ->where('is_active', '=', '1')
-            ->when($type === 'latest', function ($query) {
-                $query->where('paper_year', '>=', date('Y'));
+            ->where('is_active', true)
+            ->when($type === 'upcoming', function ($query) use ($today) {
+                // Exams that haven't happened yet
+                $query->where('schedule_at', '>', $today);
+            })
+            ->when($type === 'latest', function ($query) use ($today) {
+                // Exams that just happened (e.g., in the current year or very recently)
+                // and are NOT in the future
+                $query->where('paper_year', '>=', date('Y'))
+                    ->where(function ($q) use ($today) {
+                        $q->where('schedule_at', '<=', $today)
+                            ->orWhereNull('schedule_at');
+                    });
             })
             ->when($type === 'past', function ($query) {
+                // Anything older than the current year
                 $query->where('paper_year', '<', date('Y'));
             })
-            ->when($type === 'upcoming', function ($query) {
-                $query->where('schedule_at', '>=', date('Y-m-d'));
-            })
             ->latest()
-            ->paginate($perPage)
-            ->onEachSide(0)
-            ->withQueryString();
+            ->paginate($perPage);
 
 
         return Inertia::render('public/papers/index', [

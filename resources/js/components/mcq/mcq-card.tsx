@@ -57,7 +57,7 @@ export const McqMeta = ({
             {subject?.name && (
                 <Badge variant="default" asChild>
                     <Link
-                        href={publicMethod.subjects.show({
+                        href={publicMethod.subject.show({
                             subject: subject.slug,
                         })}
                         title={`View all Papers from ${subject?.name}`}
@@ -295,7 +295,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                 )}
 
                 {mcq.paper && (
-                    <div className="flex flex-wrap gap-y-2 items-center space-x-2">
+                    <div className="flex flex-wrap items-center space-x-2 gap-y-2">
                         <Badge
                             variant="secondary"
                             className={badgeStyle}
