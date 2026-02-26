@@ -15,6 +15,8 @@ use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
+use function Pest\Laravel\get;
+
 class PaperController extends Controller
 {
     /**
@@ -103,7 +105,7 @@ class PaperController extends Controller
      * Display Mcq of the specified resource.
      */
 
-    public function paper_mcq(Request $request, Department $department, Paper $paper, Mcq $mcq)
+    public function paper_mcq(Request $request, Paper $paper, Mcq $mcq)
     {
         $mcq = $paper->mcqs()->with('options')->findOrFail($mcq->id);
 
@@ -179,6 +181,50 @@ class PaperController extends Controller
             return Inertia::render('public/coming-soon/index');
         }
         return Inertia::render('public/papers/index', [
+            'papers' => PaperResource::collection($papers),
+        ]);
+    }
+
+
+
+    public function categoryIndex(Request $request, string $category)
+    {
+        // Map the URL segment to your database column values if they differ
+        // e.g., 'past-papers' in URL -> 'past' in database
+
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
+
+
+
+        $type = str_replace('-papers', '', $category);
+
+        if (!in_array($type, ['latest', 'past', 'upcoming'])) {
+            abort(404);
+        }
+
+        $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
+            ->where('is_active', '=', '1')
+            ->when($type === 'latest', function ($query) {
+                $query->where('paper_year', '>=', date('Y'));
+            })
+            ->when($type === 'past', function ($query) {
+                $query->where('paper_year', '<', date('Y'));
+            })
+            ->when($type === 'upcoming', function ($query) {
+                $query->where('schedule_at', '>=', date('Y-m-d'));
+            })
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
+
+        return Inertia::render('public/papers/index', [
+            'type' => $type,
+            'category' => $category,
             'papers' => PaperResource::collection($papers),
         ]);
     }

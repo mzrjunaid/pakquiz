@@ -6,7 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
-import departments from '@/routes/public/departments';
+import publicMethod from '@/routes/public';
 import { Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Paper } from '@/types/public/paper';
@@ -41,10 +41,7 @@ const PapersPage = () => {
                         <div className="flex flex-wrap gap-4">
                             {papers.map((paper, idx) => (
                                 <Link
-                                    href={departments.papers.show({
-                                        department: paper.department.slug,
-                                        paper: paper.slug,
-                                    })}
+                                    href={publicMethod.papers.show(paper.slug)}
                                     className="group w-full rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:w-sm md:p-6"
                                     key={idx}
                                 >

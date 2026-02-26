@@ -9,6 +9,7 @@ use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\Subject\SubjectResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Mcq;
 use App\Models\Subject;
 use App\Models\Topic;
@@ -157,6 +158,18 @@ class SubjectController extends Controller
             'subject' => $subject,
             'mcq' => McqShowResource::make($mcq),
             'seo' => app(SeoResolver::class)->resolve($request, $mcq),
+        ]);
+    }
+
+    /**
+     * Display the specified resource.
+     */
+    public function topics(Request $request, Subject $subject)
+    {
+        return Inertia::render('public/topics/show', [
+            'subject' => $subject,
+            'topics' => TopicResource::collection($subject->topics()->latest()->paginate(10)),
+            'seo' => app(SeoResolver::class)->resolve($request, $subject),
         ]);
     }
 

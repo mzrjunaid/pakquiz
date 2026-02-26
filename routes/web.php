@@ -106,19 +106,45 @@ Route::name('public.')->group(function () {
 
     Route::prefix('subjects')->name('subjects.')->group(function () {
         Route::get('/', [PublicSubjectController::class, 'index'])->name('index'); // optional
+        Route::name('topics.')->group(function () {
+            Route::get('/{subject:slug}/topics', [PublicSubjectController::class, 'topics'])->name('index');
+            Route::get('/{subject:slug}/topics/{topic:slug}/mcqs', [PublicSubjectController::class, 'topics_show'])->name('show');
+            Route::get('/{subject:slug}/topics/{topic:slug}/mcqs/{mcq:slug}', [PublicSubjectController::class, 'topic_mcq'])->name('mcq.show');
+        });
+
         Route::get('/{subject:slug}/mcqs', [PublicSubjectController::class, 'show'])->name('show');
         Route::get('/{subject:slug}/mcqs/{mcq:slug}', [PublicSubjectController::class, 'subject_mcq'])->name('mcq.show');
+
+        Route::get('/{subject:slug}', fn($subject) => redirect(route('public.subjects.show', $subject), 301));
     });
+
+
 
     Route::prefix('papers')->name('papers.')->group(function () {
 
-        Route::get('/', [PublicPaperController::class, 'index'])->name('index'); // optional
-        Route::get('/latest-papers', [PublicPaperController::class, 'latest_papers'])->name('latest_papers');
-        Route::get('/past-papers', [PublicPaperController::class, 'past_papers'])->name('past_papers');
-        Route::get('/upcoming-papers', [PublicPaperController::class, 'upcoming_papers'])->name('upcoming_papers');
+        // 1. The main index
+        Route::get('/', [PublicPaperController::class, 'index'])->name('index');
 
+        // 2. Dynamic Category Routes
+        // This matches: latest-papers, past-papers, or upcoming-papers
+        Route::prefix('{category?}')->where(['category' => '(latest|past|upcoming)-papers'])->group(function () {
 
+            // Category Index (e.g., /papers/past-papers)
+            Route::get('/', [PublicPaperController::class, 'categoryIndex'])->name('category.index');
+
+            // Paper Show (e.g., /papers/past-papers/math-2023/mcqs)
+            Route::get('/{paper:slug}/mcqs', [PublicPaperController::class, 'show'])->name('category.show');
+
+            // MCQ Show (e.g., /papers/past-papers/math-2023/mcqs/question-1)
+            Route::get('/{paper:slug}/mcqs/{mcq:slug}', [PublicPaperController::class, 'paper_mcq'])->name('category.mcq.show');
+        });
+
+        // 3. Fallback/General Route (Optional)
+        // For papers that don't fall into the 3 categories above
         Route::get('/{paper:slug}/mcqs', [PublicPaperController::class, 'show'])->name('show');
+
+        // 4. Fallback/General Route (Optional)
+        // For papers that don't fall into the 3 categories above
         Route::get('/{paper:slug}/mcqs/{mcq:slug}', [PublicPaperController::class, 'paper_mcq'])->name('mcq.show');
     });
 

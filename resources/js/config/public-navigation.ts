@@ -77,15 +77,15 @@ export const subjectsNavItems: NavItem[] = [
 export const papersNavItems: NavItem[] = [
     {
         title: 'Latest Papers',
-        href: papers.latest_papers(),
+        href: papers.category.index('latest-papers'),
     },
     {
         title: 'Past Papers',
-        href: papers.past_papers(),
+        href: papers.category.index('past-papers'),
     },
     {
         title: 'Upcoming Papers',
-        href: papers.upcoming_papers(),
+        href: papers.category.index('upcoming-papers'),
     },
     {
         title: 'All Papers',

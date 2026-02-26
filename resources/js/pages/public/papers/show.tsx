@@ -6,7 +6,7 @@ import PageTitle from '@/components/public-page-title';
 import SearchBar from '@/components/SearchBar';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
-import departments from '@/routes/public/departments';
+import publicMethod from '@/routes/public';
 import { JsonIndexableThing, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq } from '@/types/public/mcq';
@@ -23,8 +23,7 @@ interface PaperPageProps extends SharedData {
 const PaperPage = () => {
     const { paper, mcqs, schema } = usePage<PaperPageProps>().props;
     const buildMcqLink = (slug: string) =>
-        departments.papers.mcq.show({
-            department: paper.department.slug,
+        publicMethod.papers.mcq.show({
             paper: paper.slug,
             mcq: slug,
         });
