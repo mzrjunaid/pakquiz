@@ -166,7 +166,7 @@ class SubjectController extends Controller
      */
     public function topics(Request $request, Subject $subject)
     {
-        return Inertia::render('public/topics/show', [
+        return Inertia::render('public/topics/index', [
             'subject' => $subject,
             'topics' => TopicResource::collection($subject->topics()->latest()->paginate(10)),
             'seo' => app(SeoResolver::class)->resolve($request, $subject),
