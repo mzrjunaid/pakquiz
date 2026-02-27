@@ -203,7 +203,7 @@ class SubjectController extends Controller
         $schema = $resource->toItemListSchema(
             'Topic',
             $topic->name,
-            route('public.subjects.topics.show', ['subject' => $subject->slug, 'topic' => $topic->slug])
+            route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug])
         );
 
         return Inertia::render('public/topics/show', [

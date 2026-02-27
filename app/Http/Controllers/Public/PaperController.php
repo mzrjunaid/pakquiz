@@ -24,6 +24,7 @@ class PaperController extends Controller
      */
     public function index(Request $request)
     {
+
         $perPage = min(
             max($request->integer('per_page', 20), 10),
             100
@@ -31,9 +32,10 @@ class PaperController extends Controller
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
             ->where('is_active', '=', '1')
+            ->latest()
             ->paginate($perPage)
             ->onEachSide(0)
-            ->withQueryString();;
+            ->withQueryString();
         return Inertia::render('public/papers/index', [
             'papers' => PaperResource::collection($papers),
         ]);

@@ -42,7 +42,7 @@ const PapersPage = () => {
                             {papers.map((paper, idx) => (
                                 <Link
                                     href={publicMethod.papers.show({
-                                        paper: paper.slug + '-mcqs',
+                                        paper: paper.slug,
                                     })}
                                     className="group w-full rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:w-sm md:p-6"
                                     key={idx}

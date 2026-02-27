@@ -23,8 +23,7 @@ interface PaperPageProps extends SharedData {
 const PaperPage = () => {
     const { paper, mcqs, schema } = usePage<PaperPageProps>().props;
     const buildMcqLink = (slug: string) =>
-        publicMethod.papers.mcq.show({
-            paper: paper.slug,
+        publicMethod.mcqs.show({
             mcq: slug,
         });
     return (

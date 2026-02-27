@@ -127,11 +127,11 @@ Route::name('public.')->group(function () {
 
         // 3. The Paper Show Page (e.g., /papers/past-papers/css-2024-mcqs)
         // Keep it nested under the category for a perfect SILO structure
-        Route::get('/{category?}/{paper:slug}-mcqs', [PublicPaperController::class, 'show'])
+        Route::get('/{category?}/{paper:slug}', [PublicPaperController::class, 'show'])
             ->where('category', '(latest|past|upcoming)-papers')
             ->name('category.show');
 
-        Route::get('/{paper:slug}-mcqs', [PublicPaperController::class, 'show'])->name('show');
+        Route::get('/{paper:slug}', [PublicPaperController::class, 'show'])->name('show');
     });
 
     Route::middleware(['auth', 'verified', 'status:approved'])->group(function () {
