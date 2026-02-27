@@ -54,19 +54,19 @@ export const subjectsNavItems: NavItem[] = [
     // },
     {
         title: 'Current Affairs',
-        href: subject.show({ subject: 'current-affairs' }),
+        href: subject.show({ subject: 'current-affairs-mcqs' }),
     },
     {
         title: 'Everyday Science',
-        href: subject.show({ subject: 'everyday-science' }),
+        href: subject.show({ subject: 'everyday-science-mcqs' }),
     },
     {
         title: 'Computer',
-        href: subject.show({ subject: 'computer' }),
+        href: subject.show({ subject: 'computer-mcqs' }),
     },
     {
         title: 'English',
-        href: subject.show({ subject: 'english' }),
+        href: subject.show({ subject: 'english-mcqs' }),
     },
     {
         title: 'All Subjects',

@@ -14,5 +14,17 @@ class AppendMcqsToSlugSeeder extends Seeder
             ->update([
                 'slug' => DB::raw("CONCAT(slug, '-mcqs')")
             ]);
+
+        DB::table('subjects')
+            ->where('slug', 'NOT LIKE', '%-mcqs')
+            ->update([
+                'slug' => DB::raw("CONCAT(slug, '-mcqs')")
+            ]);
+
+        DB::table('topics')
+            ->where('slug', 'NOT LIKE', '%-mcqs')
+            ->update([
+                'slug' => DB::raw("CONCAT(slug, '-mcqs')")
+            ]);
     }
 }

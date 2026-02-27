@@ -129,7 +129,7 @@ class SubjectController extends Controller
         $resource =  McqIndexCollection::make($mcqs);
 
         // All MCQs
-        $schema = $resource->toItemListSchema('Subject', $subject->name, route('public.subjects.show', $subject->slug));
+        $schema = $resource->toItemListSchema('Subject', $subject->name, route('public.subject.show', $subject->slug));
 
         return Inertia::render('public/subjects/show', [
             'subject' => new SubjectResource($subject),

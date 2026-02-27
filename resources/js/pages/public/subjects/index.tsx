@@ -42,7 +42,7 @@ const SubjectsPage = () => {
                                             className="group rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6"
                                         >
                                             <Link
-                                                href={publicMethod.subjects.show(
+                                                href={publicMethod.subject.show(
                                                     {
                                                         subject: subject.slug,
                                                     },
@@ -71,11 +71,11 @@ const SubjectsPage = () => {
                                                                     key={
                                                                         topic.id
                                                                     }
-                                                                    href={publicMethod.subjects.show(
+                                                                    href={publicMethod.subject.topic.show(
                                                                         {
                                                                             subject:
                                                                                 subject.slug,
-                                                                            slug: topic.slug,
+                                                                            topic: topic.slug,
                                                                         },
                                                                     )}
                                                                 >

@@ -1,4 +1,3 @@
-import { subject_mcq } from '@/actions/App/Http/Controllers/Public/SubjectController';
 import AppCenterHead from '@/components/app-center-head';
 import FeatureCard from '@/components/feature-card';
 import TopAdSection from '@/components/hero-section/TopAdSection';
@@ -10,6 +9,7 @@ import TextLink from '@/components/text-link';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
+import mcqsRoute from '@/routes/public/mcqs';
 import { JsonIndexableThing, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq, Subject } from '@/types/public/mcq';
@@ -30,8 +30,7 @@ const SubjectPage = () => {
     const { seo, mcqs, subject, schema } = usePage<SubjectPageProps>().props;
     const isQuizMode = true;
     const buildMcqLink = (slug: string) =>
-        subject_mcq({
-            subject: subject.slug,
+        mcqsRoute.show({
             mcq: slug,
         });
     return (
@@ -86,12 +85,10 @@ const SubjectPage = () => {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.show.get(
-                                                    subject.slug,
+                                                href={publicMethod.subject.topic.show(
                                                     {
-                                                        query: {
-                                                            topic: topic.slug,
-                                                        },
+                                                        subject: subject.slug,
+                                                        topic: topic.slug,
                                                     },
                                                 )}
                                                 className="my-2 block"

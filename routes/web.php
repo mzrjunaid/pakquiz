@@ -62,7 +62,6 @@ Route::get('/join-us', [HomeController::class, 'join_us'])->name('joinUs');
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
 Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
 Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');
-Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
 Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
@@ -72,48 +71,6 @@ Route::name('public.')->group(function () {
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
         Route::get('/', [PublicMcqController::class, 'index'])->name('index');
         Route::get('/{mcq:slug}', [PublicMcqController::class, 'show'])->name('show');
-    });
-
-    // --- Departments Group ---
-    Route::prefix('departments')->name('departments.')->group(function () {
-        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
-        // Show Department (e.g., /departments/fpsc)
-        Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
-        // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
-        Route::get('/{department:slug}/{paper:slug}-mcqs', [PublicPaperController::class, 'dept_paper_show'])
-            ->name('papers.show');
-    });
-
-    // --- Testing Services Group ---
-    Route::prefix('testing-services')->name('testing_services.')->group(function () {
-        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
-        // Show Testing Service (e.g., /testing-services/nts)
-        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
-        // Papers by Testing Service (e.g., /testing-services/nts/gate-exam-mcqs)
-        Route::get('/{testingService:slug}/{paper:slug}-mcqs', [PublicPaperController::class, 'testing_paper_show'])
-            ->name('papers.show');
-    });
-
-
-    Route::name('subject.')->group(function () {
-        // List All Subjects
-        Route::get('/subjects', [PublicSubjectController::class, 'index'])
-            ->name('index');
-
-        // 1. Main Subject Page (e.g., /pakistan-study-mcqs)
-        Route::get('/{subject:slug}-mcqs', [PublicSubjectController::class, 'show'])
-            ->name('show');
-
-        Route::name('topic.')->group(function () {
-            // 2. Topic List within a Subject (e.g., /pakistan-study/topics)
-            // Note: Keeping 'topics' as a sub-folder is fine here for organization
-            Route::get('/{subject:slug}/topics', [PublicSubjectController::class, 'topics'])
-                ->name('index');
-            // 3. Specific Topic MCQs (e.g., /pakistan-study/mountains-mcqs)
-            // This is the "Money Page" that will rank for "Mountain MCQs"
-            Route::get('/{subject:slug}/{topic:slug}-mcqs', [PublicSubjectController::class, 'topics_show'])
-                ->name('show');
-        });
     });
 
     Route::prefix('papers')->name('papers.')->group(function () {
@@ -134,11 +91,58 @@ Route::name('public.')->group(function () {
         Route::get('/{paper:slug}', [PublicPaperController::class, 'show'])->name('show');
     });
 
+    Route::name('subject.')->group(function () {
+        // List All Subjects
+        Route::get('/subjects', [PublicSubjectController::class, 'index'])
+            ->name('index');
+
+        // 1. Main Subject Page (e.g., /pakistan-study-mcqs)
+        Route::get('/{subject:slug}', [PublicSubjectController::class, 'show'])
+            ->name('show');
+
+        Route::name('topic.')->group(function () {
+            // 2. Topic List within a Subject (e.g., /pakistan-study/topics)
+            // Note: Keeping 'topics' as a sub-folder is fine here for organization
+            Route::get('/{subject:slug}/topics', [PublicSubjectController::class, 'topics'])
+                ->name('index');
+            // 3. Specific Topic MCQs (e.g., /pakistan-study/mountains-mcqs)
+            // This is the "Money Page" that will rank for "Mountain MCQs"
+            Route::get('/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topics_show'])
+                ->name('show');
+        });
+    });
+
+
+    // --- Departments Group ---
+    Route::prefix('departments')->name('departments.')->group(function () {
+        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
+        // Show Department (e.g., /departments/fpsc)
+        Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
+        // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
+        Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
+            ->name('papers.show');
+    });
+
+    // --- Testing Services Group ---
+    Route::prefix('testing-services')->name('testing_services.')->group(function () {
+        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
+        // Show Testing Service (e.g., /testing-services/nts)
+        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
+        // Papers by Testing Service (e.g., /testing-services/nts/gate-exam-mcqs)
+        Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
+            ->name('papers.show');
+    });
+
+
+
     Route::middleware(['auth', 'verified', 'status:approved'])->group(function () {
         Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     });
 });
 
+
+
+Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
 // Search Route and Search API Route
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);

@@ -9,7 +9,7 @@ import TextLink from '@/components/text-link';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
-import topics from '@/routes/public/subjects/topics';
+
 import { JsonIndexableThing, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq, Subject, Topic } from '@/types/public/mcq';
@@ -30,9 +30,7 @@ const TopicPage = () => {
         usePage<SubjectPageProps>().props;
     const isQuizMode = true;
     const buildMcqLink = (slug: string) =>
-        topics.mcq.show({
-            subject: subject.slug,
-            topic: topic.slug,
+        publicMethod.mcqs.show({
             mcq: slug,
         });
     return (
@@ -87,7 +85,7 @@ const TopicPage = () => {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={publicMethod.subjects.topics.show(
+                                                href={publicMethod.subject.topic.show(
                                                     { subject, topic },
                                                 )}
                                                 className="my-2 block"
