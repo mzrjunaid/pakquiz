@@ -4,7 +4,7 @@ import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import mcqs from '@/routes/public/mcqs';
 import papers from '@/routes/public/papers';
-import subjects from '@/routes/public/subjects';
+import subject from '@/routes/public/subject';
 import { Head } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
@@ -69,7 +69,7 @@ export default function Search({ query, results }: Props) {
                                         >
                                             <ChevronRight size="16" />
                                             <TextLink
-                                                href={subjects.show({
+                                                href={subject.show({
                                                     subject: s.slug,
                                                 })}
                                                 className="my-2 block"
