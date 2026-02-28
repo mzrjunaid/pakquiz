@@ -5,6 +5,12 @@
 
     RewriteEngine On
 
+    RewriteCond %{HTTPS} !=on
+    RewriteRule ^ https://%{HTTP_HOST}%{REQUEST_URI} [L,R=301]
+
+    RewriteCond %{HTTPS} !on
+    RewriteRule (.*) https://%{HTTP_HOST}%{REQUEST_URI}
+
     # Handle Authorization Header
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
@@ -24,6 +30,7 @@
     RewriteRule ^ index.php [L]
 
     # Redirect index.html to the root domain
-RewriteCond %{THE_REQUEST} ^.*/index\.html
-RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+    RewriteCond %{THE_REQUEST} ^.*/index\.html
+    RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+
 </IfModule>
