@@ -3,64 +3,71 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Http\Resources\Public\Paper\PaperResource;
+use App\Http\Resources\Public\TestingServices\TestingServiceResource;
 use App\Models\TestingService;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class TestingServiceController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function index(Request $request)
     {
-        //
-    }
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
 
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
-    }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        //
+        $testing_services = TestingService::query()
+            ->with([
+                'papers' => function ($query) {
+                    $query->select('id', 'testing_service_id', 'name', 'slug')
+                        ->latest()
+                        ->limit(3);
+                }
+            ])
+            ->where('name', '!=', 'N/A')
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
+
+        // dd($testing_services);
+
+        return Inertia::render('public/testing-services/index', [
+            'testing_services' => TestingServiceResource::collection($testing_services),
+        ]);
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(TestingService $testingService)
+    public function show(Request $request, TestingService $testingService)
     {
-        //
-    }
 
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(TestingService $testingService)
-    {
-        //
-    }
+        $perPage = min(
+            max($request->integer('per_page', 10), 10),
+            100
+        );
 
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, TestingService $testingService)
-    {
-        //
-    }
+        $testingService->load(['createdBy:id,name']);
 
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(TestingService $testingService)
-    {
-        //
+
+        $papers = $testingService->papers()
+            ->with(['department', 'subject'])
+            ->latest()
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
+
+        return Inertia::render('public/testing-services/show', [
+            'testing_service' => $testingService,
+            'papers' => PaperResource::collection($papers),
+        ]);
     }
 }

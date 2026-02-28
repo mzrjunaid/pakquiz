@@ -79,9 +79,20 @@ Route::name('public.')->group(function () {
         // Show Department (e.g., /departments/fpsc)
         Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
         // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
-        Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
-            ->name('papers.show');
+        // Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
+        //     ->name('papers.show');
     });
+
+    // --- Testing Services Group ---
+    Route::prefix('testing-services')->name('testing_services.')->group(function () {
+        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
+        // Show Testing Service (e.g., /testing-services/nts)
+        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
+        // Papers by Testing Service (e.g., /testing-services/nts/gate-exam-mcqs)
+        // Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
+        //     ->name('papers.show');
+    });
+
 
     Route::prefix('papers')->name('papers.')->group(function () {
         // 1. The main index (e.g., /papers)
@@ -122,15 +133,6 @@ Route::name('public.')->group(function () {
         });
     });
 
-    // --- Testing Services Group ---
-    Route::prefix('testing-services')->name('testing_services.')->group(function () {
-        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
-        // Show Testing Service (e.g., /testing-services/nts)
-        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
-        // Papers by Testing Service (e.g., /testing-services/nts/gate-exam-mcqs)
-        Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
-            ->name('papers.show');
-    });
 
 
 
