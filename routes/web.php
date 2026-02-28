@@ -73,6 +73,16 @@ Route::name('public.')->group(function () {
         Route::get('/{mcq:slug}', [PublicMcqController::class, 'show'])->name('show');
     });
 
+    // --- Departments Group ---
+    Route::prefix('departments')->name('departments.')->group(function () {
+        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
+        // Show Department (e.g., /departments/fpsc)
+        Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
+        // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
+        Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
+            ->name('papers.show');
+    });
+
     Route::prefix('papers')->name('papers.')->group(function () {
         // 1. The main index (e.g., /papers)
         Route::get('/', [PublicPaperController::class, 'index'])->name('index');
@@ -112,17 +122,6 @@ Route::name('public.')->group(function () {
         });
     });
 
-
-    // --- Departments Group ---
-    Route::prefix('departments')->name('departments.')->group(function () {
-        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
-        // Show Department (e.g., /departments/fpsc)
-        Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
-        // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
-        Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
-            ->name('papers.show');
-    });
-
     // --- Testing Services Group ---
     Route::prefix('testing-services')->name('testing_services.')->group(function () {
         Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
@@ -132,6 +131,7 @@ Route::name('public.')->group(function () {
         Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
             ->name('papers.show');
     });
+
 
 
 

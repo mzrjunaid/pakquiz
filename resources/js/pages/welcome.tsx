@@ -19,7 +19,6 @@ import PageSidebar from './public/homepage/components/page-sidebar';
 export default function Welcome({
     subjects_list,
     departments_list,
-    topics_list,
     latestPapers,
     stats,
     latestMcqs,
@@ -194,7 +193,7 @@ export default function Welcome({
                                     ))}
                                 </div>
                             </FeatureCard>
-                            <FeatureCard title="Latest Topics">
+                            {/* <FeatureCard title="Latest Topics">
                                 <div className="md:px-2">
                                     {topics_list.map((topic, idx) => (
                                         <div
@@ -216,7 +215,7 @@ export default function Welcome({
                                         </div>
                                     ))}
                                 </div>
-                            </FeatureCard>
+                            </FeatureCard> */}
                             <FeatureCard title="Departments">
                                 <div className="md:px-2">
                                     {departments_list.map((dept, idx) => (
@@ -227,9 +226,7 @@ export default function Welcome({
                                             <ChevronRight size="16" />
                                             <TextLink
                                                 href={publicMethod.departments.show(
-                                                    {
-                                                        department: dept.slug,
-                                                    },
+                                                    dept.slug,
                                                 )}
                                                 className="my-2 line-clamp-1 overflow-hidden"
                                             >
