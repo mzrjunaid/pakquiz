@@ -40,8 +40,6 @@ class SeoResolver
                 ->with('seo')
                 ->first();
 
-            // dd($page->seo); //this is giving null
-
 
             if ($page && $page->seo instanceof SeoMeta) {
                 return $this->format($request, $page->seo);

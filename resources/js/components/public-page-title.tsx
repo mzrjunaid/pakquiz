@@ -6,12 +6,14 @@ interface Props {
     subtitle?: string;
     breadcrumbs?: BreadcrumbItem[];
     className?: string;
+    description?: string;
 }
 
 const PageTitle: React.FC<Props> = ({
     title,
     subtitle,
     breadcrumbs,
+    description,
     className,
 }) => {
     return (
@@ -28,6 +30,11 @@ const PageTitle: React.FC<Props> = ({
                     </h1>
                     {subtitle && <p className="mt-2 text-muted">{subtitle}</p>}
                 </div>
+                {description && (
+                    <div className='text-left'>
+                        <p className="mt-2 text-muted">{description}</p>
+                    </div>
+                )}
             </div>
         </div>
     );

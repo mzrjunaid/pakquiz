@@ -40,7 +40,10 @@ const SubjectPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} />
+                        <PageTitle
+                            title={subject.name + ' MCQs'}
+                            description={subject.description}
+                        />
 
                         {/* <div className="mb-4">
                             <p className="rounded-sm p-4 bg-accent/10 text-accent-foreground shadow">

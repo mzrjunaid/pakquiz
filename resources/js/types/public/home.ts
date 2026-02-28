@@ -7,7 +7,13 @@ export interface HomeProps {
     canRegister?: boolean;
     seo: Seo;
     departments_list: Department[];
-    topics_list: Topic[];
+    current_affairs: {
+        id: number;
+        name: string;
+        slug: string;
+        description: string;
+        topics: Topic[];
+    };
     subjects_list: Subject[];
     latestPapers: LatestPapers[];
     latestMcqs: {
@@ -16,8 +22,10 @@ export interface HomeProps {
 }
 
 export interface Topic {
+    id: number;
     name: string;
     slug: string;
+    subject_id: number;
 }
 
 export interface Department {

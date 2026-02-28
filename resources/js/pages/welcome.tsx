@@ -10,6 +10,7 @@ import { breadcrumb } from '@/lib/breadcrumbs-utils';
 import publicMethod from '@/routes/public';
 import mcqs from '@/routes/public/mcqs';
 import papers from '@/routes/public/papers';
+import { SharedData } from '@/types';
 import { HomeProps } from '@/types/public/home';
 import { Link, usePage } from '@inertiajs/react';
 import { ChevronRight } from 'lucide-react';
@@ -19,11 +20,13 @@ import PageSidebar from './public/homepage/components/page-sidebar';
 export default function Welcome({
     subjects_list,
     departments_list,
+    current_affairs,
     latestPapers,
     stats,
     latestMcqs,
 }: HomeProps) {
     const { url } = usePage();
+    const { isQuizMode } = usePage<SharedData>().props;
     const breadcrumbs = breadcrumb(url);
 
     const homepageSchema = {
@@ -91,15 +94,13 @@ export default function Welcome({
         ],
     };
 
-    const isQuizMode = false;
-
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AppCenterHead schema={homepageSchema} />
             <HeroSection mcq={latestMcqs.data} stats={stats} />
             <section className="border-y px-4 py-6 sm:px-6 md:py-16 lg:px-8">
                 <div className="mx-auto max-w-7xl">
-                    <div className="mb-8 flex flex-col items-start justify-between gap-6 lg:flex-row lg:items-center">
+                    <div className="mb-8 flex flex-col items-start justify-between gap-y-6 lg:flex-row lg:items-center">
                         <div>
                             <h2 className="mb-2 text-xl font-bold md:text-3xl">
                                 Explore MCQs
@@ -108,9 +109,11 @@ export default function Welcome({
                                 Find the perfect questions for your preparation
                             </p>
                         </div>
-
-                        <div className="flex w-full flex-row items-center gap-x-4 space-x-4 md:max-w-sm">
-                            <SearchBar placeholder="Search Papers and MCQs..." />
+                        <div className="flex w-full flex-row items-center md:max-w-sm">
+                            <SearchBar
+                                placeholder="Search Papers and MCQs..."
+                                className="w-full"
+                            />
                         </div>
                     </div>
                     <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
@@ -193,29 +196,35 @@ export default function Welcome({
                                     ))}
                                 </div>
                             </FeatureCard>
-                            {/* <FeatureCard title="Latest Topics">
+                            <FeatureCard
+                                title="Current Affairs"
+                                description={current_affairs.description}
+                            >
                                 <div className="md:px-2">
-                                    {topics_list.map((topic, idx) => (
-                                        <div
-                                            className="flex items-center gap-1 text-sm"
-                                            key={idx}
-                                        >
-                                            <ChevronRight size="16" />
-                                            <TextLink
-                                                href={publicMethod.subject.topic.show(
-                                                    {
-                                                        subject: topic.slug,
-                                                        topic: topic.slug,
-                                                    },
-                                                )}
-                                                className="my-2 block"
+                                    {current_affairs.topics.map(
+                                        (topic, idx) => (
+                                            <div
+                                                className="flex items-center gap-1 text-sm"
+                                                key={idx}
                                             >
-                                                {topic.name}
-                                            </TextLink>
-                                        </div>
-                                    ))}
+                                                <ChevronRight size="16" />
+                                                <TextLink
+                                                    href={publicMethod.subject.topic.show(
+                                                        {
+                                                            subject:
+                                                                current_affairs.slug,
+                                                            topic: topic.slug,
+                                                        },
+                                                    )}
+                                                    className="my-2 block"
+                                                >
+                                                    {topic.name}
+                                                </TextLink>
+                                            </div>
+                                        ),
+                                    )}
                                 </div>
-                            </FeatureCard> */}
+                            </FeatureCard>
                             <FeatureCard title="Departments">
                                 <div className="md:px-2">
                                     {departments_list.map((dept, idx) => (

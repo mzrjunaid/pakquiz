@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
-import { Seo, SharedData } from '@/types';
+import { PageIntro, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Subject } from '@/types/subject';
 import { Link, usePage } from '@inertiajs/react';
@@ -16,12 +16,13 @@ import PageSidebar from '../homepage/components/page-sidebar';
 
 interface SubjectsResponse extends SharedData {
     seo: Seo;
+    pageIntro: PageIntro;
     subjects: ResourcePaginator<Subject>;
 }
 
 const SubjectsPage = () => {
     const {
-        seo,
+        pageIntro,
         subjects: { data: subjects, meta },
     } = usePage<SubjectsResponse>().props;
 
@@ -32,7 +33,10 @@ const SubjectsPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} />
+                        <PageTitle
+                            title={pageIntro.title}
+                            description={pageIntro.description}
+                        />
                         <div className="lg:col-span-2">
                             <div className="space-y-4 md:space-y-6">
                                 <div className="grid grid-cols-1 gap-4 md:gap-6">

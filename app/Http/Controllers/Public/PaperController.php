@@ -5,11 +5,9 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Http\Resources\Public\Mcq\McqShowResource;
-use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
-use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
-use App\Models\Department;
 use App\Models\Mcq;
+use App\Models\Page;
 use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
@@ -36,8 +34,11 @@ class PaperController extends Controller
             ->paginate($perPage)
             ->onEachSide(0)
             ->withQueryString();
+
         return Inertia::render('public/papers/index', [
+            'pageIntro' => Page::firstWhere('key', 'papers'),
             'papers' => PaperResource::collection($papers),
+
         ]);
     }
 
@@ -226,7 +227,27 @@ class PaperController extends Controller
             ->paginate($perPage);
 
 
+        $pageIntro = match ($type) {
+            'upcoming' => [
+                'title' => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
+                'description' => 'Stay updated with upcoming papers, exam schedules and expected test patterns for FPSC, PPSC, NTS, CSS and other competitive exams in Pakistan.',
+            ],
+            'latest' => [
+
+                'title' => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
+                'description' => 'Explore the latest papers and updated MCQs for FPSC, PPSC, NTS, CSS and other testing services in Pakistan. Practice with recently added papers daily.',
+            ],
+            'past' => [
+                'title' => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
+                'description' => 'Browse past papers with solved MCQs for FPSC, PPSC, NTS, CSS, PMS and other government exams in Pakistan. Practice by department and subject.',
+            ],
+        };
+
+        // dd($pageIntro);
+
+
         return Inertia::render('public/papers/index', [
+            'pageIntro' => $pageIntro,
             'type' => $type,
             'category' => $category,
             'papers' => PaperResource::collection($papers),

@@ -7,7 +7,7 @@ import SearchBar from '@/components/SearchBar';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import mcqsRoute from '@/routes/public/mcqs';
-import { JsonIndexableThing, Seo, SharedData } from '@/types';
+import { JsonIndexableThing, PageIntro, Seo, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Mcq } from '@/types/public/mcq';
 import { usePage } from '@inertiajs/react';
@@ -16,11 +16,12 @@ import PageSidebar from '../homepage/components/page-sidebar';
 interface Props extends SharedData {
     mcqs: ResourcePaginator<Mcq>;
     seo: Seo;
+    pageIntro: PageIntro;
     schema: JsonIndexableThing; // JSON-LD schema for the list of MCQs
 }
 
 const McqsPage = () => {
-    const { mcqs, seo, schema } = usePage<Props>().props;
+    const { mcqs, pageIntro, schema } = usePage<Props>().props;
 
     return (
         <AppLayout>
@@ -29,7 +30,11 @@ const McqsPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} className="md:mb-0" />
+                        <PageTitle
+                            title={pageIntro.title}
+                            description={pageIntro.description}
+                            className="md:mb-0"
+                        />
                     </div>
                     <SearchBar />
                 </div>

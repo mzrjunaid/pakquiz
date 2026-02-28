@@ -8,6 +8,7 @@ use App\Http\Resources\Public\Mcq\McqResource;
 use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
 use App\Models\Mcq;
+use App\Models\Page;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -31,6 +32,7 @@ class McqController extends Controller
         $schema = $resource->toItemListSchema();
 
         return Inertia::render('public/mcqs/index', [
+            'pageIntro' =>  Page::firstWhere('key', 'mcqs'),
             'mcqs' => $resource,
             'schema' => $schema,
         ]);

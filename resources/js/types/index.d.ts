@@ -140,3 +140,13 @@ export interface JsonIndexableThing {
     numberOfItems: number;
     itemListElement: JsonQuestion[];
 }
+
+export interface PageIntro {
+    id: 12;
+    key: string;
+    title: string;
+    description: string;
+    keywords: string;
+    created_at: string;
+    updated_at: string;
+}

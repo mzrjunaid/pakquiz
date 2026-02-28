@@ -8,6 +8,7 @@ use App\Http\Resources\Public\Dept\DeptResource;
 use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Http\Resources\Public\Paper\PaperResource;
 use App\Models\Department;
+use App\Models\Page;
 use App\Models\Paper;
 use App\Services\Seo\SeoResolver;
 use Illuminate\Http\Request;
@@ -25,6 +26,7 @@ class DepartmentController extends Controller
             100
         );
 
+        $pageIntro = Page::firstWhere('key', 'departments');
 
         $departments = Department::query()
             ->with([
@@ -40,6 +42,7 @@ class DepartmentController extends Controller
             ->withQueryString();
 
         return Inertia::render('public/departments/index', [
+            'pageIntro' => $pageIntro,
             'departments' => DeptResource::collection($departments),
         ]);
     }
@@ -61,8 +64,16 @@ class DepartmentController extends Controller
             ->onEachSide(0)
             ->withQueryString();
 
+
+        $pageIntro = [
+            'id' => $department->id,
+            'title' => $department->name,
+            'slug' => $department->slug,
+            'description' => $department->description,
+        ];
+
         return Inertia::render('public/papers/index', [
-            'department' => $department,
+            'pageIntro' => $pageIntro,
             'papers' => PaperResource::collection($papers),
             // 'seo' => app(SeoResolver::class)->resolve($request, $department),
         ]);

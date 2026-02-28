@@ -4,6 +4,7 @@ import McqCard from '@/components/mcq/mcq-card';
 import { SitePagination } from '@/components/pagination';
 import PageTitle from '@/components/public-page-title';
 import SearchBar from '@/components/SearchBar';
+import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
@@ -21,7 +22,7 @@ interface PaperPageProps extends SharedData {
 }
 
 const PaperPage = () => {
-    const { paper, mcqs, schema } = usePage<PaperPageProps>().props;
+    const { paper, mcqs, schema, seo } = usePage<PaperPageProps>().props;
     const buildMcqLink = (slug: string) =>
         publicMethod.mcqs.show({
             mcq: slug,
@@ -33,10 +34,18 @@ const PaperPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={paper.name} className="md:mb-0" />
+                        <PageTitle
+                            title={paper.name}
+                            description={seo.description}
+                            className="md:mb-0"
+                        />
                         <div className="flex justify-between">
-                            <p>{paper.department.name}</p>
-                            <p>{paper.testing_service.short}</p>
+                            <Badge variant="outline">
+                                {paper.department.name}
+                            </Badge>
+                            <Badge variant="outline">
+                                {paper.testing_service.short}
+                            </Badge>
                         </div>
                     </div>
                     <SearchBar />

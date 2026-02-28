@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
-import { Seo, SharedData } from '@/types';
+import { PageIntro, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { Paper } from '@/types/public/paper';
 import { Link, usePage } from '@inertiajs/react';
@@ -16,13 +16,13 @@ import PageSidebar from '../homepage/components/page-sidebar';
 
 interface PapersPageProps extends SharedData {
     papers: ResourcePaginator<Paper>;
-    seo: Seo;
+    pageIntro: PageIntro;
 }
 
 const PapersPage = () => {
     const {
         papers: { data: papers, meta },
-        seo,
+        pageIntro,
     } = usePage<PapersPageProps>().props;
     return (
         <AppLayout>
@@ -31,7 +31,10 @@ const PapersPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} />
+                        <PageTitle
+                            title={pageIntro.title}
+                            description={pageIntro.description}
+                        />
                     </div>
                     <SearchBar />
                 </div>

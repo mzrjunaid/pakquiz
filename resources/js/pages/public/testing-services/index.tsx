@@ -6,7 +6,7 @@ import SearchBar from '@/components/SearchBar';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
-import { Seo, SharedData } from '@/types';
+import { PageIntro, SharedData } from '@/types';
 import { ResourcePaginator } from '@/types/pagination';
 import { TestingService } from '@/types/public/testing-service';
 import { Link, usePage } from '@inertiajs/react';
@@ -14,13 +14,13 @@ import { ChevronRight } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface TestingServiceResponse extends SharedData {
-    seo: Seo;
+    pageIntro: PageIntro;
     testing_services: ResourcePaginator<TestingService>;
 }
 
 const TestingServicesPage = () => {
     const {
-        seo,
+        pageIntro,
         testing_services: { data: testing_services, meta },
     } = usePage<TestingServiceResponse>().props;
 
@@ -31,7 +31,10 @@ const TestingServicesPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} />
+                        <PageTitle
+                            title={pageIntro.title}
+                            description={pageIntro.description}
+                        />
                         <div className="lg:col-span-2">
                             <div className="space-y-4 md:space-y-6">
                                 <div className="grid grid-cols-1 gap-4 md:gap-6">

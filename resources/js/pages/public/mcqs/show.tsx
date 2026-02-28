@@ -38,7 +38,9 @@ const McqShow = () => {
             <TopAdSection />
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
-                    <div className="order-1 space-y-2 lg:col-span-2"></div>
+                    <div className="order-1 space-y-2 lg:col-span-2">
+
+                    </div>
                     <SearchBar className="md:order-1" />
                 </div>
                 <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">

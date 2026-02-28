@@ -42,10 +42,15 @@ class HomeController extends Controller
                     ->limit(8)
                     ->get(),
 
-                'topics_list' => Topic::query()
-                    ->select('id', 'name', 'slug')
-                    ->limit(6)
-                    ->get(),
+                'current_affairs' => Subject::query()
+                    ->select('id', 'name', 'slug', 'description')
+                    ->where('id', 39)
+                    ->with(['topics' => function ($query) {
+                        $query->select('id', 'name', 'slug', 'subject_id')
+                            ->latest()
+                            ->limit(10);
+                    }])
+                    ->first(),
 
                 'latestPapers' => Paper::query()
                     ->select('id', 'name', 'slug', 'schedule_at', 'paper_year')
@@ -65,6 +70,9 @@ class HomeController extends Controller
                 ],
             ];
         });
+
+        // dd($data);
+
 
         return Inertia::render('welcome', $data);
     }

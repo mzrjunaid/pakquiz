@@ -7,7 +7,7 @@ import { Badge } from '@/components/ui/badge';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
 import publicMethod from '@/routes/public';
-import { Seo, SharedData } from '@/types';
+import { PageIntro, SharedData } from '@/types';
 import { Department } from '@/types/department';
 import { ResourcePaginator } from '@/types/pagination';
 import { Link, usePage } from '@inertiajs/react';
@@ -16,13 +16,13 @@ import PageSidebar from '../homepage/components/page-sidebar';
 
 interface DepartmentIndexPage extends SharedData {
     departments: ResourcePaginator<Department>;
-    seo: Seo;
+    pageIntro: PageIntro;
 }
 
 const DepartmentsPage = () => {
     const {
+        pageIntro,
         departments: { data: departments, meta },
-        seo,
     } = usePage<DepartmentIndexPage>().props;
     return (
         <AppLayout>
@@ -31,7 +31,10 @@ const DepartmentsPage = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="lg:col-span-2">
-                        <PageTitle title={seo.title} />
+                        <PageTitle
+                            title={pageIntro.title}
+                            description={pageIntro.description}
+                        />
                     </div>
                     <SearchBar />
                 </div>
@@ -110,8 +113,8 @@ const DepartmentsPage = () => {
                     <PageSidebar />
                 </div>
             </MainSectionWithSidebarLayout>
-            {/* <pre>{JSON.stringify(seo, null, 2)}</pre>
-            <pre>{JSON.stringify(departments, null, 2)}</pre> */}
+            {/* <pre>{JSON.stringify(seo, null, 2)}</pre> */}
+            <pre>{JSON.stringify(pageIntro, null, 2)}</pre>
         </AppLayout>
     );
 };

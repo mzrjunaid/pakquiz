@@ -11,6 +11,7 @@ use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\Subject\SubjectResource;
 use App\Http\Resources\TopicResource;
 use App\Models\Mcq;
+use App\Models\Page;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Services\Seo\SeoResolver;
@@ -24,6 +25,7 @@ class SubjectController extends Controller
      */
     public function index(Request $request)
     {
+
         $request->validate([
             "per_page" => 'integer',
         ]);
@@ -56,6 +58,7 @@ class SubjectController extends Controller
         // dd($subjects);
 
         return Inertia::render('public/subjects/index', [
+            'pageIntro' => Page::firstWhere('key', 'subjects'),
             'subjects' => SubjectResource::collection($subjects),
             'seo' => app(SeoResolver::class)->resolve($request),
         ]);
@@ -132,7 +135,7 @@ class SubjectController extends Controller
         $schema = $resource->toItemListSchema('Subject', $subject->name, route('public.subject.show', $subject->slug));
 
         return Inertia::render('public/subjects/show', [
-            'subject' => new SubjectResource($subject),
+            'subject' => SubjectResource::make($subject),
             'mcqs'    => $resource,
             'papers'  =>  PaperResource::collection($papers),
             'seo' => app(SeoResolver::class)->resolve($request, $subject),
