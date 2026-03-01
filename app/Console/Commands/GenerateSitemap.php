@@ -236,13 +236,18 @@ class GenerateSitemap extends Command
         fwrite($handle, '<?xml version="1.0" encoding="UTF-8"?>');
         fwrite($handle, '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
-        // This picks up all the sitemap-*.xml files created in previous steps
+        // Get the base URL from .env and ensure it doesn't have a trailing slash
+        $baseUrl = rtrim(config('app.url'), '/');
+
         foreach (glob(public_path('sitemap-*.xml')) as $file) {
-            // Skip empty or tiny files
             if (filesize($file) < 200) continue;
 
+            $fileName = basename($file);
+            // Manually concatenate the URL to guarantee HTTPS and WWW
+            $fullUrl = $baseUrl . '/' . $fileName;
+
             fwrite($handle, '<sitemap>');
-            fwrite($handle, '<loc>' . url(basename($file)) . '</loc>');
+            fwrite($handle, '<loc>' . $fullUrl . '</loc>');
             fwrite($handle, '<lastmod>' . date(DATE_ATOM, filemtime($file)) . '</lastmod>');
             fwrite($handle, '</sitemap>');
         }
