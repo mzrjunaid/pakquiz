@@ -9,6 +9,7 @@ use App\Models\Paper;
 use App\Models\Mcq;
 use App\Models\Department;
 use App\Models\TestingService;
+use Illuminate\Support\Facades\File;
 
 class GenerateSitemap extends Command
 {
@@ -19,6 +20,18 @@ class GenerateSitemap extends Command
 
     public function handle()
     {
+        $this->info('Cleaning up old sitemap files...');
+
+        // CLEAN START: Delete all existing sitemap files in the public folder
+        // This prevents old files from appearing in your sitemap index
+        foreach (glob(public_path('sitemap*.xml')) as $file) {
+            if (is_file($file)) {
+                unlink($file);
+            }
+        }
+
+        $this->info('Generating new sitemaps...');
+
         $this->generateStatic();
         $this->generateSubjects();
         $this->generateTopics();
@@ -26,6 +39,8 @@ class GenerateSitemap extends Command
         $this->generateTestingServices();
         $this->generatePapers();
         $this->generateMcqs();
+
+        // This must run LAST to catch all the files generated above
         $this->generateIndex();
 
         $this->info('Sitemap generated successfully.');
@@ -92,9 +107,7 @@ class GenerateSitemap extends Command
         Topic::with('subject:id,slug')
             ->select('slug', 'updated_at', 'subject_id')
             ->chunk(500, function ($topics) use ($handle) {
-
                 foreach ($topics as $topic) {
-
                     if (!$topic->subject) continue;
 
                     $this->writeUrl(
@@ -165,9 +178,7 @@ class GenerateSitemap extends Command
 
         Paper::select('slug', 'updated_at')
             ->chunk(500, function ($papers) use ($handle) {
-
                 foreach ($papers as $paper) {
-
                     $this->writeUrl(
                         $handle,
                         route('public.papers.show', $paper->slug),
@@ -192,9 +203,7 @@ class GenerateSitemap extends Command
 
         Mcq::select('slug', 'updated_at')
             ->chunk(1000, function ($mcqs) use (&$handle, &$fileIndex, &$urlCount) {
-
                 foreach ($mcqs as $mcq) {
-
                     if ($urlCount >= $this->maxUrls) {
                         $this->closeFile($handle);
                         $fileIndex++;
@@ -227,8 +236,9 @@ class GenerateSitemap extends Command
         fwrite($handle, '<?xml version="1.0" encoding="UTF-8"?>');
         fwrite($handle, '<sitemapindex xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">');
 
+        // This picks up all the sitemap-*.xml files created in previous steps
         foreach (glob(public_path('sitemap-*.xml')) as $file) {
-
+            // Skip empty or tiny files
             if (filesize($file) < 200) continue;
 
             fwrite($handle, '<sitemap>');
@@ -264,8 +274,11 @@ class GenerateSitemap extends Command
     {
         $lastmod = $lastmod ? $lastmod->toAtomString() : now()->toAtomString();
 
+        // Safety: URL escape special characters like & or ' which are common in quiz titles
+        $safeLoc = htmlspecialchars($loc, ENT_XML1, 'UTF-8');
+
         fwrite($handle, '<url>');
-        fwrite($handle, "<loc>{$loc}</loc>");
+        fwrite($handle, "<loc>{$safeLoc}</loc>");
         fwrite($handle, "<lastmod>{$lastmod}</lastmod>");
         fwrite($handle, "<changefreq>{$freq}</changefreq>");
         fwrite($handle, "<priority>{$priority}</priority>");
