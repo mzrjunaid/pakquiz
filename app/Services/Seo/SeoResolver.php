@@ -40,7 +40,6 @@ class SeoResolver
                 ->with('seo')
                 ->first();
 
-
             if ($page && $page->seo instanceof SeoMeta) {
                 return $this->format($request, $page->seo);
             }

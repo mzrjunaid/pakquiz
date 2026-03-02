@@ -41,7 +41,7 @@ class PageSeeder extends Seeder
                 'keywords' => 'FPSC MCQs, PPSC past papers, NTS solved papers, CSS preparation Pakistan, PMS exam MCQs, testing services Pakistan, competitive exam preparation'
             ],
 
-            'subjects' => [
+            'subject' => [
                 'title' => 'Exam Subjects & Topics for MCQs Practice',
                 'description' => 'Explore exam subjects and detailed topics with structured MCQs to improve concepts and score higher in competitive exams.',
                 'keywords' => 'exam subjects, MCQs subjects, general knowledge MCQs, current affairs MCQs, everyday science, English MCQs'

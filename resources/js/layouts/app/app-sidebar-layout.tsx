@@ -16,9 +16,7 @@ export default function AppSidebarLayout({
     breadcrumbs = [],
 }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     const { url } = usePage();
-    console.log(url);
     const isAdmin = url.startsWith('/admin') || url.startsWith('/settings');
-    console.log(isAdmin);
     const isMobile = useIsMobile();
     return (
         <AppShell variant="sidebar">
