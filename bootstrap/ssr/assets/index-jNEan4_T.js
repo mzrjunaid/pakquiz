@@ -1,0 +1,81 @@
+import { jsxs, jsx } from "react/jsx-runtime";
+import { A as AppCenterHead } from "./app-center-head-CGHGyDuc.js";
+import { T as TopAdSection, M as MainSectionWithSidebarLayout } from "./two-grid-layout-DH70NA2h.js";
+import { M as McqCard } from "./mcq-card-krHnKlEN.js";
+import { S as SitePagination } from "./pagination-1dw_YrX9.js";
+import { P as PageTitle } from "./public-page-title-DeEfVH6_.js";
+import { S as SearchBar } from "./SearchBar-63Oa9znx.js";
+import { A as AppLayout } from "./app-layout-DD5QFxGc.js";
+import { m as mcqs } from "./index-DZj2b4Wd.js";
+import { usePage } from "@inertiajs/react";
+import PageSidebar from "./page-sidebar-BF2fV1kj.js";
+import "./index-Bj4QWzCK.js";
+import "react";
+import "./index-C1F4OtKB.js";
+import "lucide-react";
+import "./index-CmbwX329.js";
+import "sonner";
+import "./accordion-TKDZsCwV.js";
+import "radix-ui";
+import "./utils-BcGwcge3.js";
+import "clsx";
+import "tailwind-merge";
+import "./badge-CSOzNZ1b.js";
+import "class-variance-authority";
+import "./button-BlmebLQZ.js";
+import "./field-BSdObGgN.js";
+import "./label-DO4oxG8w.js";
+import "./select-dEUKSXuN.js";
+import "./input-DK-Y0ndi.js";
+import "@tanstack/react-query";
+import "use-debounce";
+import "@radix-ui/react-slot";
+import "@radix-ui/react-dialog";
+import "@radix-ui/react-tooltip";
+import "./dropdown-menu-CU31zq8b.js";
+import "@radix-ui/react-dropdown-menu";
+import "@radix-ui/react-avatar";
+import "./index-DFqmwzVc.js";
+import "./index-Da6iTmvw.js";
+import "./index-DSmwQD5U.js";
+import "./index-NuUntNu2.js";
+import "./index-CxePvluH.js";
+import "@radix-ui/react-navigation-menu";
+const McqsPage = () => {
+  const { mcqs: mcqs$1, pageIntro, schema } = usePage().props;
+  return /* @__PURE__ */ jsxs(AppLayout, { children: [
+    /* @__PURE__ */ jsx(AppCenterHead, { schema }),
+    /* @__PURE__ */ jsx(TopAdSection, {}),
+    /* @__PURE__ */ jsxs(MainSectionWithSidebarLayout, { children: [
+      /* @__PURE__ */ jsxs("div", { className: "mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8", children: [
+        /* @__PURE__ */ jsx("div", { className: "lg:col-span-2", children: /* @__PURE__ */ jsx(
+          PageTitle,
+          {
+            title: pageIntro.title,
+            description: pageIntro.description,
+            className: "md:mb-0"
+          }
+        ) }),
+        /* @__PURE__ */ jsx(SearchBar, {})
+      ] }),
+      /* @__PURE__ */ jsxs("div", { className: "grid gap-6 lg:grid-cols-3 lg:gap-8", children: [
+        /* @__PURE__ */ jsxs("div", { className: "space-y-8 lg:col-span-2", children: [
+          mcqs$1.data.map((mcq, idx) => /* @__PURE__ */ jsx(
+            McqCard,
+            {
+              mcq,
+              idx,
+              route: mcqs.show(mcq.slug)
+            },
+            idx
+          )),
+          /* @__PURE__ */ jsx(SitePagination, { meta: mcqs$1.meta })
+        ] }),
+        /* @__PURE__ */ jsx(PageSidebar, {})
+      ] })
+    ] })
+  ] });
+};
+export {
+  McqsPage as default
+};
