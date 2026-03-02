@@ -5,14 +5,14 @@ interface Props {
     schema?: Record<string, unknown> | JsonIndexableThing;
 }
 export default function AppCenterHead({ schema }: Props) {
-    const { base_url, seo } = usePage<SharedData>().props; // Ensure we have access to the page props, including SEO datas
+    const { seo } = usePage<SharedData>().props; // Ensure we have access to the page props, including SEO datas
 
-    const ogImageUrl = seo.og_image
-        ? `${base_url}${seo.og_image}`
-        : `${base_url}/assets/images/og-main.png`;
+    // const ogImageUrl = seo.og_image
+    //     ? `${base_url}${seo.og_image}`
+    //     : `${base_url}/assets/images/og-main.png`;
     return (
         <Head title={seo.title}>
-            <meta name="description" content={seo.description} />
+            {/* <meta name="description" content={seo.description} />
             {seo.keywords && (
                 <meta
                     name="keywords"
@@ -35,7 +35,7 @@ export default function AppCenterHead({ schema }: Props) {
             <meta name="twitter:card" content="summary_large_image" />
             <meta name="twitter:title" content={seo.og_title} />
             <meta name="twitter:description" content={seo.og_description} />
-            <meta name="twitter:image" content={ogImageUrl} />
+            <meta name="twitter:image" content={ogImageUrl} /> */}
 
             {schema && (
                 <script
