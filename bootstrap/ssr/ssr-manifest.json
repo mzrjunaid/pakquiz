@@ -10,7 +10,7 @@
     "/build/assets/profile-DYCCl49p.js"
   ],
   "resources/js/components/SearchBar.tsx": [
-    "/build/assets/SearchBar-63Oa9znx.js"
+    "/build/assets/SearchBar-CDKJf1aa.js"
   ],
   "resources/js/components/alert-error.tsx": [
     "/build/assets/two-factor-CLPjt0Z6.js"
@@ -46,7 +46,7 @@
     "/build/assets/app-layout-DD5QFxGc.js"
   ],
   "resources/js/components/call-to-action.tsx": [
-    "/build/assets/welcome-Dv_RzF7V.js"
+    "/build/assets/welcome-B6eRjDe8.js"
   ],
   "resources/js/components/coming-soon/coming-soon.tsx": [
     "/build/assets/coming-soon-D3qUPE8K.js"
@@ -58,7 +58,7 @@
     "/build/assets/feature-card-Dc_KXTut.js"
   ],
   "resources/js/components/form/suggestion-form.tsx": [
-    "/build/assets/show-CGcEtUHL.js"
+    "/build/assets/show-xE3EY8BU.js"
   ],
   "resources/js/components/heading-small.tsx": [
     "/build/assets/layout-D8Epw9aM.js"
@@ -151,7 +151,7 @@
     "/build/assets/help-center-page-CJqzybob.js"
   ],
   "resources/js/components/ui/input-group.tsx": [
-    "/build/assets/show-CGcEtUHL.js"
+    "/build/assets/show-xE3EY8BU.js"
   ],
   "resources/js/components/ui/input-otp.tsx": [
     "/build/assets/use-two-factor-auth-_yTsirko.js"
@@ -451,7 +451,7 @@
     "/build/assets/index-D5jAROrh.js"
   ],
   "resources/js/pages/public/departments/index.tsx": [
-    "/build/assets/index-CwPabOII.js"
+    "/build/assets/index-CeQV5ymg.js"
   ],
   "resources/js/pages/public/departments/show.tsx": [
     "/build/assets/show-7xXOA2s0.js"
@@ -475,16 +475,16 @@
     "/build/assets/index-CHcF-iMy.js"
   ],
   "resources/js/pages/public/mcqs/index.tsx": [
-    "/build/assets/index-jNEan4_T.js"
+    "/build/assets/index-CfFFxVjF.js"
   ],
   "resources/js/pages/public/mcqs/show.tsx": [
-    "/build/assets/show-CGcEtUHL.js"
+    "/build/assets/show-xE3EY8BU.js"
   ],
   "resources/js/pages/public/papers/index.tsx": [
-    "/build/assets/index-MN2FV9jQ.js"
+    "/build/assets/index-CNSQmk1h.js"
   ],
   "resources/js/pages/public/papers/show.tsx": [
-    "/build/assets/show-CKiatGeV.js"
+    "/build/assets/show-C6wjgl5U.js"
   ],
   "resources/js/pages/public/privacy-policy/components/privacy-policy.tsx": [
     "/build/assets/privacy-policy-Dq97plOH.js"
@@ -496,10 +496,10 @@
     "/build/assets/index-DoAxxqVb.js"
   ],
   "resources/js/pages/public/subjects/index.tsx": [
-    "/build/assets/index-DYb-9S5y.js"
+    "/build/assets/index-D3Fju-gL.js"
   ],
   "resources/js/pages/public/subjects/show.tsx": [
-    "/build/assets/show-BhejU-x6.js"
+    "/build/assets/show-Cw-8pAll.js"
   ],
   "resources/js/pages/public/terms-of-service/components/terms-of-service.tsx": [
     "/build/assets/terms-of-service-DeQLPJoU.js"
@@ -508,16 +508,16 @@
     "/build/assets/index-BncA0vv-.js"
   ],
   "resources/js/pages/public/testing-services/index.tsx": [
-    "/build/assets/index-CYGrgRV0.js"
+    "/build/assets/index-DOu8bpY2.js"
   ],
   "resources/js/pages/public/testing-services/show.tsx": [
-    "/build/assets/show-WLMI9FBZ.js"
+    "/build/assets/show-BZc-a1hL.js"
   ],
   "resources/js/pages/public/topics/index.tsx": [
     "/build/assets/index-1C7bRnPM.js"
   ],
   "resources/js/pages/public/topics/show.tsx": [
-    "/build/assets/show-C-y6Gh-z.js"
+    "/build/assets/show-B_HmqKhx.js"
   ],
   "resources/js/pages/settings/appearance.tsx": [
     "/build/assets/appearance-B0XH76p9.js"
@@ -532,7 +532,7 @@
     "/build/assets/two-factor-CLPjt0Z6.js"
   ],
   "resources/js/pages/welcome.tsx": [
-    "/build/assets/welcome-Dv_RzF7V.js"
+    "/build/assets/welcome-B6eRjDe8.js"
   ],
   "resources/js/routes/admin/departments/index.ts": [
     "/build/assets/index-DSmwQD5U.js"
