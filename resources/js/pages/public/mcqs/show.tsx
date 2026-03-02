@@ -1,9 +1,11 @@
 import AppCenterHead from '@/components/app-center-head';
+import FeatureCard from '@/components/feature-card';
 import SuggestionsForm from '@/components/form/suggestion-form';
 import TopAdSection from '@/components/hero-section/TopAdSection';
 import { McqHeader, McqMeta } from '@/components/mcq/mcq-card';
 import PageTitle from '@/components/public-page-title';
 import SearchBar from '@/components/SearchBar';
+import TextLink from '@/components/text-link';
 import {
     Accordion,
     AccordionContent,
@@ -14,23 +16,33 @@ import { Badge } from '@/components/ui/badge';
 import { useIsMobile } from '@/hooks/use-mobile';
 import AppLayout from '@/layouts/app-layout';
 import MainSectionWithSidebarLayout from '@/layouts/frontend/two-grid-layout';
+import publicMethod from '@/routes/public';
 import departments from '@/routes/public/departments';
 import mcqs from '@/routes/public/mcqs';
 import papers from '@/routes/public/papers';
 import testing_services from '@/routes/public/testing_services';
-import { Seo, SharedData } from '@/types';
+import { SharedData } from '@/types';
 import { Mcq } from '@/types/public/mcq';
+import { Paper } from '@/types/public/paper';
+import { Topic } from '@/types/subject';
 import { Link, usePage } from '@inertiajs/react';
-import { Tag } from 'lucide-react';
+import { Building, ChevronRight, Tag } from 'lucide-react';
 import PageSidebar from '../homepage/components/page-sidebar';
 
 interface McqProps extends SharedData {
     mcq: Mcq;
-    seo: Seo;
+    latestPapers: Paper[];
+    current_affairs: {
+        id: number;
+        name: string;
+        slug: string;
+        description: string;
+        topics: Topic[];
+    };
 }
 
 const McqShow = () => {
-    const { mcq } = usePage<McqProps>().props;
+    const { current_affairs, latestPapers, mcq } = usePage<McqProps>().props;
     const isMobile = useIsMobile();
     return (
         <AppLayout>
@@ -39,7 +51,9 @@ const McqShow = () => {
             <MainSectionWithSidebarLayout>
                 <div className="mb-6 grid items-center gap-4 lg:grid-cols-3 lg:gap-8">
                     <div className="order-1 space-y-2 lg:col-span-2">
-
+                        <h2 className="text-2xl font-semibold md:text-4xl">
+                            MCQ Detail
+                        </h2>
                     </div>
                     <SearchBar className="md:order-1" />
                 </div>
@@ -203,8 +217,95 @@ const McqShow = () => {
                             )}
                         </div>
                         <SuggestionsForm />
+
+                        <div className="space-y-4">
+                            <h2 className="text-2xl font-semibold md:text-4xl">
+                                Practice Recent Exams: Newest Papers Added
+                            </h2>
+                            <div className="flex flex-wrap gap-4">
+                                {latestPapers.map((paper, idx) => (
+                                    <Link
+                                        href={publicMethod.papers.show({
+                                            paper: paper.slug,
+                                        })}
+                                        className="group w-full rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:w-sm md:p-6"
+                                        key={idx}
+                                    >
+                                        <div className="mb-4 flex items-center justify-between">
+                                            {paper.subject && (
+                                                <Badge
+                                                    variant="outline"
+                                                    className="transition-colors hover:bg-primary/25 hover:text-primary"
+                                                >
+                                                    {paper.subject.name}
+                                                </Badge>
+                                            )}
+                                            {paper.testing_service && (
+                                                <Badge className="transition-colors hover:bg-primary/25 hover:text-primary">
+                                                    {
+                                                        paper.testing_service
+                                                            .short
+                                                    }
+                                                </Badge>
+                                            )}
+                                        </div>
+
+                                        <div className="block space-y-2">
+                                            <div className="flex items-start justify-between gap-3">
+                                                <h2 className="line-clamp-1 text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-sm">
+                                                    {paper.name} -{' '}
+                                                    {paper.schedule_at
+                                                        ? paper.schedule_at
+                                                        : paper.year}
+                                                </h2>
+                                                <ChevronRight className="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
+                                            </div>
+                                        </div>
+
+                                        <div className="mt-4 flex items-center justify-between">
+                                            {paper.department && (
+                                                <div className="flex items-center gap-1.5 overflow-hidden text-xs text-muted md:text-sm">
+                                                    <Building className="size-4" />
+                                                    <span className="line-clamp-1">
+                                                        {paper.department.name}
+                                                    </span>
+                                                </div>
+                                            )}
+                                        </div>
+                                    </Link>
+                                ))}
+                            </div>
+                        </div>
                     </div>
-                    <PageSidebar></PageSidebar>
+                    <PageSidebar>
+                        <FeatureCard
+                            title="Current Affairs"
+                            description={current_affairs.description}
+                        >
+                            <div className="md:px-2">
+                                {current_affairs.topics.map((topic, idx) => (
+                                    <div
+                                        className="flex items-center gap-1 text-sm"
+                                        key={idx}
+                                    >
+                                        <ChevronRight size="16" />
+                                        <TextLink
+                                            href={publicMethod.subject.topic.show(
+                                                {
+                                                    subject:
+                                                        current_affairs.slug,
+                                                    topic: topic.slug,
+                                                },
+                                            )}
+                                            className="my-2 block"
+                                        >
+                                            {topic.name}
+                                        </TextLink>
+                                    </div>
+                                ))}
+                            </div>
+                        </FeatureCard>
+                    </PageSidebar>
                 </div>
             </MainSectionWithSidebarLayout>
         </AppLayout>

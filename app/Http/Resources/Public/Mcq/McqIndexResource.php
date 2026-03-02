@@ -26,6 +26,7 @@ class McqIndexResource extends JsonResource
             'paper' =>  $this->paper ? [
                 'name' => $this->paper?->name,
                 'slug' => $this->paper?->slug,
+                'description' => $this->paper?->description,
                 'year' => $this->paper?->paper_year,
                 'testing_service' => $this->paper?->testingService ? [
                     'name' => $this->paper->testingService?->name,

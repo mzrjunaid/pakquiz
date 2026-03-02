@@ -110,10 +110,7 @@ export default function Welcome({
                             </p>
                         </div>
                         <div className="flex w-full flex-row items-center md:max-w-sm">
-                            <SearchBar
-                                placeholder="Search Papers and MCQs..."
-                                className="w-full"
-                            />
+                            <SearchBar className="w-full" />
                         </div>
                     </div>
                     <div className="grid gap-6 lg:grid-cols-3 lg:gap-8">

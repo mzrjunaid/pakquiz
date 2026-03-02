@@ -31,12 +31,12 @@ interface SearchBarProps {
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-export default function SearchBar() {
+export default function SearchBar({ className }: { className?: string }) {
     const [queryClient] = useState(() => new QueryClient());
 
     return (
         <QueryClientProvider client={queryClient}>
-            <SearchBarClient />
+            <SearchBarClient className={className} />
         </QueryClientProvider>
     );
 }
