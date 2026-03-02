@@ -12,6 +12,8 @@ import { useEffect, useRef, useState } from 'react';
 
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
+import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from 'use-debounce';
 
 interface SearchResult {
     slug: string;
@@ -27,61 +29,55 @@ interface SearchBarProps {
     className?: string;
 }
 
-export default function SearchBar({
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+
+export default function SearchBar() {
+    const [queryClient] = useState(() => new QueryClient());
+
+    return (
+        <QueryClientProvider client={queryClient}>
+            <SearchBarClient />
+        </QueryClientProvider>
+    );
+}
+
+export function SearchBarClient({
     placeholder = 'Search MCQs, Papers, or Topics...',
     redirectOnSubmit = true,
     className,
 }: SearchBarProps) {
     const [searchTerm, setSearchTerm] = useState('');
-    const [suggestions, setSuggestions] = useState<SearchResult[]>([]);
-    const [recentSearches, setRecentSearches] = useState<string[]>([]);
-    const [loading, setLoading] = useState(false);
+    const [recentSearches, setRecentSearches] = useState<string[]>([
+        'PPSC',
+        'FPSC',
+        'General Knowledge',
+    ]);
     const [isFocused, setIsFocused] = useState(false);
 
     const inputRef = useRef<HTMLInputElement>(null);
     const dropdownRef = useRef<HTMLDivElement>(null);
 
     /* ------------------ Load recent searches ------------------ */
-    useEffect(() => {
-        setRecentSearches(['PPSC', 'FPSC', 'General Knowledge']);
-    }, []);
+    // useEffect(() => {
+    //     setRecentSearches(['PPSC', 'FPSC', 'General Knowledge']);
+    // }, []);
 
     /* ------------------ Fetch suggestions (debounced) ------------------ */
-    useEffect(() => {
-        if (!searchTerm.trim()) {
-            setSuggestions([]);
-            return;
-        }
+    const [debouncedSearch] = useDebounce(searchTerm, 300);
 
-        const controller = new AbortController();
+    const { data: suggestions = [], isLoading } = useQuery<SearchResult[]>({
+        queryKey: ['suggestions', debouncedSearch],
+        queryFn: async () => {
+            const res = await fetch(
+                `/api/search-suggestions?q=${encodeURIComponent(debouncedSearch)}`,
+            );
 
-        const timer = setTimeout(async () => {
-            try {
-                setLoading(true);
+            if (!res.ok) throw new Error('Search failed');
 
-                const res = await fetch(
-                    `/api/search-suggestions?q=${encodeURIComponent(searchTerm)}`,
-                    { signal: controller.signal },
-                );
-
-                if (!res.ok) throw new Error('Search failed');
-
-                setSuggestions(await res.json());
-            } catch (error) {
-                if ((error as Error).name !== 'AbortError') {
-                    console.error(error);
-                }
-                setSuggestions([]);
-            } finally {
-                setLoading(false);
-            }
-        }, 300);
-
-        return () => {
-            controller.abort();
-            clearTimeout(timer);
-        };
-    }, [searchTerm]);
+            return res.json();
+        },
+        enabled: !!debouncedSearch.trim(),
+    });
 
     /* ------------------ Outside click ------------------ */
     useEffect(() => {
@@ -141,9 +137,9 @@ export default function SearchBar({
                 />
 
                 <div className="absolute right-2 flex items-center gap-1">
-                    {loading && <Loader2 className="h-5 w-5 animate-spin" />}
+                    {isLoading && <Loader2 className="h-5 w-5 animate-spin" />}
 
-                    {searchTerm && !loading && (
+                    {searchTerm && !isLoading && (
                         <Button
                             type="button"
                             variant="ghost"
@@ -191,7 +187,7 @@ export default function SearchBar({
 
                     {searchTerm && (
                         <div className="max-h-96 overflow-y-auto p-2">
-                            {loading ? (
+                            {isLoading ? (
                                 <div className="py-8 text-center">
                                     <Loader2 className="mx-auto animate-spin" />
                                 </div>

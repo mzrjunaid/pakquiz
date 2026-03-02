@@ -56,17 +56,23 @@ class SearchController extends Controller
 
     public function suggestions(Request $request)
     {
+
+        // return response()->json([
+        //     'message' => 'This endpoint is deprecated. Please use the /search endpoint instead.',
+        // ], 410);
+
+
         $query = trim($request->input('q', ''));
         if (!$query) return response()->json([]);
 
-        $topics = Topic::select('id', 'name', 'slug')
+        $topics = Topic::select('id', 'name', 'slug', 'subject_id')
             ->where('name', 'like', "%{$query}%")
             ->limit(3)
             ->get()
             ->map(fn($m) => [
                 'slug' => $m->slug,
                 'title' => $m->name,
-                'link' => route('public.topics.show', $m->slug),
+                'link' => route('public.subject.topic.show', [$m->subject->slug, $m->slug]),
                 'type' => 'Topic',
             ]);
 
@@ -77,7 +83,7 @@ class SearchController extends Controller
             ->map(fn($m) => [
                 'slug' => $m->slug,
                 'title' => $m->name,
-                'link' => route('public.subjects.show', $m->slug),
+                'link' => route('public.subject.show', $m->slug),
                 'type' => 'Subject',
             ]);
 

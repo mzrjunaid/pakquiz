@@ -62,6 +62,8 @@ Route::get('/join-us', [HomeController::class, 'join_us'])->name('joinUs');
 Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
 Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
 Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');
+// Search Route and Search API Route
+Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
 Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
@@ -145,9 +147,6 @@ Route::name('public.')->group(function () {
 
 
 Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
-
-// Search Route and Search API Route
-Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
 
 require __DIR__ . '/settings.php';
