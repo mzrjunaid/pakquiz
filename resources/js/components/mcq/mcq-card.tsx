@@ -155,13 +155,12 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
 
     return (
         <div
-            className={`rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 ${
-                isCorrect
-                    ? 'border-success bg-success/10'
-                    : wasAnswered
-                      ? 'border-destructive bg-destrcutive/10'
-                      : 'border-card bg-card'
-            }`}
+            className={`rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 ${isCorrect
+                ? 'border-success bg-success/10'
+                : wasAnswered
+                    ? 'border-destructive bg-destrcutive/10'
+                    : 'border-card bg-card'
+                }`}
         >
             <McqHeader isQuizMode={isQuizMode} difficulty={mcq.difficulty}>
                 {!isMobile && (
@@ -193,13 +192,12 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                             handleOptionSelect(opt.id)
                                         }
                                         disabled={!isQuizMode || wasAnswered}
-                                        className={`w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base ${!isQuizMode ? 'cursor-not-allowed opacity-85' : 'cursor-pointer'} ${
-                                            opt.is_correct && showAnswers
-                                                ? 'border-success bg-success/5'
-                                                : isSelected
-                                                  ? 'border-destructive bg-destrcutive/10'
-                                                  : 'border-gray-200 bg-white/60 hover:border-primary'
-                                        } `}
+                                        className={`w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base ${!isQuizMode ? 'cursor-not-allowed opacity-85' : 'cursor-pointer'} ${opt.is_correct && showAnswers
+                                            ? 'border-success bg-success/5'
+                                            : isSelected
+                                                ? 'border-destructive bg-destrcutive/10'
+                                                : 'border-gray-200 bg-white/60 hover:border-primary'
+                                            } `}
                                     >
                                         <div className="flex items-center gap-2">
                                             <span className="font-semibold">
@@ -253,7 +251,7 @@ const McqCard: React.FC<McqCardProps> = ({ mcq, idx, route }) => {
                                     <AccordionTrigger>
                                         Explanation
                                     </AccordionTrigger>
-                                    <AccordionContent className="rounded-lg border border-blue-200 bg-blue-50 p-4">
+                                    <AccordionContent className="rounded-lg border border-primary/10 bg-primary/10 p-4">
                                         {mcq.explanation}
                                     </AccordionContent>
                                 </AccordionItem>

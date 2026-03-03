@@ -67,6 +67,7 @@ class PaperController extends Controller
                 'id',
                 'paper_id',
                 'question',
+                'explanation',
                 'slug',
                 'subject_id',
                 'topic_id',

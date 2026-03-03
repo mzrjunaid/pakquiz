@@ -28,7 +28,7 @@ class McqController extends Controller
             100
         );
 
-        $mcqs = Mcq::query()->paginate($perPage)->withQueryString(); // or ->get()
+        $mcqs = Mcq::query()->latest()->paginate($perPage)->withQueryString();
         $resource =  McqIndexCollection::make($mcqs);
 
 

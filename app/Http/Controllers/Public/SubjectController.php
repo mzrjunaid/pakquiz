@@ -5,8 +5,6 @@ namespace App\Http\Controllers\Public;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Http\Resources\Public\Mcq\McqShowResource;
-use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
-use App\Http\Resources\Public\Paper\McqResource;
 use App\Http\Resources\Public\Paper\PaperResource;
 use App\Http\Resources\Public\Subject\SubjectResource;
 use App\Http\Resources\TopicResource;
@@ -188,7 +186,7 @@ class SubjectController extends Controller
 
         // Paginated MCQs (CRITICAL)
         $mcqs = $topic->mcqs()
-            ->select('id', 'paper_id', 'question', 'slug', 'subject_id', 'topic_id', 'created_by', 'created_at')
+            ->select('id', 'paper_id', 'question', 'explanation', 'slug', 'subject_id', 'topic_id', 'created_by', 'created_at')
             ->with([
                 'subject:id,name,slug',
                 'topic:id,name,slug',

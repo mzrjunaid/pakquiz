@@ -15,6 +15,7 @@ class Mcq extends Model
     use HasFactory, SoftDeletes, Filterable;
 
     protected $fillable = [
+        'slug',
         'paper_id',
         'subject_id',
         'topic_id',
@@ -92,7 +93,6 @@ class Mcq extends Model
     public function scopeLatestWithOptions($query, int $limit = 10)
     {
         return $query
-            ->select('id', 'paper_id', 'subject_id', 'topic_id', 'question', 'slug', 'difficulty', 'mcq_type', 'created_by')
             ->where('is_active', true)
             ->latest()
             ->with([

@@ -24,8 +24,8 @@ class McqWithOptionsResource extends JsonResource
         return [
             'question' => $this->question,
             'slug' => $this->slug,
-            'options' =>  OptionsResource::collection($this->options),
             'explanation' => $this->explanation,
+            'options' =>  OptionsResource::collection($this->options),
             'paper' =>  $this->paper ? [
                 'name' => $this->paper?->name,
                 'slug' => $this->paper?->slug,

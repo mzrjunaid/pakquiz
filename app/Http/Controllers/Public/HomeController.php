@@ -71,7 +71,6 @@ class HomeController extends Controller
             ];
         });
 
-        // dd($data);
 
 
         return Inertia::render('welcome', $data);

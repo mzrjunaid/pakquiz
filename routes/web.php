@@ -14,6 +14,7 @@ use App\Http\Controllers\Admin\{
     SubjectController as AdminSubjectController,
     TopicController as AdminTopicController
 };
+use App\Http\Controllers\Public\AdminMcqImportController;
 use Illuminate\Support\Facades\Route;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
@@ -36,6 +37,12 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 
     Route::get('/run-seo-update', [SchedulerController::class, 'runSeoUpdate'])
         ->name('run-seo-update');
+
+    Route::get('/mcqs-import', [AdminMcqImportController::class, 'create'])
+        ->name('mcqs_import.create');
+
+    Route::post('/mcqs-import', [AdminMcqImportController::class, 'store'])
+        ->name('mcqs_import.store');
 });
 
 use App\Http\Controllers\Public\{

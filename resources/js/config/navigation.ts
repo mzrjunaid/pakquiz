@@ -1,6 +1,7 @@
 import { dashboard } from '@/routes/admin';
 import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
+import mcqs_import from '@/routes/admin/mcqs_import';
 import papers from '@/routes/admin/papers';
 import seo from '@/routes/admin/seo';
 import subjects from '@/routes/admin/subjects';
@@ -75,6 +76,10 @@ export const adminMainNavItems: NavItems[] = [
             {
                 title: 'Add MCQ',
                 href: mcqs.create(),
+            },
+            {
+                title: 'Import MCQ',
+                href: mcqs_import.create(),
             },
         ],
     },

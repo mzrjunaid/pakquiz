@@ -7,15 +7,15 @@ use Illuminate\Database\Eloquent\Model;
 class Tag extends Model
 
 {
-    protected $hidden = ['pivot'];
+    protected $fillable = ['name', 'slug'];
 
     public function mcqs()
     {
-        return $this->morphedByMany(Mcq::class, 'taggable');
+        return $this->morphedByMany(Mcq::class , 'taggable');
     }
 
     public function subjects()
     {
-        return $this->morphedByMany(Subject::class, 'taggable');
+        return $this->morphedByMany(Subject::class , 'taggable');
     }
 }

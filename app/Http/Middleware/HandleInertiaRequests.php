@@ -39,6 +39,17 @@ class HandleInertiaRequests extends Middleware
     {
         [$message, $author] = str(Inspiring::quotes()->random())->explode('-');
 
+        $flash = [
+            'success' => $request->session()->get('success'),
+            'error' => $request->session()->get('error'),
+            'warning' => $request->session()->get('warning'),
+            'info' => $request->session()->get('info'),
+            'message' => $request->session()->get('message'),
+        ];
+
+        // Clear flash messages after getting them
+        $request->session()->forget(['success', 'error', 'warning', 'info', 'message']);
+
         return [
             ...parent::share($request),
             'name' => config('app.name'),
@@ -49,7 +60,8 @@ class HandleInertiaRequests extends Middleware
             'base_url' => config('app.url'),
             'seo' => app(SeoResolver::class)->resolve($request),
             'isQuizMode' => fn() => session('isQuizMode', false),
-            'sidebarOpen' => (bool) ($request->cookie('sidebar_state', 'false') === 'true'),
+            'sidebarOpen' => (bool)($request->cookie('sidebar_state', 'false') === 'true'),
+            'flash' => array_filter($flash, fn($value) => $value !== null)
         ];
     }
 }
