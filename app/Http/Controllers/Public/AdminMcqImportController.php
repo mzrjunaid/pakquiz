@@ -15,27 +15,111 @@ class AdminMcqImportController extends Controller
         return Inertia::render('admin/mcqs/import');
     }
 
-    public function store(Request $request)
+    public function create_copy()
     {
+        return Inertia::render('admin/mcqs/import-copy');
+    }
+
+    // public function store(Request $request)
+    // {
+    //     if($request->has('json')) {
+    //         $request->validate([
+    //             'json' => ['required', 'string'],
+    //         ]);
+
+    //         $decoded = json_decode($request->json, true);
+            
+    //         if (json_last_error() !== JSON_ERROR_NONE) {
+    //             return back()->withErrors([
+    //                 'json' => 'Invalid JSON format.'
+    //             ]);
+    //         }
+
+    //         if (!is_array($decoded)) {
+    //             return back()->withErrors([
+    //                 'json' => 'JSON must be an array of objects.'
+    //         ]);
+    //     }
+    //         $service = new McqsImportService();
+            
+    //         $inserted = 0;
+    //         $skipped = 0;
+
+    //         foreach ($data as $item) {
+    //             $mcq = $service->importSingle($item);
+
+    //             if ($mcq) {
+    //                 $inserted++;
+    //             } else {
+    //                 $skipped++;
+    //             }
+    //         }
+
+    //         return back()->with('success', "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped");
+    //     }
+
+    //     $request->validate([
+    //         'file' => 'required|file|mimes:json|max:10240',
+    //     ]);
+
+    //     $path = $request->file('file')->getRealPath();
+    //     $json = file_get_contents($path);
+    //     $data = json_decode($json, true);
+
+    //     if (json_last_error() !== JSON_ERROR_NONE) {
+    //         return back()->withErrors(['file' => 'Invalid JSON file.']);
+    //     }
+
+    //     $service = new McqsImportService();
+        
+    //     $inserted = 0;
+    //     $skipped = 0;
+
+    //     foreach ($data as $item) {
+    //         $mcq = $service->importSingle($item);
+
+    //         if ($mcq) {
+    //             $inserted++;
+    //         } else {
+    //             $skipped++;
+    //         }
+    //     }
+
+    //     return back()->with('success', "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped");
+    // }   
+
+public function store(Request $request, McqsImportService $service)
+{
+    // 1️⃣ Determine source
+    if ($request->filled('json')) {
 
         $request->validate([
-            'file' => 'required|file|mimes:json|max:10240',
+            'json' => ['required', 'string'],
         ]);
 
-        $path = $request->file('file')->getRealPath();
-        $json = file_get_contents($path);
-        $data = json_decode($json, true);
+        $data = $this->decodeJson($request->input('json'), 'json');
 
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return back()->withErrors(['file' => 'Invalid JSON file.']);
-        }
+    } else {
 
-        $service = new McqsImportService();
-        
-        $inserted = 0;
-        $skipped = 0;
+        $request->validate([
+            'file' => ['required', 'file', 'mimes:json', 'max:10240'],
+        ]);
+
+        $json = file_get_contents($request->file('file')->getRealPath());
+
+        $data = $this->decodeJson($json, 'file');
+    }
+
+    // 2️⃣ Import with transaction
+    $inserted = 0;
+    $skipped = 0;
+
+    DB::beginTransaction();
+
+    try {
 
         foreach ($data as $item) {
+
             $mcq = $service->importSingle($item);
 
             if ($mcq) {
@@ -45,6 +129,39 @@ class AdminMcqImportController extends Controller
             }
         }
 
-        return back()->with('success', "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped");
-    }   
+        DB::commit();
+
+    } catch (\Exception $e) {
+
+        DB::rollBack();
+
+        return back()->withErrors([
+            'import' => $e->getMessage()
+        ]);
+    }
+
+    return back()->with(
+        'success',
+        "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped"
+    );
+}
+
+private function decodeJson(string $json, string $field)
+{
+    $decoded = json_decode($json, true);
+
+    if (json_last_error() !== JSON_ERROR_NONE) {
+        return back()->withErrors([
+            $field => 'Invalid JSON format.'
+        ])->throwResponse();
+    }
+
+    if (!is_array($decoded)) {
+        return back()->withErrors([
+            $field => 'JSON must be an array of objects.'
+        ])->throwResponse();
+    }
+
+    return $decoded;
+}
 }

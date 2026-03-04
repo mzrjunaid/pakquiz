@@ -8,16 +8,31 @@ import PublicHeader from '@/components/site-header';
 import { useIsMobile } from '@/hooks/use-mobile';
 import { type BreadcrumbItem } from '@/types';
 import { usePage } from '@inertiajs/react';
-import { type PropsWithChildren } from 'react';
-import { Toaster } from 'sonner';
+import { useEffect, type PropsWithChildren } from 'react';
+import { toast, Toaster } from 'sonner';
 
 export default function AppSidebarLayout({
     children,
     breadcrumbs = [],
 }: PropsWithChildren<{ breadcrumbs?: BreadcrumbItem[] }>) {
     const { url } = usePage();
+    const { flash } = usePage<{
+        flash: {
+            success: string | null
+            error: string | null
+        }
+    }>().props;
     const isAdmin = url.startsWith('/admin') || url.startsWith('/settings');
     const isMobile = useIsMobile();
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success)
+        }
+        if (flash.error) {
+            toast.error(flash.error)
+        }
+    }, [flash])
     return (
         <AppShell variant="sidebar">
             <AppSidebar />
