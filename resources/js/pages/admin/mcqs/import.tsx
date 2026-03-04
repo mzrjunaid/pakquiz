@@ -1,12 +1,11 @@
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import AdminLayout from '../components/admin-layout'
 import { Button } from '@/components/ui/button'
 import { Loader2, Upload } from 'lucide-react'
 import { Card, CardContent } from '@/components/ui/card'
-import { router, useForm, usePage } from '@inertiajs/react'
+import { useForm } from '@inertiajs/react'
 import { InputGroup, InputGroupButton, InputGroupInput } from '@/components/ui/input-group'
 import mcqs_import from '@/routes/admin/mcqs_import'
-import { toast } from 'sonner'
 
 interface Option {
     option_text: string
@@ -21,13 +20,6 @@ interface McqPreview {
 }
 
 export default function McqsImport() {
-
-    const { flash } = usePage<{
-        flash: {
-            success: string | null
-            error: string | null
-        }
-    }>().props;
 
     const { data, setData, post, processing, errors } = useForm<{ file: File | null }>()
     const [preview, setPreview] = useState<McqPreview[] | null>(null)
@@ -66,14 +58,7 @@ export default function McqsImport() {
         reader.readAsText(selected)
     }
 
-    useEffect(() => {
-        if (flash.success) {
-            toast.success(flash.success)
-        }
-        if (flash.error) {
-            toast.error(flash.error)
-        }
-    }, [flash])
+
 
     const submit = (e: React.FormEvent) => {
         e.preventDefault()
@@ -91,10 +76,6 @@ export default function McqsImport() {
                         <h1 className="text-xl font-semibold">
                             Import MCQs (Preview First)
                         </h1>
-
-                        {/* {flash.success && toast.success(flash.success)} */}
-                        {/* {flash.error && toast.error(flash.error)} */}
-
                         {/* Upload Input */}
                         <InputGroup className="w-full pe-2">
                             <InputGroupInput

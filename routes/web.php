@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\{
+    AdminPaperImportController,
     DashboardController,
     SchedulerController,
     SeoMetaController
@@ -41,8 +42,20 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
     Route::get('/mcqs-import', [AdminMcqImportController::class, 'create'])
         ->name('mcqs_import.create');
 
+    Route::get('/mcqs-import-copy', [AdminMcqImportController::class, 'create_copy'])
+        ->name('mcqs_import.create_copy');
+
     Route::post('/mcqs-import', [AdminMcqImportController::class, 'store'])
         ->name('mcqs_import.store');
+
+    Route::get('/papers-import', [AdminPaperImportController::class, 'create'])
+        ->name('papers_import.create');
+
+    Route::get('/papers-import-copy', [AdminPaperImportController::class, 'create_copy'])
+        ->name('papers_import.create_copy');
+
+    Route::post('/papers-import', [AdminPaperImportController::class, 'store'])
+        ->name('papers_import.store');
 });
 
 use App\Http\Controllers\Public\{

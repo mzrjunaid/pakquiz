@@ -24,6 +24,7 @@ export default function Welcome({
     latestPapers,
     stats,
     latestMcqs,
+    heroSectionMcqs,
 }: HomeProps) {
     const { url } = usePage();
     const { isQuizMode } = usePage<SharedData>().props;
@@ -97,7 +98,7 @@ export default function Welcome({
     return (
         <AppLayout breadcrumbs={breadcrumbs}>
             <AppCenterHead schema={homepageSchema} />
-            <HeroSection mcq={latestMcqs.data} stats={stats} />
+            <HeroSection mcq={heroSectionMcqs.data} stats={stats} />
             <section className="border-y px-4 py-6 sm:px-6 md:py-16 lg:px-8">
                 <div className="mx-auto max-w-7xl">
                     <div className="mb-8 flex flex-col items-start justify-between gap-y-6 lg:flex-row lg:items-center">
@@ -153,7 +154,8 @@ export default function Welcome({
 
                         {/* Sidebar */}
                         <PageSidebar>
-                            <FeatureCard title="Latest Papers">
+                            <FeatureCard title="Latest Papers"
+                                description="Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan.">
                                 <div className="md:px-2">
                                     {latestPapers.map((paper, idx) => (
                                         <div
@@ -171,7 +173,8 @@ export default function Welcome({
                                     ))}
                                 </div>
                             </FeatureCard>
-                            <FeatureCard title="Latest Subjects">
+                            <FeatureCard title="Latest Subjects"
+                                description="Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan.">
                                 <div className="md:px-2">
                                     {subjects_list.map((subject, idx) => (
                                         <div
@@ -222,7 +225,8 @@ export default function Welcome({
                                     )}
                                 </div>
                             </FeatureCard>
-                            <FeatureCard title="Departments">
+                            <FeatureCard title="Departments"
+                                description="Explore the latest departments for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan." >
                                 <div className="md:px-2">
                                     {departments_list.map((dept, idx) => (
                                         <div

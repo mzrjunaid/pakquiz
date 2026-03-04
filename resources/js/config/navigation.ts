@@ -3,6 +3,7 @@ import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
 import mcqs_import from '@/routes/admin/mcqs_import';
 import papers from '@/routes/admin/papers';
+import papers_import from '@/routes/admin/papers_import';
 import seo from '@/routes/admin/seo';
 import subjects from '@/routes/admin/subjects';
 import testingServices from '@/routes/admin/testing-services';
@@ -66,6 +67,14 @@ export const adminMainNavItems: NavItems[] = [
                 title: 'Add Papers',
                 href: papers.create(),
             },
+            {
+                title: 'Import Papers',
+                href: papers_import.create(),
+            },
+            {
+                title: 'Import Papers Copy',
+                href: papers_import.create_copy(),
+            },
         ],
     },
     {
@@ -80,6 +89,10 @@ export const adminMainNavItems: NavItems[] = [
             {
                 title: 'Import MCQ',
                 href: mcqs_import.create(),
+            },
+            {
+                title: 'Import MCQ Copy',
+                href: mcqs_import.create_copy(),
             },
         ],
     },

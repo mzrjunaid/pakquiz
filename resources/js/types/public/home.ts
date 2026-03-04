@@ -7,6 +7,9 @@ export interface HomeProps {
     canRegister?: boolean;
     seo: Seo;
     departments_list: Department[];
+    heroSectionMcqs: {
+        data: Mcq[];
+    }
     current_affairs: {
         id: number;
         name: string;

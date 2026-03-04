@@ -59,6 +59,20 @@ class HomeController extends Controller
                     ->get(),
 
                 'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->get()),
+                'heroSectionMcqs' => McqWithOptionsResource::collection(
+                    Mcq::query()
+                    ->where('is_active', true)
+                    ->where('explanation', '!=', null)
+                    ->oldest('created_at')
+                    ->limit(6)
+                    ->with([
+                'options:id,mcq_id,option_text,is_correct',
+                'tags:id,name,slug',
+                'paper:id,name,slug',
+                'subject:id,name,slug',
+                'topic:id,name,slug',
+                'createdBy:id,name',
+                ])->get()),
                 'stats' => [
                     'mcqs' => Mcq::count(),
                     'papers' => Paper::count(),
