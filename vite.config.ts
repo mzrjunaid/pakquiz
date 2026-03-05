@@ -7,8 +7,11 @@ import { defineConfig } from 'vite';
 export default defineConfig({
     plugins: [
         laravel({
-            input: ['resources/css/app.css', 'resources/js/app.tsx'],
-            ssr: 'resources/js/ssr.tsx',
+            input: [
+                'resources/css/app.css',
+                'resources/js/public.js',
+                'resources/js/admin.tsx',
+            ],
             refresh: true,
         }),
         react({
@@ -19,6 +22,10 @@ export default defineConfig({
         tailwindcss(),
         wayfinder({
             formVariants: true,
+            patterns: ['admin/**/*', 'admin.*'],
+            path: 'app/Http/Controllers/Admin',
+            routes: true,
+            actions: true,
         }),
     ],
     esbuild: {

@@ -1,20 +1,15 @@
 <?php
 
-use App\Http\Controllers\Admin\{
-    AdminPaperImportController,
-    DashboardController,
-    SchedulerController,
-    SeoMetaController
-};
-
-use App\Http\Controllers\Admin\{
-    DepartmentController as AdminDepartmentController,
-    McqController as AdminMcqController,
-    PaperController as AdminPaperController,
-    TestingServiceController as AdminTestingServiceController,
-    SubjectController as AdminSubjectController,
-    TopicController as AdminTopicController
-};
+use App\Http\Controllers\Admin\AdminPaperImportController;
+use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\Admin\DepartmentController as AdminDepartmentController;
+use App\Http\Controllers\Admin\McqController as AdminMcqController;
+use App\Http\Controllers\Admin\PaperController as AdminPaperController;
+use App\Http\Controllers\Admin\SchedulerController;
+use App\Http\Controllers\Admin\SeoMetaController;
+use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
+use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
+use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use Illuminate\Support\Facades\Route;
 
@@ -58,23 +53,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
         ->name('papers_import.store');
 });
 
-use App\Http\Controllers\Public\{
-    DemoController,
-    HomeController,
-    PremiumController,
-    SearchController,
-};
+use App\Http\Controllers\Public\DemoController;
+use App\Http\Controllers\Public\DepartmentController as PublicDepartmentController;
+use App\Http\Controllers\Public\HomeController;
+use App\Http\Controllers\Public\McqController as PublicMcqController;
+use App\Http\Controllers\Public\PaperController as PublicPaperController;
+use App\Http\Controllers\Public\PremiumController;
+use App\Http\Controllers\Public\SearchController;
+use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
+use App\Http\Controllers\Public\TestingServiceController as PublicTestingServiceController;
 
-use App\Http\Controllers\Public\{
-    DepartmentController as PublicDepartmentController,
-    TestingServiceController as PublicTestingServiceController,
-    McqController as PublicMcqController,
-    SubjectController as PublicSubjectController,
-    PaperController as PublicPaperController,
-    TopicController as PublicTopicController,
-};
-
-Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::view('/', 'pages.⚡-home')->name('home');
 Route::get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');
@@ -88,7 +77,6 @@ Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 Route::name('public.')->group(function () {
     Route::get('/search', [SearchController::class, 'index'])
         ->name('search');
-
 
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
         Route::get('/', [PublicMcqController::class, 'index'])->name('index');
@@ -114,7 +102,6 @@ Route::name('public.')->group(function () {
         // Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
         //     ->name('papers.show');
     });
-
 
     Route::prefix('papers')->name('papers.')->group(function () {
         // 1. The main index (e.g., /papers)
@@ -155,18 +142,11 @@ Route::name('public.')->group(function () {
         });
     });
 
-
-
-
-
     Route::middleware(['auth', 'verified', 'status:approved'])->group(function () {
         Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     });
 });
 
-
-
 Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
-
-require __DIR__ . '/settings.php';
+require __DIR__.'/settings.php';

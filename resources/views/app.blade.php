@@ -85,7 +85,7 @@
 
 
     @viteReactRefresh
-    @vite(['resources/js/app.tsx', "resources/js/pages/{$page['component']}.tsx"])
+    @vite(['resources/js/admin.tsx', "resources/js/pages/{$page['component']}.tsx"])
     @inertiaHead
 
 </head>

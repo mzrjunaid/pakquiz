@@ -6,14 +6,18 @@
 
         <title>{{ $title ?? config('app.name') }}</title>
 
-        @vite(['resources/css/app.css', 'resources/js/app.js'])
+        @vite(['resources/css/app.css', 'resources/js/public.js'])
 
         @livewireStyles
     </head>
     <body>
-        
+        <livewire:navbar />
 
-        {{ $slot }}
+        <main>
+            {{ $slot }}
+        </main>
+
+        <livewire:footer />
 
         @livewireScripts
     </body>
