@@ -27,22 +27,22 @@ class Subject extends Model
 
     public function topics()
     {
-        return $this->hasMany(Topic::class, 'subject_id');
+        return $this->hasMany(Topic::class , 'subject_id');
     }
 
     public function papers()
     {
-        return $this->hasMany(Paper::class, 'subject_id');
+        return $this->hasMany(Paper::class , 'subject_id');
     }
 
     public function mcqs()
     {
-        return $this->hasMany(Mcq::class, 'subject_id');
+        return $this->hasMany(Mcq::class , 'subject_id');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault([
+        return $this->belongsTo(User::class , 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
@@ -55,16 +55,21 @@ class Subject extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
     }
 
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function canonicalUrl()
+    {
+        return route('subjects.show', $this);
     }
 }

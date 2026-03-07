@@ -13,10 +13,11 @@ import papers from '@/routes/admin/papers';
 import { DashboardItem } from '@/types/admin';
 
 interface Props {
-    latest: { items: DashboardItem[] };
+    latest: DashboardItem[];
 }
 
 export default function DashboardTable({ latest }: Props) {
+    // console.log(latest.items[0].title);
     return (
         <Table>
             <TableCaption>A list of your recent activities.</TableCaption>
@@ -30,7 +31,7 @@ export default function DashboardTable({ latest }: Props) {
                 </TableRow>
             </TableHeader>
             <TableBody>
-                {latest.items.length === 0 && (
+                {Object.values(latest).length === 0 && (
                     <TableRow className="*:text-center">
                         <TableCell colSpan={4} className="text-center">
                             No recent data
@@ -38,7 +39,7 @@ export default function DashboardTable({ latest }: Props) {
                     </TableRow>
                 )}
 
-                {latest.items.map((item, index) => (
+                {Object.values(latest).map((item, index) => (
                     <TableRow
                         key={`${item.type}-${item.id}`}
                         className="*:text-center"

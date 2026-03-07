@@ -12,6 +12,7 @@ use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceCo
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use Illuminate\Support\Facades\Route;
+                                                                                                                                                                                                                                                                                                                                                                                                                                use Livewire\Livewire;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
 
@@ -63,7 +64,7 @@ use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
 use App\Http\Controllers\Public\TestingServiceController as PublicTestingServiceController;
 
-Route::view('/', 'pages.⚡-home')->name('home');
+Route::livewire('/', 'pages::home.index')->name('home');
 Route::get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
 Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');

@@ -33,8 +33,8 @@ class TestingService extends Model
     public function paperMcqs()
     {
         return $this->hasManyThrough(
-            Mcq::class,
-            Paper::class,
+            Mcq::class ,
+            Paper::class ,
             'testing_service_id',
             'paper_id',
             'id',
@@ -44,10 +44,10 @@ class TestingService extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault(
-            [
-                'name' => 'Unknown User'
-            ]
+        return $this->belongsTo(User::class , 'created_by')->withDefault(
+        [
+            'name' => 'Unknown User'
+        ]
         );
     }
 
@@ -71,18 +71,23 @@ class TestingService extends Model
         $ignore = ['of', 'and', 'the'];
 
         return collect(explode(' ', $name))
-            ->filter(fn($word) => ! in_array(Str::lower($word), $ignore))
+            ->filter(fn($word) => !in_array(Str::lower($word), $ignore))
             ->map(fn($word) => Str::upper(Str::substr($word, 0, 1)))
             ->implode('');
     }
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
+    }
+
+    public function canonicalUrl()
+    {
+        return route('testing_services.show', $this);
     }
 }

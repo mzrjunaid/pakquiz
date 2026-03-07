@@ -1,1 +1,1 @@
-import './bootstrap'; // <-- new
+// import './bootstrap'; // <-- new

@@ -124,4 +124,9 @@ class Mcq extends Model
     {
         return (new McqsFilter($filters))->apply($query);
     }
+
+    public function canonicalUrl()
+    {
+        return route('mcqs.show', $this);
+    }
 }

@@ -16,17 +16,15 @@ class DashboardService
             return [
                 'overview' => $this->overviewStats(),
                 'activity' => $this->activityStats(),
-                'quality'  => $this->qualityStats(),
+                'quality' => $this->qualityStats(),
             ];
         });
     }
 
     public function latest()
     {
-        return Cache::remember('dashboard.latest', now()->addMinutes(5), function () {
-            return [
-                'items' =>  $this->latestItems(),
-            ];
+        return Cache::remember('dashboard.latest', now()->addSeconds(1), function () {
+            return $this->latestItems();
         });
     }
 
@@ -122,13 +120,13 @@ class DashboardService
         $now = Carbon::now();
 
         $todayStart = $now->copy()->startOfDay();
-        $todayEnd   = $now->copy()->endOfDay();
+        $todayEnd = $now->copy()->endOfDay();
 
-        $weekStart  = $now->copy()->startOfWeek();
-        $weekEnd    = $now->copy()->endOfWeek();
+        $weekStart = $now->copy()->startOfWeek();
+        $weekEnd = $now->copy()->endOfWeek();
 
         $monthStart = $now->copy()->startOfMonth();
-        $monthEnd   = $now->copy()->endOfMonth();
+        $monthEnd = $now->copy()->endOfMonth();
 
         $row = DB::selectOne("
             SELECT

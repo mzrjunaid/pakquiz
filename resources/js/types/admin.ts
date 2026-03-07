@@ -37,9 +37,7 @@ export interface DashboardStats {
 
 export interface DashboardProps {
     stats: DashboardStats;
-    latest: {
-        items: DashboardItem[];
-    };
+    latest: DashboardItem[];
 }
 
 export interface CommonFilters {

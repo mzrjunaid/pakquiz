@@ -211,8 +211,8 @@ register.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     register.form = registerForm
 /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
 export const home = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -226,8 +226,8 @@ home.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
 home.url = (options?: RouteQueryOptions) => {
@@ -235,8 +235,8 @@ home.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
 home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -244,8 +244,8 @@ home.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
 home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -254,8 +254,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
     const homeForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -264,8 +264,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
         homeForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -273,8 +273,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \Illuminate\Routing\ViewController::__invoke
- * @see vendor/laravel/framework/src/Illuminate/Routing/ViewController.php:32
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/'
  */
         homeForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

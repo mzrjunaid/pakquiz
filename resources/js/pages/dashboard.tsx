@@ -8,10 +8,10 @@ export default function SeoMetaIndex({ stats, latest }: DashboardProps) {
         <AdminLayout title="Dashboard List">
             <h1 className="text-xl font-bold">Dashboard</h1>
             <SectionCards stats={stats} />
-            {/* <pre>{JSON.stringify(stats, null, 2)}</pre> */}
             <h2 className="text-xl font-bold">Latest Mcqs / Papers</h2>
             <div className="relative min-h-[100vh] flex-1 overflow-hidden rounded-xl border border-sidebar-border/70 md:min-h-min dark:border-sidebar-border">
                 <DashboardTable latest={latest} />
+                {/* <pre>{JSON.stringify(latest, null, 2)}</pre> */}
             </div>
         </AdminLayout>
     );

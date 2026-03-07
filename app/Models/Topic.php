@@ -32,28 +32,36 @@ class Topic extends Model
 
     public function mcqs()
     {
-        return $this->hasMany(Mcq::class, 'topic_id');
+        return $this->hasMany(Mcq::class , 'topic_id');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault([
+        return $this->belongsTo(User::class , 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
     }
 
     public function getRouteKeyName(): string
     {
         return 'slug';
+    }
+
+    public function canonicalUrl(): string
+    {
+        return route('subject.topic.show', [
+            'subject' => $this->subject,
+            'topic' => $this
+        ]);
     }
 }

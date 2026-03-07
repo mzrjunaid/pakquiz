@@ -16,6 +16,6 @@ class Page extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 }
