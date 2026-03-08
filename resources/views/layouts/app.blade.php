@@ -4,9 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
     <title>
-        {{ filled($title ?? null) ? $title.' - '.config('app.name', 'Pak Quiz') : config('app.name', 'Pak Quiz') }}
+        {{ $title ?? config('app.name', 'Pak Quiz') }}
     </title>
+
+
 
     @stack('meta')
     <meta name="robots" content="index, follow" />
@@ -24,11 +27,7 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
 
-    <link
-        rel="preload"
-        href="{{ asset('fonts/woff2/NotoNastaliqUrdu.woff2') }}"
-        as="font"
-        type="font/woff2"
+    <link rel="preload" href="{{ asset('fonts/woff2/NotoNastaliqUrdu.woff2') }}" as="font" type="font/woff2"
         crossorigin />
 
     <link rel="preconnect" href="https://fonts.googleapis.com">

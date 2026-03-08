@@ -26,7 +26,6 @@ class navbar extends Component
             'subjects' => config('navigation.public.subjects'),
             'papers' => config('navigation.public.papers'),
             'about_us' => config('navigation.public.about_us'),
-            'demo' => config('navigation.public.demo'),
         ]);
     }
 }
