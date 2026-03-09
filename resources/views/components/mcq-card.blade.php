@@ -52,7 +52,7 @@
         <div class="flex items-center justify-end space-x-1">
             @if ($mcq['subject'])
                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
-                    class="px-2 py-1 bg-blue-600 text-white text-xs rounded truncate max-w-[100px] md:max-w-none">
+                    class="px-2 py-1 bg-primary text-white text-xs rounded truncate max-w-[100px] md:max-w-none">
                     {{ $mcq['subject']['name'] }}
                 </a>
             @endif

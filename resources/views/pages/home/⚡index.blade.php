@@ -101,48 +101,49 @@ new class extends Component {
     </script>
 @endslot
 
-<section class="px-4 pt-6 pb-12 md:px-6 md:pt-12 lg:px-8">
+<section class=" md:pt-6 pb-12 md:px-6 md:pt-12 lg:px-8">
     <div class="mx-auto max-w-7xl">
         <div class="grid items-center gap-12 lg:grid-cols-2">
             <div>
-                <div class="mb-6 flex items-center gap-2">
-                    <x-ri-ai name="ai-generate" class="h-5 w-5" />
+                <span
+                    class="mb-3 sm:mb-6 flex items-center w-50 text-sm bg-primary text-primary-foreground rounded-full px-3 gap-2">
+                    <x-ri-ai name="ai-generate" class="h-4 w-4" />
                     AI-Enhanced Learning
-                </div>
+                </span>
 
-                <h1 class="mb-6 text-3xl leading-tight font-bold text-foreground md:text-5xl lg:text-6xl">
+                <h1 class="mb-3 sm:mb-6 text-3xl leading-tight font-bold text-foreground md:text-5xl lg:text-6xl">
                     Master MCQs with
                     <span class="block text-muted-foreground/65">
                         Intelligent Practice
                     </span>
                 </h1>
 
-                <p class="mb-8 text-sm leading-relaxed md:text-xl">
+                <p class="mb-4 sm:mb-8 text-sm leading-relaxed md:text-xl">
                     Access thousands of AI-enhanced multiple choice
                     questions across subjects, jobs, and testing
                     services. Practice smarter, not harder.
                 </p>
 
-                <div class="mb-8 flex flex-col space-y-4 xs:flex-row xs:space-y-0 xs:space-x-4">
+                <div class="mb-4  flex flex-col sm:flex-row gap-3 md:gap-6">
                     <a href="/mcqs"
                         class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
                         <x-heroicon-s-play class="h-5 w-5" />
                         Start Practicing
                     </a>
                     <a href="/demo"
-                        class="flex items-center justify-center gap-2 py-3 border border-gray-300 text-sm font-semibold transition-all px-4 sm:px-8 rounded-lg hover:bg-primary/90 hover:text-primary-foreground">
+                        class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 border hover:text-primary-foreground hover:bg-primary/90 rounded-lg">
                         <x-heroicon-s-eye class="h-5 w-5" />
                         View Demo
                     </a>
                 </div>
 
-                <div class="grid grid-cols-2 gap-6">
-                    <div class="flex items-center rounded-lg bg-card p-4 text-center shadow-md">
+                <div class="grid grid-cols-2 gap-3 md:gap-6">
+                    <div class="flex items-center rounded-lg bg-card p-2 md:p-4 text-center shadow-md">
                         <div class="flex items-center justify-center rounded-full border-2 p-1.5">
-                            <x-heroicon-s-clipboard-document-check class="h-5 w-5" />
+                            <x-heroicon-s-clipboard-document-check class="h-3 w-3 md:h-5 md:w-5" />
                         </div>
                         <div class="w-full">
-                            <div class="font-bold md:text-xl">
+                            <div class="font-bold text-sm md:text-xl">
                                 {{ $this->stats->mcqs }}
                             </div>
                             <div class="text-xs md:text-sm">
@@ -150,12 +151,12 @@ new class extends Component {
                             </div>
                         </div>
                     </div>
-                    <div class="flex items-center rounded-lg bg-card p-4 text-center shadow-md">
+                    <div class="flex items-center rounded-lg bg-card p-2 md:p-4 text-center shadow-md">
                         <div class="flex items-center justify-center rounded-full border-2 p-1.5">
-                            <x-heroicon-s-clipboard-document class="h-5 w-5" />
+                            <x-heroicon-s-clipboard-document class="h-3 w-3 md:h-5 md:w-5" />
                         </div>
                         <div class="w-full">
-                            <div class="font-bold md:text-xl">
+                            <div class="font-bold text-sm md:text-xl">
                                 {{ $this->stats->papers }}
                             </div>
                             <div class="text-xs md:text-sm">
@@ -174,7 +175,7 @@ new class extends Component {
                         this.active = (this.active + 1) % this.total
                     }, 10000)
                 }
-            }" x-init="start()">
+            }" x-init="start()" class="hidden lg:block">
                 @foreach ($data['heroSectionMcqs'] as $index => $mcq)
                     <div x-show="active === {{ $index }}">
 
