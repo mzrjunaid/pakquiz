@@ -1,4 +1,4 @@
-<header class="w-full relative shadow-sm text-sm mb-6 not-has-[nav]:hidden" x-data="{ mobileMenuOpen: false }">
+<header class="w-full relative shadow-sm text-sm mb-6 not-has-[nav]:hidden sticky top-0 right-0 left-0 z-50 shadow-sm backdrop-blur-lg" x-data="{ mobileMenuOpen: false }">
     <div class="flex max-w-7xl px-4 xl:px-0 lg:mx-auto items-center justify-between gap-4">
         <div class="w-full lg:w-lg">
             <a href="{{ route('home') }}" class="text-2xl font-bold ">
@@ -9,22 +9,20 @@
         <nav class="w-full flex justify-start py-3 lg:justify-between items-center gap-4 flex-row-reverse lg:flex-row">
             <div>
                 <!-- Desktop Navigation -->
-                <div class="hidden lg:flex items-center space-x-8">
+                <div class="hidden lg:flex items-center space-x-3">
                     <!-- Regular Link -->
-                    <a href="{{ route('home') }}" class=" hover:text-primary px-3 py-2">
-                        Home
-                    </a>
+                    <x-nav-link route="home">Home</x-nav-link>
 
                     <!-- Dropdown Menu -->
-                    <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                        <button
-                            @click="open = !open"
-                            class=" hover:text-primary px-3 py-2 flex items-center">
+                    <div x-data="{ open: false }" @mouseenter="open = true"
+                        @mouseleave="open = false" class="relative">
+                        <x-nav-link
+                            route="public.subject.index">
                             Subjects
                             <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </x-nav-link>
 
                         <!-- Dropdown Content -->
                         <div
@@ -46,15 +44,15 @@
                     </div>
 
                     <!-- Another Dropdown -->
-                    <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                        <button
-                            @click="open = !open"
-                            class="hover:text-primary px-3 py-2 flex items-center">
+                    <div x-data="{ open: false }" @mouseenter="open = true"
+                        @mouseleave="open = false" class="relative">
+                        <x-nav-link
+                            route="public.papers.index">
                             Papers
                             <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </x-nav-link>
 
                         <div
                             x-show="open"
@@ -69,15 +67,15 @@
                         </div>
                     </div>
 
-                    <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                        <button
-                            @click="open = !open"
-                            class=" hover:text-primary px-3 py-2 flex items-center">
+                    <div x-data="{ open: false }" @mouseenter="open = true"
+                        @mouseleave="open = false" class="relative">
+                        <x-nav-link
+                            route="aboutUs">
                             About Us
                             <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
                             </svg>
-                        </button>
+                        </x-nav-link>
 
                         <div
                             x-show="open"
@@ -92,7 +90,7 @@
                         </div>
                     </div>
 
-                    <a href="/demo" class="hover:text-primary px-3 py-2">Demo</a>
+                    <x-nav-link route="demo">Demo</x-nav-link>
                 </div>
 
                 <!-- Mobile Menu Button -->

@@ -41,7 +41,7 @@
 
 <body class="bg-background/30 text-foreground font-sans antialiased min-h-screen">
     <x-navbar />
-    <main class="max-w-7xl mx-auto px-6 lg:px-8">
+    <main>
         {{ $slot }}
     </main>
     @include('partials.footer')
