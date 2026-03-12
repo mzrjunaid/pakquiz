@@ -12,7 +12,7 @@ use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceCo
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use Illuminate\Support\Facades\Route;
-                                                                                                                                                                                                                                                                                                                                                                                                                                use Livewire\Livewire;
+use Livewire\Livewire;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
 
@@ -80,8 +80,8 @@ Route::name('public.')->group(function () {
         ->name('search');
 
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
-        Route::get('/', [PublicMcqController::class, 'index'])->name('index');
-        Route::get('/{mcq:slug}', [PublicMcqController::class, 'show'])->name('show');
+        Route::livewire('/', 'pages::mcqs.index')->name('index');
+        Route::livewire('/{mcq:slug}', 'pages::mcqs.show')->name('show');
     });
 
     // --- Departments Group ---
@@ -150,4 +150,4 @@ Route::name('public.')->group(function () {
 
 Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
-require __DIR__.'/settings.php';
+require __DIR__ . '/settings.php';
