@@ -34,7 +34,7 @@ class McqController extends Controller
 
 
         // All MCQs
-        $schema = $resource->toItemListSchema();
+        $schema = $resource->toItemListSchema(request());
 
         return Inertia::render('public/mcqs/index', [
             'pageIntro' =>  Page::firstWhere('key', 'mcqs'),

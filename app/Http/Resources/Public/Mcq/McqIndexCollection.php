@@ -8,19 +8,27 @@ class McqIndexCollection extends ResourceCollection
 {
     public $collects = McqIndexResource::class; // wraps each MCQ in your resource
 
-    public function toArray($request)
+
+
+    public function toArray($request = null)
     {
+        $request = $request ?? request();
         return $this->collection->map(fn($mcq) => new McqIndexResource($mcq))->toArray();
     }
 
     public function toItemListSchema(?string $parentType = null, ?string $parentName = null, ?string $parentUrl = null): array
     {
-        $items = $this->collection->map(function ($mcq, $index) {
+
+        $currentPage = $this->currentPage();
+        $perPage = $this->perPage();
+
+        $items = $this->collection->map(function ($mcq, $index) use ($currentPage, $perPage) {
             return [
                 '@type' => 'ListItem',
-                'position' => $index + 1,
+                'position' => ($index + 1) + (($currentPage - 1) * $perPage),
                 'url' => route('public.mcqs.show', ['mcq' => $mcq->slug]),
                 'name' => $mcq->question,
+                'datePublished' => $mcq->created_at->toIso8601String(),
             ];
         })->toArray();
 
