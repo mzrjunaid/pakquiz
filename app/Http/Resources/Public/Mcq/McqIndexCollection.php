@@ -39,7 +39,7 @@ class McqIndexCollection extends ResourceCollection
             'description' => $parentType && $parentName
                 ? "Complete list of MCQs for {$parentType}: {$parentName}"
                 : "Complete list of MCQs for various exams",
-            'url' => $parentUrl ?? url()->current(),
+            'url' => request()->fullUrl(),
             'numberOfItems' => count($items),
             'itemListElement' => $items,
         ];

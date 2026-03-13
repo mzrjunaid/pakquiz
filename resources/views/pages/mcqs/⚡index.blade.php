@@ -22,20 +22,34 @@ new class extends Component {
     public function with(): array
     {
         $limit = min(max((int)$this->perPage, 5), 100);
-
         $mcqs = Mcq::query()
             ->latest()
             ->paginate($limit)
+            ->onEachSide(0)
             ->withQueryString();
 
         $resource = McqIndexCollection::make($mcqs);
 
+        $breadcrumbSchema = [
+            '@context' => 'https://schema.org',
+            '@type' => 'BreadcrumbList',
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
+            ]
+        ];
+
         $schema = $resource->toItemListSchema(request());
+
+        $combinedSchema = [
+            $breadcrumbSchema,
+            $schema
+        ];
 
         return [
             'mcqs' => $resource,
             'pageIntro' => Page::firstWhere('key', 'mcqs'),
-            'schema' => $schema,
+            'schema' => $combinedSchema,
         ];
     }
 
@@ -47,7 +61,6 @@ new class extends Component {
 };
 ?>
 
-@dd($schema)
 
 
 @slot('title')
@@ -76,45 +89,77 @@ new class extends Component {
         }
     </script>
     @endteleport
-
-    <div class="container mx-auto px-4 py-8">
-        <div class="max-w-4xl mx-auto">
-            <h1 class="text-3xl font-bold mb-6">{{ $pageIntro->title }}</h1>
-            <p class="text-gray-700 mb-8">{{ $pageIntro->content }}</p>
-
-            <div class="mb-6">
-                <label for="perPage" class="block text-sm font-medium text-gray-700 mb-2">Items per page:</label>
-                <select id="perPage" wire:model.live="perPage" class="border border-gray-300 rounded-md px-3 py-2">
-                    <option value="5">5</option>
-                    <option value="10">10</option>
-                    <option value="20">20</option>
-                    <option value="50">50</option>
-                    <option value="100">100</option>
-                </select>
+    <div class="max-w-7xl mx-auto px-4 lg:px-0">
+        <section class="flex flex-col gap-6 md:flex-row px-4 py-12 md:px-0">
+            <div class="space-y-4 w-full md:w-2/3">
+                <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
+                    <ol class="inline-flex items-center md:space-x-1">
+                        <li class="inline-flex items-center">
+                            <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <span class="mx-2">/</span>
+                                <span class="font-medium text-primary">{{ __('MCQs') }}</span>
+                            </div>
+                        </li>
+                    </ol>
+                </nav>
+                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">{{ $pageIntro->title }}</h1>
+                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
             </div>
+            <div class="space-y-2 w-full md:w-1/3">
+                <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
+                <livewire:global-search />
+            </div>
+        </section>
 
-            <div class="space-y-4">
-                @foreach ($mcqs as $mcq)
-                <div class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition-shadow">
-                    <h2 class="text-xl font-semibold mb-2">{{ $mcq->question }}</h2>
-                    <div class="space-y-2">
-                        @foreach ($mcq->options as $option)
-                        <div class="flex items-center">
-                            <input type="radio" name="option_{{ $mcq->id }}" id="option_{{ $mcq->id }}_{{ $loop->index }}" class="mr-2">
-                            <label for="option_{{ $mcq->id }}_{{ $loop->index }}" class="text-gray-700">{{ $option }}</label>
+        <section class="pb-12">
+            <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
+                <div class="lg:col-span-2">
+                    <div class="relative">
+                        <div wire:loading.flex wire:target="gotoPage, nextPage, previousPage" class="absolute inset-0 z-50 items-center justify-center bg-white/60 backdrop-blur-[1px] rounded-lg">
+                            <div class="flex flex-col items-center">
+                                <svg class="animate-spin h-10 w-10 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                                </svg>
+                                <span class="mt-2 text-sm font-semibold text-primary">Updating MCQs...</span>
+                            </div>
                         </div>
-                        @endforeach
+                        <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300" class="space-y-4">
+                            @foreach ($mcqs as $mcq)
+                            <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                            @endforeach
+                        </div>
                     </div>
-                    <div class="mt-4">
-                        <span class="text-sm text-gray-500">Correct answer: {{ $mcq->correct_answer }}</span>
+
+                    <div class="mt-8">
+                        {{ $mcqs->links('vendor.livewire.compact-pagination') }}
                     </div>
                 </div>
-                @endforeach
-            </div>
+                <x-aside>
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Latest Papers</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
+                            other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
 
-            <div class="mt-8">
-                {{ $mcqs->links() }}
+                            <div class="flex items-center gap-1 text-sm">
+                                <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                <a href="#" class="my-2 block">
+                                    paper name
+                                </a>
+                            </div>
+                            <div class="text-sm text-right flex justify-end mt-2">
+                                <x-nav-link route="public.papers.index" class="text-primary hover:underline">
+                                    View All Papers
+                                </x-nav-link>
+                            </div>
+                        </div>
+                    </div>
+                </x-aside>
             </div>
-        </div>
+        </section>
     </div>
 </div>
