@@ -10,14 +10,18 @@ $difficultyClasses =
 <?php
 
 use App\Models\Mcq;
+use App\Models\Paper;
+use App\Models\Topic;
+use App\Support\SeoData;
 use Livewire\Component;
+use Livewire\Attributes\Computed;
 
 new class extends Component {
     public Mcq $mcq;
 
+
     public function with(): array
     {
-
         $breadcrumbs_list = [
             ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
             ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
@@ -38,36 +42,104 @@ new class extends Component {
             'itemListElement' => $breadcrumbs_list
         ];
 
+        $correctOption = $this->mcq->options->firstWhere('is_correct', true);
+        $explanation   = trim(strip_tags($this->mcq->explanation ?? ''));
+
         $quiz = [
-            '@context' => 'https://schema.org',
-            '@type' => 'Quiz',
-            'name' => $this->mcq->question,
-            'hasPart' => [
+            '@context'    => 'https://schema.org',
+            '@type'       => 'Quiz',
+            'name'        => $this->mcq->subject->name . ' MCQs',
+            'description' => $this->mcq->subject->seo->description,
+            'url'         => url('/mcqs/' . $this->mcq->slug),
+            'hasPart'     => [
                 [
-                    '@type' => 'Question',
-                    'name' => $this->mcq->question,
+                    '@type'           => 'Question',
+                    'text'            => $this->mcq->question,
                     'eduQuestionType' => $this->mcq->mcq_type,
-                    'text' => $this->mcq->question,
-                    'suggestedAnswer' => $this->mcq->options->map(fn($option) => ['@type' => 'Answer', 'text' => $option->option_text])->values()->toArray(),
-                    'acceptedAnswer' => [
-                        '@type' => 'Answer',
-                        'text' => $this->mcq->options->firstWhere('is_correct', true)->option_text ?? null,
-                        'comment' => [
-                            '@type' => 'Comment',
-                            'text' => trim(strip_tags($this->mcq->explanation)) ?? null
-                        ]
-                    ]
-                ]
-            ]
+                    'answerCount'     => $this->mcq->options->count(),
+
+                    'suggestedAnswer' => $this->mcq->options
+                        ->filter(fn($o) => !$o->is_correct)
+                        ->map(fn($o)    => ['@type' => 'Answer', 'text' => $o->option_text])
+                        ->values()
+                        ->toArray(),
+
+                    'acceptedAnswer'  => [
+                        '@type'   => 'Answer',
+                        'text'    => $correctOption?->option_text,
+                        'comment' => $explanation
+                            ? ['@type' => 'Comment', 'text' => $explanation]
+                            : null,
+                    ],
+                ],
+            ],
         ];
 
         return [
             'mcq' => $this->mcq,
             'schema' => ['@context' => 'https://schema.org', '@graph' => [$breadcrumbs, $quiz]],
+            'suggestedMcqs' => $this->suggestedMcqs(),
+            'latestPapers' => $this->latestPapers(),
+            'currentAffairs' => $this->currentAffairs(),
+            'meta' => $this->meta(),
         ];
+    }
+
+    #[Computed]
+    public function suggestedMcqs()
+    {
+        return Mcq::select('id', 'question', 'slug', 'subject_id', 'topic_id')
+            ->where('subject_id', $this->mcq->subject_id)
+            ->where('topic_id', $this->mcq->topic_id)
+            ->where('id', '!=', $this->mcq->id)
+            ->limit(5)
+            ->get();
+    }
+
+    #[Computed]
+    public function latestPapers()
+    {
+        return Paper::select('id', 'name', 'slug')
+            ->latest()
+            ->limit(5)
+            ->get();
+    }
+
+    #[Computed]
+    public function currentAffairs()
+    {
+        return Topic::select('id', 'name', 'slug', 'subject_id')
+            ->with('subject:id,name,slug')
+            ->where('subject_id', 39)
+            ->latest()
+            ->limit(5)
+            ->get();
+    }
+
+    #[Computed]
+    public function meta()
+    {
+        return cache()->remember('page_meta_mcqs_' . $this->mcq->id, 86400, fn() => SeoData::mcqSeo($this->mcq));
     }
 };
 ?>
+
+@slot('title')
+{{ $meta['title'] }}
+@endslot
+
+@push('meta')
+<meta name="description" content="{{ $meta['description'] }}">
+<meta name="canonical" content="{{ $meta['canonical'] }}">
+<meta property="og:title" content="{{ $meta['og_title'] }}">
+<meta property="og:description" content="{{ $meta['og_description'] }}">
+<meta property="og:image" content="{{ $meta['og_image'] }}">
+<meta property="og:url" content="{{ $meta['canonical'] }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $meta['og_title'] }}">
+<meta name="twitter:description" content="{{ $meta['og_description'] }}">
+<meta name="twitter:image" content="{{ $meta['og_image'] }}">
+@endpush
 
 <div>
     @teleport('head')
@@ -78,7 +150,7 @@ new class extends Component {
     </script>
     @endteleport
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
-        <section class="flex flex-col gap-6 md:flex-row items-end px-4 py-12 md:px-0">
+        <section class="flex flex-col gap-6 md:flex-row items-end px-4 md:px-0">
             <div class="space-y-4 w-full md:w-2/3">
                 <h2 class="text-2xl font-bold text-primary">MCQ Detail</h2>
             </div>
@@ -217,8 +289,8 @@ new class extends Component {
                         @endif
                     </div>
 
-
                     <livewire:suggestion-form :mcq_id="$mcq['id']" />
+
 
                 </div>
                 <x-aside>
@@ -227,20 +299,56 @@ new class extends Component {
                         <livewire:global-search />
                     </div>
                     <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest current affairs for FPSC, PPSC, NTS, CSS, PMS and
+                            other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
+                            @foreach ($currentAffairs as $currentAffair)
+                            <div class="flex items-center gap-1">
+                                <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
+                                <a href="{{ route('public.subject.topic.show', ['subject' => $currentAffair->subject->slug, 'topic' => $currentAffair->slug]) }}" class="my-2 text-sm line-clamp-1">
+                                    {{ $currentAffair->name }}
+                                </a>
+                            </div>
+                            @endforeach
+                        </div>
+                    </div>
+                    <div class="rounded-lg bg-card p-6 shadow-md">
                         <h2 class="mb-2 text-lg font-semibold">Latest Papers</h2>
                         <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
                             other competitive exams in Pakistan.</p>
                         <div class="md:px-2">
-
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="#" class="my-2 block">
-                                    paper name
+                            @foreach ($latestPapers as $latestPaper)
+                            <div class="flex items-center gap-1">
+                                <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
+                                <a href="{{ route('public.papers.show', $latestPaper->slug) }}" class="my-2 text-sm line-clamp-1">
+                                    {{ $latestPaper->name }}
                                 </a>
                             </div>
+                            @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
                                 <x-nav-link route="public.papers.index" class="text-primary hover:underline">
                                     View All Papers
+                                </x-nav-link>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Suggested MCQs Related to Subject and Topic</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest MCQs related to subject and topic.</p>
+                        <div class="md:px-2">
+
+                            @foreach ($suggestedMcqs as $suggestedMcq)
+                            <div class="flex items-center gap-1 text-sm">
+                                <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
+                                <a href="{{ route('public.mcqs.show', $suggestedMcq->slug) }}" class="my-2 line-clamp-1">
+                                    {{ $suggestedMcq->question }}
+                                </a>
+                            </div>
+                            @endforeach
+                            <div class="text-sm text-right flex justify-end mt-2">
+                                <x-nav-link route="public.mcqs.index" class="text-primary hover:underline">
+                                    View All MCQs
                                 </x-nav-link>
                             </div>
                         </div>

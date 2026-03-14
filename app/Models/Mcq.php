@@ -9,7 +9,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Cache;
 
-class Mcq extends Model
+interface HasCanonical
+{
+    public function canonicalUrl(): string;
+}
+
+class Mcq extends Model implements HasCanonical
 {
     /** @use HasFactory<\Database\Factories\McqFactory> */
     use HasFactory, SoftDeletes, Filterable;
@@ -130,8 +135,8 @@ class Mcq extends Model
         return (new McqsFilter($filters))->apply($query);
     }
 
-    public function canonicalUrl()
+    public function canonicalUrl(): string
     {
-        return route('mcqs.show', $this);
+        return route('public.mcqs.show', $this->slug);
     }
 }

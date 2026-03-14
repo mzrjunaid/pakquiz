@@ -2,12 +2,14 @@
 
 namespace App\Support;
 
+use App\Models\Mcq;
+
 class SeoData
 {
     public static function fromModel($model)
     {
         if (!$model || !$model->seo) {
-            return self::default ();
+            return self::default();
         }
 
         return [
@@ -21,7 +23,30 @@ class SeoData
         ];
     }
 
-    public static function default ()
+    public static function mcqSeo(Mcq $mcq): array
+    {
+        $mcq->loadMissing('seo');
+
+        if (!$mcq || !$mcq->seo) {
+            return self::default();
+        }
+
+        $canonical = $mcq->seo->canonical
+            ?? $mcq->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title'          => $mcq->seo->title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'description'    => $mcq->explanation ?? $mcq->seo->description,
+            'keywords'       => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title'       => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'og_description' => $mcq->seo->og_description ?? $mcq->explanation,
+            'og_image'       => $mcq->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical'      => $canonical,
+        ];
+    }
+
+    public static function default()
     {
         return [
             'title' => config('app.name'),
