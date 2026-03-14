@@ -1,8 +1,15 @@
+@php
+$difficultyClasses =
+[
+'easy' => 'bg-green-100 text-green-700 border-green-200',
+'medium' => 'bg-yellow-100 text-yellow-700 border-yellow-500',
+'hard' => 'bg-red-100 text-red-700 border-red-500',
+][strtolower($mcq['difficulty'])] ?? 'bg-gray-100 text-gray-700';
+@endphp
+
 <?php
 
-use App\Http\Resources\Public\Mcq\McqShowResource;
 use App\Models\Mcq;
-use App\Models\Page;
 use Livewire\Component;
 
 new class extends Component {
@@ -11,28 +18,44 @@ new class extends Component {
     public function with(): array
     {
 
-        $schema = [
+        $breadcrumbs_list = [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
+        ];
+
+        if ($this->mcq->subject) {
+            $breadcrumbs_list[] = ['@type' => 'ListItem', 'position' => 3, 'name' => $this->mcq->subject->name, 'item' => url('/' . $this->mcq->subject->slug)];
+        }
+
+        if ($this->mcq->topic) {
+            $breadcrumbs_list[] = ['@type' => 'ListItem', 'position' => 4, 'name' => $this->mcq->topic->name, 'item' => url('/' . $this->mcq->subject->slug . '/' . $this->mcq->topic->slug)];
+            $breadcrumbs_list[] = ['@type' => 'ListItem', 'position' => 5, 'name' => $this->mcq->question, 'item' => url('/' . $this->mcq->subject->slug . '/' . $this->mcq->topic->slug . '/' . $this->mcq->slug)];
+        }
+
+        $breadcrumbs = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
-                ['@type' => 'ListItem', 'position' => 3, 'name' => $this->mcq->subject->name ?? 'General', 'item' => url('/' . $this->mcq->subject->slug)],
-                ['@type' => 'ListItem', 'position' => 4, 'name' => $this->mcq->topic->name ?? 'General', 'item' => url('/' . $this->mcq->subject->slug . '/' . $this->mcq->topic->slug)],
-                ['@type' => 'ListItem', 'position' => 5, 'name' => $this->mcq->name ?? 'General', 'item' => url('/' . $this->mcq->subject->slug . '/' . $this->mcq->topic->slug . '/' . $this->mcq->slug)],
-            ],
-            [
-                '@context' => 'https://schema.org',
-                '@type' => 'Quiz',
-                'name' => $this->mcq->question,
-                'hasPart' => [
+            'itemListElement' => $breadcrumbs_list
+        ];
+
+        $quiz = [
+            '@context' => 'https://schema.org',
+            '@type' => 'Quiz',
+            'name' => $this->mcq->question,
+            'hasPart' => [
+                [
                     '@type' => 'Question',
+                    'name' => $this->mcq->question,
                     'eduQuestionType' => $this->mcq->mcq_type,
                     'text' => $this->mcq->question,
-                    'suggestedAnswer' => $this->mcq->options->map(fn($option) => ['@type' => 'Answer', 'text' => $option->option_text])->toArray(),
+                    'suggestedAnswer' => $this->mcq->options->map(fn($option) => ['@type' => 'Answer', 'text' => $option->option_text])->values()->toArray(),
                     'acceptedAnswer' => [
                         '@type' => 'Answer',
-                        'text' => $this->mcq->options->firstWhere('is_correct', true)->option_text ?? null
+                        'text' => $this->mcq->options->firstWhere('is_correct', true)->option_text ?? null,
+                        'comment' => [
+                            '@type' => 'Comment',
+                            'text' => trim(strip_tags($this->mcq->explanation)) ?? null
+                        ]
                     ]
                 ]
             ]
@@ -40,7 +63,7 @@ new class extends Component {
 
         return [
             'mcq' => $this->mcq,
-            'schema' => $schema,
+            'schema' => ['@context' => 'https://schema.org', '@graph' => [$breadcrumbs, $quiz]],
         ];
     }
 };
@@ -75,18 +98,22 @@ new class extends Component {
                         <a href="{{ route('public.mcqs.index') }}" class="hover:text-primary">{{ __('MCQs') }}</a>
                     </div>
                 </li>
+                @if ($mcq->subject)
                 <li>
                     <div class="flex items-center">
                         <span class="mx-2">/</span>
-                        <a href="{{ route('public.mcqs.index', $mcq->subject->slug) }}" class="hover:text-primary line-clamp-1">{{ $mcq->subject->name }}</a>
+                        <a href="{{ route('public.subject.show', $mcq->subject->slug) }}" class="hover:text-primary line-clamp-1">{{ $mcq->subject->name }}</a>
                     </div>
                 </li>
+                @endif
+                @if ($mcq->topic)
                 <li>
                     <div class="flex items-center">
                         <span class="mx-2">/</span>
-                        <a href="{{ route('public.mcqs.index', $mcq->subject->slug . '/' . $mcq->topic->slug) }}" class="hover:text-primary line-clamp-1">{{ $mcq->topic->name }}</a>
+                        <a href="{{ route('public.subject.topic.show', ['subject' => $mcq->subject->slug, 'topic' => $mcq->topic->slug]) }}" class="hover:text-primary line-clamp-1">{{ $mcq->topic->name }}</a>
                     </div>
                 </li>
+                @endif
                 <li>
                     <div class="flex items-center">
                         <span class="mx-2">/</span>
@@ -96,32 +123,103 @@ new class extends Component {
             </ol>
         </nav>
 
-        <section class="pb-12">
+        <section x-data="{shareLink() {
+        navigator.clipboard.writeText('{{ url('/mcqs/'.$mcq->slug) }}');
+        window.dispatchEvent(new CustomEvent('notify', { detail: 'Link copied!' }));
+    }}" class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
-                    <div class="space-y-6">
-                        <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $mcq->question }}">{{ $mcq->question }}</h1>
-                        <p class="text-xs md:text-base text-justify">{{ $mcq->explanation }}</p>
-                        <div class="grid gap-2 md:grid-cols-1 lg:gap-3">
-                            @foreach ($mcq->options as $optIdx => $opt)
-                            <div @click="selectOption({{ $opt->id }})"
-                                class="w-full  text-left text-sm lg:text-base flex items-center gap-2">
-                                <span class="font-bold uppercase">
-                                    {{ chr(65 + $optIdx) }}.
-                                </span>
-                                <span>{{ $opt->option_text }}</span>
+                <div class="lg:col-span-2 space-y-8">
+                    <div class="flex flex-col-reverse md:flex-row md:justify-between gap-2">
+                        <div class="flex flex-wrap items-center gap-2">
+                            <span class="inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/90 text-white">
+                                <x-heroicon-s-cpu-chip class="h-3 w-3" /> AI
+                            </span>
+                            @if ($mcq['difficulty'])
+                            <span
+                                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border {{ $difficultyClasses }} capitalize">
+                                {{ $mcq['difficulty'] }}
+                            </span>
+                            @endif
+                        </div>
 
-                                <template x-if="(wasAnswered || !isQuizMode) && {{ $opt->is_correct ? 'true' : 'false' }}">
-                                    <span class="ml-auto text-green-600 font-bold">✓</span>
-                                </template>
-                                <template
-                                    x-if="wasAnswered && selectedOptionId == {{ $opt->id }} && !{{ $opt->is_correct ? 'true' : 'false' }}">
-                                    <span class="ml-auto text-red-600 font-bold">✗</span>
-                                </template>
-                            </div>
-                            @endforeach
+                        <div class="flex items-center justify-end space-x-1">
+                            @if ($mcq['subject'])
+                            <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
+                                class="px-2 py-1 bg-primary text-white text-xs rounded truncate max-w-[100px] md:max-w-none">
+                                {{ $mcq['subject']['name'] }}
+                            </a>
+                            @endif
+                            <button @click="shareLink" class="p-2 hover:bg-accent rounded-full">
+                                <x-heroicon-o-share class="h-5 w-5" />
+                            </button>
                         </div>
                     </div>
+                    <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $mcq->question }}">{{ $mcq->question }}</h1>
+                    <div class="grid gap-2 md:grid-cols-1 lg:gap-3">
+                        @foreach ($mcq->options as $optIdx => $opt)
+                        <div :class="{ 'border-green-500 bg-green-50': {{ $opt->is_correct ? 'true' : 'false' }}, 'border-gray-200 bg-white/60 hover:border-primary': {{ $opt->is_correct ? 'false' : 'true' }} }" class="w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base flex items-center gap-2">
+                            <span class="font-bold uppercase">
+                                {{ chr(65 + $optIdx) }}.
+                            </span>
+                            <span>{{ $opt->option_text }}</span>
+
+                            <template x-if="{{ $opt->is_correct ? 'true' : 'false' }}">
+                                <span class="ml-auto text-green-600 font-bold">✓</span>
+                            </template>
+                            <template x-if="{{ $opt->is_correct ? 'false' : 'true' }}">
+                                <span class="ml-auto text-red-600 font-bold">✗</span>
+                            </template>
+                        </div>
+                        @endforeach
+                    </div>
+
+                    @if ($mcq->explanation)
+                    <div x-data="{ open: true }" class="border-b border-t py-4 group">
+                        <button @click="open = !open" class="flex items-center justify-between w-full text-sm font-medium py-2">
+                            <span>Explanation</span>
+                            <x-heroicon-o-chevron-up class="h-4 w-4 transform transition-transform group-hover:text-primary"
+                                x-bind:class="open ? '' : 'rotate-180'" />
+                        </button>
+                        <p x-show="open" x-transition class="p-4 border border-primary rounded-lg text-sm md:text-base leading-relaxed">
+                            {{ $mcq->explanation }}
+                        </p>
+                    </div>
+                    @endif
+
+                    <div class="flex flex-wrap-reverse items-center justify-end gap-4 md:justify-between">
+                        <div class="flex items-center gap-2">
+                            <x-heroicon-o-tag class="h-6 w-6" />
+                            <div class="flex flex-wrap gap-2">
+                                @foreach ($mcq->tags as $tag)
+                                <span
+                                    class="text-sm px-2 py-0.5 rounded-full border">{{ $tag->name }}</span>
+                                @endforeach
+                            </div>
+                        </div>
+
+
+                        @if ($mcq->paper)
+                        <div class="flex flex-wrap items-center space-x-2 gap-y-2">
+                            <a href="{{ route('public.papers.show', $mcq->paper->slug) }}" class="items-center justify-center rounded-full border border-transparent text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
+                                {{ $mcq->paper->name }}
+                            </a>
+                            @if($mcq->paper->department)
+                            <a href="{{ route('public.departments.show', $mcq->paper->department->slug) }}" class="items-center justify-center rounded-full border border-transparent text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
+                                {{ $mcq->paper->department->name }}
+                            </a>
+                            @endif
+                            @if($mcq->paper->testingService)
+                            <a href="{{ route('public.testing_services.show', $mcq->paper->testingService->slug) }}" class="items-center justify-center rounded-full border border-transparent text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-secondary text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
+                                {{ $mcq->paper->testingService->short_name }}
+                            </a>
+                            @endif
+                        </div>
+                        @endif
+                    </div>
+
+
+                    <livewire:suggestion-form :mcq_id="$mcq['id']" />
+
                 </div>
                 <x-aside>
                     <div class="rounded-lg bg-card p-6 shadow-md">

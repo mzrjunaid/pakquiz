@@ -52,6 +52,11 @@ class Mcq extends Model
         return $this->hasMany(McqOption::class)->orderBy('sort_order');;
     }
 
+    public function suggestions()
+    {
+        return $this->hasMany(McqSuggestion::class);
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by')->withDefault([
