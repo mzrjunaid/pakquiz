@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Mcq;
+use App\Models\Paper;
 use App\Models\Subject;
 
 class SeoData
@@ -45,7 +46,29 @@ class SeoData
             'og_image' => $subject->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
         ];
+    }
 
+    public static function paperSeo(Paper $paper): array
+    {
+        $paper->loadMissing('seo');
+
+        if (!$paper || !$paper->seo) {
+            return self::default();
+        }
+
+        $canonical = $paper->seo->canonical
+            ?? $paper->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title' => $paper->seo->title . ' - PakQuiz' ?? $paper->name . ' - PakQuiz',
+            'description' => $paper->description ?? $paper->seo->description,
+            'keywords' => $paper->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title' => $paper->seo->og_title . ' - PakQuiz' ?? $paper->name . ' - PakQuiz',
+            'og_description' => $paper->seo->og_description ?? $paper->description,
+            'og_image' => $paper->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
+        ];
     }
 
     public static function mcqSeo(Mcq $mcq): array

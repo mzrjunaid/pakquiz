@@ -12,7 +12,8 @@
                     </svg>
                 </div>
                 <h2 class="text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl">
-                    {{ $subject->name }}</h2>
+                    {{ $subject->name }}
+                </h2>
             </div>
             <div class="flex items-center gap-2">
                 <span class="text-sm text-muted mt-1">{{ $subject->mcqs_count }} MCQs</span>
@@ -26,24 +27,24 @@
     {{-- Limit only three topics loop --}}
     <div class="flex gap-2 mt-4">
         @forelse ($subject->topics->take(3) as $topic)
-            <a href="{{ route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug]) }}"
-                class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
-                {{ $topic->name }}
-            </a>
+        <a href="{{ route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug]) }}"
+            class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
+            {{ $topic->name }}
+        </a>
         @empty
-            <p class="mt-2 text-sm text-muted line-clamp-2">No topics found</p>
+        <p class="mt-2 text-sm text-muted line-clamp-2">No topics found</p>
         @endforelse
     </div>
     @if ($subject->updated_at)
-        <div class="mt-4 flex items-center gap-1.5 border-t border-gray-100 pt-3 text-xs text-gray-500 md:text-sm">
-            <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                    d="M1   2 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span>
-                Last updated:
-                {{ $subject->updated_at }}
-            </span>
-        </div>
+    <div class="mt-4 flex items-center gap-1.5 border-t border-gray-100 pt-3 text-xs text-gray-500 md:text-sm">
+        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
+                d="M1   2 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+        </svg>
+        <span>
+            Last updated:
+            {{ $subject->updated_at }}
+        </span>
+    </div>
     @endif
 </div>

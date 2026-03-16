@@ -10,12 +10,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-urdu:
-        'Noto Nastaliq Urdu', 'Instrument Sans', ui-sans-serif, system-ui,
-        sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol',
-        'Noto Color Emoji';
+    --font-urdu: 'Noto Nastaliq Urdu';
 
-    --font-sans: 'Inter', 'Roboto', 'Instrument Sans';
+    --font-sans: 'Roboto', 'Instrument Sans', 'Inter';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);

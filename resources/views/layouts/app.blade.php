@@ -27,19 +27,18 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
 
-    <link rel="preload" href="{{ asset('fonts/woff2/NotoNastaliqUrdu.woff2') }}" as="font" type="font/woff2"
-        crossorigin />
-
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Noto+Nastaliq+Urdu:wght@400..700&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
+        rel="stylesheet">
 
     @vite(['resources/css/app.css', 'resources/js/public.js'])
     {{ $schema ?? '' }}
     @livewireStyles
 </head>
 
-<body class="bg-background/30 text-foreground font-sans antialiased min-h-screen">
+<body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
     <x-navbar />
     <main>
         {{ $slot }}

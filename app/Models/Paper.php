@@ -40,7 +40,7 @@ class Paper extends Model
 
     public function testingService()
     {
-        return $this->belongsTo(TestingService::class , 'testing_service_id');
+        return $this->belongsTo(TestingService::class, 'testing_service_id');
     }
 
     public function subject()
@@ -50,12 +50,12 @@ class Paper extends Model
 
     public function mcqs()
     {
-        return $this->hasmany(Mcq::class , 'paper_id');
+        return $this->hasmany(Mcq::class, 'paper_id');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class , 'created_by')->withDefault([
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
@@ -73,12 +73,12 @@ class Paper extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class , 'page');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class , 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function getRouteKeyName(): string
@@ -88,6 +88,6 @@ class Paper extends Model
 
     public function canonicalUrl()
     {
-        return route('papers.show', $this);
+        return route('public.papers.show', $this);
     }
 }

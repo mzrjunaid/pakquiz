@@ -106,9 +106,10 @@ Route::name('public.')->group(function () {
 
     Route::prefix('papers')->name('papers.')->group(function () {
         // 1. The main index (e.g., /papers)
-        Route::get('/', [PublicPaperController::class, 'index'])->name('index');
+        Route::livewire('/', 'pages::papers.index')->name('index');
         // 2. Category Routes (latest-papers, past-papers, upcoming-papers)
         // We use a constraint to ensure it only matches these three
+
         Route::get('/{category?}', [PublicPaperController::class, 'categoryIndex'])
             ->where('category', '(latest|past|upcoming)-papers')
             ->name('category.index');
@@ -119,7 +120,7 @@ Route::name('public.')->group(function () {
             ->where('category', '(latest|past|upcoming)-papers')
             ->name('category.show');
 
-        Route::get('/{paper:slug}', [PublicPaperController::class, 'show'])->name('show');
+        Route::livewire('/{paper:slug}', 'pages::papers.show')->name('show');
     });
 
     Route::name('subject.')->group(function () {

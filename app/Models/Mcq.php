@@ -139,4 +139,9 @@ class Mcq extends Model implements HasCanonical
     {
         return route('public.mcqs.show', $this->slug);
     }
+
+    public function isUrdu($text)
+    {
+        return preg_match('/[\x{0600}-\x{06FF}]/u', $text);
+    }
 }

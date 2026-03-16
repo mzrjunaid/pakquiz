@@ -102,11 +102,11 @@ index.head = (args: { subject: string | { slug: string } } | [subject: string | 
     
     index.form = indexForm
 /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-export const show = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const show = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
@@ -117,11 +117,11 @@ show.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-show.url = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions) => {
+show.url = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions) => {
     if (Array.isArray(args)) {
         args = {
                     subject: args[0],
@@ -147,49 +147,49 @@ show.url = (args: { subject: string | { slug: string }, topic: string | { slug: 
 }
 
 /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-show.get = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+show.get = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: show.url(args, options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-show.head = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+show.head = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: show.url(args, options),
     method: 'head',
 })
 
     /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-    const showForm = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const showForm = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: show.url(args, options),
         method: 'get',
     })
 
             /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-        showForm.get = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.get = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, options),
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\SubjectController::show
- * @see app/Http/Controllers/Public/SubjectController.php:180
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/{subject}/{topic}'
  */
-        showForm.head = (args: { subject: string | { slug: string }, topic: string | { slug: string } } | [subject: string | { slug: string }, topic: string | { slug: string } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        showForm.head = (args: { subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number }, topic: string | number | { slug: string | number } ], options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: show.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
