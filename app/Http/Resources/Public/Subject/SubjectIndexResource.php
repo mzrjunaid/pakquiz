@@ -6,7 +6,7 @@ use App\Http\Resources\TopicResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class SubjectResource extends JsonResource
+class SubjectIndexResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -23,11 +23,9 @@ class SubjectResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
-            'created_by' => [
-                'id' => $this->createdBy?->id,
-                'name' => $this->createdBy?->name,
-            ],
             'topics' => TopicResource::collection($this->whenLoaded('topics')),
+            'mcqs_count' => $this->whenLoaded('mcqs', fn() => $this->mcqs->count()),
+            'topics_count' => $this->whenLoaded('topics', fn() => $this->topics->count()),
             'created_at' => $this->created_at ? $this->created_at->format('Y-m-d') : null,
             'updated_at' => $this->updated_at ? $this->updated_at->format('Y-m-d') : null,
         ];

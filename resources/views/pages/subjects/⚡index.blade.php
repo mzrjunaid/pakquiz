@@ -1,16 +1,22 @@
 <?php
 
-use App\Http\Resources\Public\Mcq\McqIndexCollection;
-use App\Models\Mcq;
-use App\Models\Page;
-use App\Support\SeoData;
-use App\Support\SchemaGenerator;
 use Livewire\Component;
+use App\Models\Page;
+use App\Models\Subject;
+use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
+use App\Http\Resources\Public\Subject\SubjectIndexCollection;
+use App\Http\Resources\Public\Subject\SubjectIndexResource;
 
 new class extends Component {
     use WithPagination;
+
+    #[Computed]
+    public function meta()
+    {
+        return cache()->remember('page_meta_subjects', 86400, fn() => SeoData::fromModel(Page::where('key', 'subjects')->with('seo')->firstOrFail()));
+    }
 
     public $perPage = 10;
 
@@ -22,14 +28,14 @@ new class extends Component {
     public function with(): array
     {
         $limit = min(max((int) $this->perPage, 5), 100);
-        $mcqs = Mcq::query()->latest()->paginate($limit)->onEachSide(0)->withQueryString();
+        $subjects = Subject::select('id', 'name', 'slug', 'description', 'created_at')->withCount('mcqs')->latest()->paginate($limit)->onEachSide(0)->withQueryString();
 
-        $resource = McqIndexCollection::make($mcqs);
+        $resource = SubjectIndexCollection::make($subjects);
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')]],
+            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Subjects', 'item' => url('/subjects')]],
         ];
 
         $schema = $resource->toItemListSchema(request());
@@ -37,20 +43,13 @@ new class extends Component {
         $combinedSchema = [$breadcrumbSchema, $schema];
 
         return [
-            'mcqs' => $resource,
-            'pageIntro' => Page::firstWhere('key', 'mcqs'),
+            'subjects' => $resource,
+            'pageIntro' => Page::firstWhere('key', 'subjects'),
             'schema' => $combinedSchema,
         ];
     }
-
-    #[Computed]
-    public function meta()
-    {
-        return cache()->remember('page_meta_mcqs', 86400, fn() => SeoData::fromModel(Page::where('key', 'mcqs')->with('seo')->firstOrFail()));
-    }
 };
 ?>
-
 
 
 @slot('title')
@@ -70,13 +69,13 @@ new class extends Component {
     <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
-
 <div>
     @teleport('head')
         <script type="application/ld+json">
-            {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+            {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
         </script>
     @endteleport
+
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
         <section class="flex flex-col gap-6 md:flex-row px-4 py-12 md:px-0">
             <div class="space-y-4 w-full md:w-2/3">
@@ -88,7 +87,7 @@ new class extends Component {
                         <li>
                             <div class="flex items-center">
                                 <span class="mx-2">/</span>
-                                <span class="font-medium text-primary">{{ __('MCQs') }}</span>
+                                <span class="font-medium text-primary">{{ __('All Subjects') }}</span>
                             </div>
                         </li>
                     </ol>
@@ -107,17 +106,17 @@ new class extends Component {
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
                 <div class="lg:col-span-2">
                     <div class="relative">
-                        <x-loading target="gotoPage, nextPage, previousPage" message="Loading MCQs..." />
+                        <x-loading target="gotoPage, nextPage, previousPage" message="Loading Subjects..." />
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
-                            @foreach ($mcqs as $mcq)
-                                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                            @foreach ($subjects as $subject)
+                                <x-subject-card :subject="$subject" />
                             @endforeach
                         </div>
                     </div>
 
                     <div class="mt-8">
-                        {{ $mcqs->links('vendor.livewire.compact-pagination') }}
+                        {{ $subjects->links('vendor.livewire.compact-pagination') }}
                     </div>
                 </div>
                 <x-aside>

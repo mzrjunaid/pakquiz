@@ -3,6 +3,7 @@
 namespace App\Support;
 
 use App\Models\Mcq;
+use App\Models\Subject;
 
 class SeoData
 {
@@ -23,6 +24,30 @@ class SeoData
         ];
     }
 
+    public static function subjectSeo(Subject $subject): array
+    {
+        $subject->loadMissing('seo');
+
+        if (!$subject || !$subject->seo) {
+            return self::default();
+        }
+
+        $canonical = $subject->seo->canonical
+            ?? $subject->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title' => $subject->seo->title . ' - PakQuiz' ?? $subject->name . ' - PakQuiz',
+            'description' => $subject->description ?? $subject->seo->description,
+            'keywords' => $subject->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title' => $subject->seo->og_title . ' - PakQuiz' ?? $subject->name . ' - PakQuiz',
+            'og_description' => $subject->seo->og_description ?? $subject->description,
+            'og_image' => $subject->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
+        ];
+
+    }
+
     public static function mcqSeo(Mcq $mcq): array
     {
         $mcq->loadMissing('seo');
@@ -36,13 +61,13 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title'          => $mcq->seo->title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
-            'description'    => $mcq->explanation ?? $mcq->seo->description,
-            'keywords'       => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title'       => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'title' => $mcq->seo->title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'description' => $mcq->explanation ?? $mcq->seo->description,
+            'keywords' => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title' => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
             'og_description' => $mcq->seo->og_description ?? $mcq->explanation,
-            'og_image'       => $mcq->seo->og_image ?? asset('assets/images/og-main.png'),
-            'canonical'      => $canonical,
+            'og_image' => $mcq->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
         ];
     }
 

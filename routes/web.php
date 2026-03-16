@@ -124,12 +124,10 @@ Route::name('public.')->group(function () {
 
     Route::name('subject.')->group(function () {
         // List All Subjects
-        Route::get('/subjects', [PublicSubjectController::class, 'index'])
-            ->name('index');
+        Route::livewire('/subjects', 'pages::subjects.index')->name('index');
 
         // 1. Main Subject Page (e.g., /pakistan-study-mcqs)
-        Route::get('/{subject:slug}', [PublicSubjectController::class, 'show'])
-            ->name('show');
+        Route::livewire('/{subject:slug}', 'pages::subjects.show')->name('show');
 
         Route::name('topic.')->group(function () {
             // 2. Topic List within a Subject (e.g., /pakistan-study/topics)
@@ -138,8 +136,7 @@ Route::name('public.')->group(function () {
                 ->name('index');
             // 3. Specific Topic MCQs (e.g., /pakistan-study/mountains-mcqs)
             // This is the "Money Page" that will rank for "Mountain MCQs"
-            Route::get('/{subject:slug}/{topic:slug}', [PublicSubjectController::class, 'topics_show'])
-                ->name('show');
+            Route::livewire('/{subject:slug}/{topic:slug}', 'pages::topics.show')->name('show');
         });
     });
 

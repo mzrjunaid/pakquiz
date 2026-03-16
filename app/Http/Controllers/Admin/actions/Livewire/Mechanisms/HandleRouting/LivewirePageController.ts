@@ -257,11 +257,193 @@ LivewirePageControllerce7095846e44f3351e72af6a0250b6ce.head = (args: { mcq: stri
         })
     
     LivewirePageControllerce7095846e44f3351e72af6a0250b6ce.form = LivewirePageControllerce7095846e44f3351e72af6a0250b6ceForm
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+const LivewirePageController791d577b424c842c4294a0bbd45894cc = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController791d577b424c842c4294a0bbd45894cc.url(options),
+    method: 'get',
+})
+
+LivewirePageController791d577b424c842c4294a0bbd45894cc.definition = {
+    methods: ["get","head"],
+    url: '/subjects',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+LivewirePageController791d577b424c842c4294a0bbd45894cc.url = (options?: RouteQueryOptions) => {
+    return LivewirePageController791d577b424c842c4294a0bbd45894cc.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+LivewirePageController791d577b424c842c4294a0bbd45894cc.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController791d577b424c842c4294a0bbd45894cc.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+LivewirePageController791d577b424c842c4294a0bbd45894cc.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController791d577b424c842c4294a0bbd45894cc.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+    const LivewirePageController791d577b424c842c4294a0bbd45894ccForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController791d577b424c842c4294a0bbd45894cc.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+        LivewirePageController791d577b424c842c4294a0bbd45894ccForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController791d577b424c842c4294a0bbd45894cc.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/subjects'
+ */
+        LivewirePageController791d577b424c842c4294a0bbd45894ccForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController791d577b424c842c4294a0bbd45894cc.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController791d577b424c842c4294a0bbd45894cc.form = LivewirePageController791d577b424c842c4294a0bbd45894ccForm
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+const LivewirePageController9a0156ea987305ce66c22aa998b07832 = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, options),
+    method: 'get',
+})
+
+LivewirePageController9a0156ea987305ce66c22aa998b07832.definition = {
+    methods: ["get","head"],
+    url: '/{subject}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+LivewirePageController9a0156ea987305ce66c22aa998b07832.url = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { subject: args }
+    }
+
+            if (typeof args === 'object' && !Array.isArray(args) && 'slug' in args) {
+            args = { subject: args.slug }
+        }
+    
+    if (Array.isArray(args)) {
+        args = {
+                    subject: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        subject: typeof args.subject === 'object'
+                ? args.subject.slug
+                : args.subject,
+                }
+
+    return LivewirePageController9a0156ea987305ce66c22aa998b07832.definition.url
+            .replace('{subject}', parsedArgs.subject.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+LivewirePageController9a0156ea987305ce66c22aa998b07832.get = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+LivewirePageController9a0156ea987305ce66c22aa998b07832.head = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+    const LivewirePageController9a0156ea987305ce66c22aa998b07832Form = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+        LivewirePageController9a0156ea987305ce66c22aa998b07832Form.get = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/{subject}'
+ */
+        LivewirePageController9a0156ea987305ce66c22aa998b07832Form.head = (args: { subject: string | number | { slug: string | number } } | [subject: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController9a0156ea987305ce66c22aa998b07832.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController9a0156ea987305ce66c22aa998b07832.form = LivewirePageController9a0156ea987305ce66c22aa998b07832Form
 
 const LivewirePageController = {
     '/': LivewirePageController980bb49ee7ae63891f1d891d2fbcf1c9,
     '/mcqs': LivewirePageControllera667167ce71b66453a9402d37ed90dab,
     '/mcqs/{mcq}': LivewirePageControllerce7095846e44f3351e72af6a0250b6ce,
+    '/subjects': LivewirePageController791d577b424c842c4294a0bbd45894cc,
+    '/{subject}': LivewirePageController9a0156ea987305ce66c22aa998b07832,
 }
 
 export default LivewirePageController

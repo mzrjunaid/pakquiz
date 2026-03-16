@@ -2,14 +2,16 @@
 
 use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Models\Mcq;
-use App\Models\Page;
+use App\Models\Subject;
+use App\Models\Topic;
 use App\Support\SeoData;
-use App\Support\SchemaGenerator;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
 new class extends Component {
+    public Subject $subject;
+    public Topic $topic;
     use WithPagination;
 
     public $perPage = 10;
@@ -22,14 +24,16 @@ new class extends Component {
     public function with(): array
     {
         $limit = min(max((int) $this->perPage, 5), 100);
-        $mcqs = Mcq::query()->latest()->paginate($limit)->onEachSide(0)->withQueryString();
+        $mcqs = Mcq::query()->where('subject_id', $this->subject->id)->where('topic_id', $this->topic->id)->latest()->paginate($limit)->onEachSide(0)->withQueryString();
 
         $resource = McqIndexCollection::make($mcqs);
+
+        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->subject->name, 'item' => url('/subjects/' . $this->subject->slug)], ['@type' => 'ListItem', 'position' => 4, 'name' => $this->topic->name, 'item' => url('/topics/' . $this->topic->slug)]];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')]],
+            'itemListElement' => $breadcrumbList,
         ];
 
         $schema = $resource->toItemListSchema(request());
@@ -38,7 +42,7 @@ new class extends Component {
 
         return [
             'mcqs' => $resource,
-            'pageIntro' => Page::firstWhere('key', 'mcqs'),
+            'pageIntro' => SeoData::subjectSeo($this->subject),
             'schema' => $combinedSchema,
         ];
     }
@@ -46,7 +50,7 @@ new class extends Component {
     #[Computed]
     public function meta()
     {
-        return cache()->remember('page_meta_mcqs', 86400, fn() => SeoData::fromModel(Page::where('key', 'mcqs')->with('seo')->firstOrFail()));
+        return cache()->remember('page_meta_subject-' . $this->subject->slug, 86400, fn() => SeoData::subjectSeo($this->subject));
     }
 };
 ?>
@@ -74,7 +78,7 @@ new class extends Component {
 <div>
     @teleport('head')
         <script type="application/ld+json">
-            {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+            {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
         </script>
     @endteleport
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
@@ -88,14 +92,21 @@ new class extends Component {
                         <li>
                             <div class="flex items-center">
                                 <span class="mx-2">/</span>
-                                <span class="font-medium text-primary">{{ __('MCQs') }}</span>
+                                <a href="{{ route('public.subject.index') }}"
+                                    class="hover:text-primary">{{ __('Subjects') }}</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <span class="mx-2">/</span>
+                                <span class="font-medium text-primary">{{ $subject->name }}</span>
                             </div>
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
-                    {{ $pageIntro->title }}</h1>
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
+                    {{ $pageIntro['title'] }}</h1>
+                <p class="text-xs md:text-base text-justify">{{ $pageIntro['description'] }}</p>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

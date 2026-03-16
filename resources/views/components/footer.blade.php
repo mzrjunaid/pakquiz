@@ -4,7 +4,7 @@
             <div class="col-span-2 sm:col-span-3 md:col-span-2 space-y-2">
                 <div class="mb-4 flex items-center justify-center space-x-3">
                     <a href="{{ route('home') }}" class="text-2xl font-bold ">
-                        <img src="{{ asset('logo.svg') }}" class="h-full w-full md:max-h-24" />
+                        <img src="{{ asset('logo.svg') }}" title="PakQuiz" class="h-full w-full md:max-h-24" />
                     </a>
                 </div>
                 <p class="text-sm text-center">
@@ -14,22 +14,25 @@
                 <div class="social-icons flex gap-2 justify-center">
                     <div>
                         <a href="https://www.facebook.com/profile.php?id=61588211743083" target="_blank"
-                            rel="noopener noreferrer">
+                            rel="noopener noreferrer" title="PakQuiz Facebook">
                             <x-ri-facebook-box-fill name="facebook" class="size-9 text-blue-900 hover:text-blue-700" />
                         </a>
                     </div>
                     <div>
-                        <a href="https://www.youtube.com/@pakquiz-ai" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.youtube.com/@pakquiz-ai" target="_blank" rel="noopener noreferrer"
+                            title="PakQuiz Youtube">
                             <x-ri-youtube-fill name="youtube" class="size-9 text-red-600 hover:text-red-400" />
                         </a>
                     </div>
                     <div>
-                        <a href="https://www.tiktok.com/@pakquiz_ai" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.tiktok.com/@pakquiz_ai" target="_blank" rel="noopener noreferrer"
+                            title="PakQuiz Tiktok">
                             <x-ri-tiktok-fill name="tiktok" class="size-9 hover:text-gray-600" />
                         </a>
                     </div>
                     <div>
-                        <a href="https://www.instagram.com/pakquiz_ai" target="_blank" rel="noopener noreferrer">
+                        <a href="https://www.instagram.com/pakquiz_ai" target="_blank" rel="noopener noreferrer"
+                            title="PakQuiz Instagram">
                             <x-ri-instagram-line name="instagram"
                                 class="size-9 text-orange-600 hover:text-orange-400" />
                         </a>
