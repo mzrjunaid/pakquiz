@@ -40,7 +40,7 @@ new class extends Component {
 
         return [
             'mcqs' => $resource,
-            'pageIntro' => SeoData::paperSeo($this->paper),
+            'pageIntro' => $this->paper,
             'schema' => $combinedSchema,
         ];
     }
@@ -104,10 +104,12 @@ new class extends Component {
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
-                    {{ $pageIntro['title'] }}
+                <h1 class="text-base md:text-2xl font-bold" title="{{ $pageIntro->name }}">
+                    {{ $pageIntro->name }}
                 </h1>
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro['description'] }}</p>
+                @if($pageIntro->description)
+                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                @endif
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

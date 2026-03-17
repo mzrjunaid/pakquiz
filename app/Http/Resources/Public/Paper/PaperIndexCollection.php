@@ -27,7 +27,7 @@ class PaperIndexCollection extends ResourceCollection
                 'position' => ($index + 1) + (($currentPage - 1) * $perPage),
                 'url' => route('public.papers.show', ['paper' => $paper->slug]),
                 'name' => $paper->name,
-                'datePublished' => $paper->created_at ? $paper->created_at->toIso8601String() : null,
+                'datePublished' => $paper->created_at?->toIso8601String(),
             ];
         })->toArray();
 
@@ -39,9 +39,20 @@ class PaperIndexCollection extends ResourceCollection
             'description' => $parentType && $parentName
                 ? "Complete list of Papers for {$parentType}: {$parentName}"
                 : "Complete list of Papers for various exams",
-            'url' => request()->fullUrl(),
-            'numberOfItems' => $this->total(),
+            'url' => url(request()->path()),
+            'numberOfItems' => count($items),
             'itemListElement' => $items,
+            "mainEntityOfPage" => [
+                "@type" => "CollectionPage",
+                "@id" => url(request()->path()),
+                "headline" => $parentName ? "{$parentName} Papers" : "All Papers",
+                "description" => $parentType && $parentName
+                    ? "Complete list of Papers for {$parentType}: {$parentName}"
+                    : "Complete list of Papers for various exams",
+                "image" => asset('images/og-image.png'),
+                "datePublished" => $this->collection->first()?->created_at?->toIso8601String(),
+                "dateModified" => $this->collection->last()?->created_at?->toIso8601String(),
+            ]
         ];
     }
 }

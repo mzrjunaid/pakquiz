@@ -110,9 +110,9 @@ Route::name('public.')->group(function () {
         // 2. Category Routes (latest-papers, past-papers, upcoming-papers)
         // We use a constraint to ensure it only matches these three
 
-        Route::get('/{category?}', [PublicPaperController::class, 'categoryIndex'])
+        Route::livewire('/{category?}', 'pages::papers.category-index')
             ->where('category', '(latest|past|upcoming)-papers')
-            ->name('category.index');
+            ->name('category_index');
 
         // 3. The Paper Show Page (e.g., /papers/past-papers/css-2024-mcqs)
         // Keep it nested under the category for a perfect SILO structure
