@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults, validateParameters } from './../../../../wayfinder'
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
@@ -335,6 +335,107 @@ LivewirePageController6e15e116cf099a66c2d8a70fb6714d7c.head = (options?: RouteQu
         })
     
     LivewirePageController6e15e116cf099a66c2d8a70fb6714d7c.form = LivewirePageController6e15e116cf099a66c2d8a70fb6714d7cForm
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+const LivewirePageController48d2903b8d529b5544ce8c581ca795fe = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, options),
+    method: 'get',
+})
+
+LivewirePageController48d2903b8d529b5544ce8c581ca795fe.definition = {
+    methods: ["get","head"],
+    url: '/papers/{category?}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { category: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    category: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    validateParameters(args, [
+            "category",
+        ])
+
+    const parsedArgs = {
+                        category: args?.category,
+                }
+
+    return LivewirePageController48d2903b8d529b5544ce8c581ca795fe.definition.url
+            .replace('{category?}', parsedArgs.category?.toString() ?? '')
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+LivewirePageController48d2903b8d529b5544ce8c581ca795fe.get = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+LivewirePageController48d2903b8d529b5544ce8c581ca795fe.head = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+    const LivewirePageController48d2903b8d529b5544ce8c581ca795feForm = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+        LivewirePageController48d2903b8d529b5544ce8c581ca795feForm.get = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+        LivewirePageController48d2903b8d529b5544ce8c581ca795feForm.head = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController48d2903b8d529b5544ce8c581ca795fe.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController48d2903b8d529b5544ce8c581ca795fe.form = LivewirePageController48d2903b8d529b5544ce8c581ca795feForm
     /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
@@ -722,6 +823,7 @@ const LivewirePageController = {
     '/mcqs': LivewirePageControllera667167ce71b66453a9402d37ed90dab,
     '/mcqs/{mcq}': LivewirePageControllerce7095846e44f3351e72af6a0250b6ce,
     '/papers': LivewirePageController6e15e116cf099a66c2d8a70fb6714d7c,
+    '/papers/{category?}': LivewirePageController48d2903b8d529b5544ce8c581ca795fe,
     '/papers/{paper}': LivewirePageController7618f0a5ae0361f166b66b06c4f43d72,
     '/subjects': LivewirePageController791d577b424c842c4294a0bbd45894cc,
     '/{subject}': LivewirePageController9a0156ea987305ce66c22aa998b07832,

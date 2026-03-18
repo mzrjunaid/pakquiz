@@ -40,7 +40,7 @@ new class extends Component {
 
         $schema = $resource->toItemListSchema(request());
 
-        $combinedSchema = [$breadcrumbSchema, $schema];
+        $combinedSchema = $schema ? [$breadcrumbSchema, $schema] : [$breadcrumbSchema];
 
         return [
             'subjects' => $resource,
@@ -53,27 +53,29 @@ new class extends Component {
 
 
 @slot('title')
-    {{ $this->meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
 @push('meta')
-    <meta name="description" content="{{ $this->meta['description'] }}">
-    <meta name="canonical" content="{{ $this->meta['canonical'] }}">
-    <meta property="og:title" content="{{ $this->meta['og_title'] }}">
-    <meta property="og:description" content="{{ $this->meta['og_description'] }}">
-    <meta property="og:image" content="{{ $this->meta['og_image'] }}">
-    <meta property="og:url" content="{{ $this->meta['canonical'] }}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-    <meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-    <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
+<meta name="description" content="{{ $this->meta['description'] }}">
+<meta name="canonical" content="{{ $this->meta['canonical'] }}">
+<meta property="og:title" content="{{ $this->meta['og_title'] }}">
+<meta property="og:description" content="{{ $this->meta['og_description'] }}">
+<meta property="og:image" content="{{ $this->meta['og_image'] }}">
+<meta property="og:url" content="{{ $this->meta['canonical'] }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
+<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
+<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
 <div>
     @teleport('head')
-        <script type="application/ld+json">
-            {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-        </script>
+    <script type="application/ld+json">
+        {
+            !!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
+    </script>
     @endteleport
 
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
@@ -93,7 +95,8 @@ new class extends Component {
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
-                    {{ $pageIntro->title }}</h1>
+                    {{ $pageIntro->title }}
+                </h1>
                 <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
@@ -110,7 +113,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($subjects as $subject)
-                                <x-subject-card :subject="$subject" />
+                            <x-subject-card :subject="$subject" />
                             @endforeach
                         </div>
                     </div>

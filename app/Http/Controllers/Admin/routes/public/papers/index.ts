@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults, validateParameters } from './../../../wayfinder'
 import category from './category'
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
@@ -78,6 +78,107 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     index.form = indexForm
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+export const category_index = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: category_index.url(args, options),
+    method: 'get',
+})
+
+category_index.definition = {
+    methods: ["get","head"],
+    url: '/papers/{category?}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+category_index.url = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { category: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    category: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    validateParameters(args, [
+            "category",
+        ])
+
+    const parsedArgs = {
+                        category: args?.category,
+                }
+
+    return category_index.definition.url
+            .replace('{category?}', parsedArgs.category?.toString() ?? '')
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+category_index.get = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: category_index.url(args, options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+category_index.head = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: category_index.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+    const category_indexForm = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: category_index.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+        category_indexForm.get = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: category_index.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/papers/{category?}'
+ */
+        category_indexForm.head = (args?: { category?: string | number } | [category: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: category_index.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    category_index.form = category_indexForm
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
@@ -182,6 +283,7 @@ show.head = (args: { paper: string | number | { slug: string | number } } | [pap
     show.form = showForm
 const papers = {
     index: Object.assign(index, index),
+category_index: Object.assign(category_index, category_index),
 category: Object.assign(category, category),
 show: Object.assign(show, show),
 }

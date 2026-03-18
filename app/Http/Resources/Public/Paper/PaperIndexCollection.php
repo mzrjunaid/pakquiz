@@ -15,8 +15,12 @@ class PaperIndexCollection extends ResourceCollection
     }
 
 
-    public function toItemListSchema(?string $parentType = null, ?string $parentName = null, ?string $parentUrl = null): array
+    public function toItemListSchema(?string $parentType = null, ?string $parentName = null, ?string $parentUrl = null): array|null
     {
+
+        if ($this->isEmpty()) {
+            return null;
+        }
 
         $currentPage = $this->currentPage();
         $perPage = $this->perPage();

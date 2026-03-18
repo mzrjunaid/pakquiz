@@ -1,5 +1,5 @@
 <header
-    class="w-full relative shadow-sm text-sm mb-6 not-has-[nav]:hidden sticky top-0 right-0 left-0 z-50 shadow-sm backdrop-blur-lg"
+    class="w-full relative shadow-sm text-sm not-has-[nav]:hidden sticky top-0 right-0 left-0 z-50 shadow-sm backdrop-blur-lg"
     x-data="{ mobileMenuOpen: false }">
     <div class="flex max-w-7xl px-4 xl:px-0 lg:mx-auto items-center justify-between gap-4">
         <div class="w-full lg:w-lg">
@@ -36,8 +36,8 @@
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($subjects as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -60,8 +60,8 @@
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($papers as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -83,8 +83,8 @@
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($about_us as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -106,28 +106,29 @@
                 </div>
             </div>
 
-            @if (Route::has('login'))
-                <div class="flex gap-4">
-                    @auth
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                            Dashboard
-                        </a>
-                    @else
-                        <a href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                            Log in
-                        </a>
+            <div class="flex items-center gap-4">
+                <livewire:quiz-settings />
+                @if (Route::has('login'))
+                @auth
+                <a href="{{ route('admin.dashboard') }}"
+                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                    Dashboard
+                </a>
+                @else
+                <a href="{{ route('login') }}"
+                    class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
+                    Log in
+                </a>
 
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="hidden md:inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
+                @if (Route::has('register'))
+                <a href="{{ route('register') }}"
+                    class="hidden md:inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
+                    Register
+                </a>
+                @endif
+                @endauth
+                @endif
+            </div>
         </nav>
     </div>
     <!-- Mobile Menu -->
@@ -160,8 +161,8 @@
                     x-cloak>
                     <div class="py-1">
                         @foreach ($subjects as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -183,8 +184,8 @@
                 <div x-show="open" x-transition x-cloak>
                     <div class="py-1">
                         @foreach ($papers as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -205,8 +206,8 @@
                 <div x-show="open" x-transition x-cloak>
                     <div class="py-1">
                         @foreach ($about_us as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>

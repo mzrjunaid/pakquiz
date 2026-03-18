@@ -1,4 +1,4 @@
-@props(['mcq', 'idx' => 0, 'route' => '#', 'isQuizMode' => false])
+@props(['mcq', 'idx' => 0, 'route' => '#'])
 
 @php
 $idx = $idx + 1;
@@ -17,17 +17,18 @@ $difficultyClasses =
 <div x-data="{
     selectedOptionId: null,
     wasAnswered: false,
-    isQuizMode: @js($isQuizMode),
+    quizMode: @json(session('isQuizMode')),
     shareLink() {
         navigator.clipboard.writeText('{{ url($route) }}');
         window.dispatchEvent(new CustomEvent('notify', { detail: 'Link copied!' }));
     },
     selectOption(id) {
-        if (!this.isQuizMode || this.wasAnswered) return;
+        if (!this.quizMode || this.wasAnswered) return;
         this.selectedOptionId = id;
         this.wasAnswered = true;
     }
 }"
+    x-on:quiz-mode-updated.window="quizMode = $event.detail.status"
     :class="{
         'border-green-500 bg-green-50': wasAnswered && selectedOptionId == {{ $correctOption->id ?? 'null' }},
         'border-red-500 bg-red-50': wasAnswered && selectedOptionId != {{ $correctOption->id ?? 'null' }},
@@ -39,9 +40,9 @@ $difficultyClasses =
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-gray-50">
                 <x-heroicon-s-cpu-chip class="mr-1 h-3 w-3" /> AI
             </span>
-            <span :class="isQuizMode ? 'border-red-500 text-red-600' : 'border-green-500 text-green-600'"
+            <span :class="quizMode ? 'border-red-500 text-red-600' : 'border-green-500 text-green-600'"
                 class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-white">
-                <span x-text="isQuizMode ? '📝 Quiz' : '📖 Study'"></span>
+                <span x-text="quizMode ? '📝 Quiz' : '📖 Study'"></span>
             </span>
             @if ($mcq['difficulty'])
             <span
@@ -72,13 +73,13 @@ $difficultyClasses =
 
     <div class="grid gap-2 md:grid-cols-2 lg:gap-3 {{ $questionIsUrdu ? 'font-urdu' : '' }}">
         @foreach ($mcq['options'] as $optIdx => $opt)
-        <button @click="selectOption({{ $opt->id }})" :disabled="!isQuizMode || wasAnswered"
+        <button @click="selectOption({{ $opt->id }})" :disabled="!quizMode || wasAnswered"
             :class="{
-                    'border-green-500 bg-green-50': (wasAnswered || !isQuizMode) &&
+                    'border-green-500 bg-green-50': (wasAnswered || !quizMode) &&
                         {{ $opt->is_correct ? 'true' : 'false' }},
                     'border-red-500 bg-red-100': wasAnswered && selectedOptionId == {{ $opt->id }} && !
                         {{ $opt->is_correct ? 'true' : 'false' }},
-                    'border-gray-200 bg-white/60 hover:border-primary': !wasAnswered || (isQuizMode && !wasAnswered)
+                    'border-gray-200 bg-white/60 hover:border-primary': !wasAnswered || (quizMode && !wasAnswered)
                 }"
             class="w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base flex items-center gap-2">
             <span class="font-bold uppercase text-gray-400">
@@ -86,7 +87,7 @@ $difficultyClasses =
             </span>
             <span>{{ $opt->option_text }}</span>
 
-            <template x-if="(wasAnswered || !isQuizMode) && {{ $opt->is_correct ? 'true' : 'false' }}">
+            <template x-if="(wasAnswered || !quizMode) && {{ $opt->is_correct ? 'true' : 'false' }}">
                 <span class="ml-auto text-green-600 font-bold">✓</span>
             </template>
             <template
@@ -98,7 +99,7 @@ $difficultyClasses =
     </div>
 
     @if ($mcq['explanation'])
-    <div x-data="{ open: !isQuizMode }" class="mt-4 border-t pt-2 group" x-show="wasAnswered || !isQuizMode">
+    <div x-data="{ open: !quizMode }" class="mt-4 border-t pt-2 group" x-show="wasAnswered || !quizMode">
         <button @click="open = !open" class="flex items-center justify-between w-full text-sm font-bold py-2">
             <span>Explanation</span>
             <x-heroicon-o-chevron-down class="h-4 w-4 transform transition-transform group-hover:text-primary"

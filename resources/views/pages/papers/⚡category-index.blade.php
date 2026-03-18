@@ -158,7 +158,13 @@ new class extends Component
         $resource = PaperIndexCollection::make($this->papers);
         $schema = $resource->toItemListSchema(request());
 
-        return [$breadcrumbSchema, $schema];
+        if ($schema) {
+            $combinedSchema = [$breadcrumbSchema, $schema];
+        } else {
+            $combinedSchema = [$breadcrumbSchema];
+        }
+
+        return $combinedSchema;
     }
 
     public function with(): array
@@ -201,7 +207,7 @@ $latestPapers = $asideData['latestPapers'];
 <div>
     @teleport('head')
     <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
 

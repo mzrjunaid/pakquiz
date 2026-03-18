@@ -36,7 +36,7 @@ new class extends Component {
 
         $schema = $resource->toItemListSchema(request());
 
-        $combinedSchema = [$breadcrumbSchema, $schema];
+        $combinedSchema = $schema ? [$breadcrumbSchema, $schema] : [$breadcrumbSchema];
 
         return [
             'mcqs' => $resource,
@@ -52,7 +52,6 @@ new class extends Component {
     }
 };
 ?>
-
 
 
 @slot('title')

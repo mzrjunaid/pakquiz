@@ -57,8 +57,6 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 use App\Http\Controllers\Public\DemoController;
 use App\Http\Controllers\Public\DepartmentController as PublicDepartmentController;
 use App\Http\Controllers\Public\HomeController;
-use App\Http\Controllers\Public\McqController as PublicMcqController;
-use App\Http\Controllers\Public\PaperController as PublicPaperController;
 use App\Http\Controllers\Public\PremiumController;
 use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
@@ -66,13 +64,13 @@ use App\Http\Controllers\Public\TestingServiceController as PublicTestingService
 
 Route::livewire('/', 'pages::home.index')->name('home');
 Route::get('/demo', [DemoController::class, 'index'])->name('demo');
-Route::get('/about-us', [HomeController::class, 'about_us'])->name('aboutUs');
-Route::get('/contact-us', [HomeController::class, 'contact_us'])->name('contactUs');
-Route::get('/join-us', [HomeController::class, 'join_us'])->name('joinUs');
-Route::get('/privacy-policy', [HomeController::class, 'privacy_policy'])->name('privacyPolicy');
-Route::get('/terms-of-service', [HomeController::class, 'terms_of_service'])->name('termsOfService');
-Route::get('/help-center', [HomeController::class, 'help_center'])->name('helpCenter');
-// Search Route and Search API Route
+Route::livewire('/about-us', 'pages::static.about-us')->name('aboutUs');
+Route::livewire('/contact-us', 'pages::static.contact-us')->name('contactUs');
+Route::livewire('/join-us', 'pages::static.join-us')->name('joinUs');
+Route::livewire('/privacy-policy', 'pages::static.privacy-policy')->name('privacyPolicy');
+Route::livewire('/terms-of-service', 'pages::static.terms-of-service')->name('termsOfService');
+Route::livewire('/help-center', 'pages::static.help-center')->name('helpCenter');
+
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
 Route::name('public.')->group(function () {
@@ -84,59 +82,35 @@ Route::name('public.')->group(function () {
         Route::livewire('/{mcq:slug}', 'pages::mcqs.show')->name('show');
     });
 
-    // --- Departments Group ---
     Route::prefix('departments')->name('departments.')->group(function () {
         Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
-        // Show Department (e.g., /departments/fpsc)
         Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
-        // SEO-Friendly Paper under Department (e.g., /departments/fpsc/assistant-director-mcqs)
-        // Route::get('/{department:slug}/{paper:slug}', [PublicPaperController::class, 'dept_paper_show'])
-        //     ->name('papers.show');
     });
 
-    // --- Testing Services Group ---
     Route::prefix('testing-services')->name('testing_services.')->group(function () {
         Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
-        // Show Testing Service (e.g., /testing-services/nts)
         Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
-        // Papers by Testing Service (e.g., /testing-services/nts/gate-exam-mcqs)
-        // Route::get('/{testingService:slug}/{paper:slug}', [PublicPaperController::class, 'testing_paper_show'])
-        //     ->name('papers.show');
     });
 
     Route::prefix('papers')->name('papers.')->group(function () {
-        // 1. The main index (e.g., /papers)
+
         Route::livewire('/', 'pages::papers.index')->name('index');
-        // 2. Category Routes (latest-papers, past-papers, upcoming-papers)
-        // We use a constraint to ensure it only matches these three
 
         Route::livewire('/{category?}', 'pages::papers.category-index')
             ->where('category', '(latest|past|upcoming)-papers')
             ->name('category_index');
 
-        // 3. The Paper Show Page (e.g., /papers/past-papers/css-2024-mcqs)
-        // Keep it nested under the category for a perfect SILO structure
-        Route::get('/{category?}/{paper:slug}', [PublicPaperController::class, 'show'])
-            ->where('category', '(latest|past|upcoming)-papers')
-            ->name('category.show');
-
         Route::livewire('/{paper:slug}', 'pages::papers.show')->name('show');
     });
 
     Route::name('subject.')->group(function () {
-        // List All Subjects
         Route::livewire('/subjects', 'pages::subjects.index')->name('index');
 
-        // 1. Main Subject Page (e.g., /pakistan-study-mcqs)
         Route::livewire('/{subject:slug}', 'pages::subjects.show')->name('show');
 
         Route::name('topic.')->group(function () {
-            // 2. Topic List within a Subject (e.g., /pakistan-study/topics)
-            // Note: Keeping 'topics' as a sub-folder is fine here for organization
             Route::get('/{subject:slug}/topics', [PublicSubjectController::class, 'topics'])
                 ->name('index');
-            // 3. Specific Topic MCQs (e.g., /pakistan-study/mountains-mcqs)
-            // This is the "Money Page" that will rank for "Mountain MCQs"
             Route::livewire('/{subject:slug}/{topic:slug}', 'pages::topics.show')->name('show');
         });
     });

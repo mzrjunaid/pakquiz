@@ -13,6 +13,7 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 
 new class extends Component {
+
     #[Computed]
     public function meta()
     {
@@ -45,9 +46,7 @@ new class extends Component {
             'data' => cache()->remember('home_page_data', now()->addSecond(), function () {
                 return [
                     'departments_list' => Department::query()->select('id', 'name', 'slug')->latest()->limit(6)->get(),
-
                     'subjects_list' => Subject::query()->select('id', 'name', 'slug')->where('name', '!=', 'N/A')->withCount('mcqs')->orderByDesc('mcqs_count')->limit(8)->get(),
-
                     'current_affairs' => Subject::query()
                         ->select('id', 'name', 'slug', 'description')
                         ->where('id', 39)
@@ -180,9 +179,7 @@ new class extends Component {
                 }" x-init="start()" class="hidden lg:block">
                     @foreach ($data['heroSectionMcqs'] as $index => $mcq)
                     <div x-show="active === {{ $index }}">
-
                         <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
-
                     </div>
                     @endforeach
                 </div>
@@ -233,7 +230,7 @@ new class extends Component {
                             @foreach ($data['latestPapers'] as $index => $paper)
                             <div class="flex items-center gap-1 text-sm">
                                 <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="{{ route('public.papers.show', $paper['slug']) }}" class="my-2 block">
+                                <a href="{{ route('public.papers.show', $paper['slug']) }}" class="my-2 line-clamp-1">
                                     {{ $paper['name'] }}
                                 </a>
                             </div>
