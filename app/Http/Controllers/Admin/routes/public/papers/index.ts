@@ -1,5 +1,4 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults, validateParameters } from './../../../wayfinder'
-import category from './category'
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
@@ -284,7 +283,6 @@ show.head = (args: { paper: string | number | { slug: string | number } } | [pap
 const papers = {
     index: Object.assign(index, index),
 category_index: Object.assign(category_index, category_index),
-category: Object.assign(category, category),
 show: Object.assign(show, show),
 }
 

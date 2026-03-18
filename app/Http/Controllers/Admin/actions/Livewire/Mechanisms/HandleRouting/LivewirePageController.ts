@@ -80,6 +80,474 @@ LivewirePageController980bb49ee7ae63891f1d891d2fbcf1c9.head = (options?: RouteQu
     /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+const LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url(options),
+    method: 'get',
+})
+
+LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.definition = {
+    methods: ["get","head"],
+    url: '/about-us',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url = (options?: RouteQueryOptions) => {
+    return LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+    const LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+        LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/about-us'
+ */
+        LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7.form = LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+const LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url(options),
+    method: 'get',
+})
+
+LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.definition = {
+    methods: ["get","head"],
+    url: '/contact-us',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url = (options?: RouteQueryOptions) => {
+    return LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+    const LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+        LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/contact-us'
+ */
+        LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9.form = LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+const LivewirePageController2e48eb9fa7004102118bc91291728da8 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController2e48eb9fa7004102118bc91291728da8.url(options),
+    method: 'get',
+})
+
+LivewirePageController2e48eb9fa7004102118bc91291728da8.definition = {
+    methods: ["get","head"],
+    url: '/join-us',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+LivewirePageController2e48eb9fa7004102118bc91291728da8.url = (options?: RouteQueryOptions) => {
+    return LivewirePageController2e48eb9fa7004102118bc91291728da8.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+LivewirePageController2e48eb9fa7004102118bc91291728da8.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController2e48eb9fa7004102118bc91291728da8.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+LivewirePageController2e48eb9fa7004102118bc91291728da8.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController2e48eb9fa7004102118bc91291728da8.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+    const LivewirePageController2e48eb9fa7004102118bc91291728da8Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController2e48eb9fa7004102118bc91291728da8.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+        LivewirePageController2e48eb9fa7004102118bc91291728da8Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController2e48eb9fa7004102118bc91291728da8.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/join-us'
+ */
+        LivewirePageController2e48eb9fa7004102118bc91291728da8Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController2e48eb9fa7004102118bc91291728da8.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController2e48eb9fa7004102118bc91291728da8.form = LivewirePageController2e48eb9fa7004102118bc91291728da8Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+const LivewirePageController546d1d979582dcab4cda77f98be026ca = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController546d1d979582dcab4cda77f98be026ca.url(options),
+    method: 'get',
+})
+
+LivewirePageController546d1d979582dcab4cda77f98be026ca.definition = {
+    methods: ["get","head"],
+    url: '/privacy-policy',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+LivewirePageController546d1d979582dcab4cda77f98be026ca.url = (options?: RouteQueryOptions) => {
+    return LivewirePageController546d1d979582dcab4cda77f98be026ca.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+LivewirePageController546d1d979582dcab4cda77f98be026ca.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController546d1d979582dcab4cda77f98be026ca.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+LivewirePageController546d1d979582dcab4cda77f98be026ca.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController546d1d979582dcab4cda77f98be026ca.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+    const LivewirePageController546d1d979582dcab4cda77f98be026caForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController546d1d979582dcab4cda77f98be026ca.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+        LivewirePageController546d1d979582dcab4cda77f98be026caForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController546d1d979582dcab4cda77f98be026ca.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/privacy-policy'
+ */
+        LivewirePageController546d1d979582dcab4cda77f98be026caForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController546d1d979582dcab4cda77f98be026ca.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController546d1d979582dcab4cda77f98be026ca.form = LivewirePageController546d1d979582dcab4cda77f98be026caForm
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+const LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url(options),
+    method: 'get',
+})
+
+LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.definition = {
+    methods: ["get","head"],
+    url: '/terms-of-service',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url = (options?: RouteQueryOptions) => {
+    return LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+    const LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+        LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/terms-of-service'
+ */
+        LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9.form = LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+const LivewirePageController956bb59c9e1c0fee21b18df019cfedf5 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url(options),
+    method: 'get',
+})
+
+LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.definition = {
+    methods: ["get","head"],
+    url: '/help-center',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url = (options?: RouteQueryOptions) => {
+    return LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+    const LivewirePageController956bb59c9e1c0fee21b18df019cfedf5Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+        LivewirePageController956bb59c9e1c0fee21b18df019cfedf5Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/help-center'
+ */
+        LivewirePageController956bb59c9e1c0fee21b18df019cfedf5Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController956bb59c9e1c0fee21b18df019cfedf5.form = LivewirePageController956bb59c9e1c0fee21b18df019cfedf5Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/mcqs'
  */
 const LivewirePageControllera667167ce71b66453a9402d37ed90dab = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -820,6 +1288,12 @@ LivewirePageController4fc803be20f9e76f15bbba471094c820.head = (args: { subject: 
 
 const LivewirePageController = {
     '/': LivewirePageController980bb49ee7ae63891f1d891d2fbcf1c9,
+    '/about-us': LivewirePageControllera95bbcd50157b4354b5f10a04f8364e7,
+    '/contact-us': LivewirePageControllerd8387ede8ccb0b00c814fff54dc3b2b9,
+    '/join-us': LivewirePageController2e48eb9fa7004102118bc91291728da8,
+    '/privacy-policy': LivewirePageController546d1d979582dcab4cda77f98be026ca,
+    '/terms-of-service': LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9,
+    '/help-center': LivewirePageController956bb59c9e1c0fee21b18df019cfedf5,
     '/mcqs': LivewirePageControllera667167ce71b66453a9402d37ed90dab,
     '/mcqs/{mcq}': LivewirePageControllerce7095846e44f3351e72af6a0250b6ce,
     '/papers': LivewirePageController6e15e116cf099a66c2d8a70fb6714d7c,

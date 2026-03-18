@@ -367,8 +367,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     demo.form = demoForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
 export const aboutUs = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -382,8 +382,8 @@ aboutUs.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
 aboutUs.url = (options?: RouteQueryOptions) => {
@@ -391,8 +391,8 @@ aboutUs.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
 aboutUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -400,8 +400,8 @@ aboutUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
 aboutUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -410,8 +410,8 @@ aboutUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
     const aboutUsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -420,8 +420,8 @@ aboutUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
         aboutUsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -429,8 +429,8 @@ aboutUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::aboutUs
- * @see app/Http/Controllers/Public/HomeController.php:94
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/about-us'
  */
         aboutUsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -445,8 +445,8 @@ aboutUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     aboutUs.form = aboutUsForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
 export const contactUs = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -460,8 +460,8 @@ contactUs.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
 contactUs.url = (options?: RouteQueryOptions) => {
@@ -469,8 +469,8 @@ contactUs.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
 contactUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -478,8 +478,8 @@ contactUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
 contactUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -488,8 +488,8 @@ contactUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
     const contactUsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -498,8 +498,8 @@ contactUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
         contactUsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -507,8 +507,8 @@ contactUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::contactUs
- * @see app/Http/Controllers/Public/HomeController.php:110
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/contact-us'
  */
         contactUsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -523,8 +523,8 @@ contactUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     contactUs.form = contactUsForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
 export const joinUs = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -538,8 +538,8 @@ joinUs.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
 joinUs.url = (options?: RouteQueryOptions) => {
@@ -547,8 +547,8 @@ joinUs.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
 joinUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -556,8 +556,8 @@ joinUs.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
 joinUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -566,8 +566,8 @@ joinUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
     const joinUsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -576,8 +576,8 @@ joinUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
         joinUsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -585,8 +585,8 @@ joinUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::joinUs
- * @see app/Http/Controllers/Public/HomeController.php:102
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/join-us'
  */
         joinUsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -601,8 +601,8 @@ joinUs.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     joinUs.form = joinUsForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
 export const privacyPolicy = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -616,8 +616,8 @@ privacyPolicy.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
 privacyPolicy.url = (options?: RouteQueryOptions) => {
@@ -625,8 +625,8 @@ privacyPolicy.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
 privacyPolicy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -634,8 +634,8 @@ privacyPolicy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
 privacyPolicy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -644,8 +644,8 @@ privacyPolicy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
     const privacyPolicyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -654,8 +654,8 @@ privacyPolicy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
         privacyPolicyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -663,8 +663,8 @@ privacyPolicy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::privacyPolicy
- * @see app/Http/Controllers/Public/HomeController.php:118
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/privacy-policy'
  */
         privacyPolicyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -679,8 +679,8 @@ privacyPolicy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => (
     
     privacyPolicy.form = privacyPolicyForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
 export const termsOfService = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -694,8 +694,8 @@ termsOfService.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
 termsOfService.url = (options?: RouteQueryOptions) => {
@@ -703,8 +703,8 @@ termsOfService.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
 termsOfService.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -712,8 +712,8 @@ termsOfService.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
 termsOfService.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -722,8 +722,8 @@ termsOfService.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
     const termsOfServiceForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -732,8 +732,8 @@ termsOfService.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
         termsOfServiceForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -741,8 +741,8 @@ termsOfService.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::termsOfService
- * @see app/Http/Controllers/Public/HomeController.php:126
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/terms-of-service'
  */
         termsOfServiceForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -757,8 +757,8 @@ termsOfService.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     
     termsOfService.form = termsOfServiceForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
 export const helpCenter = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -772,8 +772,8 @@ helpCenter.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
 helpCenter.url = (options?: RouteQueryOptions) => {
@@ -781,8 +781,8 @@ helpCenter.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
 helpCenter.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -790,8 +790,8 @@ helpCenter.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
 helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -800,8 +800,8 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
     const helpCenterForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -810,8 +810,8 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
         helpCenterForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -819,8 +819,8 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\HomeController::helpCenter
- * @see app/Http/Controllers/Public/HomeController.php:134
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/help-center'
  */
         helpCenterForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
