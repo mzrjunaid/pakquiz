@@ -8,10 +8,12 @@
                     <x-heroicon-o-document-text class="h-4 w-4 shrink-0" />
                 </div>
                 <div class="flex flex-col">
-                    <h3 class="text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
+                    <h3
+                        class="text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
                         {{ $paper->name }}
                     </h3>
-                    <span class="text-sm text-muted mt-1">{{ $paper->schedule_at ? $paper->schedule_at->format('d M, Y') : $paper->paper_year }}</span>
+                    <span
+                        class="text-sm text-muted mt-1">{{ $paper->schedule_at ? $paper->schedule_at->format('d M, Y') : $paper->paper_year }}</span>
                 </div>
             </div>
             <div class="flex items-center shrink-0 gap-2">
@@ -21,36 +23,36 @@
             </div>
         </div>
         <div class="flex items-center gap-2 px-2">
-            <p class="mt-2 text-sm text-muted line-clamp-2">{{ $paper->description  ?? 'No description available' }}</p>
+            <p class="mt-2 text-sm text-muted line-clamp-2">{{ $paper->description ?? 'No description available' }}</p>
         </div>
     </a>
 
-    <div class="flex gap-2 mt-4">
+    <div class="flex flex-wrap gap-2 mt-4">
         @if ($paper->department)
-        <div class="flex gap-2">
-            <a href="{{ route('public.departments.show', $paper->department->slug) }}"
-                class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
-                {{ $paper->department->name }}
-            </a>
-        </div>
+            <div class="flex gap-2">
+                <a href="{{ route('public.departments.show', $paper->department->slug) }}"
+                    class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
+                    {{ $paper->department->name }}
+                </a>
+            </div>
         @endif
 
         @if ($paper->subject)
-        <div class="flex gap-2">
-            <a href="{{ route('public.subject.show', $paper->subject->slug) }}"
-                class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
-                {{ $paper->subject->name }}
-            </a>
-        </div>
+            <div class="flex gap-2">
+                <a href="{{ route('public.subject.show', $paper->subject->slug) }}"
+                    class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
+                    {{ $paper->subject->name }}
+                </a>
+            </div>
         @endif
 
         @if ($paper->testingService)
-        <div class="flex gap-2">
-            <a href="{{ route('public.testing_services.show', $paper->testingService->slug) }}"
-                class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
-                {{ $paper->testingService->short_name }}
-            </a>
-        </div>
+            <div class="flex gap-2">
+                <a href="{{ route('public.testing_services.show', $paper->testingService->slug) }}"
+                    class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
+                    {{ $paper->testingService->short_name }}
+                </a>
+            </div>
         @endif
     </div>
 </div>

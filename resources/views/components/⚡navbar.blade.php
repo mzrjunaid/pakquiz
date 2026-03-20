@@ -124,27 +124,19 @@ new class extends Component {
             </div>
 
             <div class="flex items-center gap-4">
-                <livewire:quiz-settings />
+
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ route('admin.dashboard') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                            Dashboard
-                        </a>
+                        <x-nav-link route="admin.dashboard">Dashboard</x-nav-link>
                     @else
-                        <a href="{{ route('login') }}"
-                            class="inline-block px-5 py-1.5 dark:text-[#EDEDEC] text-[#1b1b18] border border-transparent hover:border-[#19140035] dark:hover:border-[#3E3E3A] rounded-sm text-sm leading-normal">
-                            Log in
-                        </a>
+                        <x-nav-link route="login">Log in</x-nav-link>
 
                         @if (Route::has('register'))
-                            <a href="{{ route('register') }}"
-                                class="hidden md:inline-block px-5 py-1.5 dark:text-[#EDEDEC] border-[#19140035] hover:border-[#1915014a] border text-[#1b1b18] dark:border-[#3E3E3A] dark:hover:border-[#62605b] rounded-sm text-sm leading-normal">
-                                Register
-                            </a>
+                            <x-nav-link route="register" class="hidden md:block">Register</x-nav-link>
                         @endif
                     @endauth
                 @endif
+                <livewire:quiz-settings :class="'hidden md:block'" />
             </div>
         </nav>
     </div>

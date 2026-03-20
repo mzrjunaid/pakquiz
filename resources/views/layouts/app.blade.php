@@ -42,6 +42,7 @@
     <livewire:navbar />
     <main>
         {{ $slot }}
+        <livewire:quiz-settings class="fixed bottom-4 right-4 z-50 md:hidden" />
     </main>
     <livewire:footer />
     @livewireScripts

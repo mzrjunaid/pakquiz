@@ -1,9 +1,12 @@
+@props([
+    'class' => '',
+])
+
 <?php
 
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public $isQuizMode;
 
     public function mount()
@@ -29,31 +32,30 @@ new class extends Component
 ?>
 
 
-<div class="flex items-center gap-2">
+<div class="{{ 'bg-white/30 backdrop-blur-md border border-white/20 rounded-xl shadow-sm px-2 ' . $class }}">
+    <div class="flex items-center gap-2">
 
-    {{-- Mode label --}}
-    <span class="text-sm font-medium text-muted-foreground">
-        {{ $isQuizMode ? 'Quiz' : 'Study' }}
-    </span>
+        {{-- Mode label --}}
+        <label for="quiz-mode-toggle" class="text-sm font-medium text-muted-foreground">
+            {{ $isQuizMode ? 'Quiz' : 'Study' }}
+        </label>
 
-    {{-- Loading spinner (replaces icon while saving) --}}
-    <span wire:loading wire:target="isQuizMode">
-        <x-ri-loader-4-line class="h-5 w-5 animate-spin text-muted-foreground" />
-    </span>
+        {{-- Loading spinner (replaces icon while saving) --}}
+        <span wire:loading wire:target="isQuizMode">
+            <x-ri-loader-4-line class="h-5 w-5 animate-spin text-muted-foreground" />
+        </span>
 
-    {{-- Toggle icon (hidden while loading) --}}
-    <button
-        wire:loading.remove wire:target="isQuizMode"
-        wire:click="$toggle('isQuizMode')"
-        class="text-muted-foreground transition-colors hover:text-primary"
-        title="{{ $isQuizMode ? 'Switch to Study Mode' : 'Switch to Quiz Mode' }}">
+        {{-- Toggle icon (hidden while loading) --}}
+        <button id="quiz-mode-toggle" wire:loading.remove wire:target="isQuizMode" wire:click="$toggle('isQuizMode')"
+            class="text-muted-foreground transition-colors hover:text-primary"
+            title="{{ $isQuizMode ? 'Switch to Study Mode' : 'Switch to Quiz Mode' }}">
 
 
-        @if ($isQuizMode)
-        <x-ri-toggle-fill class="h-8 w-8 text-primary" />
-        @else
-        <x-ri-toggle-line class="h-8 w-8" />
-        @endif
-    </button>
-
+            @if ($isQuizMode)
+                <x-ri-toggle-fill class="h-8 w-8 text-primary" />
+            @else
+                <x-ri-toggle-line class="h-8 w-8" />
+            @endif
+        </button>
+    </div>
 </div>
