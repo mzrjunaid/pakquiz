@@ -5,8 +5,7 @@ use Livewire\Component;
 use Livewire\Attributes\Validate;
 use Livewire\Attributes\Computed;
 
-new class extends Component
-{
+new class extends Component {
     #[Validate('required|string|min:2|max:100')]
     public string $name = '';
 
@@ -48,53 +47,48 @@ new class extends Component
     #[Computed]
     public function schema()
     {
-        return array_merge(
-            SchemaGenerator::website(),
-            SchemaGenerator::contactPage()
-        );
+        return array_merge(SchemaGenerator::website(), SchemaGenerator::contactPage());
     }
 };
 ?>
 
 @slot('title')
-Contact Us – PakQuiz | MCQs Preparation Support
+    Contact Us – PakQuiz | MCQs Preparation Support
 @endslot
 
 @push('meta')
+    {{-- ======================== PRIMARY META TAGS ======================== --}}
+    <meta name="title" content="Contact Us – PakQuiz | MCQs Preparation Support">
+    <meta name="description"
+        content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/contact') }}">
 
-{{-- ======================== PRIMARY META TAGS ======================== --}}
-<meta name="title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-<meta name="description" content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="{{ url('/contact') }}">
+    {{-- ======================== OPEN GRAPH ======================== --}}
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/contact') }}">
+    <meta property="og:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
+    <meta property="og:description"
+        content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
+    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
+    <meta property="og:image:alt" content="Contact PakQuiz Support">
+    <meta property="og:site_name" content="PakQuiz">
+    <meta property="og:locale" content="en_PK">
 
-{{-- ======================== OPEN GRAPH ======================== --}}
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/contact') }}">
-<meta property="og:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-<meta property="og:description" content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:image:alt" content="Contact PakQuiz Support">
-<meta property="og:site_name" content="PakQuiz">
-<meta property="og:locale" content="en_PK">
-
-{{-- ======================== TWITTER CARD ======================== --}}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="{{ url('/contact') }}">
-<meta name="twitter:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-<meta name="twitter:description" content="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours.">
-<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
-
-
+    {{-- ======================== TWITTER CARD ======================== --}}
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:url" content="{{ url('/contact') }}">
+    <meta name="twitter:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
+    <meta name="twitter:description"
+        content="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours.">
+    <meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
 @endpush
 
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
-    <script type="application/ld+json">
-        {
-            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
-        }
+        <script type="application/ld+json">
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
     <div class="space-y-2 py-4">
@@ -111,7 +105,8 @@ Contact Us – PakQuiz | MCQs Preparation Support
                 </li>
             </ol>
         </nav>
-        <x-page-header title="Contact Us" description="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours." />
+        <x-page-header title="Contact Us"
+            description="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours." />
     </div>
     <div class="mt-6 grid gap-8 md:grid-cols-3 md:py-8">
         {{-- Contact Information --}}
@@ -171,11 +166,11 @@ Contact Us – PakQuiz | MCQs Preparation Support
 
                 {{-- Success Alert --}}
                 @if ($submitted)
-                <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
-                    <p class="text-sm text-green-800">
-                        Thank you for contacting us! We'll get back to you shortly.
-                    </p>
-                </div>
+                    <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
+                        <p class="text-sm text-green-800">
+                            Thank you for contacting us! We'll get back to you shortly.
+                        </p>
+                    </div>
                 @endif
 
                 <div class="space-y-6">
@@ -184,29 +179,21 @@ Contact Us – PakQuiz | MCQs Preparation Support
                     <div class="grid gap-6 md:grid-cols-2">
                         <div class="space-y-2">
                             <label for="name" class="text-sm font-medium text-gray-700">Full Name *</label>
-                            <input
-                                id="name"
-                                type="text"
-                                wire:model="name"
-                                placeholder="John Doe"
+                            <input id="name" type="text" wire:model="name" placeholder="John Doe"
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('name') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('name')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                                <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="space-y-2">
                             <label for="email" class="text-sm font-medium text-gray-700">Email Address *</label>
-                            <input
-                                id="email"
-                                type="email"
-                                wire:model="email"
-                                placeholder="john@example.com"
+                            <input id="email" type="email" wire:model="email" placeholder="john@example.com"
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('email') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('email')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                                <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -215,29 +202,21 @@ Contact Us – PakQuiz | MCQs Preparation Support
                     <div class="grid gap-6 md:grid-cols-2">
                         <div class="space-y-2">
                             <label for="phone" class="text-sm font-medium text-gray-700">Phone Number</label>
-                            <input
-                                id="phone"
-                                type="tel"
-                                wire:model="phone"
-                                placeholder="0300 123 4567"
+                            <input id="phone" type="tel" wire:model="phone" placeholder="0300 123 4567"
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('phone') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('phone')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                                <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
                         <div class="space-y-2">
                             <label for="subject" class="text-sm font-medium text-gray-700">Subject *</label>
-                            <input
-                                id="subject"
-                                type="text"
-                                wire:model="subject"
-                                placeholder="How can we help?"
+                            <input id="subject" type="text" wire:model="subject" placeholder="How can we help?"
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('subject') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('subject')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                                <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -245,25 +224,18 @@ Contact Us – PakQuiz | MCQs Preparation Support
                     {{-- Message --}}
                     <div class="space-y-2">
                         <label for="message" class="text-sm font-medium text-gray-700">Message *</label>
-                        <textarea
-                            id="message"
-                            wire:model="message"
-                            placeholder="Tell us more about your inquiry..."
-                            rows="6"
+                        <textarea id="message" wire:model="message" placeholder="Tell us more about your inquiry..." rows="6"
                             class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                {{ $errors->has('message') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}"></textarea>
                         @error('message')
-                        <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 
                     {{-- Submit --}}
                     <div class="flex items-center justify-between pt-4">
                         <p class="text-sm text-slate-600">* Required fields</p>
-                        <button
-                            type="button"
-                            wire:click="submit"
-                            wire:loading.attr="disabled"
+                        <button type="button" wire:click="submit" wire:loading.attr="disabled"
                             class="inline-flex items-center rounded-md bg-primary px-5 py-2 text-sm font-semibold text-white shadow-sm transition hover:bg-primary/90 disabled:opacity-60">
                             <span wire:loading.remove wire:target="submit">
                                 <x-ri-send-plane-fill class="mr-2 h-4 w-4 inline" />

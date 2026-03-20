@@ -4,13 +4,12 @@ use App\Support\SchemaGenerator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-new class extends Component
-{
+new class extends Component {
     public string $activeSection = 'acceptance';
 
     public string $contactEmail = 'legal@pakquiz.com';
     public string $contactPhone = '+92 300 123 4567';
-    public string $lastUpdated  = 'October 2, 2025';
+    public string $lastUpdated = 'October 2, 2025';
 
     public function setActive(string $section): void
     {
@@ -20,47 +19,42 @@ new class extends Component
     #[Computed]
     public function sections(): array
     {
-        return [
-            ['id' => 'acceptance',   'title' => 'Acceptance of Terms',       'icon' => 'ri-file-text-line'],
-            ['id' => 'services',     'title' => 'Our Services',              'icon' => 'ri-user-follow-line'],
-            ['id' => 'accounts',     'title' => 'User Accounts',             'icon' => 'ri-shield-check-line'],
-            ['id' => 'subscription', 'title' => 'Subscription & Payment',   'icon' => 'ri-bank-card-line'],
-            ['id' => 'conduct',      'title' => 'User Conduct',              'icon' => 'ri-forbid-line'],
-            ['id' => 'intellectual', 'title' => 'Intellectual Property',    'icon' => 'ri-scales-line'],
-            ['id' => 'liability',    'title' => 'Limitation of Liability',  'icon' => 'ri-error-warning-line'],
-            ['id' => 'termination',  'title' => 'Termination',              'icon' => 'ri-refresh-line'],
-        ];
+        return [['id' => 'acceptance', 'title' => 'Acceptance of Terms', 'icon' => 'ri-file-text-line'], ['id' => 'services', 'title' => 'Our Services', 'icon' => 'ri-user-follow-line'], ['id' => 'accounts', 'title' => 'User Accounts', 'icon' => 'ri-shield-check-line'], ['id' => 'subscription', 'title' => 'Subscription & Payment', 'icon' => 'ri-bank-card-line'], ['id' => 'conduct', 'title' => 'User Conduct', 'icon' => 'ri-forbid-line'], ['id' => 'intellectual', 'title' => 'Intellectual Property', 'icon' => 'ri-scales-line'], ['id' => 'liability', 'title' => 'Limitation of Liability', 'icon' => 'ri-error-warning-line'], ['id' => 'termination', 'title' => 'Termination', 'icon' => 'ri-refresh-line']];
     }
 
     #[Computed]
     public function schema(): array
     {
-        return array_merge(
-            SchemaGenerator::website(),
-            SchemaGenerator::termsOfServicePage()
-        );
+        return array_merge(SchemaGenerator::website(), SchemaGenerator::termsOfServicePage());
     }
 };
 ?>
 
 @slot('title')
-Terms of Service – PakQuiz
+    Terms of Service – PakQuiz
 @endslot
 
 @push('meta')
-<meta name="title" content="Terms of Service – PakQuiz">
-<meta name="description" content="Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="{{ url('/terms-of-service') }}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/terms-of-service') }}">
-<meta property="og:title" content="Terms of Service – PakQuiz">
-<meta property="og:description" content="Read PakQuiz's Terms of Service governing your use of our MCQs preparation platform.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
+    <meta name="title" content="Terms of Service – PakQuiz">
+    <meta name="description"
+        content="Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/terms-of-service') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/terms-of-service') }}">
+    <meta property="og:title" content="Terms of Service – PakQuiz">
+    <meta property="og:description"
+        content="Read PakQuiz's Terms of Service governing your use of our MCQs preparation platform.">
+    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
+    <meta property="og:site_name" content="PakQuiz">
 @endpush
 
 <div class="max-w-7xl mx-auto">
+    @teleport('head')
+        <script type="application/ld+json">
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+    @endteleport
     <div class="space-y-2 py-8">
         <nav class="flex mb-2 text-sm" aria-label="{{ __('Breadcrumb') }}">
             <ol class="inline-flex items-center md:space-x-1">
@@ -75,7 +69,8 @@ Terms of Service – PakQuiz
                 </li>
             </ol>
         </nav>
-        <x-page-header title="Terms of Service" description="Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform." />
+        <x-page-header title="Terms of Service"
+            description="Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform." />
     </div>
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
         {{-- ── Sticky Sidebar ── --}}
@@ -84,19 +79,17 @@ Terms of Service – PakQuiz
                 <h2 class="mb-4 font-semibold">Quick Navigation</h2>
                 <ul class="space-y-1">
                     @foreach ($this->sections as $section)
-                    <li>
-                        <a
-                            href="#{{ $section['id'] }}"
-                            wire:click.prevent="setActive('{{ $section['id'] }}')"
-                            x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })"
-                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
+                        <li>
+                            <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
+                                x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })"
+                                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                    {{ $activeSection === $section['id']
                                        ? 'bg-accent font-semibold text-accent-foreground'
                                        : 'text-muted-foreground hover:bg-accent' }}">
-                            @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
-                            <span>{{ $section['title'] }}</span>
-                        </a>
-                    </li>
+                                @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
+                                <span>{{ $section['title'] }}</span>
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -113,8 +106,10 @@ Terms of Service – PakQuiz
                         <h2 class="text-2xl font-bold">Acceptance of Terms</h2>
                     </div>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        Welcome to our MCQs Preparation Platform. By accessing or using our website and services, you agree
-                        to be bound by these Terms of Service and all applicable laws and regulations. If you do not agree
+                        Welcome to our MCQs Preparation Platform. By accessing or using our website and services, you
+                        agree
+                        to be bound by these Terms of Service and all applicable laws and regulations. If you do not
+                        agree
                         with any part of these terms, you may not use our services.
                     </p>
                     <p class="mb-4 leading-relaxed text-gray-700">
@@ -125,7 +120,8 @@ Terms of Service – PakQuiz
                     <div class="mt-4 rounded-lg border border-blue-200 bg-info p-4">
                         <p class="text-sm text-info-foreground">
                             <strong>Important:</strong> Please read these Terms carefully before using our platform.
-                            By creating an account or using our services, you acknowledge that you have read, understood,
+                            By creating an account or using our services, you acknowledge that you have read,
+                            understood,
                             and agree to be bound by these Terms.
                         </p>
                     </div>
@@ -194,7 +190,8 @@ Terms of Service – PakQuiz
                         <li>Log out after each session on shared devices</li>
                     </ul>
                     <p class="mt-3 leading-relaxed text-gray-700">
-                        We are not liable for any loss or damage arising from your failure to protect your account credentials.
+                        We are not liable for any loss or damage arising from your failure to protect your account
+                        credentials.
                     </p>
                 </section>
 
@@ -225,7 +222,8 @@ Terms of Service – PakQuiz
 
                     <h3 class="mt-6 mb-3 text-lg font-semibold">Cancellation & Refunds</h3>
                     <p class="mb-3 leading-relaxed text-gray-700">
-                        You may cancel your premium subscription at any time through your account settings. Upon cancellation:
+                        You may cancel your premium subscription at any time through your account settings. Upon
+                        cancellation:
                     </p>
                     <ul class="ml-4 list-inside list-disc space-y-2 text-gray-700">
                         <li>You will retain access until the end of current billing period</li>
@@ -280,7 +278,8 @@ Terms of Service – PakQuiz
 
                     <h3 class="mt-6 mb-3 text-lg font-semibold">Content Submission</h3>
                     <p class="leading-relaxed text-gray-700">
-                        If you submit any content, feedback, or suggestions to us, you grant us a perpetual, irrevocable,
+                        If you submit any content, feedback, or suggestions to us, you grant us a perpetual,
+                        irrevocable,
                         worldwide, royalty-free license to use, modify, and incorporate such content into our services
                         without compensation to you.
                     </p>
@@ -295,8 +294,10 @@ Terms of Service – PakQuiz
 
                     <h3 class="mt-6 mb-3 text-lg font-semibold">Our Content</h3>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        All content on our platform, including but not limited to MCQs, questions, answers, explanations,
-                        practice papers, job listings, text, graphics, logos, and software, is the property of our platform
+                        All content on our platform, including but not limited to MCQs, questions, answers,
+                        explanations,
+                        practice papers, job listings, text, graphics, logos, and software, is the property of our
+                        platform
                         or our content suppliers and is protected by Pakistani and international copyright laws.
                     </p>
 
@@ -374,7 +375,8 @@ Terms of Service – PakQuiz
 
                     <h3 class="mt-6 mb-3 text-lg font-semibold">Third-Party Content</h3>
                     <p class="leading-relaxed text-gray-700">
-                        Job listings and information about government exams are provided for informational purposes only.
+                        Job listings and information about government exams are provided for informational purposes
+                        only.
                         We do not verify the accuracy of job postings and are not responsible for third-party content,
                         websites, or services linked from our platform.
                     </p>
@@ -438,7 +440,8 @@ Terms of Service – PakQuiz
                     </p>
                     <ul class="ml-4 list-inside list-disc space-y-2 text-gray-700">
                         <li>You agree to first attempt to resolve the dispute informally by contacting us</li>
-                        <li>If informal resolution fails, disputes shall be subject to the exclusive jurisdiction of courts in Lahore, Pakistan</li>
+                        <li>If informal resolution fails, disputes shall be subject to the exclusive jurisdiction of
+                            courts in Lahore, Pakistan</li>
                         <li>Both parties agree to waive any right to a jury trial</li>
                     </ul>
                 </section>
@@ -452,7 +455,8 @@ Terms of Service – PakQuiz
                     <p class="leading-relaxed text-gray-700">
                         You agree to indemnify, defend, and hold harmless our platform, its officers, directors,
                         employees, and agents from and against any claims, liabilities, damages, losses, and expenses
-                        arising out of or in any way connected with your access to or use of our services, your violation
+                        arising out of or in any way connected with your access to or use of our services, your
+                        violation
                         of these Terms, or your violation of any rights of another party.
                     </p>
                 </section>
@@ -464,7 +468,8 @@ Terms of Service – PakQuiz
                         <h2 class="text-2xl font-bold">Changes to Terms</h2>
                     </div>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        We reserve the right to modify these Terms at any time. We will notify users of material changes by:
+                        We reserve the right to modify these Terms at any time. We will notify users of material changes
+                        by:
                     </p>
                     <ul class="ml-4 list-inside list-disc space-y-2 text-gray-700">
                         <li>Posting the updated Terms on our platform</li>
@@ -472,7 +477,8 @@ Terms of Service – PakQuiz
                         <li>Displaying a prominent notice on our website</li>
                     </ul>
                     <p class="mt-4 leading-relaxed text-gray-700">
-                        Your continued use of our services after such modifications constitutes acceptance of the updated
+                        Your continued use of our services after such modifications constitutes acceptance of the
+                        updated
                         Terms. If you do not agree to the modified Terms, you must stop using our services.
                     </p>
                 </section>

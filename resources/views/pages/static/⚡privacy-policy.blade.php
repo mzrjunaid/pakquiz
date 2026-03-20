@@ -4,14 +4,12 @@ use App\Support\SchemaGenerator;
 use Livewire\Attributes\Computed;
 use Livewire\Component;
 
-
-new class extends Component
-{
+new class extends Component {
     public string $activeSection = 'introduction';
 
     public string $contactEmail = 'privacy@pakquiz.com';
     public string $contactPhone = '+92 300 123 4567';
-    public string $lastUpdated  = 'January 1, 2025';
+    public string $lastUpdated = 'January 1, 2025';
 
     public function setActive(string $section): void
     {
@@ -21,48 +19,43 @@ new class extends Component
     #[Computed]
     public function sections(): array
     {
-        return [
-            ['id' => 'introduction', 'title' => 'Introduction',              'icon' => 'ri-shield-check-line'],
-            ['id' => 'information',  'title' => 'Information We Collect',    'icon' => 'ri-database-2-line'],
-            ['id' => 'usage',        'title' => 'How We Use Your Info',      'icon' => 'ri-eye-line'],
-            ['id' => 'protection',   'title' => 'Data Protection',           'icon' => 'ri-lock-line'],
-            ['id' => 'cookies',      'title' => 'Cookies & Tracking',        'icon' => 'ri-file-text-line'],
-            ['id' => 'rights',       'title' => 'Your Rights',               'icon' => 'ri-user-follow-line'],
-            ['id' => 'contact',      'title' => 'Contact Us',                'icon' => 'ri-mail-line'],
-        ];
+        return [['id' => 'introduction', 'title' => 'Introduction', 'icon' => 'ri-shield-check-line'], ['id' => 'information', 'title' => 'Information We Collect', 'icon' => 'ri-database-2-line'], ['id' => 'usage', 'title' => 'How We Use Your Info', 'icon' => 'ri-eye-line'], ['id' => 'protection', 'title' => 'Data Protection', 'icon' => 'ri-lock-line'], ['id' => 'cookies', 'title' => 'Cookies & Tracking', 'icon' => 'ri-file-text-line'], ['id' => 'rights', 'title' => 'Your Rights', 'icon' => 'ri-user-follow-line'], ['id' => 'contact', 'title' => 'Contact Us', 'icon' => 'ri-mail-line']];
     }
 
     #[Computed]
     public function schema(): array
     {
-        return array_merge(
-            SchemaGenerator::website(),
-            SchemaGenerator::privacyPolicyPage()
-        );
+        return array_merge(SchemaGenerator::website(), SchemaGenerator::privacyPolicyPage());
     }
 };
 ?>
 
 
 @slot('title')
-Privacy Policy – PakQuiz
+    Privacy Policy – PakQuiz
 @endslot
 
 @push('head')
-<meta name="title" content="Privacy Policy – PakQuiz">
-<meta name="description" content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.">
-<meta name="robots" content="index, follow">
-<link rel="canonical" href="{{ url('/privacy-policy') }}">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/privacy-policy') }}">
-<meta property="og:title" content="Privacy Policy – PakQuiz">
-<meta property="og:description" content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
-
+    <meta name="title" content="Privacy Policy – PakQuiz">
+    <meta name="description"
+        content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="{{ url('/privacy-policy') }}">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="{{ url('/privacy-policy') }}">
+    <meta property="og:title" content="Privacy Policy – PakQuiz">
+    <meta property="og:description"
+        content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information.">
+    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
+    <meta property="og:site_name" content="PakQuiz">
 @endpush
 
 <div class="max-w-7xl mx-auto">
+    @teleport('head')
+        <script type="application/ld+json">
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+    @endteleport
     <div class="space-y-2 py-8">
         <nav class="flex mb-2 text-sm" aria-label="{{ __('Breadcrumb') }}">
             <ol class="inline-flex items-center md:space-x-1">
@@ -77,7 +70,8 @@ Privacy Policy – PakQuiz
                 </li>
             </ol>
         </nav>
-        <x-page-header title="Privacy Policy" description="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform." />
+        <x-page-header title="Privacy Policy"
+            description="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform." />
     </div>
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-4">
         {{-- ── Sticky Sidebar Navigation ── --}}
@@ -86,19 +80,17 @@ Privacy Policy – PakQuiz
                 <h2 class="mb-4 font-semibold">Quick Navigation</h2>
                 <ul class="space-y-1">
                     @foreach ($this->sections as $section)
-                    <li>
-                        <a
-                            href="#{{ $section['id'] }}"
-                            wire:click.prevent="setActive('{{ $section['id'] }}')"
-                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
+                        <li>
+                            <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
+                                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                    {{ $activeSection === $section['id']
                                        ? 'bg-accent font-semibold text-accent-foreground'
                                        : 'text-muted-foreground hover:bg-accent' }}"
-                            x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })">
-                            @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
-                            <span>{{ $section['title'] }}</span>
-                        </a>
-                    </li>
+                                x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })">
+                                @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
+                                <span>{{ $section['title'] }}</span>
+                            </a>
+                        </li>
                     @endforeach
                 </ul>
             </div>
@@ -115,7 +107,8 @@ Privacy Policy – PakQuiz
                         <h2 class="text-2xl font-bold">Introduction</h2>
                     </div>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        Welcome to our MCQs Preparation Platform. We are committed to protecting your privacy and ensuring
+                        Welcome to our MCQs Preparation Platform. We are committed to protecting your privacy and
+                        ensuring
                         the security of your personal information. This Privacy Policy explains how we collect, use,
                         disclose, and safeguard your information when you use our website and services.
                     </p>
@@ -189,7 +182,8 @@ Privacy Policy – PakQuiz
                         <h2 class="text-2xl font-bold">Data Protection & Security</h2>
                     </div>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        We implement appropriate technical and organizational measures to protect your personal information:
+                        We implement appropriate technical and organizational measures to protect your personal
+                        information:
                     </p>
                     <ul class="ml-4 list-inside list-disc space-y-2 text-gray-700">
                         <li>SSL encryption for data transmission</li>
@@ -202,7 +196,8 @@ Privacy Policy – PakQuiz
                     <div class="mt-4 flex gap-3 rounded-lg bg-warning p-4">
                         @svg('ri-alert-line', 'mt-0.5 h-5 w-5 flex-shrink-0 text-amber-600')
                         <p class="text-sm text-warning-foreground">
-                            While we strive to protect your information, no method of transmission over the internet is 100%
+                            While we strive to protect your information, no method of transmission over the internet is
+                            100%
                             secure. We cannot guarantee absolute security of your data.
                         </p>
                     </div>
@@ -328,7 +323,8 @@ Privacy Policy – PakQuiz
                         <h2 class="text-2xl font-bold">Contact Us</h2>
                     </div>
                     <p class="mb-4 leading-relaxed text-gray-700">
-                        If you have questions or concerns about this Privacy Policy or our data practices, please contact us:
+                        If you have questions or concerns about this Privacy Policy or our data practices, please
+                        contact us:
                     </p>
                     <div class="rounded-lg bg-info p-6">
                         <div class="space-y-3">

@@ -13,7 +13,6 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 
 new class extends Component {
-
     #[Computed]
     public function meta()
     {
@@ -77,27 +76,25 @@ new class extends Component {
 ?>
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @push('meta')
-<meta name="description" content="{{ $this->meta['description'] }}">
-<meta name="canonical" content="{{ $this->meta['canonical'] }}">
-<meta property="og:title" content="{{ $this->meta['og_title'] }}">
-<meta property="og:description" content="{{ $this->meta['og_description'] }}">
-<meta property="og:image" content="{{ $this->meta['og_image'] }}">
-<meta property="og:url" content="{{ $this->meta['canonical'] }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
+    <meta name="description" content="{{ $this->meta['description'] }}">
+    <meta name="canonical" content="{{ $this->meta['canonical'] }}">
+    <meta property="og:title" content="{{ $this->meta['og_title'] }}">
+    <meta property="og:description" content="{{ $this->meta['og_description'] }}">
+    <meta property="og:image" content="{{ $this->meta['og_image'] }}">
+    <meta property="og:url" content="{{ $this->meta['canonical'] }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
+    <meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
+    <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
 @slot('schema')
-<script type="application/ld+json">
-    {
-        !!json_encode($this - > schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!
-    }
+    <script type="application/ld+json">
+    {!!json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endslot
 
@@ -178,9 +175,9 @@ new class extends Component {
                     }
                 }" x-init="start()" class="hidden lg:block">
                     @foreach ($data['heroSectionMcqs'] as $index => $mcq)
-                    <div x-show="active === {{ $index }}">
-                        <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
-                    </div>
+                        <div x-show="active === {{ $index }}">
+                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
+                        </div>
                     @endforeach
                 </div>
             </div>
@@ -209,7 +206,7 @@ new class extends Component {
                 <div class="lg:col-span-2">
                     <div class="space-y-4 md:space-y-6">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
-                        <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
+                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
                         @endforeach
 
                         <div class="flex justify-center">
@@ -228,12 +225,13 @@ new class extends Component {
                             other competitive exams in Pakistan.</p>
                         <div class="md:px-2">
                             @foreach ($data['latestPapers'] as $index => $paper)
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="{{ route('public.papers.show', $paper['slug']) }}" class="my-2 line-clamp-1">
-                                    {{ $paper['name'] }}
-                                </a>
-                            </div>
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.papers.show', $paper['slug']) }}"
+                                        class="my-2 line-clamp-1">
+                                        {{ $paper['name'] }}
+                                    </a>
+                                </div>
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
                                 <x-nav-link route="public.papers.index" class="text-primary hover:underline">
@@ -248,12 +246,12 @@ new class extends Component {
                             other competitive exams in Pakistan.</p>
                         <div class="md:px-2">
                             @foreach ($data['subjects_list'] as $index => $subject)
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="{{ route('public.subject.show', $subject['slug']) }}" class="my-2 block">
-                                    {{ $subject['name'] }}
-                                </a>
-                            </div>
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.subject.show', $subject['slug']) }}" class="my-2 block">
+                                        {{ $subject['name'] }}
+                                    </a>
+                                </div>
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
                                 <x-nav-link route="public.subject.index" class="text-primary hover:underline">
@@ -268,16 +266,17 @@ new class extends Component {
                             PMS and other competitive exams in Pakistan.</p>
                         <div class="md:px-2">
                             @foreach ($data['current_affairs']['topics'] as $index => $topic)
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="{{ route('public.subject.show', ['subject' => $data['current_affairs']['slug'], 'topic' => $topic['slug']]) }}"
-                                    class="my-2 block">
-                                    {{ $topic['name'] }}
-                                </a>
-                            </div>
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.subject.show', ['subject' => $data['current_affairs']['slug'], 'topic' => $topic['slug']]) }}"
+                                        class="my-2 block">
+                                        {{ $topic['name'] }}
+                                    </a>
+                                </div>
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.subject.show" :params="$data['current_affairs']['slug']" class="text-primary hover:underline">
+                                <x-nav-link route="public.subject.show" :params="$data['current_affairs']['slug']"
+                                    class="text-primary hover:underline">
                                     View All Current Affairs
                                 </x-nav-link>
                             </div>
@@ -289,13 +288,13 @@ new class extends Component {
                             and other competitive exams in Pakistan.</p>
                         <div class="md:px-2">
                             @foreach ($data['departments_list'] as $index => $dept)
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="{{ route('public.departments.show', $dept['slug']) }}"
-                                    class="my-2 line-clamp-1 overflow-hidden">
-                                    {{ $dept['name'] }}
-                                </a>
-                            </div>
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.departments.show', $dept['slug']) }}"
+                                        class="my-2 line-clamp-1 overflow-hidden">
+                                        {{ $dept['name'] }}
+                                    </a>
+                                </div>
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
                                 <x-nav-link route="public.departments.index" class="text-primary hover:underline">
