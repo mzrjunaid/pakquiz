@@ -39,7 +39,7 @@
 </head>
 
 <body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
-    <x-navbar />
+    <livewire:navbar />
     <main>
         {{ $slot }}
     </main>
