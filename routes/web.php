@@ -11,10 +11,11 @@ use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
+use App\Http\Middleware\HandleInertiaRequests;
 use Illuminate\Support\Facades\Route;
 use Livewire\Livewire;
 
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved'])->group(function () {
+Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved', HandleInertiaRequests::class])->group(function () {
 
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
 
