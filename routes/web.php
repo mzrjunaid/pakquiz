@@ -64,7 +64,7 @@ use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
 use App\Http\Controllers\Public\TestingServiceController as PublicTestingServiceController;
 
 Route::livewire('/', 'pages::home.index')->name('home');
-Route::get('/demo', [DemoController::class, 'index'])->name('demo');
+Route::middleware(HandleInertiaRequests::class)->get('/demo', [DemoController::class, 'index'])->name('demo');
 Route::livewire('/about-us', 'pages::static.about-us')->name('aboutUs');
 Route::livewire('/contact-us', 'pages::static.contact-us')->name('contactUs');
 Route::livewire('/join-us', 'pages::static.join-us')->name('joinUs');
@@ -75,8 +75,7 @@ Route::livewire('/help-center', 'pages::static.help-center')->name('helpCenter')
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
 Route::name('public.')->group(function () {
-    Route::get('/search', [SearchController::class, 'index'])
-        ->name('search');
+    Route::livewire('/search', 'pages::search.index')->name('search');
 
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
         Route::livewire('/', 'pages::mcqs.index')->name('index');

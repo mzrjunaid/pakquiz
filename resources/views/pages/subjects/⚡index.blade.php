@@ -53,28 +53,26 @@ new class extends Component {
 
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @push('meta')
-<meta name="description" content="{{ $this->meta['description'] }}">
-<meta name="canonical" content="{{ $this->meta['canonical'] }}">
-<meta property="og:title" content="{{ $this->meta['og_title'] }}">
-<meta property="og:description" content="{{ $this->meta['og_description'] }}">
-<meta property="og:image" content="{{ $this->meta['og_image'] }}">
-<meta property="og:url" content="{{ $this->meta['canonical'] }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
+    <meta name="description" content="{{ $this->meta['description'] }}">
+    <meta name="canonical" content="{{ $this->meta['canonical'] }}">
+    <meta property="og:title" content="{{ $this->meta['og_title'] }}">
+    <meta property="og:description" content="{{ $this->meta['og_description'] }}">
+    <meta property="og:image" content="{{ $this->meta['og_image'] }}">
+    <meta property="og:url" content="{{ $this->meta['canonical'] }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
+    <meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
+    <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
 <div>
     @teleport('head')
-    <script type="application/ld+json">
-        {
-            !!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
-        }
+        <script type="application/ld+json">
+        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
 
@@ -113,7 +111,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($subjects as $subject)
-                            <x-subject-card :subject="$subject" />
+                                <x-subject-card :subject="$subject" />
                             @endforeach
                         </div>
                     </div>
@@ -123,25 +121,9 @@ new class extends Component {
                     </div>
                 </div>
                 <x-aside>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Latest Papers</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
-                            other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-
-                            <div class="flex items-center gap-1 text-sm">
-                                <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                <a href="#" class="my-2 block">
-                                    paper name
-                                </a>
-                            </div>
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.papers.index" class="text-primary hover:underline">
-                                    View All Papers
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
+                    <livewire:aside.latest-mcqs />
+                    <livewire:aside.latest-papers />
+                    <livewire:aside.current-affairs />
                 </x-aside>
             </div>
         </section>

@@ -1,9 +1,9 @@
 @php
-$categories = [
-(object) ['name' => 'Latest Papers', 'slug' => 'latest-papers'],
-(object) ['name' => 'Past Papers', 'slug' => 'past-papers'],
-(object) ['name' => 'Upcoming Papers', 'slug' => 'upcoming-papers'],
-];
+    $categories = [
+        (object) ['name' => 'Latest Papers', 'slug' => 'latest-papers'],
+        (object) ['name' => 'Past Papers', 'slug' => 'past-papers'],
+        (object) ['name' => 'Upcoming Papers', 'slug' => 'upcoming-papers'],
+    ];
 @endphp
 
 
@@ -19,8 +19,7 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 
-new class extends Component
-{
+new class extends Component {
     use WithPagination;
 
     public string $category = '';
@@ -45,15 +44,15 @@ new class extends Component
 
         $this->pageIntro = match ($this->type) {
             'upcoming' => [
-                'title'       => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
+                'title' => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
                 'description' => 'Stay updated with upcoming papers, exam schedules and expected test patterns for FPSC, PPSC, NTS, CSS and other competitive exams in Pakistan.',
             ],
             'latest' => [
-                'title'       => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
+                'title' => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
                 'description' => 'Explore the latest papers and updated MCQs for FPSC, PPSC, NTS, CSS and other testing services in Pakistan. Practice with recently added papers daily.',
             ],
             'past' => [
-                'title'       => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
+                'title' => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
                 'description' => 'Browse past papers with solved MCQs for FPSC, PPSC, NTS, CSS, PMS and other government exams in Pakistan. Practice by department and subject.',
             ],
         };
@@ -63,28 +62,28 @@ new class extends Component
     {
         return match ($this->type) {
             'upcoming' => [
-                'title'       => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
+                'title' => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
                 'description' => 'Stay updated with upcoming papers, exam schedules and expected test patterns for FPSC, PPSC, NTS, CSS and other competitive exams in Pakistan.',
-                'canonical'   => route('public.papers.category_index', 'upcoming-papers'),
-                'og_title'    => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
+                'canonical' => route('public.papers.category_index', 'upcoming-papers'),
+                'og_title' => 'Upcoming FPSC, PPSC & NTS Papers – Schedule & Prep',
                 'og_description' => 'Stay updated with upcoming papers, exam schedules and expected test patterns for FPSC, PPSC, NTS, CSS and other competitive exams in Pakistan.',
-                'og_image'    => asset('images/og-image.png'),
+                'og_image' => asset('images/og-image.png'),
             ],
             'latest' => [
-                'title'       => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
+                'title' => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
                 'description' => 'Explore the latest papers and updated MCQs for FPSC, PPSC, NTS, CSS and other testing services in Pakistan. Practice with recently added papers daily.',
-                'canonical'   => route('public.papers.category_index', 'latest-papers'),
-                'og_title'    => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
+                'canonical' => route('public.papers.category_index', 'latest-papers'),
+                'og_title' => 'Latest Papers Mcqs for FPSC, PPSC, NTS & CSS',
                 'og_description' => 'Explore the latest papers and updated MCQs for FPSC, PPSC, NTS, CSS and other testing services in Pakistan. Practice with recently added papers daily.',
-                'og_image'    => asset('images/og-image.png'),
+                'og_image' => asset('images/og-image.png'),
             ],
             'past' => [
-                'title'       => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
+                'title' => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
                 'description' => 'Browse past papers with solved MCQs for FPSC, PPSC, NTS, CSS, PMS and other government exams in Pakistan. Practice by department and subject.',
-                'canonical'   => route('public.papers.category_index', 'past-papers'),
-                'og_title'    => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
+                'canonical' => route('public.papers.category_index', 'past-papers'),
+                'og_title' => 'Past Papers with Solved MCQs for FPSC, PPSC, NTS & CSS',
                 'og_description' => 'Browse past papers with solved MCQs for FPSC, PPSC, NTS, CSS, PMS and other government exams in Pakistan. Practice by department and subject.',
-                'og_image'    => asset('images/og-image.png'),
+                'og_image' => asset('images/og-image.png'),
             ],
         };
     }
@@ -99,11 +98,9 @@ new class extends Component
                 $query->where('schedule_at', '>', $today);
             })
             ->when($this->type === 'latest', function ($query) use ($today) {
-                $query->where('paper_year', '>=', date('Y'))
-                    ->where(function ($q) use ($today) {
-                        $q->where('schedule_at', '<=', $today)
-                            ->orWhereNull('schedule_at');
-                    });
+                $query->where('paper_year', '>=', date('Y'))->where(function ($q) use ($today) {
+                    $q->where('schedule_at', '<=', $today)->orWhereNull('schedule_at');
+                });
             })
             ->when($this->type === 'past', function ($query) {
                 $query->where('paper_year', '<', date('Y'));
@@ -148,11 +145,7 @@ new class extends Component
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [
-                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')],
-                ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => route('public.papers.index')],
-                ['@type' => 'ListItem', 'position' => 3, 'name' => ucfirst($this->type) . ' Papers', 'item' => route('public.papers.category_index', $this->category)],
-            ],
+            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => route('public.papers.index')], ['@type' => 'ListItem', 'position' => 3, 'name' => ucfirst($this->type) . ' Papers', 'item' => route('public.papers.category_index', $this->category)]],
         ];
 
         $resource = PaperIndexCollection::make($this->papers);
@@ -180,33 +173,33 @@ new class extends Component
 ?>
 
 @php
-$currentAffairs = $asideData['currentAffairs'];
-$testingServices = $asideData['testingServices'];
-$latestSubjects = $asideData['subjects'];
-$latestPapers = $asideData['latestPapers'];
+    $currentAffairs = $asideData['currentAffairs'];
+    $testingServices = $asideData['testingServices'];
+    $latestSubjects = $asideData['subjects'];
+    $latestPapers = $asideData['latestPapers'];
 @endphp
 
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @push('meta')
-<meta name="description" content="{{ $this->meta['description'] }}">
-<meta name="canonical" content="{{ $this->meta['canonical'] }}">
-<meta property="og:title" content="{{ $this->meta['og_title'] }}">
-<meta property="og:description" content="{{ $this->meta['og_description'] }}">
-<meta property="og:image" content="{{ $this->meta['og_image'] }}">
-<meta property="og:url" content="{{ $this->meta['canonical'] }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
+    <meta name="description" content="{{ $this->meta['description'] }}">
+    <meta name="canonical" content="{{ $this->meta['canonical'] }}">
+    <meta property="og:title" content="{{ $this->meta['og_title'] }}">
+    <meta property="og:description" content="{{ $this->meta['og_description'] }}">
+    <meta property="og:image" content="{{ $this->meta['og_image'] }}">
+    <meta property="og:url" content="{{ $this->meta['canonical'] }}">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
+    <meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
+    <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
 <div>
     @teleport('head')
-    <script type="application/ld+json">
+        <script type="application/ld+json">
         {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
@@ -241,147 +234,135 @@ $latestPapers = $asideData['latestPapers'];
         <section class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
                 <div class="lg:col-span-2">
-                    @if($papers->isEmpty())
-                    <div>
-                        <div class="text-center p-6 rounded-lg shadow-md border">
-                            <p class="text-sm md:text-base text-muted-foreground">
-                                We are currently finalizing our lineup of {{ $type }} papers.
-                                Please check back soon for new research, or explore our
-                                <a href="/past-papers" class="text-primary underline hover:text-primary/80">Past Papers</a>
-                                section for more papers.
-                            </p>
-                        </div>
-                        <div class="mt-8">
-                            <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
-                            <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC, PPSC, NTS, CSS and other government exams in Pakistan.</p>
-                            <ul class="mt-4 space-y-2">
-                                @foreach ($latestPapers as $latestPaper)
-                                <x-paper-card :paper="$latestPaper" />
-                                @endforeach
-                            </ul>
-                        </div>
-                    </div>
-                    @elseif($papers->count() < 10)
+                    @if ($papers->isEmpty())
                         <div>
-                        <div class="relative">
-                            <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
-                            <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                                class="space-y-4">
-                                @foreach ($papers as $paper)
-                                <x-paper-card :paper="$paper" />
-                                @endforeach
+                            <div class="text-center p-6 rounded-lg shadow-md border">
+                                <p class="text-sm md:text-base text-muted-foreground">
+                                    We are currently finalizing our lineup of {{ $type }} papers.
+                                    Please check back soon for new research, or explore our
+                                    <a href="/past-papers" class="text-primary underline hover:text-primary/80">Past
+                                        Papers</a>
+                                    section for more papers.
+                                </p>
+                            </div>
+                            <div class="mt-8">
+                                <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
+                                <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC,
+                                    PPSC, NTS, CSS and other government exams in Pakistan.</p>
+                                <ul class="mt-4 space-y-2">
+                                    @foreach ($latestPapers as $latestPaper)
+                                        <x-paper-card :paper="$latestPaper" />
+                                    @endforeach
+                                </ul>
                             </div>
                         </div>
-                        <div class="mt-8">
-                            {{ $papers->links('vendor.livewire.compact-pagination') }}
+                    @elseif($papers->count() < 10)
+                        <div>
+                            <div class="relative">
+                                <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
+                                <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
+                                    class="space-y-4">
+                                    @foreach ($papers as $paper)
+                                        <x-paper-card :paper="$paper" />
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                {{ $papers->links('vendor.livewire.compact-pagination') }}
+                            </div>
+                            <div class="mt-8">
+                                <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
+                                <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC,
+                                    PPSC, NTS, CSS and other government exams in Pakistan.</p>
+                                <ul class="mt-4 space-y-2">
+                                    @foreach ($latestPapers as $latestPaper)
+                                        <x-paper-card :paper="$latestPaper" />
+                                    @endforeach
+                                </ul>
+                            </div>
                         </div>
-                        <div class="mt-8">
-                            <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
-                            <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC, PPSC, NTS, CSS and other government exams in Pakistan.</p>
-                            <ul class="mt-4 space-y-2">
-                                @foreach ($latestPapers as $latestPaper)
-                                <x-paper-card :paper="$latestPaper" />
-                                @endforeach
-                            </ul>
+                    @else
+                        <div>
+                            <div class="relative">
+                                <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
+                                <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
+                                    class="space-y-4">
+                                    @foreach ($papers as $paper)
+                                        <x-paper-card :paper="$paper" />
+                                    @endforeach
+                                </div>
+                            </div>
+                            <div class="mt-8">
+                                {{ $papers->links('vendor.livewire.compact-pagination') }}
+                            </div>
                         </div>
+                    @endif
                 </div>
-                @else
-                <div>
-                    <div class="relative">
-                        <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
-                        <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                            class="space-y-4">
-                            @foreach ($papers as $paper)
-                            <x-paper-card :paper="$paper" />
+                <x-aside>
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Browse by Category</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
+                            other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
+                            @foreach ($categories as $category)
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.papers.category_index', $category->slug) }}"
+                                        class="my-2 block">
+                                        {{ $category->name }}
+                                    </a>
+                                </div>
                             @endforeach
                         </div>
                     </div>
-                    <div class="mt-8">
-                        {{ $papers->links('vendor.livewire.compact-pagination') }}
-                    </div>
-                </div>
-                @endif
-            </div>
-            <x-aside>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Browse by Category</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($categories as $category)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.papers.category_index', $category->slug) }}"
-                                class="my-2 block">
-                                {{ $category->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest Current Affairs for FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($currentAffairs as $topic)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.subject.topic.show', ['subject' => 'current-affairs', 'topic' => $topic->slug]) }}" class="my-2 block">
-                                {{ $topic->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                        <div class="text-sm text-right flex justify-end mt-2">
-                            <a href="{{ route('public.subject.show', 'current-affairs') }}" class="text-primary hover:underline">
-                                View All Current Affairs
-                            </a>
+                    <livewire:aside.current-affairs />
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Prepare for Testing Services</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest Papers by Testing Services like FPSC,
+                            PPSC, NTS, CSS, PMS and
+                            other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
+                            @foreach ($testingServices as $testingService)
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.testing_services.show', $testingService->slug) }}"
+                                        class="my-2 block">
+                                        {{ $testingService->name }}
+                                    </a>
+                                </div>
+                            @endforeach
+                            <div class="text-sm text-right flex justify-end mt-2">
+                                <a href="{{ route('public.testing_services.index') }}"
+                                    class="text-primary hover:underline">
+                                    View All Testing Services
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Prepare for Testing Services</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest Papers by Testing Services like FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($testingServices as $testingService)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.testing_services.show', $testingService->slug) }}" class="my-2 block">
-                                {{ $testingService->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                        <div class="text-sm text-right flex justify-end mt-2">
-                            <a href="{{ route('public.testing_services.index') }}" class="text-primary hover:underline">
-                                View All Testing Services
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Latest Subjects</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($latestSubjects as $subject)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.subject.show', $subject->slug) }}" class="my-2 block">
-                                {{ $subject->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                        <div class="text-sm text-right flex justify-end mt-2">
-                            <a href="{{ route('public.subject.index') }}" class="text-primary hover:underline">
-                                View All Subjects
-                            </a>
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Latest Subjects</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and
+                            other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
+                            @foreach ($latestSubjects as $subject)
+                                <div class="flex items-center gap-1 text-sm">
+                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
+                                    <a href="{{ route('public.subject.show', $subject->slug) }}" class="my-2 block">
+                                        {{ $subject->name }}
+                                    </a>
+                                </div>
+                            @endforeach
+                            <div class="text-sm text-right flex justify-end mt-2">
+                                <a href="{{ route('public.subject.index') }}" class="text-primary hover:underline">
+                                    View All Subjects
+                                </a>
+                            </div>
                         </div>
                     </div>
-                </div>
+                    <livewire:aside.latest-papers />
 
-            </x-aside>
+                </x-aside>
+            </div>
+        </section>
     </div>
-    </section>
-</div>
 </div>

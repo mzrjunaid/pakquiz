@@ -194,39 +194,37 @@ class SchemaGenerator
         ];
     }
 
-
-
     public static function aboutPage(): array
     {
-        $baseUrl  = url('/');
+        $baseUrl = url('/');
         $aboutUrl = url('/about');
 
         return [
 
             // AboutPage
             [
-                '@context'    => 'https://schema.org',
-                '@type'       => 'AboutPage',
-                '@id'         => $aboutUrl . '#webpage',
-                'url'         => $aboutUrl,
-                'name'        => 'About PakQuiz – Smart MCQs Preparation Platform for Pakistan',
-                'headline'    => 'About PakQuiz – Smart MCQs Preparation Platform for Pakistan',
+                '@context' => 'https://schema.org',
+                '@type' => 'AboutPage',
+                '@id' => $aboutUrl . '#webpage',
+                'url' => $aboutUrl,
+                'name' => 'About PakQuiz – Smart MCQs Preparation Platform for Pakistan',
+                'headline' => 'About PakQuiz – Smart MCQs Preparation Platform for Pakistan',
                 'description' => "PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven.",
-                'inLanguage'  => 'en-PK',
-                'isPartOf'    => [
+                'inLanguage' => 'en-PK',
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',  // references your existing Organization schema
+                    '@id' => $baseUrl . '#organization',  // references your existing Organization schema
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',         'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'About PakQuiz', 'item' => $aboutUrl],
                     ],
                 ],
@@ -234,39 +232,39 @@ class SchemaGenerator
 
             // FAQPage
             [
-                '@context'   => 'https://schema.org',
-                '@type'      => 'FAQPage',
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
                 'mainEntity' => [
                     [
                         '@type' => 'Question',
-                        'name'  => 'What is PakQuiz?',
+                        'name' => 'What is PakQuiz?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PakQuiz is a modern AI-assisted online MCQs preparation platform built for students, job seekers, and competitive exam aspirants across Pakistan. It offers subject-wise, topic-wise, and exam-oriented MCQs designed according to real testing patterns.',
+                            'text' => 'PakQuiz is a modern AI-assisted online MCQs preparation platform built for students, job seekers, and competitive exam aspirants across Pakistan. It offers subject-wise, topic-wise, and exam-oriented MCQs designed according to real testing patterns.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'Which exams does PakQuiz cover?',
+                        'name' => 'Which exams does PakQuiz cover?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PakQuiz covers FPSC, PPSC, NTS, CSS, PMS, KPPSC, BPSC, SPSC, departmental tests, and various testing services.',
+                            'text' => 'PakQuiz covers FPSC, PPSC, NTS, CSS, PMS, KPPSC, BPSC, SPSC, departmental tests, and various testing services.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'Is PakQuiz free to use?',
+                        'name' => 'Is PakQuiz free to use?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'Yes, PakQuiz offers free access to MCQs, demo practice papers, and topic-wise quizzes. A Premium plan is also available with advanced analytics, performance tracking, and AI-assisted learning.',
+                            'text' => 'Yes, PakQuiz offers free access to MCQs, demo practice papers, and topic-wise quizzes. A Premium plan is also available with advanced analytics, performance tracking, and AI-assisted learning.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'What makes PakQuiz different from other preparation platforms?',
+                        'name' => 'What makes PakQuiz different from other preparation platforms?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PakQuiz combines a verified MCQs database, smart progress analytics, AI-assisted learning, and exam-oriented practice papers in one centralized platform—making preparation structured and data-driven rather than scattered.',
+                            'text' => 'PakQuiz combines a verified MCQs database, smart progress analytics, AI-assisted learning, and exam-oriented practice papers in one centralized platform—making preparation structured and data-driven rather than scattered.',
                         ],
                     ],
                 ],
@@ -277,33 +275,33 @@ class SchemaGenerator
 
     public static function contactPage(): array
     {
-        $baseUrl    = url('/');
+        $baseUrl = url('/');
         $contactUrl = url('/contact');
 
         return [
             [
-                '@context'  => 'https://schema.org',
-                '@type'     => 'ContactPage',
-                '@id'       => $contactUrl . '#webpage',
-                'url'       => $contactUrl,
-                'name'      => 'Contact Us – PakQuiz',
-                'headline'  => 'Contact PakQuiz Support',
+                '@context' => 'https://schema.org',
+                '@type' => 'ContactPage',
+                '@id' => $contactUrl . '#webpage',
+                'url' => $contactUrl,
+                'name' => 'Contact Us – PakQuiz',
+                'headline' => 'Contact PakQuiz Support',
                 'description' => 'Get in touch with the PakQuiz team for support, feedback, or inquiries about our MCQs preparation platform.',
-                'inLanguage'  => 'en-PK',
-                'isPartOf'    => [
+                'inLanguage' => 'en-PK',
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',       'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Contact Us', 'item' => $contactUrl],
                     ],
                 ],
@@ -318,28 +316,28 @@ class SchemaGenerator
 
         return [
             [
-                '@context'    => 'https://schema.org',
-                '@type'       => 'WebPage',
-                '@id'         => $helpUrl . '#webpage',
-                'url'         => $helpUrl,
-                'name'        => 'Help Center – PakQuiz | FAQs & Support',
-                'headline'    => 'PakQuiz Help Center',
+                '@context' => 'https://schema.org',
+                '@type' => 'WebPage',
+                '@id' => $helpUrl . '#webpage',
+                'url' => $helpUrl,
+                'name' => 'Help Center – PakQuiz | FAQs & Support',
+                'headline' => 'PakQuiz Help Center',
                 'description' => 'Find answers to common questions about PakQuiz. Learn how to practice MCQs, use premium features, manage your account, and contact support.',
-                'inLanguage'  => 'en-PK',
-                'isPartOf'    => [
+                'inLanguage' => 'en-PK',
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',        'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Help Center', 'item' => $helpUrl],
                     ],
                 ],
@@ -347,47 +345,47 @@ class SchemaGenerator
 
             // FAQPage schema — powers Google rich snippets
             [
-                '@context'   => 'https://schema.org',
-                '@type'      => 'FAQPage',
+                '@context' => 'https://schema.org',
+                '@type' => 'FAQPage',
                 'mainEntity' => [
                     [
                         '@type' => 'Question',
-                        'name'  => 'What is PAK QUIZ and how does it work?',
+                        'name' => 'What is PAK QUIZ and how does it work?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PAK QUIZ is an online platform that helps job seekers in Pakistan prepare for competitive exams such as PPSC, FPSC, NTS, PTS, and others. It offers MCQs across multiple categories, demo practice papers, and premium features like custom quizzes and progress tracking.',
+                            'text' => 'PAK QUIZ is an online platform that helps job seekers in Pakistan prepare for competitive exams such as PPSC, FPSC, NTS, PTS, and others. It offers MCQs across multiple categories, demo practice papers, and premium features like custom quizzes and progress tracking.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'Is PAK QUIZ free to use?',
+                        'name' => 'Is PAK QUIZ free to use?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'Yes, PAK QUIZ is free to use for basic features. All users can access the MCQs bank, demo practice papers, and job ads without cost. A premium membership is also available that unlocks advanced features like custom quiz creation, detailed explanations, and performance tracking.',
+                            'text' => 'Yes, PAK QUIZ is free to use for basic features. All users can access the MCQs bank, demo practice papers, and job ads without cost. A premium membership is also available that unlocks advanced features like custom quiz creation, detailed explanations, and performance tracking.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'Which exams does PAK QUIZ cover?',
+                        'name' => 'Which exams does PAK QUIZ cover?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PAK QUIZ covers PPSC, FPSC, NTS, PTS, NJP, CSS, PMS, KPPSC, BPSC, SPSC, and various departmental and private sector exams across Pakistan.',
+                            'text' => 'PAK QUIZ covers PPSC, FPSC, NTS, PTS, NJP, CSS, PMS, KPPSC, BPSC, SPSC, and various departmental and private sector exams across Pakistan.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'What is included in the premium membership?',
+                        'name' => 'What is included in the premium membership?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'Premium members get access to custom practice papers, progress tracking, detailed explanations for questions, AI-generated MCQs based on keywords, random AI-generated practice papers, and priority updates with additional learning resources.',
+                            'text' => 'Premium members get access to custom practice papers, progress tracking, detailed explanations for questions, AI-generated MCQs based on keywords, random AI-generated practice papers, and priority updates with additional learning resources.',
                         ],
                     ],
                     [
                         '@type' => 'Question',
-                        'name'  => 'Which payment methods are supported for premium plans?',
+                        'name' => 'Which payment methods are supported for premium plans?',
                         'acceptedAnswer' => [
                             '@type' => 'Answer',
-                            'text'  => 'PakQuiz supports Easypaisa, JazzCash, bank transfer, and debit/credit cards for premium plan payments. All payments are processed securely and premium features are activated immediately after confirmation.',
+                            'text' => 'PakQuiz supports Easypaisa, JazzCash, bank transfer, and debit/credit cards for premium plan payments. All payments are processed securely and premium features are activated immediately after confirmation.',
                         ],
                     ],
                 ],
@@ -398,33 +396,33 @@ class SchemaGenerator
 
     public static function joinUsPage(): array
     {
-        $baseUrl   = url('/');
-        $joinUrl   = url('/join-us');
+        $baseUrl = url('/');
+        $joinUrl = url('/join-us');
 
         return [
             [
-                '@context'    => 'https://schema.org',
-                '@type'       => 'WebPage',
-                '@id'         => $joinUrl . '#webpage',
-                'url'         => $joinUrl,
-                'name'        => 'Join PakQuiz – Be Part of Pakistan\'s Exam Revolution',
-                'headline'    => 'Join the PakQuiz Team',
+                '@context' => 'https://schema.org',
+                '@type' => 'WebPage',
+                '@id' => $joinUrl . '#webpage',
+                'url' => $joinUrl,
+                'name' => 'Join PakQuiz – Be Part of Pakistan\'s Exam Revolution',
+                'headline' => 'Join the PakQuiz Team',
                 'description' => 'Join PakQuiz as a content contributor, MCQ writer, developer or campus ambassador. Help thousands of Pakistani students prepare for FPSC, PPSC, NTS, CSS & PMS exams.',
-                'inLanguage'  => 'en-PK',
-                'isPartOf'    => [
+                'inLanguage' => 'en-PK',
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',    'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Join Us', 'item' => $joinUrl],
                     ],
                 ],
@@ -432,79 +430,79 @@ class SchemaGenerator
 
             // JobPosting schemas for each open role
             [
-                '@context'         => 'https://schema.org',
-                '@type'            => 'JobPosting',
-                'title'            => 'MCQ Content Writer',
-                'description'      => 'Write subject-specific MCQs for FPSC, PPSC, NTS and CSS exams. Ensure accuracy and relevance of exam content.',
-                'datePosted'       => now()->toDateString(),
-                'employmentType'   => 'VOLUNTEER',
-                'jobLocationType'  => 'TELECOMMUTE',
+                '@context' => 'https://schema.org',
+                '@type' => 'JobPosting',
+                'title' => 'MCQ Content Writer',
+                'description' => 'Write subject-specific MCQs for FPSC, PPSC, NTS and CSS exams. Ensure accuracy and relevance of exam content.',
+                'datePosted' => now()->toDateString(),
+                'employmentType' => 'VOLUNTEER',
+                'jobLocationType' => 'TELECOMMUTE',
                 'hiringOrganization' => [
                     '@type' => 'Organization',
-                    'name'  => 'PakQuiz',
-                    'url'   => $baseUrl,
-                    '@id'   => $baseUrl . '#organization',
+                    'name' => 'PakQuiz',
+                    'url' => $baseUrl,
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'applicantLocationRequirements' => [
                     '@type' => 'Country',
-                    'name'  => 'Pakistan',
+                    'name' => 'Pakistan',
                 ],
-                'jobBenefits'      => 'Flexible hours, Remote work, Certificate of contribution, Premium access',
-                'skills'           => 'MCQ writing, Subject knowledge, General knowledge, English',
+                'jobBenefits' => 'Flexible hours, Remote work, Certificate of contribution, Premium access',
+                'skills' => 'MCQ writing, Subject knowledge, General knowledge, English',
             ],
             [
-                '@context'         => 'https://schema.org',
-                '@type'            => 'JobPosting',
-                'title'            => 'Frontend Developer',
-                'description'      => 'Build and improve features on PakQuiz using Laravel, Livewire, and Tailwind CSS.',
-                'datePosted'       => now()->toDateString(),
-                'employmentType'   => 'PART_TIME',
-                'jobLocationType'  => 'TELECOMMUTE',
+                '@context' => 'https://schema.org',
+                '@type' => 'JobPosting',
+                'title' => 'Frontend Developer',
+                'description' => 'Build and improve features on PakQuiz using Laravel, Livewire, and Tailwind CSS.',
+                'datePosted' => now()->toDateString(),
+                'employmentType' => 'PART_TIME',
+                'jobLocationType' => 'TELECOMMUTE',
                 'hiringOrganization' => [
                     '@type' => 'Organization',
-                    'name'  => 'PakQuiz',
-                    'url'   => $baseUrl,
-                    '@id'   => $baseUrl . '#organization',
+                    'name' => 'PakQuiz',
+                    'url' => $baseUrl,
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'applicantLocationRequirements' => [
                     '@type' => 'Country',
-                    'name'  => 'Pakistan',
+                    'name' => 'Pakistan',
                 ],
-                'skills'           => 'Laravel, Livewire, Tailwind CSS, PHP, Alpine.js',
+                'skills' => 'Laravel, Livewire, Tailwind CSS, PHP, Alpine.js',
             ],
         ];
     }
 
     public static function privacyPolicyPage(): array
     {
-        $baseUrl      = url('/');
-        $privacyUrl   = url('/privacy-policy');
+        $baseUrl = url('/');
+        $privacyUrl = url('/privacy-policy');
 
         return [
             [
-                '@context'    => 'https://schema.org',
-                '@type'       => 'WebPage',
-                '@id'         => $privacyUrl . '#webpage',
-                'url'         => $privacyUrl,
-                'name'        => 'Privacy Policy – PakQuiz',
-                'headline'    => 'Privacy Policy',
+                '@context' => 'https://schema.org',
+                '@type' => 'WebPage',
+                '@id' => $privacyUrl . '#webpage',
+                'url' => $privacyUrl,
+                'name' => 'Privacy Policy – PakQuiz',
+                'headline' => 'Privacy Policy',
                 'description' => 'Read PakQuiz\'s Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.',
-                'inLanguage'  => 'en-PK',
+                'inLanguage' => 'en-PK',
                 'dateModified' => now()->toDateString(),
-                'isPartOf'    => [
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',           'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Privacy Policy', 'item' => $privacyUrl],
                     ],
                 ],
@@ -514,38 +512,98 @@ class SchemaGenerator
 
     public static function termsOfServicePage(): array
     {
-        $baseUrl  = url('/');
+        $baseUrl = url('/');
         $termsUrl = url('/terms-of-service');
 
         return [
             [
-                '@context'    => 'https://schema.org',
-                '@type'       => 'WebPage',
-                '@id'         => $termsUrl . '#webpage',
-                'url'         => $termsUrl,
-                'name'        => 'Terms of Service – PakQuiz',
-                'headline'    => 'Terms of Service',
+                '@context' => 'https://schema.org',
+                '@type' => 'WebPage',
+                '@id' => $termsUrl . '#webpage',
+                'url' => $termsUrl,
+                'name' => 'Terms of Service – PakQuiz',
+                'headline' => 'Terms of Service',
                 'description' => 'Read PakQuiz\'s Terms of Service governing your use of our MCQs preparation platform.',
-                'inLanguage'  => 'en-PK',
+                'inLanguage' => 'en-PK',
                 'dateModified' => now()->toDateString(),
-                'isPartOf'    => [
+                'isPartOf' => [
                     '@type' => 'WebSite',
-                    '@id'   => $baseUrl . '#website',
-                    'url'   => $baseUrl,
-                    'name'  => 'PakQuiz',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id'   => $baseUrl . '#organization',
+                    '@id' => $baseUrl . '#organization',
                 ],
                 'breadcrumb' => [
-                    '@type'           => 'BreadcrumbList',
+                    '@type' => 'BreadcrumbList',
                     'itemListElement' => [
-                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home',             'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
                         ['@type' => 'ListItem', 'position' => 2, 'name' => 'Terms of Service', 'item' => $termsUrl],
                     ],
                 ],
             ],
         ];
+    }
+
+
+    public static function searchPage(?string $query = null): array
+    {
+        $baseUrl = url('/');
+        $searchUrl = url('/search');
+        $canonicalUrl = $query ? $searchUrl . '?q=' . urlencode($query) : $searchUrl;
+
+        $schemas = [
+            // SearchResultsPage (or WebPage when no query)
+            [
+                '@context' => 'https://schema.org',
+                '@type' => $query ? 'SearchResultsPage' : 'WebPage',
+                '@id' => $canonicalUrl . '#webpage',
+                'url' => $canonicalUrl,
+                'name' => $query
+                    ? "Search results for \"{$query}\" – PakQuiz"
+                    : 'Search PakQuiz – MCQs, Papers & Subjects',
+                'description' => $query
+                    ? "Search results for \"{$query}\" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS."
+                    : "Search PakQuiz's database of MCQs, practice papers and subjects for competitive exam preparation in Pakistan.",
+                'inLanguage' => 'en-PK',
+                'isPartOf' => [
+                    '@type' => 'WebSite',
+                    '@id' => $baseUrl . '#website',
+                    'url' => $baseUrl,
+                    'name' => 'PakQuiz',
+                ],
+                'breadcrumb' => [
+                    '@type' => 'BreadcrumbList',
+                    'itemListElement' => array_filter([
+                        ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => $baseUrl],
+                        ['@type' => 'ListItem', 'position' => 2, 'name' => 'Search', 'item' => $searchUrl],
+                        $query ? ['@type' => 'ListItem', 'position' => 3, 'name' => "Results for \"{$query}\"", 'item' => $canonicalUrl] : null,
+                    ]),
+                ],
+            ],
+        ];
+
+        // Only add SearchAction on the base search page (no active query)
+        if (!$query) {
+            $schemas[] = [
+                '@context' => 'https://schema.org',
+                '@type' => 'WebSite',
+                '@id' => $baseUrl . '#website',
+                'url' => $baseUrl,
+                'name' => 'PakQuiz',
+                'potentialAction' => [
+                    '@type' => 'SearchAction',
+                    'target' => [
+                        '@type' => 'EntryPoint',
+                        'urlTemplate' => $searchUrl . '?q={search_term_string}',
+                    ],
+                    'query-input' => 'required name=search_term_string',
+                ],
+            ];
+        }
+
+        return $schemas;
     }
 }

@@ -94,6 +94,30 @@ class SeoData
         ];
     }
 
+    public static function searchSeo(string $query): array
+    {
+        if ($query) {
+            return [
+                'title' => 'Search results for "' . $query . '" – PakQuiz',
+                'description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
+                'keywords' => $query . ', MCQs, Preparation, Jobs',
+                'og_title' => 'Search results for "' . $query . '" – PakQuiz',
+                'og_description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
+                'og_image' => asset('assets/images/og-main.png'),
+                'canonical' => url('/search') . '?q=' . urlencode($query),
+            ];
+        } else
+            return [
+                'title' => 'Search PakQuiz – MCQs, Papers & Subjects',
+                'description' => 'Search PakQuiz\'s database of MCQs, practice papers and subjects for FPSC, PPSC, NTS, CSS and PMS exam preparation in Pakistan.',
+                'keywords' => 'MCQs, Preparation, Jobs',
+                'og_title' => 'Search PakQuiz – MCQs, Papers & Subjects',
+                'og_description' => 'Search PakQuiz\'s database of MCQs, practice papers and subjects for FPSC, PPSC, NTS, CSS and PMS exam preparation in Pakistan.',
+                'og_image' => asset('assets/images/og-main.png'),
+                'canonical' => url('/search'),
+            ];
+    }
+
     public static function default()
     {
         return [
