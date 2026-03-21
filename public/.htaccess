@@ -1,35 +1,50 @@
-<IfModule mod_rewrite.c>
-    <IfModule mod_negotiation.c>
-        Options -MultiViews -Indexes
-    </IfModule>
+# 1. Handle Basic Options
+<IfModule mod_negotiation.c>
+    Options -MultiViews -Indexes
+</IfModule>
 
+# 2. Redirect Rules
+<IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # 1. THE ALL-IN-ONE RULE: Force HTTPS and WWW simultaneously
-    # This captures pakquiz.com/papers and sends it to https://www.pakquiz.com/papers
+    # Force HTTPS and WWW simultaneously
     RewriteCond %{HTTPS} off [OR]
     RewriteCond %{HTTP_HOST} ^pakquiz\.com$ [NC]
     RewriteRule ^(.*)$ https://www.pakquiz.com/$1 [L,R=301]
 
-    # 2. Handle Authorization Header
+    # Handle Headers
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
-
-    # 3. Handle X-XSRF-Token Header
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # 4. Redirect Trailing Slashes (Clean URLs)
+    # Clean URLs: Redirect Trailing Slashes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # 5. Send Requests To Front Controller
+    # Send Requests To Front Controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # 6. Redirect index.html to root
+    # Redirect index.html to root
     RewriteCond %{THE_REQUEST} ^.*/index\.html
     RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
+</IfModule>
+
+# 3. Browser Caching (Lighthouse Fix)
+<IfModule mod_expires.c>
+    ExpiresActive On
+    ExpiresDefault "access plus 1 month"
+    
+    # Cache Vite assets, fonts, and images for 1 year
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
 </IfModule>
