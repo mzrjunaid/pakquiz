@@ -21,8 +21,8 @@ new class extends Component {
     <div class="flex max-w-7xl px-4 xl:px-0 lg:mx-auto items-center justify-between gap-4">
         <div class="w-full lg:w-lg">
             <a href="{{ route('home') }}" title="PakQuiz" class="text-2xl font-bold ">
-                <img src="{{ asset('logo.svg') }}" alt="PakQuiz" class="h-12 w-auto" height="48px" width="112px"
-                    loading="lazy" fetchpriority="high" decoding="async" />
+                <img src="{{ asset('logo.svg') }}" alt="PakQuiz" class="h-12 w-auto" height="48" width="112"
+                    fetchpriority="high" decoding="async" />
             </a>
         </div>
 
