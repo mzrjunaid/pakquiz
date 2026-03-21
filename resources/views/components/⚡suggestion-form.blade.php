@@ -103,7 +103,7 @@ new class extends Component {
         <div class="flex items-center justify-between mt-8">
             <p class="text-sm text-gray-500">We appreciate your contribution to improving the quality of our MCQs.</p>
             <button type="submit"
-                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
+                class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm  bg-primary/60 hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 <x-heroicon-s-paper-airplane class="h-4 w-4 mr-2" /> Submit Suggestion
             </button>
         </div>

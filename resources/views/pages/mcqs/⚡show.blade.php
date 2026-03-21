@@ -201,7 +201,7 @@ new class extends Component {
                         <div class="flex items-center justify-end space-x-1">
                             @if ($mcq['subject'])
                                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
-                                    class="px-2 py-1 bg-primary/60  text-xs font-semibold tracking-wider rounded truncate max-w-[100px] md:max-w-none">
+                                    class="px-2 py-1 bg-primary/60 hover:bg-primary/80 text-xs tracking-wider rounded truncate max-w-[100px] md:max-w-none">
                                     {{ $mcq['subject']['name'] }}
                                 </a>
                             @endif
