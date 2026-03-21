@@ -32,6 +32,9 @@
         }
     </style>
 
+    <link rel="preload" href="{{ Vite::asset('resources/js/public.js') }}" as="script">
+    <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style">
+
     @vite(['resources/css/app.css', 'resources/js/public.js'])
     {{ $schema ?? '' }}
     @livewireStyles
