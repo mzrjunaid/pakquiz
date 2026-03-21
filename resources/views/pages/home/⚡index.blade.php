@@ -42,23 +42,9 @@ new class extends Component {
     public function render()
     {
         return view('pages::home.⚡index', [
-            'data' => cache()->remember('home_page_data', now()->addSecond(), function () {
+            'data' => cache()->remember('home_page_data', now()->addHour(), function () {
                 return [
-                    'departments_list' => Department::query()->select('id', 'name', 'slug')->latest()->limit(6)->get(),
-                    'subjects_list' => Subject::query()->select('id', 'name', 'slug')->where('name', '!=', 'N/A')->withCount('mcqs')->orderByDesc('mcqs_count')->limit(8)->get(),
-                    'current_affairs' => Subject::query()
-                        ->select('id', 'name', 'slug', 'description')
-                        ->where('id', 39)
-                        ->with([
-                            'topics' => function ($query) {
-                                $query->select('id', 'name', 'slug', 'subject_id')->latest()->limit(10);
-                            },
-                        ])
-                        ->first(),
-
-                    'latestPapers' => Paper::query()->select('id', 'name', 'slug', 'schedule_at', 'paper_year')->latest('schedule_at')->limit(6)->get(),
-
-                    'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->get()),
+                    'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->limit(10)->get()),
                     'heroSectionMcqs' => McqWithOptionsResource::collection(
                         Mcq::query()
                             ->where('is_active', true)
@@ -99,37 +85,37 @@ new class extends Component {
 @endslot
 
 <div>
-    <div class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12">
+    <div class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12 space-y-12">
         <section>
             <div class="grid items-center gap-12 lg:grid-cols-2">
                 <div>
                     <span
-                        class="mb-3 sm:mb-6 flex items-center w-50 text-sm bg-primary text-primary-foreground rounded-full px-3 gap-2">
+                        class="mb-3 sm:mb-6 flex items-center w-50 text-sm bg-primary/40 py-1.5 text-black font-semibold rounded-full px-2 justify-center gap-2">
                         <x-ri-ai name="ai-generate" class="h-4 w-4" />
                         AI-Enhanced Learning
                     </span>
 
-                    <h1 class="mb-3 sm:mb-6 text-3xl leading-tight font-bold text-foreground md:text-5xl lg:text-6xl">
-                        Master MCQs with
+                    <h1 class="mb-3 sm:mb-6 text-2xl leading-tight font-bold text-foreground md:text-3xl lg:text-4xl">
+                        PPSC FPSC MCQs & Past Papers
                         <span class="block text-muted-foreground/65">
-                            Intelligent Practice
+                            Online Exam Preparation Pakistan
                         </span>
                     </h1>
 
                     <p class="mb-4 sm:mb-8 text-sm leading-relaxed md:text-xl">
-                        Access thousands of AI-enhanced multiple choice
-                        questions across subjects, jobs, and testing
-                        services. Practice smarter, not harder.
+                        44,000+ MCQs for PPSC, FPSC, NTS & CSS — AI-Enhanced & Updated for 2026
+                        Practice subject-wise questions from real past papers. Built for Pakistani competitive exam
+                        aspirants.
                     </p>
 
                     <div class="mb-4  flex flex-col sm:flex-row gap-3 md:gap-6">
                         <a href="/mcqs"
-                            class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
+                            class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all tracking-wide px-4 sm:px-8 bg-primary/80 text-black hover:bg-primary/30 hover:text-black rounded-lg">
                             <x-heroicon-s-play class="h-5 w-5" />
                             Start Practicing
                         </a>
                         <a href="/demo"
-                            class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 border hover:text-primary-foreground hover:bg-primary/90 hover:border-primary/90 rounded-lg">
+                            class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all tracking-wide px-4 sm:px-8 border hover:text-black hover:bg-primary/30 hover:border-primary/90 rounded-lg">
                             <x-heroicon-s-eye class="h-5 w-5" />
                             View Demo
                         </a>
@@ -183,27 +169,19 @@ new class extends Component {
             </div>
         </section>
 
-        <section class="flex flex-col gap-6 md:flex-row px-4 py-6 md:py-12 md:px-0">
-            <div class="space-y-4 w-full md:w-2/3">
-                <h2 class="text-base md:text-2xl font-bold">Latest MCQs Based on Recent Papers and Current Affairs</h2>
-                <p class="text-xs md:text-base text-justify">Welcome to PakQuiz, your premier destination for
-                    high-quality online MCQ preparation designed specifically for competitive exam aspirants. Whether
-                    you are preparing for the PPSC, FPSC, NTS, or CSS, our platform provides a sophisticated environment
-                    to master General Knowledge, Current Affairs 2026, and subject-specific topics. We meticulously
-                    curate our database using past paper MCQs and the latest exam patterns to ensure you are practicing
-                    with the most relevant material. At PakQuiz, we bridge the gap between study and success by offering
-                    intelligent practice sets that reflect the reality of modern testing, helping you build the
-                    confidence needed to excel in your professional career.</p>
-            </div>
-            <div class="space-y-2 w-full md:w-1/3">
-                <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
-                <livewire:global-search />
-            </div>
-        </section>
-
         <section>
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="space-y-2">
+                        <h2 class="text-base md:text-2xl font-bold">Latest MCQs Based on Recent Papers and Current
+                            Affairs
+                        </h2>
+                        <p class="text-xs md:text-base text-justify">PakQuiz offers 44,000+ MCQs, past papers and
+                            current affairs for PPSC, FPSC, NTS, CSS and PMS exams. Every question is sourced from real
+                            past papers and updated to match the latest 2026 exam patterns — covering General Knowledge,
+                            Pakistan Studies, English, Everyday Science and more. Start practicing by subject, paper or
+                            department and track your progress as you go.</p>
+                    </div>
                     <div class="space-y-4 md:space-y-6">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
                             <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
@@ -211,7 +189,7 @@ new class extends Component {
 
                         <div class="flex justify-center">
                             <a href="{{ route('public.mcqs.index') }}"
-                                class="w-full py-2 text-center rounded-lg bg-primary hover:bg-primary/80 text-primary-foreground transition-all">
+                                class="w-full py-2 text-center rounded-lg bg-primary/80 hover:bg-primary/60 font-semibold tracking-wide transition-all">
                                 View All MCQs
                             </a>
                         </div>
@@ -219,90 +197,11 @@ new class extends Component {
                 </div>
 
                 <x-aside>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Latest Papers</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
-                            other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($data['latestPapers'] as $index => $paper)
-                                <div class="flex items-center gap-1 text-sm">
-                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                    <a href="{{ route('public.papers.show', $paper['slug']) }}"
-                                        class="my-2 line-clamp-1">
-                                        {{ $paper['name'] }}
-                                    </a>
-                                </div>
-                            @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.papers.index" class="text-primary hover:underline">
-                                    View All Papers
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Latest Subjects</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and
-                            other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($data['subjects_list'] as $index => $subject)
-                                <div class="flex items-center gap-1 text-sm">
-                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                    <a href="{{ route('public.subject.show', $subject['slug']) }}" class="my-2 block">
-                                        {{ $subject['name'] }}
-                                    </a>
-                                </div>
-                            @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.subject.index" class="text-primary hover:underline">
-                                    View All Subjects
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest current affairs for FPSC, PPSC, NTS, CSS,
-                            PMS and other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($data['current_affairs']['topics'] as $index => $topic)
-                                <div class="flex items-center gap-1 text-sm">
-                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                    <a href="{{ route('public.subject.show', ['subject' => $data['current_affairs']['slug'], 'topic' => $topic['slug']]) }}"
-                                        class="my-2 block">
-                                        {{ $topic['name'] }}
-                                    </a>
-                                </div>
-                            @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.subject.show" :params="$data['current_affairs']['slug']"
-                                    class="text-primary hover:underline">
-                                    View All Current Affairs
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Departments</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest departments for FPSC, PPSC, NTS, CSS, PMS
-                            and other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($data['departments_list'] as $index => $dept)
-                                <div class="flex items-center gap-1 text-sm">
-                                    <x-heroicon-s-chevron-right class="h-5 w-5" />
-                                    <a href="{{ route('public.departments.show', $dept['slug']) }}"
-                                        class="my-2 line-clamp-1 overflow-hidden">
-                                        {{ $dept['name'] }}
-                                    </a>
-                                </div>
-                            @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.departments.index" class="text-primary hover:underline">
-                                    View All Departments
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
+                    <livewire:global-search />
+                    <livewire:aside.current-affairs />
+                    <livewire:aside.latest-papers />
+                    <livewire:aside.latest-subjects />
+                    <livewire:aside.latest-departments />
                 </x-aside>
             </div>
         </section>
@@ -314,11 +213,11 @@ new class extends Component {
                 AI-powered MCQ platform</p>
             <div class="flex flex-row justify-center gap-x-4">
                 <a href="{{ route('register') }}"
-                    class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 bg-primary text-primary-foreground hover:bg-primary/90 rounded-lg">
+                    class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 bg-primary/80 hover:bg-primary/60 font-semibold tracking-wide rounded-lg">
                     Start Free Trial
                 </a>
                 <a href="{{ route('demo') }}"
-                    class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 border hover:text-primary-foreground hover:bg-primary/90 hover:border-primary/90 rounded-lg">
+                    class="flex items-center justify-center gap-2 py-3 text-sm font-semibold transition-all px-4 sm:px-8 border hover:border-primary/80 hover:bg-primary/80 rounded-lg">
                     View Demo
                 </a>
             </div>

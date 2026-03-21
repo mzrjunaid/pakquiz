@@ -8,7 +8,7 @@ new class extends Component {
     #[Computed]
     public function latestMcqs()
     {
-        return Mcq::select('id', 'question', 'slug')->latest()->limit(5)->get();
+        return Mcq::query()->select('id', 'question', 'slug')->latest()->limit(5)->get();
     }
 
     public function with(): array

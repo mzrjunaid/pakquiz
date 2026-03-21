@@ -22,7 +22,8 @@ new class extends Component {
             <div class="col-span-2 sm:col-span-3 md:col-span-2 space-y-2">
                 <div class="mb-4 flex items-center justify-center space-x-3">
                     <a href="{{ route('home') }}" class="text-2xl font-bold ">
-                        <img src="{{ asset('logo.svg') }}" title="PakQuiz" class="h-full w-full md:max-h-24" />
+                        <img src="{{ asset('logo.svg') }}" title="PakQuiz" class="h-full w-full md:max-h-24" height="96px"
+                            width="224px" loading="lazy" fetchpriority="high" decoding="async" />
                     </a>
                 </div>
                 <p class="text-sm text-center">
