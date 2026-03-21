@@ -50,7 +50,7 @@ new class extends Component {
                             ->where('is_active', true)
                             ->where('explanation', '!=', null)
                             ->oldest('created_at')
-                            ->limit(6)
+                            ->limit(1)
                             ->with(['options:id,mcq_id,option_text,is_correct', 'tags:id,name,slug', 'paper:id,name,slug', 'subject:id,name,slug', 'topic:id,name,slug', 'createdBy:id,name'])
                             ->get(),
                     ),
@@ -150,21 +150,8 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-
-                <div x-data="{
-                    active: 0,
-                    total: {{ count($data['heroSectionMcqs']) }},
-                    start() {
-                        setInterval(() => {
-                            this.active = (this.active + 1) % this.total
-                        }, 10000)
-                    }
-                }" x-init="start()" class="hidden lg:block">
-                    @foreach ($data['heroSectionMcqs'] as $index => $mcq)
-                        <div x-show="active === {{ $index }}">
-                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
-                        </div>
-                    @endforeach
+                <div>
+                    <x-mcq-card :mcq="$data['heroSectionMcqs'][0]" :idx="0" :route="route('public.mcqs.show', $data['heroSectionMcqs'][0]['slug'])" />
                 </div>
             </div>
         </section>
@@ -182,7 +169,7 @@ new class extends Component {
                             Pakistan Studies, English, Everyday Science and more. Start practicing by subject, paper or
                             department and track your progress as you go.</p>
                     </div>
-                    <div class="space-y-4 md:space-y-6">
+                    <div class="space-y-4 md:space-y-6 min-h-[3000px]">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
                             <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
                         @endforeach
