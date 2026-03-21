@@ -182,7 +182,7 @@ new class extends Component {
                             Pakistan Studies, English, Everyday Science and more. Start practicing by subject, paper or
                             department and track your progress as you go.</p>
                     </div>
-                    <div class="space-y-4 md:space-y-6 min-h-[3000px]">
+                    <div class="space-y-4 md:space-y-6">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
                             <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
                         @endforeach
