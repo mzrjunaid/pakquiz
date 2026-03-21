@@ -1,1 +1,1 @@
-// import './bootstrap'; // <-- new
+import.meta.glob(['../fonts/**']);
