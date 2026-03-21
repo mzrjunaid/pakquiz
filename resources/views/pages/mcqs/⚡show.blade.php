@@ -300,7 +300,7 @@ new class extends Component {
                                 <x-aside.link :route="'public.mcqs.show'" :label="$suggestedMcq->question" :params="$suggestedMcq->slug" />
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.mcqs.index" class="text-primary hover:underline">
+                                <x-nav-link route="public.mcqs.index" class="hover:text-primary underline">
                                     View All MCQs
                                 </x-nav-link>
                             </div>
