@@ -34,6 +34,10 @@
 
     <link rel="preload" href="{{ Vite::asset('resources/js/public.js') }}" as="script">
     <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style">
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/Roboto.woff2') }}" as="font" type="font/woff2"
+        crossorigin>
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/NotoNastaliqUrdu.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
 
     @vite(['resources/css/app.css', 'resources/js/public.js'])
     {{ $schema ?? '' }}

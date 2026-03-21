@@ -10,9 +10,9 @@
 @custom-variant dark (&:is(.dark *));
 
 @theme {
-    --font-urdu: 'Noto Nastaliq Urdu';
+    --font-urdu: 'Noto Nastaliq Urdu', 'serif';
 
-    --font-sans: 'Roboto', 'Instrument Sans', 'Inter';
+    --font-sans: 'Roboto', 'Arial', 'Instrument Sans', 'Inter';
 
     --radius-lg: var(--radius);
     --radius-md: calc(var(--radius) - 2px);
