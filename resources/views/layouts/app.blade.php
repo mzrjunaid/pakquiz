@@ -22,12 +22,15 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
-    <link rel="preconnect" href="https://www.pakquiz.com">
-    <link rel="dns-prefetch" href="https://www.pakquiz.com">
-
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
+
+    <style>
+        [x-cloak] {
+            display: none !important;
+        }
+    </style>
 
     @vite(['resources/css/app.css', 'resources/js/public.js'])
     {{ $schema ?? '' }}

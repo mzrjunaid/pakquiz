@@ -229,11 +229,3 @@ new class extends Component {
     </div>
 
 </header>
-
-
-
-<style>
-    [x-cloak] {
-        display: none !important;
-    }
-</style>
