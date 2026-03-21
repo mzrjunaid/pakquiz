@@ -42,6 +42,19 @@
     @vite(['resources/css/app.css', 'resources/js/public.js'])
     {{ $schema ?? '' }}
     @livewireStyles
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-ZVYX92FGJV"></script>
+    <script>
+        window.dataLayer = window.dataLayer || [];
+
+        function gtag() {
+            dataLayer.push(arguments);
+        }
+        gtag('js', new Date());
+
+        gtag('config', 'G-ZVYX92FGJV');
+    </script>
 </head>
 
 <body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
