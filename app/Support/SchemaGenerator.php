@@ -74,21 +74,6 @@ class SchemaGenerator
                     "availableLanguage" => ["English", "Urdu"],
                     "email" => "support@pakquiz.com"
                 ],
-                "offers" => [
-                    "@type" => "Offer",
-                    "category" => "Educational Services",
-                    "availability" => "https://schema.org/OnlineOnly",
-                    "price" => "0",
-                    "priceCurrency" => "PKR",
-                    "description" => "Free access to exam preparation resources"
-                ],
-                "serviceType" => [
-                    "Online Learning",
-                    "Exam Preparation",
-                    "Practice Tests",
-                    "MCQ Practice",
-                    "Past Papers"
-                ],
                 "keywords" => "FPSC preparation, PPSC test prep, NTS practice, competitive exams Pakistan, CSS preparation, PMS test, online MCQs Pakistan",
                 "sameAs" => [
                     "https://www.facebook.com/profile.php?id=61588211743083",
@@ -96,11 +81,6 @@ class SchemaGenerator
                     "https://www.tiktok.com/@pakquiz_ai",
                     "https://www.instagram.com/pakquiz_ai",
                 ],
-                "audience" => [
-                    "@type" => "EducationalAudience",
-                    "educationalRole" => "student",
-                    "audienceType" => "Job Seekers and Students preparing for competitive exams"
-                ]
             ],
             [
                 "@context" => "https://schema.org",

@@ -46,11 +46,9 @@ new class extends Component {
         </span>
 
         {{-- Toggle icon (hidden while loading) --}}
-        <button id="quiz-mode-toggle" wire:loading.remove wire:target="isQuizMode" wire:click="$toggle('isQuizMode')"
-            class="text-muted-foreground transition-colors hover:text-primary"
-            title="{{ $isQuizMode ? 'Switch to Study Mode' : 'Switch to Quiz Mode' }}">
-
-
+        <button aria-label="{{ $isQuizMode ? 'Switch to Study Mode' : 'Switch to Quiz Mode' }}" name="quiz_mode"
+            id="quiz-mode-toggle" wire:loading.remove wire:target="isQuizMode" wire:click="$toggle('isQuizMode')"
+            class="text-muted-foreground transition-colors hover:text-primary">
             @if ($isQuizMode)
                 <x-ri-toggle-fill class="h-8 w-8 text-primary" />
             @else

@@ -113,7 +113,8 @@ new class extends Component {
 
                 <!-- Mobile Menu Button -->
                 <div class="lg:hidden flex items-center">
-                    <button @click="mobileMenuOpen = !mobileMenuOpen" class="hover:text-primary p-2">
+                    <button aria-label="Mobile Menu" name="menu" @click="mobileMenuOpen = !mobileMenuOpen"
+                        class="hover:text-primary p-2">
                         <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path x-show="!mobileMenuOpen" stroke-linecap="round" stroke-linejoin="round"
                                 stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
@@ -152,7 +153,7 @@ new class extends Component {
 
             <!-- Dropdown Menu -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open"
+                <button aria-label="Subjects" name="subjects" @click="open = !open"
                     class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
                     Subjects
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
@@ -180,7 +181,7 @@ new class extends Component {
 
             <!-- Another Dropdown -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open"
+                <button aria-label="Papers" name="papers" @click="open = !open"
                     class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
                     Papers
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
@@ -202,7 +203,7 @@ new class extends Component {
             </div>
 
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
-                <button @click="open = !open"
+                <button aria-label="About Us" name="about_us" @click="open = !open"
                     class="block w-full  hover:text-primary px-3 py-2 flex items-center hover:bg-gray-100 rounded-sm">
                     About Us
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
