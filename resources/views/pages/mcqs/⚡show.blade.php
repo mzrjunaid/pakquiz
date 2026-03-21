@@ -1,10 +1,10 @@
 @php
     $difficultyClasses =
         [
-            'easy' => 'bg-green-100 text-green-700 border-green-200',
-            'medium' => 'bg-yellow-100 text-yellow-700 border-yellow-500',
-            'hard' => 'bg-red-100 text-red-700 border-red-500',
-        ][strtolower($mcq['difficulty'])] ?? 'bg-gray-100 text-gray-700';
+            'easy' => 'text-green-900 border-green-600',
+            'medium' => 'text-yellow-900 border-yellow-600',
+            'hard' => 'text-red-900 border-red-600',
+        ][strtolower($mcq['difficulty'])] ?? 'text-gray-900';
 @endphp
 
 <?php
@@ -124,7 +124,7 @@ new class extends Component {
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
-    <div class="max-w-7xl mx-auto px-4 lg:px-0">
+    <div class="max-w-7xl mx-auto px-4 lg:px-0 space-y-4 py-12">
         <section class="flex flex-col gap-6 md:flex-row items-end px-4 md:px-0">
             <div class="space-y-4 w-full md:w-2/3">
                 <h2 class="text-2xl font-bold text-primary">MCQ Detail</h2>
@@ -135,20 +135,23 @@ new class extends Component {
             </div>
         </section>
         <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
-            <ol class="inline-flex items-center md:space-x-1">
-                <li class="inline-flex items-center">
-                    <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
+            <ol class="inline-flex items-center md:space-x-2 font-medium">
+                <li>
+                    <a href="/" class="hover:text-primary flex items-center gap-1">
+                        @svg('ri-home-4-line', 'h-4 w-4')
+                        {{ __('Home') }}
+                    </a>
                 </li>
                 <li>
-                    <div class="flex items-center">
-                        <span class="mx-2">/</span>
+                    <div class="flex items-center gap-1">
+                        @svg('ri-arrow-right-s-line', 'h-4 w-4')
                         <a href="{{ route('public.mcqs.index') }}" class="hover:text-primary">{{ __('MCQs') }}</a>
                     </div>
                 </li>
                 @if ($mcq->subject)
                     <li>
-                        <div class="flex items-center">
-                            <span class="mx-2">/</span>
+                        <div class="flex items-center gap-1">
+                            @svg('ri-arrow-right-s-line', 'h-4 w-4')
                             <a href="{{ route('public.subject.show', $mcq->subject->slug) }}"
                                 class="hover:text-primary line-clamp-1">{{ $mcq->subject->name }}</a>
                         </div>
@@ -156,18 +159,18 @@ new class extends Component {
                 @endif
                 @if ($mcq->topic)
                     <li>
-                        <div class="flex items-center">
-                            <span class="mx-2">/</span>
+                        <div class="flex items-center gap-1">
+                            @svg('ri-arrow-right-s-line', 'h-4 w-4')
                             <a href="{{ route('public.subject.topic.show', ['subject' => $mcq->subject->slug, 'topic' => $mcq->topic->slug]) }}"
                                 class="hover:text-primary line-clamp-1">{{ $mcq->topic->name }}</a>
                         </div>
                     </li>
                 @endif
                 <li>
-                    <div class="flex items-center">
-                        <span class="mx-2">/</span>
+                    <div class="flex items-center gap-1">
+                        @svg('ri-arrow-right-s-line', 'h-4 w-4')
                         <span
-                            class="font-medium text-primary max-w-xs line-clamp-1 {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}">{{ $mcq->question }}</span>
+                            class="font-medium  max-w-xs line-clamp-1 {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}">{{ $mcq->question }}</span>
                     </div>
                 </li>
             </ol>
@@ -184,7 +187,7 @@ new class extends Component {
                     <div class="flex flex-col-reverse md:flex-row md:justify-between gap-2">
                         <div class="flex flex-wrap items-center gap-2">
                             <span
-                                class="inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-foreground/90 text-white">
+                                class="inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ">
                                 <x-heroicon-s-cpu-chip class="h-3 w-3" /> AI
                             </span>
                             @if ($mcq['difficulty'])
@@ -198,11 +201,12 @@ new class extends Component {
                         <div class="flex items-center justify-end space-x-1">
                             @if ($mcq['subject'])
                                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
-                                    class="px-2 py-1 bg-primary text-white text-xs rounded truncate max-w-[100px] md:max-w-none">
+                                    class="px-2 py-1 bg-primary/60  text-xs font-semibold tracking-wider rounded truncate max-w-[100px] md:max-w-none">
                                     {{ $mcq['subject']['name'] }}
                                 </a>
                             @endif
-                            <button @click="shareLink" class="p-2 hover:bg-accent rounded-full">
+                            <button aria-label="Share" name="share" @click="shareLink"
+                                class="p-2 hover:bg-accent rounded-full">
                                 <x-heroicon-o-share class="h-5 w-5" />
                             </button>
                         </div>
@@ -285,61 +289,15 @@ new class extends Component {
 
                 </div>
                 <x-aside>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="text-sm md:text-base font-semibold">Search MCQs, Papers, Topics</h2>
-                        <livewire:global-search />
-                    </div>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest current affairs for FPSC, PPSC, NTS, CSS,
-                            PMS and
-                            other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($currentAffairs as $currentAffair)
-                                <div class="flex items-center gap-1">
-                                    <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
-                                    <a href="{{ route('public.subject.topic.show', ['subject' => $currentAffair->subject->slug, 'topic' => $currentAffair->slug]) }}"
-                                        class="my-2 text-sm line-clamp-1">
-                                        {{ $currentAffair->name }}
-                                    </a>
-                                </div>
-                            @endforeach
-                        </div>
-                    </div>
-                    <div class="rounded-lg bg-card p-6 shadow-md">
-                        <h2 class="mb-2 text-lg font-semibold">Latest Papers</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
-                            other competitive exams in Pakistan.</p>
-                        <div class="md:px-2">
-                            @foreach ($latestPapers as $latestPaper)
-                                <div class="flex items-center gap-1">
-                                    <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
-                                    <a href="{{ route('public.papers.show', $latestPaper->slug) }}"
-                                        class="my-2 text-sm line-clamp-1">
-                                        {{ $latestPaper->name }}
-                                    </a>
-                                </div>
-                            @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.papers.index" class="text-primary hover:underline">
-                                    View All Papers
-                                </x-nav-link>
-                            </div>
-                        </div>
-                    </div>
+                    <livewire:global-search />
+                    <livewire:aside.current-affairs />
                     <div class="rounded-lg bg-card p-6 shadow-md">
                         <h2 class="mb-2 text-lg font-semibold">Suggested MCQs Related to Subject and Topic</h2>
                         <p class="mb-3 text-muted text-sm">Explore the latest MCQs related to subject and topic.</p>
                         <div class="md:px-2">
 
                             @foreach ($suggestedMcqs as $suggestedMcq)
-                                <div class="flex items-center gap-1 text-sm">
-                                    <x-heroicon-s-chevron-right class="h-4 w-4 shrink-0" />
-                                    <a href="{{ route('public.mcqs.show', $suggestedMcq->slug) }}"
-                                        class="my-2 line-clamp-1">
-                                        {{ $suggestedMcq->question }}
-                                    </a>
-                                </div>
+                                <x-aside.link :route="'public.mcqs.show'" :label="$suggestedMcq->question" :params="$suggestedMcq->slug" />
                             @endforeach
                             <div class="text-sm text-right flex justify-end mt-2">
                                 <x-nav-link route="public.mcqs.index" class="text-primary hover:underline">
@@ -348,6 +306,7 @@ new class extends Component {
                             </div>
                         </div>
                     </div>
+                    <livewire:aside.latest-papers />
                 </x-aside>
             </div>
         </section>

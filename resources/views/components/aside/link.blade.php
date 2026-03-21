@@ -1,4 +1,4 @@
-@props(['route', 'label', 'icon', 'params' => []])
+@props(['route', 'label', 'icon' => 'heroicon-s-chevron-right', 'params' => []])
 
 <div class="group flex items-center gap-1 text-sm">
     <x-dynamic-component :component="$icon"

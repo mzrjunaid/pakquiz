@@ -27,8 +27,7 @@ new class extends Component {
         other competitive exams in Pakistan.</p>
     <div class="md:px-2">
         @foreach ($latestPapers as $latestPaper)
-            <x-aside.link route="public.papers.show" :params="[$latestPaper->slug]" label="{{ $latestPaper->name }}"
-                icon="heroicon-s-chevron-right" />
+            <x-aside.link :route="'public.papers.show'" :label="$latestPaper->name" :params="$latestPaper->slug" />
         @endforeach
         <div class="text-sm text-right flex justify-end mt-2">
             <x-nav-link route="public.papers.index" class="hover:text-primary underline">
