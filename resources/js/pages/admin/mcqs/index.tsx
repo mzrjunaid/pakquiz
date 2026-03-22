@@ -21,9 +21,9 @@ export default function McqsIndex({
     const generateOgImage = async (mcq: Mcq) => {
         try {
             const route = admin.mcq_og_image(mcq.slug);
-
-            const { data } = await axios.get(route.url);
-            console.log(data);
+            const { data } = await axios.get(route.url, {
+                withCredentials: true,
+            });
             navigator.clipboard.writeText(data.imageUrl);
             toast.success('Image URL copied to clipboard', {
                 description: data.message,
