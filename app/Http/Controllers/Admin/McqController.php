@@ -152,16 +152,19 @@ class McqController extends Controller
             $department = null;
         }
 
+
         // create image manager with desired driver
         $manager = new ImageManager(new Driver());
 
         // read image from file system
-        $image = $manager->read(public_path('assets/images/quiz_palceholder.webp'));
+        $image = $manager->read(public_path('assets/images/quiz_palceholder.png'));
+
+        $titleSize = 32;
 
         if ($mcq->paper) {
-            $image->text($mcq->paper->name . ' | ' . $mcq->subject->name . ' | ' . $mcq->topic?->name, 933, 229, function (FontFactory $font) {
+            $image->text($mcq->paper->name . ' | ' . $mcq->subject->name . ' | ' . $mcq->topic?->name, 282, 75, function (FontFactory $font) use ($titleSize) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size(95);
+                $font->size($titleSize);
                 $font->color('030303');
                 $font->align('left');
                 $font->valign('middle');
@@ -169,9 +172,9 @@ class McqController extends Controller
                 $font->wrap(2250);
             });
         } else {
-            $image->text($mcq->subject->name . ' | ' . $mcq->topic?->name, 933, 229, function (FontFactory $font) {
+            $image->text($mcq->subject->name . ' | ' . $mcq->topic?->name, 282, 75, function (FontFactory $font) use ($titleSize) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size(100);
+                $font->size($titleSize);
                 $font->color('030303');
                 $font->align('left');
                 $font->valign('middle');
@@ -182,7 +185,7 @@ class McqController extends Controller
 
         function estimateTextHeight($text, $fontSize, $wrapWidth, $lineHeight = 1.5)
         {
-            $avgCharWidth = $fontSize * 0.45; // rough estimate
+            $avgCharWidth = $fontSize * 0.35; // rough estimate
             $charsPerLine = $wrapWidth / $avgCharWidth;
 
             $lines = ceil(strlen($text) / $charsPerLine);
@@ -190,23 +193,26 @@ class McqController extends Controller
             return $lines * ($fontSize * $lineHeight);
         }
 
-        $questionY = 600;
-        $padding = 50;
+        $questionY = 183;
+        $padding = 4;
 
         $questionText = 'Question: ' . $mcq->question;
 
-        $image->text($questionText, 335, $questionY, function (FontFactory $font) {
+        $questionSize = 28;
+        $questionWrap = 960;
+
+        $image->text($questionText, 110, $questionY, function (FontFactory $font) use ($questionSize, $questionWrap) {
             $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-            $font->size(80);
+            $font->size($questionSize);
             $font->color('#030303');
             $font->align('left');
             $font->valign('top');
             $font->lineHeight(1.7);
-            $font->wrap(3023);
+            $font->wrap($questionWrap);
         });
 
         // ✅ Estimate height instead of using ->height()
-        $questionHeight = estimateTextHeight($questionText, 80, 3023, 1.7);
+        $questionHeight = estimateTextHeight($questionText, $questionSize, $questionWrap, 1.7);
 
         $currentY = $questionY + $questionHeight + $padding;
 
@@ -214,43 +220,57 @@ class McqController extends Controller
             $label = chr(65 + $index) . '. ';
             $optionText = $label . $option->option_text;
 
-            $image->text($optionText, 335, $currentY, function ($font) use ($option) {
+            $image->text($optionText, 115, $currentY, function ($font) use ($option) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size(70);
-                $font->color($option->is_correct ? '#00aa00' : '#333');
+                $font->size(24);
+                $font->color('#333');
                 $font->valign('top');
-                $font->wrap(1000);
+                $font->wrap(600);
             });
 
             // ✅ Estimate option height
-            $optionHeight = estimateTextHeight($optionText, 70, 1000, 1.5);
+            $optionHeight = estimateTextHeight($optionText, 24, 600, 1.5);
 
-            $currentY += $optionHeight + 40;
+            $currentY += $optionHeight + 20;
         }
 
         if ($mcq->explanation) {
+
             $explanationHeadingY = $questionY + $questionHeight + $padding;
 
-            $image->text('Explanation:', 1900, $explanationHeadingY, function ($font) {
+            $explanationTextSize = 20;
+            $explanationWrap = 550;
+
+            $image->text('Explanation:', 550, $explanationHeadingY, function ($font) use ($explanationTextSize, $explanationWrap) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size(70);
-                $font->lineHeight(1.6);
-                $font->color('#e66b4cff');
+                $font->size($explanationTextSize);
+                $font->lineHeight(1.8);
+                $font->color('#551e10ff');
                 $font->valign('top');
-                $font->wrap(1500);
+                $font->wrap($explanationWrap);
             });
 
-            $explanationY = $explanationHeadingY + 100;
+            $explanationY = $explanationHeadingY + 32;
 
-            $image->text($mcq->explanation, 1900, $explanationY, function ($font) {
+            $image->text($mcq->explanation, 550, $explanationY, function ($font) use ($explanationTextSize, $explanationWrap) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size(70);
-                $font->lineHeight(1.6);
+                $font->size($explanationTextSize);
+                $font->lineHeight(1.8);
                 $font->color('#333');
                 $font->valign('top');
-                $font->wrap(1500);
+                $font->wrap($explanationWrap);
             });
         }
+
+        $image->text('< Tap Here for the Answer >', 572, 522, function ($font) {
+            $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+            $font->size(24);
+            $font->lineHeight(1.8);
+            $font->align('center');
+            $font->color('#333');
+            $font->valign('top');
+            $font->wrap(1200);
+        });
 
         // save modified image in new format 
         $image->toWebp()->save(public_path('assets/images/mcqs/' . $mcq->slug . '.webp'));
