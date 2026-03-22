@@ -131,7 +131,7 @@ class McqController extends Controller
                     ['og_image' => 'assets/images/mcqs/' . $mcq->slug . '.webp']
                 );
             }
-            return response()->json(['message' => 'Image already exists', 'imageUrl' => $imageUrl], 200);
+            return back()->with('success', 'Image already exists');
         }
 
         $mcq->loadMissing([
@@ -286,6 +286,6 @@ class McqController extends Controller
             );
         }
 
-        return response()->json(['message' => 'Success', 'imageUrl' => $imageUrl], 200);
+        return back()->with('success', 'Image generated successfully');
     }
 }

@@ -3,8 +3,7 @@ import admin from '@/routes/admin';
 import mcqsRoute from '@/routes/admin/mcqs';
 import { CommonFilters, McqsResource, Stats } from '@/types/admin';
 import { Mcq } from '@/types/mcq';
-import axios from 'axios';
-import { toast } from 'sonner';
+import { router } from '@inertiajs/react';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
 import McqsTable from './components/data-table-index';
@@ -18,24 +17,10 @@ export default function McqsIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
-    const generateOgImage = async (mcq: Mcq) => {
-        try {
-            await axios.get('https://www.pakquiz.com/sanctum/csrf-cookie', {
-                withCredentials: true,
-            });
-
-            const route = admin.mcq_og_image(mcq.slug);
-            const { data } = await axios.get(route.url, {
-                withCredentials: true,
-            });
-            navigator.clipboard.writeText(data.imageUrl);
-            toast.success('Image URL copied to clipboard', {
-                description: data.message,
-            });
-            return data.imageUrl;
-        } catch (e: any) {
-            toast.error('Failed to generate image');
-        }
+    const generateOgImage = (mcq: Mcq) => {
+        router.get(admin.mcq_og_image(mcq.slug).url, undefined, {
+            preserveScroll: true,
+        });
     };
 
     return (
