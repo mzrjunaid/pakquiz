@@ -20,6 +20,10 @@ export default function McqsIndex({
 }) {
     const generateOgImage = async (mcq: Mcq) => {
         try {
+            await axios.get('https://pakquiz.com/sanctum/csrf-cookie', {
+                withCredentials: true,
+            });
+
             const route = admin.mcq_og_image(mcq.slug);
             const { data } = await axios.get(route.url, {
                 withCredentials: true,
