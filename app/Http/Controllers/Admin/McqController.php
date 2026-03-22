@@ -169,7 +169,7 @@ class McqController extends Controller
                 $font->align('left');
                 $font->valign('middle');
                 $font->lineHeight(1.6);
-                $font->wrap(2250);
+                $font->wrap(850);
             });
         } else {
             $image->text($mcq->subject->name . ' | ' . $mcq->topic?->name, 282, 75, function (FontFactory $font) use ($titleSize) {
@@ -179,13 +179,13 @@ class McqController extends Controller
                 $font->align('left');
                 $font->valign('middle');
                 $font->lineHeight(1.6);
-                $font->wrap(2250);
+                $font->wrap(850);
             });
         }
 
         function estimateTextHeight($text, $fontSize, $wrapWidth, $lineHeight = 1.5)
         {
-            $avgCharWidth = $fontSize * 0.35; // rough estimate
+            $avgCharWidth = $fontSize * 0.4; // rough estimate
             $charsPerLine = $wrapWidth / $avgCharWidth;
 
             $lines = ceil(strlen($text) / $charsPerLine);
