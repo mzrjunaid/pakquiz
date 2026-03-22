@@ -28,6 +28,7 @@ return [
         'https://www.pakquiz.com',
         'http://pakquiz.com',
         'http://www.pakquiz.com',
+        '*'
     ],
 
     'allowed_origins_patterns' => [],
