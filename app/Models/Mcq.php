@@ -54,7 +54,8 @@ class Mcq extends Model implements HasCanonical
 
     public function options()
     {
-        return $this->hasMany(McqOption::class)->orderBy('sort_order');;
+        return $this->hasMany(McqOption::class)->orderBy('sort_order');
+        ;
     }
 
     public function suggestions()

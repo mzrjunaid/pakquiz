@@ -15,6 +15,7 @@ export default function McqsTable({
     filters = {},
     url,
     onEdit,
+    generateOgImage,
     onDelete,
 }: DataTableProps<Mcq>) {
     const { data, meta } = tableData;
@@ -90,6 +91,7 @@ export default function McqsTable({
     const columns = getColumns({
         onEdit,
         onDelete,
+        generateOgImage,
         onSort: handleSort,
     });
 

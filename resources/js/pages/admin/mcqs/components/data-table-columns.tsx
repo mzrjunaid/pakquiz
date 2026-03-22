@@ -13,17 +13,19 @@ import papers from '@/routes/admin/papers';
 import subjects from '@/routes/admin/subjects';
 import { Mcq } from '@/types/mcq';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
+import { ArrowUpDown, Image, MoreHorizontal } from 'lucide-react';
 
 interface ColumnsProps {
     onEdit?: (service: Mcq) => void;
     onDelete?: (service: Mcq) => void;
+    generateOgImage?: (service: Mcq) => void;
     onSort?: (column: string) => void;
 }
 
 export const getColumns = ({
     onEdit,
     onDelete,
+    generateOgImage,
     onSort,
 }: ColumnsProps): ColumnDef<Mcq>[] => [
     {
@@ -176,37 +178,47 @@ export const getColumns = ({
             const service = row.original;
 
             return (
-                <DropdownMenu>
-                    <DropdownMenuTrigger asChild>
-                        <Button variant="ghost" className="h-8 w-8 p-0">
-                            <span className="sr-only">Open menu</span>
-                            <MoreHorizontal className="h-4 w-4" />
-                        </Button>
-                    </DropdownMenuTrigger>
-                    <DropdownMenuContent align="end">
-                        <DropdownMenuLabel>Actions</DropdownMenuLabel>
-                        <DropdownMenuItem
-                            onClick={() =>
-                                navigator.clipboard.writeText(
-                                    window.location.origin +
-                                        mcqs.show(service.slug).url,
-                                )
-                            }
-                        >
-                            Copy ID
-                        </DropdownMenuItem>
-                        <DropdownMenuSeparator />
-                        <DropdownMenuItem onClick={() => onEdit?.(service)}>
-                            Edit
-                        </DropdownMenuItem>
-                        <DropdownMenuItem
-                            onClick={() => onDelete?.(service)}
-                            className="text-red-600"
-                        >
-                            Delete
-                        </DropdownMenuItem>
-                    </DropdownMenuContent>
-                </DropdownMenu>
+                <div>
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => generateOgImage?.(service)}
+                        title="Generate OG Image"
+                    >
+                        <Image />
+                    </Button>
+                    <DropdownMenu>
+                        <DropdownMenuTrigger asChild>
+                            <Button variant="ghost" className="h-8 w-8 p-0">
+                                <span className="sr-only">Open menu</span>
+                                <MoreHorizontal className="h-4 w-4" />
+                            </Button>
+                        </DropdownMenuTrigger>
+                        <DropdownMenuContent align="end">
+                            <DropdownMenuLabel>Actions</DropdownMenuLabel>
+                            <DropdownMenuItem
+                                onClick={() =>
+                                    navigator.clipboard.writeText(
+                                        window.location.origin +
+                                            mcqs.show(service.slug).url,
+                                    )
+                                }
+                            >
+                                Copy Link
+                            </DropdownMenuItem>
+                            <DropdownMenuSeparator />
+                            <DropdownMenuItem onClick={() => onEdit?.(service)}>
+                                Edit
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => onDelete?.(service)}
+                                className="text-red-600"
+                            >
+                                Delete
+                            </DropdownMenuItem>
+                        </DropdownMenuContent>
+                    </DropdownMenu>
+                </div>
             );
         },
     },

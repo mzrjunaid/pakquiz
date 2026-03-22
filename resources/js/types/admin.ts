@@ -70,6 +70,7 @@ export interface DataTableProps<TData> {
     url: string;
     onEdit?: (service: TData) => void;
     onDelete?: (service: TData) => void;
+    generateOgImage?: (service: TData) => void;
 }
 type FilterValue = string | number | boolean | null | undefined;
 

@@ -89,7 +89,7 @@ class SeoData
             'keywords' => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
             'og_title' => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
             'og_description' => $mcq->seo->og_description ?? $mcq->explanation,
-            'og_image' => $mcq->seo->og_image ?? asset('assets/images/og-main.png'),
+            'og_image' => $mcq->seo->og_image ? asset($mcq->seo->og_image) : asset('assets/images/og-main.png'),
             'canonical' => $canonical,
         ];
     }

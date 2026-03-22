@@ -12,10 +12,140 @@ use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceCo
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use App\Http\Middleware\HandleInertiaRequests;
+use App\Models\Mcq;
+use App\Models\Paper;
+use App\Models\Subject;
 use Illuminate\Support\Facades\Route;
-use Livewire\Livewire;
+use Intervention\Image\ImageManager;
+use Intervention\Image\Drivers\Imagick\Driver;
+use Intervention\Image\Typography\FontFactory;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved', HandleInertiaRequests::class])->group(function () {
+
+    Route::get('/test-image', function () {
+
+        $mcq = Mcq::query()->where('slug', 'won-pakistani-athlete-silver-medal-in-south-a')->firstOrFail()
+            ->load([
+                'options:id,mcq_id,option_text,is_correct',
+                'paper' => function ($query) {
+                    $query->with(['department:id,name', 'testingService:id,name']);
+                },
+                'topic:id,name',
+                'subject:id,name'
+            ]);
+        if ($mcq->paper) {
+            $paper = $mcq->paper;
+            $testingService = $paper->testingService;
+            $department = $paper->department;
+        } else {
+            $paper = null;
+            $testingService = null;
+            $department = null;
+        }
+
+        // create image manager with desired driver
+        $manager = new ImageManager(new Driver());
+
+        // read image from file system
+        $image = $manager->read(public_path('assets/images/quiz_palceholder.webp'));
+
+        if ($mcq->paper) {
+            $image->text($mcq->paper->name . ' | ' . $mcq->subject->name . ' | ' . $mcq->topic?->name, 933, 229, function (FontFactory $font) {
+                $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+                $font->size(95);
+                $font->color('030303');
+                $font->align('left');
+                $font->valign('middle');
+                $font->lineHeight(1.6);
+                $font->wrap(2250);
+            });
+        } else {
+            $image->text($mcq->subject->name . ' | ' . $mcq->topic?->name, 933, 229, function (FontFactory $font) {
+                $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+                $font->size(100);
+                $font->color('030303');
+                $font->align('left');
+                $font->valign('middle');
+                $font->lineHeight(1.6);
+                $font->wrap(2250);
+            });
+        }
+
+        function estimateTextHeight($text, $fontSize, $wrapWidth, $lineHeight = 1.5)
+        {
+            $avgCharWidth = $fontSize * 0.45; // rough estimate
+            $charsPerLine = $wrapWidth / $avgCharWidth;
+
+            $lines = ceil(strlen($text) / $charsPerLine);
+
+            return $lines * ($fontSize * $lineHeight);
+        }
+
+        $questionY = 600;
+        $padding = 50;
+
+        $questionText = 'Question: ' . $mcq->question;
+
+        $image->text($questionText, 335, $questionY, function (FontFactory $font) {
+            $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+            $font->size(80);
+            $font->color('#030303');
+            $font->align('left');
+            $font->valign('top');
+            $font->lineHeight(1.7);
+            $font->wrap(3023);
+        });
+
+        // ✅ Estimate height instead of using ->height()
+        $questionHeight = estimateTextHeight($questionText, 80, 3023, 1.7);
+
+        $currentY = $questionY + $questionHeight + $padding;
+
+        foreach ($mcq->options as $index => $option) {
+            $label = chr(65 + $index) . '. ';
+            $optionText = $label . $option->option_text;
+
+            $image->text($optionText, 335, $currentY, function ($font) use ($option) {
+                $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+                $font->size(70);
+                $font->color($option->is_correct ? '#00aa00' : '#333');
+                $font->valign('top');
+                $font->wrap(1000);
+            });
+
+            // ✅ Estimate option height
+            $optionHeight = estimateTextHeight($optionText, 70, 1000, 1.5);
+
+            $currentY += $optionHeight + 40;
+        }
+
+        $explanationHeadingY = $questionY + $questionHeight + $padding;
+
+        $image->text('Explanation:', 1900, $explanationHeadingY, function ($font) {
+            $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+            $font->size(70);
+            $font->lineHeight(1.6);
+            $font->color('#e66b4cff');
+            $font->valign('top');
+            $font->wrap(1500);
+        });
+
+        $explanationY = $explanationHeadingY + 100;
+
+        $image->text($mcq->explanation, 1900, $explanationY, function ($font) {
+            $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+            $font->size(70);
+            $font->lineHeight(1.6);
+            $font->color('#333');
+            $font->valign('top');
+            $font->wrap(1500);
+        });
+
+        // save modified image in new format 
+        $image->toWebp()->save(public_path('assets/images/testImages/test.webp'));
+
+        return 'Image created';
+    });
 
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
 
@@ -32,6 +162,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
     Route::resource('mcqs', AdminMcqController::class);
 
     Route::resource('seo', SeoMetaController::class);
+
+    Route::get('/api/generate-mcq-og-image/{mcq:slug}', [AdminMcqController::class, 'mcqOgImage'])
+        ->name('mcq_og_image');
 
     Route::get('/run-seo-update', [SchedulerController::class, 'runSeoUpdate'])
         ->name('run-seo-update');
