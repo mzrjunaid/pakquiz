@@ -18,11 +18,13 @@ class RoleMiddleware
 
         $user = $request->user();
 
-        if (! $user) {
+        if (!$user) {
             abort(401, 'Unauthenticated');
         }
 
-        if (!$user->role || ! in_array($user->role->slug, $roles)) {
+        $roleSlug = is_object($user->role) ? $user->role->slug : $user->role;
+
+        if (!$roleSlug || !in_array($roleSlug, $roles)) {
             abort(403, 'Unauthorized: You do not have the required role to access this page.');
         }
 
