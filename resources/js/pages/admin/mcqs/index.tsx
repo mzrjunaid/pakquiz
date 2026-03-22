@@ -20,7 +20,7 @@ export default function McqsIndex({
 }) {
     const generateOgImage = async (mcq: Mcq) => {
         try {
-            await axios.get('https://pakquiz.com/sanctum/csrf-cookie', {
+            await axios.get('https://www.pakquiz.com/sanctum/csrf-cookie', {
                 withCredentials: true,
             });
 
