@@ -225,7 +225,7 @@ class McqController extends Controller
                 $font->size(24);
                 $font->color('#333');
                 $font->valign('top');
-                $font->wrap(600);
+                $font->wrap(500);
             });
 
             // ✅ Estimate option height
@@ -241,7 +241,7 @@ class McqController extends Controller
             $explanationTextSize = 20;
             $explanationWrap = 550;
 
-            $image->text('Explanation:', 550, $explanationHeadingY, function ($font) use ($explanationTextSize, $explanationWrap) {
+            $image->text('Explanation:', 575, $explanationHeadingY, function ($font) use ($explanationTextSize, $explanationWrap) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
                 $font->size($explanationTextSize);
                 $font->lineHeight(1.8);
@@ -252,7 +252,7 @@ class McqController extends Controller
 
             $explanationY = $explanationHeadingY + 32;
 
-            $image->text($mcq->explanation, 550, $explanationY, function ($font) use ($explanationTextSize, $explanationWrap) {
+            $image->text($mcq->explanation, 575, $explanationY, function ($font) use ($explanationTextSize, $explanationWrap) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
                 $font->size($explanationTextSize);
                 $font->lineHeight(1.8);

@@ -115,11 +115,11 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
                 $font->size(24);
                 $font->color('#333');
                 $font->valign('top');
-                $font->wrap(600);
+                $font->wrap(500);
             });
 
             // ✅ Estimate option height
-            $optionHeight = estimateTextHeight($optionText, 24, 600, 1.5);
+            $optionHeight = estimateTextHeight($optionText, 24, 500, 1.5);
 
             $currentY += $optionHeight + 20;
         }
