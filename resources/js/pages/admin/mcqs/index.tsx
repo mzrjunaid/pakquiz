@@ -16,9 +16,12 @@ export default function McqsIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
-    const generateOgImage = (mcq: Mcq) => {
+    const generateOgImage = (mcq: Mcq, action: 'generate' | 'regenerate') => {
         router.get(admin.mcq_og_image(mcq.slug).url, {
             preserveScroll: true,
+            data: {
+                action,
+            },
         });
     };
 
