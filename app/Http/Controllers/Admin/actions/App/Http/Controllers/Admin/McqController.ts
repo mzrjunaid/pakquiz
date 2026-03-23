@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::index
- * @see app/Http/Controllers/Admin/McqController.php:23
+ * @see app/Http/Controllers/Admin/McqController.php:25
  * @route '/admin/mcqs'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -79,7 +79,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -94,7 +94,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
 create.url = (options?: RouteQueryOptions) => {
@@ -103,7 +103,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -112,7 +112,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +122,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
     const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -132,7 +132,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
         createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -141,7 +141,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::create
- * @see app/Http/Controllers/Admin/McqController.php:68
+ * @see app/Http/Controllers/Admin/McqController.php:70
  * @route '/admin/mcqs/create'
  */
         createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     create.form = createForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::store
- * @see app/Http/Controllers/Admin/McqController.php:76
+ * @see app/Http/Controllers/Admin/McqController.php:78
  * @route '/admin/mcqs'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -172,7 +172,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::store
- * @see app/Http/Controllers/Admin/McqController.php:76
+ * @see app/Http/Controllers/Admin/McqController.php:78
  * @route '/admin/mcqs'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -181,7 +181,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::store
- * @see app/Http/Controllers/Admin/McqController.php:76
+ * @see app/Http/Controllers/Admin/McqController.php:78
  * @route '/admin/mcqs'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -191,7 +191,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::store
- * @see app/Http/Controllers/Admin/McqController.php:76
+ * @see app/Http/Controllers/Admin/McqController.php:78
  * @route '/admin/mcqs'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -201,7 +201,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::store
- * @see app/Http/Controllers/Admin/McqController.php:76
+ * @see app/Http/Controllers/Admin/McqController.php:78
  * @route '/admin/mcqs'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -212,7 +212,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
 export const show = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -227,7 +227,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
 show.url = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -260,7 +260,7 @@ show.url = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: st
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
 show.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +269,7 @@ show.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: st
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
 show.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -279,7 +279,7 @@ show.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: s
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
     const showForm = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -289,7 +289,7 @@ show.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: s
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
         showForm.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -298,7 +298,7 @@ show.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: s
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::show
- * @see app/Http/Controllers/Admin/McqController.php:84
+ * @see app/Http/Controllers/Admin/McqController.php:86
  * @route '/admin/mcqs/{mcq}'
  */
         showForm.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -314,7 +314,7 @@ show.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: s
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
 export const edit = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -329,7 +329,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
 edit.url = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -357,7 +357,7 @@ edit.url = (args: { mcq: string | number } | [mcq: string | number ] | string | 
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
 edit.get = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -366,7 +366,7 @@ edit.get = (args: { mcq: string | number } | [mcq: string | number ] | string | 
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
 edit.head = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -376,7 +376,7 @@ edit.head = (args: { mcq: string | number } | [mcq: string | number ] | string |
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
     const editForm = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -386,7 +386,7 @@ edit.head = (args: { mcq: string | number } | [mcq: string | number ] | string |
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
         editForm.get = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -395,7 +395,7 @@ edit.head = (args: { mcq: string | number } | [mcq: string | number ] | string |
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::edit
- * @see app/Http/Controllers/Admin/McqController.php:99
+ * @see app/Http/Controllers/Admin/McqController.php:101
  * @route '/admin/mcqs/{mcq}/edit'
  */
         editForm.head = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -411,7 +411,7 @@ edit.head = (args: { mcq: string | number } | [mcq: string | number ] | string |
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
 export const update = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -426,7 +426,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
 update.url = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -454,7 +454,7 @@ update.url = (args: { mcq: string | number } | [mcq: string | number ] | string 
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
 update.put = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -463,7 +463,7 @@ update.put = (args: { mcq: string | number } | [mcq: string | number ] | string 
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
 update.patch = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -473,7 +473,7 @@ update.patch = (args: { mcq: string | number } | [mcq: string | number ] | strin
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
     const updateForm = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -488,7 +488,7 @@ update.patch = (args: { mcq: string | number } | [mcq: string | number ] | strin
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
         updateForm.put = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -502,7 +502,7 @@ update.patch = (args: { mcq: string | number } | [mcq: string | number ] | strin
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::update
- * @see app/Http/Controllers/Admin/McqController.php:107
+ * @see app/Http/Controllers/Admin/McqController.php:109
  * @route '/admin/mcqs/{mcq}'
  */
         updateForm.patch = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -518,7 +518,7 @@ update.patch = (args: { mcq: string | number } | [mcq: string | number ] | strin
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::destroy
- * @see app/Http/Controllers/Admin/McqController.php:115
+ * @see app/Http/Controllers/Admin/McqController.php:117
  * @route '/admin/mcqs/{mcq}'
  */
 export const destroy = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -533,7 +533,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::destroy
- * @see app/Http/Controllers/Admin/McqController.php:115
+ * @see app/Http/Controllers/Admin/McqController.php:117
  * @route '/admin/mcqs/{mcq}'
  */
 destroy.url = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -561,7 +561,7 @@ destroy.url = (args: { mcq: string | number } | [mcq: string | number ] | string
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::destroy
- * @see app/Http/Controllers/Admin/McqController.php:115
+ * @see app/Http/Controllers/Admin/McqController.php:117
  * @route '/admin/mcqs/{mcq}'
  */
 destroy.delete = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -571,7 +571,7 @@ destroy.delete = (args: { mcq: string | number } | [mcq: string | number ] | str
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::destroy
- * @see app/Http/Controllers/Admin/McqController.php:115
+ * @see app/Http/Controllers/Admin/McqController.php:117
  * @route '/admin/mcqs/{mcq}'
  */
     const destroyForm = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { mcq: string | number } | [mcq: string | number ] | str
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::destroy
- * @see app/Http/Controllers/Admin/McqController.php:115
+ * @see app/Http/Controllers/Admin/McqController.php:117
  * @route '/admin/mcqs/{mcq}'
  */
         destroyForm.delete = (args: { mcq: string | number } | [mcq: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -602,7 +602,7 @@ destroy.delete = (args: { mcq: string | number } | [mcq: string | number ] | str
     destroy.form = destroyForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 export const mcqOgImage = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -617,7 +617,7 @@ mcqOgImage.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcqOgImage.url = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -650,7 +650,7 @@ mcqOgImage.url = (args: { mcq: string | { slug: string } } | [mcq: string | { sl
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcqOgImage.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -659,7 +659,7 @@ mcqOgImage.get = (args: { mcq: string | { slug: string } } | [mcq: string | { sl
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcqOgImage.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -669,7 +669,7 @@ mcqOgImage.head = (args: { mcq: string | { slug: string } } | [mcq: string | { s
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
     const mcqOgImageForm = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -679,7 +679,7 @@ mcqOgImage.head = (args: { mcq: string | { slug: string } } | [mcq: string | { s
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
         mcqOgImageForm.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -688,7 +688,7 @@ mcqOgImage.head = (args: { mcq: string | { slug: string } } | [mcq: string | { s
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::mcqOgImage
- * @see app/Http/Controllers/Admin/McqController.php:121
+ * @see app/Http/Controllers/Admin/McqController.php:124
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
         mcqOgImageForm.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
