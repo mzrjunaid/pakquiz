@@ -16,3 +16,7 @@ Schedule::command('seo:update')
 Schedule::command('sitemap:generate')
     ->dailyAt('03:00')
     ->withoutOverlapping();
+
+Schedule::command('queue:work --stop-when-empty')
+    ->everyMinute()
+    ->withoutOverlapping();
