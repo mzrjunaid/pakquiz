@@ -4,7 +4,8 @@ import { cleanFilters } from '@/lib/clean-filters';
 import { Mcq } from '@/types/mcq';
 import { router } from '@inertiajs/react';
 import { getCoreRowModel, useReactTable } from '@tanstack/react-table';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { toast } from 'sonner';
 import { DataTable } from '../../components/data-table';
 import { DataTablePagination } from '../../components/dataTable/data-table-pagination';
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
@@ -18,11 +19,13 @@ export default function McqsTable({
     generateOgImage,
     onDelete,
 }: DataTableProps<Mcq>) {
+    const [processingIds, setProcessingIds] = useState<number[]>([]);
     const { data, meta } = tableData;
     const { current_page, last_page, per_page, total, from, to } = meta;
 
     const [searchValues, setSearchValues] = useState({
         name: filters.name || '',
+        subject: filters.subject || '',
         created_by: filters.created_by || '',
     });
 
@@ -65,7 +68,7 @@ export default function McqsTable({
     };
 
     const clearFilters = () => {
-        setSearchValues({ name: '', created_by: '' });
+        setSearchValues({ name: '', subject: '', created_by: '' });
 
         router.get(
             url,
@@ -86,6 +89,39 @@ export default function McqsTable({
         updateFilters({ per_page: perPage, page: 1 });
     };
 
+    useEffect(() => {
+        if (!processingIds.length) return;
+
+        const checkPending = () => {
+            // Filter out MCQs that are already generated
+            const pending = processingIds.filter((id) => {
+                const mcq = tableData.data.find((m) => m.id === id);
+                return !mcq?.has_og_image;
+            });
+
+            if (pending.length === 0) {
+                toast.success('All OG Images Generated Successfully!');
+                setProcessingIds([]); // Stop polling
+                return;
+            }
+
+            // Poll again after 3 seconds
+            setTimeout(() => {
+                router.reload({
+                    only: ['mcqs'],
+                    replace: true,
+                    onSuccess: () => {
+                        toast.success('OG Image Generated Successfully!', {
+                            id: 'og-image-generated',
+                        });
+                    },
+                });
+            }, 3000);
+        };
+
+        checkPending();
+    }, [processingIds, tableData.data, router]);
+
     const hasActiveFilters = Boolean(filters.name || filters.created_by);
 
     const columns = getColumns({
@@ -93,6 +129,7 @@ export default function McqsTable({
         onDelete,
         generateOgImage,
         onSort: handleSort,
+        setProcessingIds,
     });
 
     // eslint-disable-next-line react-hooks/incompatible-library

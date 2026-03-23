@@ -44,6 +44,23 @@ export function DataTableToolbar<TData>({
                         />
                     </div>
                 )}
+                {(searchValues.subject == '' || searchValues.subject) && (
+                    <div className="space-y-2">
+                        <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+                            Subject
+                        </label>
+                        <Input
+                            placeholder="Search by subject..."
+                            value={searchValues.subject}
+                            onChange={(e) =>
+                                onSearchValuesChange({
+                                    subject: e.target.value,
+                                })
+                            }
+                            onKeyDown={handleKeyPress}
+                        />
+                    </div>
+                )}
                 {(searchValues.title == '' || searchValues.title) && (
                     <div className="space-y-2">
                         <label className="text-sm leading-none font-medium peer-disabled:cursor-not-allowed peer-disabled:opacity-70">

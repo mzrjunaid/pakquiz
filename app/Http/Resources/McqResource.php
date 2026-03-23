@@ -31,12 +31,13 @@ class McqResource extends JsonResource
                 'slug' => $this->topic?->slug,
             ],
             'created_by' => [
-                'id'   => $this->createdBy?->id,
+                'id' => $this->createdBy?->id,
                 'name' => $this->createdBy?->name,
             ],
             'created_at' => $this->created_at ? $this->created_at->toDateString() : 'null   ',
             'updated_at' => $this->updated_at,
             'deleted_at' => $this->deleted_at,
+            'has_og_image' => $this->has_og_image,
         ];
     }
 }

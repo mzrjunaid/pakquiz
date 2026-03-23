@@ -11,15 +11,25 @@ import {
 import mcqs from '@/routes/admin/mcqs';
 import papers from '@/routes/admin/papers';
 import subjects from '@/routes/admin/subjects';
+import publicMethod from '@/routes/public';
 import { Mcq } from '@/types/mcq';
 import { ColumnDef } from '@tanstack/react-table';
-import { ArrowUpDown, Image, MoreHorizontal } from 'lucide-react';
+import {
+    ArrowUpDown,
+    CheckCircle,
+    Image,
+    MoreHorizontal,
+    Share2,
+} from 'lucide-react';
+import { Dispatch, SetStateAction } from 'react';
 
 interface ColumnsProps {
     onEdit?: (service: Mcq) => void;
     onDelete?: (service: Mcq) => void;
-    generateOgImage?: (service: Mcq) => void;
+    generateOgImage?: (service: Mcq, action: 'generate' | 'regenerate') => void;
     onSort?: (column: string) => void;
+    // update useState of setProcessingIDs
+    setProcessingIds: Dispatch<SetStateAction<number[]>>;
 }
 
 export const getColumns = ({
@@ -27,6 +37,7 @@ export const getColumns = ({
     onDelete,
     generateOgImage,
     onSort,
+    setProcessingIds,
 }: ColumnsProps): ColumnDef<Mcq>[] => [
     {
         accessorKey: 'id',
@@ -176,16 +187,40 @@ export const getColumns = ({
 
         cell: ({ row }) => {
             const service = row.original;
-
+            const hasOgImage = service.has_og_image;
             return (
                 <div>
                     <Button
                         variant="ghost"
                         size="icon-sm"
-                        onClick={() => generateOgImage?.(service)}
-                        title="Generate OG Image"
+                        onClick={() => {
+                            setProcessingIds?.((prev) => {
+                                if (prev.includes(service.id)) return prev;
+                                return [...prev, service.id];
+                            });
+                            generateOgImage?.(service, 'generate');
+                        }}
+                        title={
+                            hasOgImage
+                                ? 'OG Image Generated'
+                                : 'Generate OG Image'
+                        }
+                        disabled={hasOgImage}
                     >
-                        <Image />
+                        {/* {hasOgImage} */}
+                        {hasOgImage ? <CheckCircle /> : <Image />}
+                    </Button>
+                    <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        onClick={() => {
+                            navigator.clipboard.writeText(
+                                window.location.origin +
+                                    publicMethod.mcqs.show(service.slug).url,
+                            );
+                        }}
+                    >
+                        <Share2 />
                     </Button>
                     <DropdownMenu>
                         <DropdownMenuTrigger asChild>
@@ -205,6 +240,18 @@ export const getColumns = ({
                                 }
                             >
                                 Copy Link
+                            </DropdownMenuItem>
+                            <DropdownMenuItem
+                                onClick={() => {
+                                    setProcessingIds?.((prev) => {
+                                        if (prev.includes(service.id))
+                                            return prev;
+                                        return [...prev, service.id];
+                                    });
+                                    generateOgImage?.(service, 'regenerate');
+                                }}
+                            >
+                                Regenerate OG Image
                             </DropdownMenuItem>
                             <DropdownMenuSeparator />
                             <DropdownMenuItem onClick={() => onEdit?.(service)}>

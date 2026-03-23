@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import testingServices from '@/routes/admin/testing-services';
+import subjects from '@/routes/admin/subjects';
 import { Subject } from '@/types/subject';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
@@ -57,7 +57,7 @@ export const getColumns = ({
             );
         },
         cell: ({ row }) => (
-            <TextLink href={testingServices.show(row.original.slug)}>
+            <TextLink href={subjects.show(row.original.slug)}>
                 {row.getValue('name')}
             </TextLink>
         ),

@@ -4,7 +4,9 @@ namespace App\Http\Controllers\Admin;
 
 use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
+use App\Http\Resources\McqResource;
 use App\Http\Resources\SubjectResource;
+use App\Models\Mcq;
 use App\Models\Subject;
 use App\Models\Topic;
 use App\Services\SubjectService;
@@ -75,9 +77,50 @@ class SubjectController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Subject $subject, Request $request, CommonFilter $filter, SubjectService $service)
     {
-        return Inertia::render('admin/subjects/show', []);
+
+        $perPage = min(
+            max($request->integer('per_page', 10), 5),
+            100
+        );
+
+        $sortableColumns = ['id', 'name', 'short_name', 'created_at'];
+
+        $sortBy = in_array(
+            $request->input('sort_by'),
+            $sortableColumns,
+            true
+        )
+            ? $request->input('sort_by')
+            : 'created_at';
+
+        $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
+        $subject->loadMissing(['topics:id,name,slug,subject_id']);
+
+        $mcqs = $filter
+            ->apply(Mcq::query()->with(['createdBy', 'paper', 'subject', 'topic'])->where('subject_id', $subject->id))
+            ->withExists([
+                'seo as has_og_image' => fn($query) => $query->whereNotNull('og_image')
+            ])
+            ->orderBy($sortBy, $sortOrder)
+            ->paginate($perPage)
+            ->onEachSide(0)
+            ->withQueryString();
+
+        return Inertia::render('admin/subjects/show', [
+            'subject' => $subject,
+            'mcqs' => McqResource::collection($mcqs),
+            'filters' => $request->only([
+                'name',
+                'subject',
+                'created_by',
+                'per_page',
+                'sort_by',
+                'sort_order',
+            ]),
+            'stats' => $service->stats(),
+        ]);
     }
 
     /**

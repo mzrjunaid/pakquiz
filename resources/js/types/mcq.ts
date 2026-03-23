@@ -26,4 +26,5 @@ export interface Mcq {
     created_at: string;
     updated_at: string;
     deleted_at?: string;
+    has_og_image?: boolean;
 }

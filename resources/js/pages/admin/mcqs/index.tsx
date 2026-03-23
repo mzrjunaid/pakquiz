@@ -1,6 +1,5 @@
 import { TextHeading } from '@/components/ui/typography';
 import admin from '@/routes/admin';
-import mcqsRoute from '@/routes/admin/mcqs';
 import { CommonFilters, McqsResource, Stats } from '@/types/admin';
 import { Mcq } from '@/types/mcq';
 import { router } from '@inertiajs/react';
@@ -18,7 +17,7 @@ export default function McqsIndex({
     stats: Stats;
 }) {
     const generateOgImage = (mcq: Mcq) => {
-        router.get(admin.mcq_og_image(mcq.slug).url, undefined, {
+        router.get(admin.mcq_og_image(mcq.slug).url, {
             preserveScroll: true,
         });
     };
@@ -41,7 +40,7 @@ export default function McqsIndex({
                 <McqsTable
                     tableData={mcqs}
                     filters={filters}
-                    url={mcqsRoute.index().url}
+                    url={admin.mcqs.index().url}
                     generateOgImage={generateOgImage}
                 />
                 {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}

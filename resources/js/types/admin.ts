@@ -46,6 +46,8 @@ export interface CommonFilters {
     name?: string;
     short_name?: string;
     type?: string;
+    subject?: string;
+    topic_id?: string;
     created_by?: string;
     sort_by?: string;
     sort_order?: 'asc' | 'desc';
@@ -70,7 +72,7 @@ export interface DataTableProps<TData> {
     url: string;
     onEdit?: (service: TData) => void;
     onDelete?: (service: TData) => void;
-    generateOgImage?: (service: TData) => void;
+    generateOgImage?: (service: TData, action: 'generate' | 'regenerate') => void;
 }
 type FilterValue = string | number | boolean | null | undefined;
 
