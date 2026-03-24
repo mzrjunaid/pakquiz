@@ -9,7 +9,7 @@
         {{ $title ?? config('app.name', 'Pak Quiz') }}
     </title>
 
-    <meta name='canonical' href="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}">
+    <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}" />
     <meta name="description" content="{{ $description ?? config('app.description', 'Pak Quiz') }}">
     @stack('meta')
 
