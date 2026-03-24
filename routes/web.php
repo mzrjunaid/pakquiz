@@ -15,6 +15,7 @@ use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Models\Subject;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -24,7 +25,17 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 
     Route::get('/test-image', function () {
 
-        $mcq = Mcq::query()->where('slug', 'a-cistern-has-two-taps-which-fill-it-in-12-minutes-and-15-minutes-respectively-there-is-also-a-waste-pipe-in-the-cist')->firstOrFail()
+        function estimateTextHeight($text, $fontSize, $wrapWidth, $lineHeight = 1.5)
+        {
+            $avgCharWidth = $fontSize * 0.3; // rough estimate
+            $charsPerLine = $wrapWidth / $avgCharWidth;
+
+            $lines = ceil(strlen($text) / $charsPerLine);
+
+            return $lines * ($fontSize * $lineHeight);
+        }
+
+        $mcq = Mcq::query()->where('slug', 'asim-munir-rank-2026')->firstOrFail()
             ->load([
                 'options:id,mcq_id,option_text,is_correct',
                 'paper' => function ($query) {
@@ -43,127 +54,94 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
             $department = null;
         }
 
-        // create image manager with desired driver
-        $manager = new ImageManager(new Driver());
+        $relativePath = "assets/images/mcqs/{$mcq->slug}.webp";
+        $fullPath = public_path($relativePath);
 
-        // read image from file system
+        $mcq->loadMissing([
+            'options:id,mcq_id,option_text,is_correct',
+            'paper.department:id,name',
+            'paper.testingService:id,name',
+            'topic:id,name',
+            'subject:id,name'
+        ]);
+
+        $manager = new ImageManager(new Driver());
         $image = $manager->read(public_path('assets/images/quiz_palceholder.png'));
 
-        $titleSize = 32;
+        // ===== Title =====
+        $title = $mcq->paper
+            ? "{$mcq->paper->name} | {$mcq->subject->name} | {$mcq->topic?->name}"
+            : "{$mcq->subject->name} | {$mcq->topic?->name}";
 
-        if ($mcq->paper) {
-            $image->text($mcq->paper->name . ' | ' . $mcq->subject->name . ' | ' . $mcq->topic?->name, 282, 75, function (FontFactory $font) use ($titleSize) {
-                $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size($titleSize);
-                $font->color('030303');
-                $font->align('left');
-                $font->valign('middle');
-                $font->lineHeight(1.6);
-                $font->wrap(2250);
-            });
-        } else {
-            $image->text($mcq->subject->name . ' | ' . $mcq->topic?->name, 282, 75, function (FontFactory $font) use ($titleSize) {
-                $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size($titleSize);
-                $font->color('030303');
-                $font->align('left');
-                $font->valign('middle');
-                $font->lineHeight(1.6);
-                $font->wrap(2250);
-            });
-        }
+        $image->text($title, 282, 75, function (FontFactory $font) {
+            $font->filename(public_path('fonts/Roboto-Bold.ttf'));
+            $font->size(32);
+            $font->lineHeight(1.5);
+            $font->align('left');
+            $font->valign('middle');
+            $font->color('030303');
+            $font->wrap(850);
+        });
 
-        function estimateTextHeight($text, $fontSize, $wrapWidth, $lineHeight = 1.5)
-        {
-            $avgCharWidth = $fontSize * 0.3; // rough estimate
-            $charsPerLine = $wrapWidth / $avgCharWidth;
-
-            $lines = ceil(strlen($text) / $charsPerLine);
-
-            return $lines * ($fontSize * $lineHeight);
-        }
-
-        $questionY = 183;
-        $padding = 4;
-
+        // ===== Question =====
+        $questionY = 175;
+        $questionWrap = 960;
         $questionText = 'Question: ' . $mcq->question;
 
-        $questionSize = 28;
-        $questionWrap = 960;
-
-        $image->text($questionText, 110, $questionY, function (FontFactory $font) use ($questionSize, $questionWrap) {
+        $image->text($questionText, 110, $questionY, function (FontFactory $font) use ($questionWrap) {
             $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-            $font->size($questionSize);
-            $font->color('#030303');
-            $font->align('left');
+            $font->size(28);
             $font->valign('top');
             $font->lineHeight(1.7);
             $font->wrap($questionWrap);
         });
 
-        // ✅ Estimate height instead of using ->height()
-        $questionHeight = estimateTextHeight($questionText, $questionSize, $questionWrap, 1.7);
+        $currentY = $questionY + estimateTextHeight($questionText, 28, $questionWrap, 1.7) + 50;
 
-        $currentY = $questionY + $questionHeight + $padding;
-
+        // ===== Options =====
         foreach ($mcq->options as $index => $option) {
-            $label = chr(65 + $index) . '. ';
-            $optionText = $label . $option->option_text;
+            $text = chr(65 + $index) . '. ' . $option->option_text;
 
-            $image->text($optionText, 115, $currentY, function ($font) use ($option) {
+            $image->text($text, 115, $currentY, function (FontFactory $font) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
                 $font->size(24);
-                $font->color('#333');
-                $font->valign('top');
-                $font->wrap(500);
+                $font->wrap(450);
             });
 
-            // ✅ Estimate option height
-            $optionHeight = estimateTextHeight($optionText, 24, 500, 1.5);
-
-            $currentY += $optionHeight + 20;
+            $currentY += estimateTextHeight($text, 24, 450) + 20;
         }
 
+        $explanationY = $questionY + estimateTextHeight($questionText, 28, $questionWrap, 1.7) + 50;
+
+        // ===== Explanation =====
         if ($mcq->explanation) {
-
-            $explanationHeadingY = $questionY + $questionHeight + $padding;
-
-            $explanationTextSize = 20;
-            $explanationWrap = 550;
-
-            $image->text('Explanation:', 550, $explanationHeadingY, function ($font) use ($explanationTextSize, $explanationWrap) {
+            $image->text('Explanation:', 600, $explanationY, function (FontFactory $font) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size($explanationTextSize);
-                $font->lineHeight(1.8);
-                $font->color('#551e10ff');
-                $font->valign('top');
-                $font->wrap($explanationWrap);
+                $font->size(20);
             });
 
-            $explanationY = $explanationHeadingY + 32;
+            $explanationY += 15;
 
-            $image->text($mcq->explanation, 550, $explanationY, function ($font) use ($explanationTextSize, $explanationWrap) {
+            $image->text($mcq->explanation, 600, $explanationY, function (FontFactory $font) {
                 $font->filename(public_path('fonts/Roboto-Bold.ttf'));
-                $font->size($explanationTextSize);
-                $font->lineHeight(1.8);
-                $font->color('#333');
+                $font->size(20);
                 $font->valign('top');
-                $font->wrap($explanationWrap);
+                $font->lineHeight(1.7);
+                $font->wrap(480);
             });
         }
 
-        $image->text('< Tap Here for the Answer >', 572, 522, function ($font) {
+        // ===== CTA =====
+        $image->text('< Tap Here for the Answer >', 572, 540, function (FontFactory $font) {
             $font->filename(public_path('fonts/Roboto-Bold.ttf'));
             $font->size(24);
-            $font->lineHeight(1.8);
             $font->align('center');
-            $font->color('#333');
-            $font->valign('top');
-            $font->wrap(1200);
         });
 
-        // save modified image in new format 
-        $image->toWebp()->save(public_path('assets/images/testImages/test.webp'));
+        // Save
+        $image->toWebp()->save($fullPath);
+
+
 
         return 'Image created';
     });
