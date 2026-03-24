@@ -56,9 +56,7 @@ Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
     <script type="application/ld+json">
-        {
-            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
-        }
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
     <div class="space-y-2 py-8">

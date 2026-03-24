@@ -219,9 +219,7 @@ Join PakQuiz as a content contributor, MCQ writer, or team member. Help thousand
 <div class="join-page min-h-screen bg-gray-50">
     @teleport('head')
     <script type="application/ld+json">
-        {
-            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
-        }
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
     {{-- ══════════════════════════════════════════

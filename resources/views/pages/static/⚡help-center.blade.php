@@ -252,9 +252,7 @@ Help Center, PakQuiz FAQs, MCQs preparation help, FPSC exam questions, PPSC exam
 <div class="max-w-7xl mx-auto">
     @teleport('head')
     <script type="application/ld+json">
-        {
-            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
-        }
+        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
 
