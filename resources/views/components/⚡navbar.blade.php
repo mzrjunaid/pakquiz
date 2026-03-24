@@ -20,8 +20,8 @@ new class extends Component {
     x-data="{ mobileMenuOpen: false }">
     <div class="flex max-w-7xl px-4 xl:px-0 lg:mx-auto items-center justify-between gap-4">
         <div class="w-full lg:w-lg">
-            <a href="{{ route('home') }}" title="PakQuiz" class="text-2xl font-bold ">
-                <img src="{{ asset('logo.svg') }}" alt="PakQuiz" class="h-12 w-auto" height="48" width="112"
+            <a href="{{ route('home') }}" aria-label="PakQuiz Logo" title="PakQuiz Logo" class="text-2xl font-bold ">
+                <img src="{{ asset('logo.svg') }}" alt="PakQuiz Logo" class="h-12 w-auto" height="48" width="112"
                     fetchpriority="high" decoding="async" />
             </a>
         </div>
@@ -54,8 +54,8 @@ new class extends Component {
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($subjects as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -78,8 +78,8 @@ new class extends Component {
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($papers as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -101,8 +101,8 @@ new class extends Component {
                             x-cloak>
                             <div class="py-1">
                                 @foreach ($about_us as $item)
-                                    <a href="{{ $item['link'] }}"
-                                        class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                <a href="{{ $item['link'] }}"
+                                    class="block px-4 py-2 hover:rounded text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
                                 @endforeach
                             </div>
                         </div>
@@ -128,15 +128,15 @@ new class extends Component {
             <div class="flex items-center gap-4">
 
                 @if (Route::has('login'))
-                    @auth
-                        <x-nav-link route="admin.dashboard">Dashboard</x-nav-link>
-                    @else
-                        <x-nav-link route="login">Log in</x-nav-link>
+                @auth
+                <x-nav-link route="admin.dashboard">Dashboard</x-nav-link>
+                @else
+                <x-nav-link route="login">Log in</x-nav-link>
 
-                        @if (Route::has('register'))
-                            <x-nav-link route="register" class="hidden md:block">Register</x-nav-link>
-                        @endif
-                    @endauth
+                @if (Route::has('register'))
+                <x-nav-link route="register" class="hidden md:block">Register</x-nav-link>
+                @endif
+                @endauth
                 @endif
                 <livewire:quiz-settings :class="'hidden md:block'" />
             </div>
@@ -172,8 +172,8 @@ new class extends Component {
                     x-cloak>
                     <div class="py-1">
                         @foreach ($subjects as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -195,8 +195,8 @@ new class extends Component {
                 <div x-show="open" x-transition x-cloak>
                     <div class="py-1">
                         @foreach ($papers as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>
@@ -217,8 +217,8 @@ new class extends Component {
                 <div x-show="open" x-transition x-cloak>
                     <div class="py-1">
                         @foreach ($about_us as $item)
-                            <a href="{{ $item['link'] }}"
-                                class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100">{{ $item['title'] }}</a>
+                        <a href="{{ $item['link'] }}"
+                            class="block px-4 py-2 hover:rounded text-sm  hover:bg-gray-100">{{ $item['title'] }}</a>
                         @endforeach
                     </div>
                 </div>

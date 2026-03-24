@@ -116,6 +116,18 @@ class McqOgImageService
             $font->align('center');
         });
 
+        $watermark = $manager->read(public_path('assets/images/watermark.png'));
+
+        $watermark->scale(width: $image->width() * 0.6);
+
+        $image->place(
+            $watermark,
+            'center',
+            0,
+            20,
+            10
+        );
+
         // Save
         $image->toWebp()->save($fullPath);
 

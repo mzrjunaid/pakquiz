@@ -21,8 +21,9 @@ new class extends Component {
         <div class="gap-6 grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 md:gap-8">
             <div class="col-span-2 sm:col-span-3 md:col-span-2 space-y-2">
                 <div class="mb-4 flex items-center justify-center space-x-3">
-                    <a href="{{ route('home') }}" class="text-2xl font-bold ">
-                        <img src="{{ asset('logo.svg') }}" title="PakQuiz" class="h-full w-full md:max-h-24" height="96"
+                    <a href="{{ route('home') }}" aria-label="PakQuiz Logo" title="PakQuiz Logo"
+                        class="text-2xl font-bold ">
+                        <img src="{{ asset('logo.svg') }}" alt="PakQuiz Logo" class="h-full w-full md:max-h-24" height="96"
                             width="224" fetchpriority="high" decoding="async" />
                     </a>
                 </div>
@@ -75,10 +76,10 @@ new class extends Component {
                 <h3 class="mb-3 font-semibold">Papers</h3>
                 <ul class="space-y-2 text-sm">
                     @foreach ($papers as $item)
-                        <li key="{{ $item['title'] }}">
-                            <a href="{{ $item['link'] }}"
-                                class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
-                        </li>
+                    <li key="{{ $item['title'] }}">
+                        <a href="{{ $item['link'] }}"
+                            class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
@@ -87,10 +88,10 @@ new class extends Component {
                 <h3 class="mb-3 font-semibold">Subjects</h3>
                 <ul class="space-y-2 text-sm">
                     @foreach ($subjects as $item)
-                        <li key="{{ $item['title'] }}">
-                            <a href="{{ $item['link'] }}"
-                                class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
-                        </li>
+                    <li key="{{ $item['title'] }}">
+                        <a href="{{ $item['link'] }}"
+                            class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
@@ -99,10 +100,10 @@ new class extends Component {
                 <h3 class="mb-3 font-semibold">Support</h3>
                 <ul class="space-y-2 text-sm">
                     @foreach ($about_us as $item)
-                        <li key="{{ $item['title'] }}">
-                            <a href="{{ $item['link'] }}"
-                                class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
-                        </li>
+                    <li key="{{ $item['title'] }}">
+                        <a href="{{ $item['link'] }}"
+                            class="hover:text-primary hover:underline">{{ $item['title'] }}</a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
