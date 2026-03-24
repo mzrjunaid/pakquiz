@@ -24,6 +24,8 @@
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
+    {{-- Facebook APP ID --}}
+    <meta property="fb:app_id" content="2333196190495112">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
@@ -58,9 +60,7 @@
         gtag('config', 'G-ZVYX92FGJV');
     </script>
 
-    {{-- Facebook APP ID --}}
 
-    <meta property="fb:app_id" content="2333196190495112">
 
 </head>
 
