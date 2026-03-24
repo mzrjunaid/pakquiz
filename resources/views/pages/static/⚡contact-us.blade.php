@@ -53,42 +53,52 @@ new class extends Component {
 ?>
 
 @slot('title')
-    Contact Us – PakQuiz | MCQs Preparation Support
+Contact Us – PakQuiz | MCQs Preparation Support
+@endslot
+
+@slot('description')
+Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.
+@endslot
+
+@slot('keywords')
+Contact PakQuiz, MCQs preparation support, FPSC exam help, PPSC exam help, NTS exam help, CSS exam help, PMS exam help, exam preparation platform
+@endslot
+
+@slot('canonical')
+{{ url('/contact') }}
 @endslot
 
 @push('meta')
-    {{-- ======================== PRIMARY META TAGS ======================== --}}
-    <meta name="title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-    <meta name="description"
-        content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/contact') }}">
+{{-- ======================== PRIMARY META TAGS ======================== --}}
+<meta name="robots" content="index, follow">
 
-    {{-- ======================== OPEN GRAPH ======================== --}}
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/contact') }}">
-    <meta property="og:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-    <meta property="og:description"
-        content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
-    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:image:alt" content="Contact PakQuiz Support">
-    <meta property="og:site_name" content="PakQuiz">
-    <meta property="og:locale" content="en_PK">
+{{-- ======================== OPEN GRAPH ======================== --}}
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/contact') }}">
+<meta property="og:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
+<meta property="og:description"
+    content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
+<meta property="og:image" content="{{ asset('images/og-image.png') }}">
+<meta property="og:image:alt" content="Contact PakQuiz Support">
+<meta property="og:site_name" content="PakQuiz">
+<meta property="og:locale" content="en_PK">
 
-    {{-- ======================== TWITTER CARD ======================== --}}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ url('/contact') }}">
-    <meta name="twitter:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-    <meta name="twitter:description"
-        content="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours.">
-    <meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
+{{-- ======================== TWITTER CARD ======================== --}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="{{ url('/contact') }}">
+<meta name="twitter:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
+<meta name="twitter:description"
+    content="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours.">
+<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
 @endpush
 
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="space-y-2 py-4">
@@ -166,11 +176,11 @@ new class extends Component {
 
                 {{-- Success Alert --}}
                 @if ($submitted)
-                    <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
-                        <p class="text-sm text-green-800">
-                            Thank you for contacting us! We'll get back to you shortly.
-                        </p>
-                    </div>
+                <div class="mb-6 rounded-lg border border-green-200 bg-green-50 px-4 py-3">
+                    <p class="text-sm text-green-800">
+                        Thank you for contacting us! We'll get back to you shortly.
+                    </p>
+                </div>
                 @endif
 
                 <div class="space-y-6">
@@ -183,7 +193,7 @@ new class extends Component {
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('name') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('name')
-                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -193,7 +203,7 @@ new class extends Component {
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('email') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('email')
-                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -206,7 +216,7 @@ new class extends Component {
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('phone') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('phone')
-                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
 
@@ -216,7 +226,7 @@ new class extends Component {
                                 class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                    {{ $errors->has('subject') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}" />
                             @error('subject')
-                                <p class="text-sm text-red-600">{{ $message }}</p>
+                            <p class="text-sm text-red-600">{{ $message }}</p>
                             @enderror
                         </div>
                     </div>
@@ -228,7 +238,7 @@ new class extends Component {
                             class="w-full rounded-md border px-3 py-2 text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-primary
                                {{ $errors->has('message') ? 'border-red-500 focus:ring-red-400' : 'border-gray-300' }}"></textarea>
                         @error('message')
-                            <p class="text-sm text-red-600">{{ $message }}</p>
+                        <p class="text-sm text-red-600">{{ $message }}</p>
                         @enderror
                     </div>
 

@@ -217,34 +217,44 @@ new class extends Component {
 ?>
 
 @slot('title')
-    Help Center – PakQuiz | FAQs & Support
+Help Center – PakQuiz | FAQs & Support
+@endslot
+
+@slot('description')
+Find answers to common questions about PakQuiz. Learn how to practice MCQs, use premium features, manage your account, and contact support for FPSC, PPSC, NTS exam prep.
+@endslot
+
+@slot('keywords')
+Help Center, PakQuiz FAQs, MCQs preparation help, FPSC exam questions, PPSC exam questions, NTS exam questions, CSS exam questions, PMS exam questions, exam preparation support
+@endslot
+
+@slot('canonical')
+{{ url('/help') }}
 @endslot
 
 @push('meta')
-    <meta name="title" content="Help Center – PakQuiz | FAQs & Support">
-    <meta name="description"
-        content="Find answers to common questions about PakQuiz. Learn how to practice MCQs, use premium features, manage your account, and contact support for FPSC, PPSC, NTS exam prep.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/help') }}">
+<meta name="robots" content="index, follow">
 
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/help') }}">
-    <meta property="og:title" content="Help Center – PakQuiz | FAQs & Support">
-    <meta property="og:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
-    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:site_name" content="PakQuiz">
-    <meta property="og:locale" content="en_PK">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/help') }}">
+<meta property="og:title" content="Help Center – PakQuiz | FAQs & Support">
+<meta property="og:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
+<meta property="og:image" content="{{ asset('images/og-image.png') }}">
+<meta property="og:site_name" content="PakQuiz">
+<meta property="og:locale" content="en_PK">
 
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Help Center – PakQuiz | FAQs & Support">
-    <meta name="twitter:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
-    <meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Help Center – PakQuiz | FAQs & Support">
+<meta name="twitter:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
+<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
 @endpush
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
 
@@ -269,14 +279,14 @@ new class extends Component {
     {{-- Category Pills --}}
     <div class="my-6 flex flex-wrap justify-center gap-3 md:mb-8">
         @foreach ($this->categories as $category)
-            <button wire:click="setCategory('{{ $category['id'] }}')"
-                class="flex items-center gap-2 rounded-full px-5 py-2.5 font-medium transition-all max-md:text-xs
+        <button wire:click="setCategory('{{ $category['id'] }}')"
+            class="flex items-center gap-2 rounded-full px-5 py-2.5 font-medium transition-all max-md:text-xs
                        {{ $activeCategory === $category['id']
                            ? 'bg-primary text-primary-foreground shadow-lg'
                            : 'bg-secondary text-secondary-foreground hover:bg-primary/35' }}">
-                <x-dynamic-component :component="'ri-' . $category['icon']" class="h-4 w-4" />
-                {{ $category['label'] }}
-            </button>
+            <x-dynamic-component :component="'ri-' . $category['icon']" class="h-4 w-4" />
+            {{ $category['label'] }}
+        </button>
         @endforeach
     </div>
 
@@ -287,225 +297,225 @@ new class extends Component {
             class="rounded-lg border border-gray-200 bg-white shadow-sm relative">
             {{-- ── FAQs ── --}}
             @if ($activeCategory === 'faqs')
-                <div class="px-3 py-6 md:p-8">
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
                     <div class="mb-6">
-                        <div class="mb-6">
-                            <h2 class="mb-2 text-lg font-bold md:text-2xl">Frequently Asked Questions</h2>
-                            <p class="text-muted-foreground max-sm:text-sm">Quick answers to common questions about PAK
-                                QUIZ</p>
-                        </div>
-                        <div class="relative mx-auto mt-4 max-w-xl">
-                            <x-ri-search-line class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400" />
-                            <input type="text" wire:model.live.debounce.300ms="searchQuery"
-                                placeholder="Search for help articles..."
-                                class="w-full rounded-lg border border-gray-300 py-3 pr-4 pl-12 text-sm focus:border-transparent focus:ring-2 focus:ring-primary focus:outline-none" />
+                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Frequently Asked Questions</h2>
+                        <p class="text-muted-foreground max-sm:text-sm">Quick answers to common questions about PAK
+                            QUIZ</p>
+                    </div>
+                    <div class="relative mx-auto mt-4 max-w-xl">
+                        <x-ri-search-line class="absolute top-1/2 left-4 h-5 w-5 -translate-y-1/2 text-gray-400" />
+                        <input type="text" wire:model.live.debounce.300ms="searchQuery"
+                            placeholder="Search for help articles..."
+                            class="w-full rounded-lg border border-gray-300 py-3 pr-4 pl-12 text-sm focus:border-transparent focus:ring-2 focus:ring-primary focus:outline-none" />
+                    </div>
+                </div>
+
+                @if (count($this->filteredFaqs) === 0)
+                <div class="py-12 text-center text-gray-500">
+                    <x-ri-search-line class="mx-auto mb-3 h-10 w-10 text-gray-300" />
+                    <p class="font-medium">No results found for "{{ $searchQuery }}"</p>
+                    <p class="mt-1 text-sm">Try different keywords or browse the categories above.</p>
+                </div>
+                @else
+                <div class="w-full space-y-3" x-data="{ open: null }">
+                    @foreach ($this->filteredFaqs as $index => $faq)
+                    <div class="overflow-hidden rounded-lg">
+                        <button
+                            @click="open === {{ $index }} ? open = null : open = {{ $index }}"
+                            class="flex w-full items-center justify-between rounded-lg bg-secondary px-3 py-4 text-left font-semibold max-md:text-sm md:px-6 hover:bg-secondary/80 transition-colors">
+                            <span>{{ $faq['question'] }}</span>
+                            <x-ri-arrow-down-s-line
+                                class="h-4 w-4 flex-shrink-0 ml-3 transition-transform duration-200"
+                                ::class="open === {{ $index }} ? 'rotate-180' : ''" />
+                        </button>
+                        <div x-show="open === {{ $index }}"
+                            x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 -translate-y-1"
+                            x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
+                            <p class="p-3 leading-relaxed text-gray-700 md:p-6 max-md:text-sm">
+                                {{ $faq['answer'] }}
+                            </p>
                         </div>
                     </div>
-
-                    @if (count($this->filteredFaqs) === 0)
-                        <div class="py-12 text-center text-gray-500">
-                            <x-ri-search-line class="mx-auto mb-3 h-10 w-10 text-gray-300" />
-                            <p class="font-medium">No results found for "{{ $searchQuery }}"</p>
-                            <p class="mt-1 text-sm">Try different keywords or browse the categories above.</p>
-                        </div>
-                    @else
-                        <div class="w-full space-y-3" x-data="{ open: null }">
-                            @foreach ($this->filteredFaqs as $index => $faq)
-                                <div class="overflow-hidden rounded-lg">
-                                    <button
-                                        @click="open === {{ $index }} ? open = null : open = {{ $index }}"
-                                        class="flex w-full items-center justify-between rounded-lg bg-secondary px-3 py-4 text-left font-semibold max-md:text-sm md:px-6 hover:bg-secondary/80 transition-colors">
-                                        <span>{{ $faq['question'] }}</span>
-                                        <x-ri-arrow-down-s-line
-                                            class="h-4 w-4 flex-shrink-0 ml-3 transition-transform duration-200"
-                                            ::class="open === {{ $index }} ? 'rotate-180' : ''" />
-                                    </button>
-                                    <div x-show="open === {{ $index }}"
-                                        x-transition:enter="transition ease-out duration-200"
-                                        x-transition:enter-start="opacity-0 -translate-y-1"
-                                        x-transition:enter-end="opacity-100 translate-y-0" x-cloak>
-                                        <p class="p-3 leading-relaxed text-gray-700 md:p-6 max-md:text-sm">
-                                            {{ $faq['answer'] }}
-                                        </p>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
-                    @endif
+                    @endforeach
                 </div>
+                @endif
+            </div>
             @endif
 
             {{-- ── Getting Started ── --}}
             @if ($activeCategory === 'getting-started')
-                <div class="px-3 py-6 md:p-8">
-                    <div class="mb-6">
-                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Getting Started</h2>
-                        <p class="text-muted-foreground max-sm:text-sm">Step-by-step guides to help you begin your
-                            journey</p>
-                    </div>
-
-                    <div class="space-y-6">
-                        @foreach ($this->gettingStartedGuides as $guide)
-                            <div class="rounded-lg border border-gray-200 p-6">
-                                <h3 class="mb-4 font-semibold lg:text-xl">{{ $guide['title'] }}</h3>
-                                <ol class="space-y-3">
-                                    @foreach ($guide['steps'] as $stepIndex => $step)
-                                        <li class="flex items-start gap-3">
-                                            <span
-                                                class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
-                                                {{ $stepIndex + 1 }}
-                                            </span>
-                                            <span class="pt-0.5 max-md:text-sm">{{ $step }}</span>
-                                        </li>
-                                    @endforeach
-                                </ol>
-                            </div>
-                        @endforeach
-                    </div>
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="mb-2 text-lg font-bold md:text-2xl">Getting Started</h2>
+                    <p class="text-muted-foreground max-sm:text-sm">Step-by-step guides to help you begin your
+                        journey</p>
                 </div>
+
+                <div class="space-y-6">
+                    @foreach ($this->gettingStartedGuides as $guide)
+                    <div class="rounded-lg border border-gray-200 p-6">
+                        <h3 class="mb-4 font-semibold lg:text-xl">{{ $guide['title'] }}</h3>
+                        <ol class="space-y-3">
+                            @foreach ($guide['steps'] as $stepIndex => $step)
+                            <li class="flex items-start gap-3">
+                                <span
+                                    class="flex h-6 w-6 flex-shrink-0 items-center justify-center rounded-full bg-primary text-sm font-semibold text-primary-foreground">
+                                    {{ $stepIndex + 1 }}
+                                </span>
+                                <span class="pt-0.5 max-md:text-sm">{{ $step }}</span>
+                            </li>
+                            @endforeach
+                        </ol>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
             @endif
 
             {{-- ── Premium Features ── --}}
             @if ($activeCategory === 'premium')
-                <div class="px-3 py-6 md:p-8">
-                    <div class="mb-6">
-                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Using Premium Features</h2>
-                        <p class="text-muted-foreground max-sm:text-sm">Get the most out of your premium membership</p>
-                    </div>
-
-                    <div class="space-y-6">
-                        @foreach ($this->premiumGuides as $guide)
-                            <div
-                                class="rounded-lg border border-gray-200 p-3 transition-colors hover:border-blue-300 md:p-6">
-                                <h3 class="mb-3 font-semibold lg:text-xl">{{ $guide['title'] }}</h3>
-                                <p class="leading-relaxed max-md:text-sm">{{ $guide['content'] }}</p>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-6 rounded-lg bg-info p-4">
-                        <p class="text-info-foreground text-sm">
-                            <strong>💡 Pro Tip:</strong> Use custom papers to focus on weak areas and track your
-                            progress regularly to see improvement over time.
-                        </p>
-                    </div>
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="mb-2 text-lg font-bold md:text-2xl">Using Premium Features</h2>
+                    <p class="text-muted-foreground max-sm:text-sm">Get the most out of your premium membership</p>
                 </div>
+
+                <div class="space-y-6">
+                    @foreach ($this->premiumGuides as $guide)
+                    <div
+                        class="rounded-lg border border-gray-200 p-3 transition-colors hover:border-blue-300 md:p-6">
+                        <h3 class="mb-3 font-semibold lg:text-xl">{{ $guide['title'] }}</h3>
+                        <p class="leading-relaxed max-md:text-sm">{{ $guide['content'] }}</p>
+                    </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-6 rounded-lg bg-info p-4">
+                    <p class="text-info-foreground text-sm">
+                        <strong>💡 Pro Tip:</strong> Use custom papers to focus on weak areas and track your
+                        progress regularly to see improvement over time.
+                    </p>
+                </div>
+            </div>
             @endif
 
             {{-- ── Jobs & Updates ── --}}
             @if ($activeCategory === 'jobs')
-                <div class="px-3 py-6 md:p-8">
-                    <div class="mb-6">
-                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Jobs & Updates</h2>
-                        <p class="text-muted-foreground max-sm:text-sm">Stay informed about the latest job
-                            opportunities</p>
-                    </div>
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="mb-2 text-lg font-bold md:text-2xl">Jobs & Updates</h2>
+                    <p class="text-muted-foreground max-sm:text-sm">Stay informed about the latest job
+                        opportunities</p>
+                </div>
 
-                    <div class="space-y-6">
-                        @foreach ($this->jobsInfo as $info)
-                            <div
-                                class="rounded-lg border p-6 {{ $info['isWarning'] ? 'border-warning bg-warning' : 'border-gray-200' }}">
-                                <div class="flex items-start gap-3">
-                                    @if ($info['isWarning'])
-                                        <x-ri-alert-fill
-                                            class="text-warning-foreground mt-0.5 h-5 w-5 flex-shrink-0" />
-                                    @endif
-                                    <div class="flex-1">
-                                        <h3
-                                            class="mb-3 text-lg font-semibold md:text-xl {{ $info['isWarning'] ? 'text-warning-foreground' : '' }}">
-                                            {{ $info['title'] }}
-                                        </h3>
-                                        <p
-                                            class="leading-relaxed max-md:text-sm {{ $info['isWarning'] ? 'text-warning-foreground' : '' }}">
-                                            {{ $info['content'] }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-6 rounded-lg border border-green-200 bg-success p-4">
+                <div class="space-y-6">
+                    @foreach ($this->jobsInfo as $info)
+                    <div
+                        class="rounded-lg border p-6 {{ $info['isWarning'] ? 'border-warning bg-warning' : 'border-gray-200' }}">
                         <div class="flex items-start gap-3">
-                            <x-ri-check-fill class="text-success-foreground mt-0.5 h-5 w-5 flex-shrink-0" />
-                            <p class="text-success-foreground text-sm">
-                                Job ads are updated daily! Enable notifications in your account settings to receive
-                                alerts about new job postings matching your preferences.
-                            </p>
+                            @if ($info['isWarning'])
+                            <x-ri-alert-fill
+                                class="text-warning-foreground mt-0.5 h-5 w-5 flex-shrink-0" />
+                            @endif
+                            <div class="flex-1">
+                                <h3
+                                    class="mb-3 text-lg font-semibold md:text-xl {{ $info['isWarning'] ? 'text-warning-foreground' : '' }}">
+                                    {{ $info['title'] }}
+                                </h3>
+                                <p
+                                    class="leading-relaxed max-md:text-sm {{ $info['isWarning'] ? 'text-warning-foreground' : '' }}">
+                                    {{ $info['content'] }}
+                                </p>
+                            </div>
                         </div>
                     </div>
+                    @endforeach
                 </div>
+
+                <div class="mt-6 rounded-lg border border-green-200 bg-success p-4">
+                    <div class="flex items-start gap-3">
+                        <x-ri-check-fill class="text-success-foreground mt-0.5 h-5 w-5 flex-shrink-0" />
+                        <p class="text-success-foreground text-sm">
+                            Job ads are updated daily! Enable notifications in your account settings to receive
+                            alerts about new job postings matching your preferences.
+                        </p>
+                    </div>
+                </div>
+            </div>
             @endif
 
             {{-- ── Account & Billing ── --}}
             @if ($activeCategory === 'billing')
-                <div class="px-3 py-6 md:p-8">
-                    <div class="mb-6">
-                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Account & Billing</h2>
-                        <p class="text-muted-foreground max-sm:text-sm">Manage your account and subscription settings
-                        </p>
-                    </div>
-
-                    <div class="space-y-6">
-                        @foreach ($this->billingInfo as $info)
-                            <div
-                                class="rounded-lg border p-6 {{ $info['isWarning'] ? 'border-destructive bg-destructive' : 'border-gray-200' }}">
-                                <div class="flex items-start gap-3">
-                                    @if ($info['isWarning'])
-                                        <x-ri-alert-fill
-                                            class="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive-foreground" />
-                                    @endif
-                                    <div class="flex-1">
-                                        <h3
-                                            class="mb-3 text-lg font-semibold md:text-xl {{ $info['isWarning'] ? 'text-destructive-foreground' : '' }}">
-                                            {{ $info['title'] }}
-                                        </h3>
-                                        <p
-                                            class="leading-relaxed max-md:text-sm {{ $info['isWarning'] ? 'text-destructive-foreground' : '' }}">
-                                            {{ $info['content'] }}
-                                        </p>
-                                    </div>
-                                </div>
-                            </div>
-                        @endforeach
-                    </div>
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="mb-2 text-lg font-bold md:text-2xl">Account & Billing</h2>
+                    <p class="text-muted-foreground max-sm:text-sm">Manage your account and subscription settings
+                    </p>
                 </div>
+
+                <div class="space-y-6">
+                    @foreach ($this->billingInfo as $info)
+                    <div
+                        class="rounded-lg border p-6 {{ $info['isWarning'] ? 'border-destructive bg-destructive' : 'border-gray-200' }}">
+                        <div class="flex items-start gap-3">
+                            @if ($info['isWarning'])
+                            <x-ri-alert-fill
+                                class="mt-0.5 h-5 w-5 flex-shrink-0 text-destructive-foreground" />
+                            @endif
+                            <div class="flex-1">
+                                <h3
+                                    class="mb-3 text-lg font-semibold md:text-xl {{ $info['isWarning'] ? 'text-destructive-foreground' : '' }}">
+                                    {{ $info['title'] }}
+                                </h3>
+                                <p
+                                    class="leading-relaxed max-md:text-sm {{ $info['isWarning'] ? 'text-destructive-foreground' : '' }}">
+                                    {{ $info['content'] }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                    @endforeach
+                </div>
+            </div>
             @endif
 
             {{-- ── Contact & Support ── --}}
             @if ($activeCategory === 'support')
-                <div class="px-3 py-6 md:p-8">
-                    <div class="mb-6">
-                        <h2 class="mb-2 text-lg font-bold md:text-2xl">Contact & Support</h2>
-                        <p class="text-muted-foreground max-sm:text-sm">Get help from our support team</p>
-                    </div>
-
-                    <div class="grid gap-6 md:grid-cols-2">
-                        @foreach ($this->supportCards as $card)
-                            <div class="rounded-lg border border-gray-200 p-6 transition-colors hover:border-blue-300">
-                                <div
-                                    class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg {{ $card['iconClass'] }}">
-                                    <x-dynamic-component :component="'ri-' . $card['icon']" class="h-5 w-5" />
-                                </div>
-                                <h3 class="mb-2 text-lg font-semibold">{{ $card['title'] }}</h3>
-                                <p class="mb-3 text-muted-foreground max-sm:text-sm">{{ $card['description'] }}</p>
-                                <a href="mailto:{{ $card['email'] }}"
-                                    class="font-medium text-blue-600 hover:text-blue-700">
-                                    {{ $card['email'] }}
-                                </a>
-                            </div>
-                        @endforeach
-                    </div>
-
-                    <div class="mt-8 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-green-50 p-6">
-                        <h3 class="mb-3 font-semibold md:text-lg">Response Time</h3>
-                        <p class="leading-relaxed max-md:text-sm">
-                            We typically respond to support emails within 24 hours during business days.
-                            For urgent issues, please mark your email as "Urgent" in the subject line.
-                            Premium members receive priority support.
-                        </p>
-                    </div>
+            <div class="px-3 py-6 md:p-8">
+                <div class="mb-6">
+                    <h2 class="mb-2 text-lg font-bold md:text-2xl">Contact & Support</h2>
+                    <p class="text-muted-foreground max-sm:text-sm">Get help from our support team</p>
                 </div>
+
+                <div class="grid gap-6 md:grid-cols-2">
+                    @foreach ($this->supportCards as $card)
+                    <div class="rounded-lg border border-gray-200 p-6 transition-colors hover:border-blue-300">
+                        <div
+                            class="mb-4 flex h-10 w-10 items-center justify-center rounded-lg {{ $card['iconClass'] }}">
+                            <x-dynamic-component :component="'ri-' . $card['icon']" class="h-5 w-5" />
+                        </div>
+                        <h3 class="mb-2 text-lg font-semibold">{{ $card['title'] }}</h3>
+                        <p class="mb-3 text-muted-foreground max-sm:text-sm">{{ $card['description'] }}</p>
+                        <a href="mailto:{{ $card['email'] }}"
+                            class="font-medium text-blue-600 hover:text-blue-700">
+                            {{ $card['email'] }}
+                        </a>
+                    </div>
+                    @endforeach
+                </div>
+
+                <div class="mt-8 rounded-lg border border-blue-200 bg-gradient-to-r from-blue-50 to-green-50 p-6">
+                    <h3 class="mb-3 font-semibold md:text-lg">Response Time</h3>
+                    <p class="leading-relaxed max-md:text-sm">
+                        We typically respond to support emails within 24 hours during business days.
+                        For urgent issues, please mark your email as "Urgent" in the subject line.
+                        Premium members receive priority support.
+                    </p>
+                </div>
+            </div>
             @endif
 
         </div>

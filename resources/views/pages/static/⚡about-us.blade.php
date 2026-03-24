@@ -14,48 +14,56 @@ new class extends Component {
 ?>
 
 @slot('title')
-    About PakQuiz – Smart MCQs Preparation Platform for Pakistan
+About PakQuiz – Smart MCQs Preparation Platform for Pakistan
+@endslot
+
+@slot('description')
+PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven exam prep for every aspirant.
+@endslot
+
+@slot('keywords')
+MCQs preparation Pakistan, FPSC MCQs, PPSC MCQs, NTS preparation, CSS PMS preparation, online quiz Pakistan, exam preparation platform, practice papers Pakistan
+@endslot
+
+@slot('canonical')
+{{ url('/about') }}
 @endslot
 
 @push('meta')
-    {{-- ======================== PRIMARY META TAGS ======================== --}}
-    <meta name="title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
-    <meta name="description"
-        content="PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven exam prep for every aspirant.">
-    <meta name="keywords"
-        content="PakQuiz, MCQs preparation Pakistan, FPSC MCQs, PPSC MCQs, NTS preparation, CSS PMS preparation, online quiz Pakistan, exam preparation platform, practice papers Pakistan">
-    <meta name="robots" content="index, follow">
-    <meta name="language" content="English">
-    <link rel="canonical" href="{{ url('/about') }}">
+{{-- ======================== PRIMARY META TAGS ======================== --}}
+<meta name="robots" content="index, follow">
+<meta name="language" content="English">
 
-    {{-- ======================== OPEN GRAPH (Facebook / LinkedIn) ======================== --}}
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/about') }}">
-    <meta property="og:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
-    <meta property="og:description"
-        content="PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven exam prep.">
-    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:image:width" content="1200">
-    <meta property="og:image:height" content="630">
-    <meta property="og:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
-    <meta property="og:site_name" content="PakQuiz">
-    <meta property="og:locale" content="en_PK">
+{{-- ======================== OPEN GRAPH (Facebook / LinkedIn) ======================== --}}
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/about') }}">
+<meta property="og:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
+<meta property="og:description"
+    content="PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven exam prep.">
+<meta property="og:image" content="{{ asset('images/og-image.png') }}">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
+<meta property="og:site_name" content="PakQuiz">
+<meta property="og:locale" content="en_PK">
 
-    {{-- ======================== TWITTER CARD ======================== --}}
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:url" content="{{ url('/about') }}">
-    <meta name="twitter:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
-    <meta name="twitter:description"
-        content="Pakistan's AI-assisted MCQs platform for FPSC, PPSC, NTS, CSS & PMS. Smart tracking, practice papers, and AI-powered prep—all in one place.">
-    <meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
-    <meta name="twitter:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
+{{-- ======================== TWITTER CARD ======================== --}}
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:url" content="{{ url('/about') }}">
+<meta name="twitter:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
+<meta name="twitter:description"
+    content="Pakistan's AI-assisted MCQs platform for FPSC, PPSC, NTS, CSS & PMS. Smart tracking, practice papers, and AI-powered prep—all in one place.">
+<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
+<meta name="twitter:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
 @endpush
 
 
 <div>
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
 
@@ -136,19 +144,19 @@ new class extends Component {
                         </p>
                         <div class="mb-6 grid grid-cols-2 gap-3">
                             @foreach (['FPSC', 'PPSC', 'NTS', 'CSS / PMS', 'Testing Services', 'Departmental Tests'] as $exam)
-                                <div
-                                    class="rounded-lg border border-red-200 bg-white px-4 py-2 text-center font-semibold text-gray-800">
-                                    {{ $exam }}
-                                </div>
+                            <div
+                                class="rounded-lg border border-red-200 bg-white px-4 py-2 text-center font-semibold text-gray-800">
+                                {{ $exam }}
+                            </div>
                             @endforeach
                         </div>
                         <p class="mb-3 font-semibold text-gray-700">Most aspirants struggle with:</p>
                         <ul class="space-y-2">
                             @foreach (['Scattered study material', 'Outdated MCQs', 'Lack of practice analytics', 'No clear preparation roadmap'] as $problem)
-                                <li class="flex items-start gap-2">
-                                    <div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></div>
-                                    <span class="text-gray-700">{{ $problem }}</span>
-                                </li>
+                            <li class="flex items-start gap-2">
+                                <div class="mt-2 h-2 w-2 flex-shrink-0 rounded-full bg-red-500"></div>
+                                <span class="text-gray-700">{{ $problem }}</span>
+                            </li>
                             @endforeach
                         </ul>
                     </div>
@@ -193,61 +201,61 @@ new class extends Component {
                 <div class="grid gap-8 md:grid-cols-2">
 
                     @php
-                        $features = [
-                            [
-                                'icon' => 'book-open-fill',
-                                'title' => 'Comprehensive MCQs Database',
-                                'description' =>
-                                    'A continuously growing collection of verified MCQs covering subjects, topics, departments, testing services, and competitive exam papers. Each MCQ is carefully categorized to ensure focused preparation instead of random practice.',
-                                'gradient' => 'from-blue-500 to-blue-600',
-                                'badge' => null,
-                            ],
-                            [
-                                'icon' => 'award-fill',
-                                'title' => 'Practice Papers & Demo Tests',
-                                'description' =>
-                                    'Attempt demo practice papers, subject-wise tests, and topic-focused quizzes. Test your knowledge in a real exam-like environment and build confidence before the actual test.',
-                                'gradient' => 'from-green-500 to-green-600',
-                                'badge' => null,
-                            ],
-                            [
-                                'icon' => 'bar-chart-box-ai-fill',
-                                'title' => 'Smart Progress Tracking',
-                                'description' =>
-                                    'Advanced features for serious aspirants including performance analytics, accuracy tracking, custom practice papers, and topic strength & weakness analysis. Transform MCQs practice into data-driven preparation.',
-                                'gradient' => 'from-purple-500 to-purple-600',
-                                'badge' => ['label' => 'Premium Feature', 'class' => 'bg-purple-100 text-purple-700'],
-                            ],
-                            [
-                                'icon' => 'sparkling-2-fill',
-                                'title' => 'AI-Assisted Learning',
-                                'description' =>
-                                    'PakQuiz integrates AI to improve content quality, assist with learning insights, and enhance personalized practice experiences. Our goal is not just testing—but learning improvement.',
-                                'gradient' => 'from-orange-500 to-orange-600',
-                                'badge' => [
-                                    'label' => 'Coming Soon & Evolving',
-                                    'class' => 'bg-orange-100 text-orange-700',
-                                ],
-                            ],
-                        ];
+                    $features = [
+                    [
+                    'icon' => 'book-open-fill',
+                    'title' => 'Comprehensive MCQs Database',
+                    'description' =>
+                    'A continuously growing collection of verified MCQs covering subjects, topics, departments, testing services, and competitive exam papers. Each MCQ is carefully categorized to ensure focused preparation instead of random practice.',
+                    'gradient' => 'from-blue-500 to-blue-600',
+                    'badge' => null,
+                    ],
+                    [
+                    'icon' => 'award-fill',
+                    'title' => 'Practice Papers & Demo Tests',
+                    'description' =>
+                    'Attempt demo practice papers, subject-wise tests, and topic-focused quizzes. Test your knowledge in a real exam-like environment and build confidence before the actual test.',
+                    'gradient' => 'from-green-500 to-green-600',
+                    'badge' => null,
+                    ],
+                    [
+                    'icon' => 'bar-chart-box-ai-fill',
+                    'title' => 'Smart Progress Tracking',
+                    'description' =>
+                    'Advanced features for serious aspirants including performance analytics, accuracy tracking, custom practice papers, and topic strength & weakness analysis. Transform MCQs practice into data-driven preparation.',
+                    'gradient' => 'from-purple-500 to-purple-600',
+                    'badge' => ['label' => 'Premium Feature', 'class' => 'bg-purple-100 text-purple-700'],
+                    ],
+                    [
+                    'icon' => 'sparkling-2-fill',
+                    'title' => 'AI-Assisted Learning',
+                    'description' =>
+                    'PakQuiz integrates AI to improve content quality, assist with learning insights, and enhance personalized practice experiences. Our goal is not just testing—but learning improvement.',
+                    'gradient' => 'from-orange-500 to-orange-600',
+                    'badge' => [
+                    'label' => 'Coming Soon & Evolving',
+                    'class' => 'bg-orange-100 text-orange-700',
+                    ],
+                    ],
+                    ];
                     @endphp
 
                     @foreach ($features as $feature)
+                    <div
+                        class="rounded-xl border border-gray-200 bg-white p-4 shadow-lg transition-shadow hover:shadow-xl md:p-6">
                         <div
-                            class="rounded-xl border border-gray-200 bg-white p-4 shadow-lg transition-shadow hover:shadow-xl md:p-6">
-                            <div
-                                class="h-10 w-10 bg-gradient-to-br md:h-14 md:w-14 {{ $feature['gradient'] }} mb-4 flex items-center justify-center rounded-lg">
-                                <x-dynamic-component :component="'ri-' . $feature['icon']" class="h-5 w-5 text-white md:h-8 md:w-8" />
-                            </div>
-                            <h3 class="mb-3 text-xl font-bold text-gray-900">{{ $feature['title'] }}</h3>
-                            <p class="text-sm leading-relaxed text-gray-700">{{ $feature['description'] }}</p>
-                            @if ($feature['badge'])
-                                <div
-                                    class="mt-3 inline-block rounded-full px-3 py-1 text-sm font-semibold {{ $feature['badge']['class'] }}">
-                                    {{ $feature['badge']['label'] }}
-                                </div>
-                            @endif
+                            class="h-10 w-10 bg-gradient-to-br md:h-14 md:w-14 {{ $feature['gradient'] }} mb-4 flex items-center justify-center rounded-lg">
+                            <x-dynamic-component :component="'ri-' . $feature['icon']" class="h-5 w-5 text-white md:h-8 md:w-8" />
                         </div>
+                        <h3 class="mb-3 text-xl font-bold text-gray-900">{{ $feature['title'] }}</h3>
+                        <p class="text-sm leading-relaxed text-gray-700">{{ $feature['description'] }}</p>
+                        @if ($feature['badge'])
+                        <div
+                            class="mt-3 inline-block rounded-full px-3 py-1 text-sm font-semibold {{ $feature['badge']['class'] }}">
+                            {{ $feature['badge']['label'] }}
+                        </div>
+                        @endif
+                    </div>
                     @endforeach
 
                 </div>
@@ -266,11 +274,11 @@ new class extends Component {
                     </p>
                     <div class="grid gap-4 md:grid-cols-5">
                         @foreach (['Government job aspirants', 'CSS / PMS candidates', 'University & entry test students', 'Departmental exam candidates', 'Anyone preparing through MCQs'] as $audience)
-                            <div
-                                class="rounded-lg border border-white/20 bg-white/10 p-4 text-center backdrop-blur-sm">
-                                <x-ri-check-fill class="mx-auto mb-2 h-6 w-6" />
-                                <p class="font-semibold">{{ $audience }}</p>
-                            </div>
+                        <div
+                            class="rounded-lg border border-white/20 bg-white/10 p-4 text-center backdrop-blur-sm">
+                            <x-ri-check-fill class="mx-auto mb-2 h-6 w-6" />
+                            <p class="font-semibold">{{ $audience }}</p>
+                        </div>
                         @endforeach
                     </div>
                 </div>
@@ -338,12 +346,12 @@ new class extends Component {
 
                     <div class="mx-auto grid max-w-3xl gap-6 md:grid-cols-2">
                         @foreach (['Regular content updates', 'Accuracy & relevance', 'Continuous platform improvement', 'Listening to user feedback'] as $commitment)
-                            <div
-                                class="flex items-center gap-3 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-blue-50 p-4">
-                                <x-ri-check-fill class="h-6 w-6 flex-shrink-0 text-green-600" />
-                                <span
-                                    class="text-sm font-medium text-gray-800 md:text-base">{{ $commitment }}</span>
-                            </div>
+                        <div
+                            class="flex items-center gap-3 rounded-lg border border-green-200 bg-gradient-to-r from-green-50 to-blue-50 p-4">
+                            <x-ri-check-fill class="h-6 w-6 flex-shrink-0 text-green-600" />
+                            <span
+                                class="text-sm font-medium text-gray-800 md:text-base">{{ $commitment }}</span>
+                        </div>
                         @endforeach
                     </div>
 

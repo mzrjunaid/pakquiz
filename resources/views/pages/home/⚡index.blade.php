@@ -62,25 +62,34 @@ new class extends Component {
 ?>
 
 @slot('title')
-    {{ $this->meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
+@slot('description')
+{{ $this->meta['description'] }}
+@endslot
+
+@slot('canonical')
+{{ $this->meta['canonical'] }}
+@endslot
+
+
 @push('meta')
-    <meta name="description" content="{{ $this->meta['description'] }}">
-    <meta name="canonical" content="{{ $this->meta['canonical'] }}">
-    <meta property="og:title" content="{{ $this->meta['og_title'] }}">
-    <meta property="og:description" content="{{ $this->meta['og_description'] }}">
-    <meta property="og:image" content="{{ $this->meta['og_image'] }}">
-    <meta property="og:url" content="{{ $this->meta['canonical'] }}">
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-    <meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-    <meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
+<meta property="og:title" content="{{ $this->meta['og_title'] }}">
+<meta property="og:description" content="{{ $this->meta['og_description'] }}">
+<meta property="og:image" content="{{ $this->meta['og_image'] }}">
+<meta property="og:url" content="{{ $this->meta['canonical'] }}">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
+<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
+<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
 @endpush
 
 @slot('schema')
-    <script type="application/ld+json">
-    {!!json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+<script type="application/ld+json">
+    {
+        !!json_encode($this - > schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!
+    }
 </script>
 @endslot
 
@@ -171,7 +180,7 @@ new class extends Component {
                     </div>
                     <div class="space-y-4 md:space-y-6 min-h-[3000px]">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
-                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
+                        <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
                         @endforeach
 
                         <div class="flex justify-center">

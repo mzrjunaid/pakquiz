@@ -32,28 +32,34 @@ new class extends Component {
 
 
 @slot('title')
-    Privacy Policy – PakQuiz
+Privacy Policy – PakQuiz
+@endslot
+
+@slot('description')
+Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.
+@endslot
+
+@slot('canonical')
+{{ url('/privacy-policy') }}
 @endslot
 
 @push('head')
-    <meta name="title" content="Privacy Policy – PakQuiz">
-    <meta name="description"
-        content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/privacy-policy') }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/privacy-policy') }}">
-    <meta property="og:title" content="Privacy Policy – PakQuiz">
-    <meta property="og:description"
-        content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information.">
-    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:site_name" content="PakQuiz">
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/privacy-policy') }}">
+<meta property="og:title" content="Privacy Policy – PakQuiz">
+<meta property="og:description"
+    content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information.">
+<meta property="og:image" content="{{ asset('images/og-image.png') }}">
+<meta property="og:site_name" content="PakQuiz">
 @endpush
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="space-y-2 py-8">
@@ -80,17 +86,17 @@ new class extends Component {
                 <h2 class="mb-4 font-semibold">Quick Navigation</h2>
                 <ul class="space-y-1">
                     @foreach ($this->sections as $section)
-                        <li>
-                            <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
-                                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
+                    <li>
+                        <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
+                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                    {{ $activeSection === $section['id']
                                        ? 'bg-accent font-semibold text-accent-foreground'
                                        : 'text-muted-foreground hover:bg-accent' }}"
-                                x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })">
-                                @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
-                                <span>{{ $section['title'] }}</span>
-                            </a>
-                        </li>
+                            x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })">
+                            @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
+                            <span>{{ $section['title'] }}</span>
+                        </a>
+                    </li>
                     @endforeach
                 </ul>
             </div>

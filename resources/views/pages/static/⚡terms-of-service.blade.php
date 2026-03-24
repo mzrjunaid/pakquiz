@@ -31,28 +31,34 @@ new class extends Component {
 ?>
 
 @slot('title')
-    Terms of Service – PakQuiz
+Terms of Service – PakQuiz
 @endslot
 
-@push('meta')
-    <meta name="title" content="Terms of Service – PakQuiz">
-    <meta name="description"
-        content="Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform.">
-    <meta name="robots" content="index, follow">
-    <link rel="canonical" href="{{ url('/terms-of-service') }}">
-    <meta property="og:type" content="website">
-    <meta property="og:url" content="{{ url('/terms-of-service') }}">
-    <meta property="og:title" content="Terms of Service – PakQuiz">
-    <meta property="og:description"
-        content="Read PakQuiz's Terms of Service governing your use of our MCQs preparation platform.">
-    <meta property="og:image" content="{{ asset('images/og-image.png') }}">
-    <meta property="og:site_name" content="PakQuiz">
+@slot('description')
+Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user conduct, and legal agreements governing your use of our MCQs preparation platform.
+@endslot
+
+@slot('canonical')
+{{ url('/terms-of-service') }}
+@endslot
+
+@push('head')
+<meta name="robots" content="index, follow">
+<meta property="og:type" content="website">
+<meta property="og:url" content="{{ url('/terms-of-service') }}">
+<meta property="og:title" content="Terms of Service – PakQuiz">
+<meta property="og:description"
+    content="Read PakQuiz's Terms of Service governing your use of our MCQs preparation platform.">
+<meta property="og:image" content="{{ asset('images/og-image.png') }}">
+<meta property="og:site_name" content="PakQuiz">
 @endpush
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($this->schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($this - > schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="space-y-2 py-8">
@@ -79,17 +85,17 @@ new class extends Component {
                 <h2 class="mb-4 font-semibold">Quick Navigation</h2>
                 <ul class="space-y-1">
                     @foreach ($this->sections as $section)
-                        <li>
-                            <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
-                                x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })"
-                                class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
+                    <li>
+                        <a href="#{{ $section['id'] }}" wire:click.prevent="setActive('{{ $section['id'] }}')"
+                            x-on:click="document.getElementById('{{ $section['id'] }}')?.scrollIntoView({ behavior: 'smooth' })"
+                            class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm transition-colors
                                    {{ $activeSection === $section['id']
                                        ? 'bg-accent font-semibold text-accent-foreground'
                                        : 'text-muted-foreground hover:bg-accent' }}">
-                                @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
-                                <span>{{ $section['title'] }}</span>
-                            </a>
-                        </li>
+                            @svg($section['icon'], 'h-4 w-4 flex-shrink-0')
+                            <span>{{ $section['title'] }}</span>
+                        </a>
+                    </li>
                     @endforeach
                 </ul>
             </div>
