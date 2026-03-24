@@ -8,8 +8,8 @@
     <title>
         {{ $title ?? config('app.name', 'Pak Quiz') }}
     </title>
-
     <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}" />
+
     <meta name="description" content="{{ $description ?? config('app.description', 'Pak Quiz') }}">
     @stack('meta')
 
@@ -36,8 +36,8 @@
 
     <link rel="preload" href="{{ Vite::asset('resources/js/public.js') }}" as="script">
     <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style">
-    <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/Roboto.woff2') }}" as="font" type="font/woff2"
-        crossorigin>
+    <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/Roboto.woff2') }}" as="font"
+        type="font/woff2" crossorigin>
     <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/NotoNastaliqUrdu.woff2') }}" as="font"
         type="font/woff2" crossorigin>
 
@@ -57,6 +57,11 @@
 
         gtag('config', 'G-ZVYX92FGJV');
     </script>
+
+    {{-- Facebook APP ID --}}
+
+    <meta property="fb:app_id" content="2333196190495112">
+
 </head>
 
 <body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
