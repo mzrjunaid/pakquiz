@@ -25,7 +25,7 @@
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
 
     {{-- Facebook APP ID --}}
-    <meta property="fb:app_id" content="2333196190495112">
+    <meta property="fb:app_id" content="4660495490860175">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
