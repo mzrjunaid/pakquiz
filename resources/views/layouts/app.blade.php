@@ -9,8 +9,10 @@
         {{ $title ?? config('app.name', 'Pak Quiz') }}
     </title>
     <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}" />
-
     <meta name="description" content="{{ $description ?? config('app.description', 'Pak Quiz') }}">
+
+    {{-- Facebook APP ID --}}
+    <meta property="fb:app_id" content="26509571205343495">
     @stack('meta')
 
     <meta name="robots" content="index, follow" />
@@ -23,9 +25,6 @@
     <link rel="icon" href="{{ asset('favicon.ico') }}" sizes="any">
     <link rel="icon" href="{{ asset('favicon.svg') }}" type="image/svg+xml">
     <link rel="apple-touch-icon" href="{{ asset('apple-touch-icon.png') }}">
-
-    {{-- Facebook APP ID --}}
-    <meta property="fb:app_id" content="26509571205343495">
 
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="theme-color" content="#FDFDFC">
