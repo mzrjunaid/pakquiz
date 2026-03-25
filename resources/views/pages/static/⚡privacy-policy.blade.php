@@ -30,6 +30,9 @@ new class extends Component {
 };
 ?>
 
+@slot('canonical')
+{{ url('/privacy-policy') }}
+@endslot
 
 @slot('title')
 Privacy Policy – PakQuiz
@@ -39,20 +42,10 @@ Privacy Policy – PakQuiz
 Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information on our MCQs preparation platform.
 @endslot
 
-@slot('canonical')
-{{ url('/privacy-policy') }}
-@endslot
 
-@push('head')
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/privacy-policy') }}">
-<meta property="og:title" content="Privacy Policy – PakQuiz">
-<meta property="og:description"
-    content="Read PakQuiz's Privacy Policy to understand how we collect, use, and protect your personal information.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
-@endpush
+@slot('image')
+{{ asset('images/og-image.png') }}
+@endslot
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')

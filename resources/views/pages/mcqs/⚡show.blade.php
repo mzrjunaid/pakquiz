@@ -101,29 +101,22 @@ new class extends Component {
 };
 ?>
 
+@slot('canonical')
+{{ $this->meta['canonical'] }}
+@endslot
+
 @slot('title')
-{{ $meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $meta['description'] }}
+{{ $this->meta['description'] }}
 @endslot
 
-@slot('canonical')
-{{ $meta['canonical'] }}
+@slot('image')
+{{ $this->meta['og_image'] }}
 @endslot
 
-
-@push('meta')
-<meta property="og:title" content="{{ $meta['og_title'] }}">
-<meta property="og:description" content="{{ $meta['og_description'] }}">
-<meta property="og:image" content="{{ $meta['og_image'] }}">
-<meta property="og:url" content="{{ $meta['canonical'] }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $meta['og_title'] }}">
-<meta name="twitter:description" content="{{ $meta['og_description'] }}">
-<meta name="twitter:image" content="{{ $meta['og_image'] }}">
-@endpush
 
 <div>
     @teleport('head')

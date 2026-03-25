@@ -63,15 +63,11 @@ Join PakQuiz as a content contributor, MCQ writer, or team member. Help thousand
 {{ url('/join-us') }}
 @endslot
 
-@push('meta')
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/join-us') }}">
-<meta property="og:title" content="Join PakQuiz – Be Part of Pakistan's Exam Revolution">
-<meta property="og:description" content="Join PakQuiz as a content contributor, MCQ writer, or team member.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
+@slot('image')
+{{ asset('images/og-image.png') }}
+@endslot
 
+@push('style')
 <style>
     @import url('https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
 

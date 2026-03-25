@@ -30,6 +30,10 @@ new class extends Component {
 };
 ?>
 
+@slot('image')
+{{ asset('images/og-image.png') }}
+@endslot
+
 @slot('title')
 Terms of Service – PakQuiz
 @endslot
@@ -42,16 +46,6 @@ Read PakQuiz's Terms of Service. Understand the rules, subscription terms, user 
 {{ url('/terms-of-service') }}
 @endslot
 
-@push('head')
-<meta name="robots" content="index, follow">
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/terms-of-service') }}">
-<meta property="og:title" content="Terms of Service – PakQuiz">
-<meta property="og:description"
-    content="Read PakQuiz's Terms of Service governing your use of our MCQs preparation platform.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
-@endpush
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')

@@ -52,6 +52,10 @@ new class extends Component {
 };
 ?>
 
+@slot('canonical')
+{{ url('/contact') }}
+@endslot
+
 @slot('title')
 Contact Us – PakQuiz | MCQs Preparation Support
 @endslot
@@ -64,33 +68,10 @@ Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPS
 Contact PakQuiz, MCQs preparation support, FPSC exam help, PPSC exam help, NTS exam help, CSS exam help, PMS exam help, exam preparation platform
 @endslot
 
-@slot('canonical')
-{{ url('/contact') }}
+
+@slot('image')
+{{ asset('images/og-image.png') }}
 @endslot
-
-@push('meta')
-{{-- ======================== PRIMARY META TAGS ======================== --}}
-<meta name="robots" content="index, follow">
-
-{{-- ======================== OPEN GRAPH ======================== --}}
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/contact') }}">
-<meta property="og:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-<meta property="og:description"
-    content="Have a question or feedback? Contact the PakQuiz team for support with FPSC, PPSC, NTS, CSS & PMS exam preparation. We respond within 24 hours.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:image:alt" content="Contact PakQuiz Support">
-<meta property="og:site_name" content="PakQuiz">
-<meta property="og:locale" content="en_PK">
-
-{{-- ======================== TWITTER CARD ======================== --}}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="{{ url('/contact') }}">
-<meta name="twitter:title" content="Contact Us – PakQuiz | MCQs Preparation Support">
-<meta name="twitter:description"
-    content="Have a question or feedback? Reach out to PakQuiz support. We respond within 24 hours.">
-<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
-@endpush
 
 
 <div class="max-w-7xl mx-auto">

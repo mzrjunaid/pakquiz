@@ -29,33 +29,9 @@ MCQs preparation Pakistan, FPSC MCQs, PPSC MCQs, NTS preparation, CSS PMS prepar
 {{ url('/about') }}
 @endslot
 
-@push('meta')
-{{-- ======================== PRIMARY META TAGS ======================== --}}
-<meta name="robots" content="index, follow">
-<meta name="language" content="English">
-
-{{-- ======================== OPEN GRAPH (Facebook / LinkedIn) ======================== --}}
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/about') }}">
-<meta property="og:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
-<meta property="og:description"
-    content="PakQuiz is Pakistan's AI-assisted MCQs preparation platform for FPSC, PPSC, NTS, CSS, PMS & departmental exams. Structured, accessible, and data-driven exam prep.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:image:width" content="1200">
-<meta property="og:image:height" content="630">
-<meta property="og:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
-<meta property="og:site_name" content="PakQuiz">
-<meta property="og:locale" content="en_PK">
-
-{{-- ======================== TWITTER CARD ======================== --}}
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:url" content="{{ url('/about') }}">
-<meta name="twitter:title" content="About PakQuiz – Smart MCQs Preparation Platform for Pakistan">
-<meta name="twitter:description"
-    content="Pakistan's AI-assisted MCQs platform for FPSC, PPSC, NTS, CSS & PMS. Smart tracking, practice papers, and AI-powered prep—all in one place.">
-<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
-<meta name="twitter:image:alt" content="PakQuiz – Smart MCQs Preparation Platform">
-@endpush
+@slot('image')
+{{ asset('images/og-image.png') }}
+@endslot
 
 
 <div>

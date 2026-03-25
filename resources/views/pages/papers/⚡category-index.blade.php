@@ -180,32 +180,21 @@ $latestPapers = $asideData['latestPapers'];
 @endphp
 
 
-@slot('title')
-{{ $this->meta['title'] }}
-@endslot
-
 @slot('canonical')
 {{ $this->meta['canonical'] }}
+@endslot
+
+@slot('title')
+{{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
 {{ $this->meta['description'] }}
 @endslot
 
-@slot('keywords')
-{{ $this->meta['keywords'] }}
+@slot('image')
+{{ $this->meta['og_image'] }}
 @endslot
-
-@push('meta')
-<meta property="og:title" content="{{ $this->meta['og_title'] }}">
-<meta property="og:description" content="{{ $this->meta['og_description'] }}">
-<meta property="og:image" content="{{ $this->meta['og_image'] }}">
-<meta property="og:url" content="{{ $this->meta['canonical'] }}">
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="{{ $this->meta['og_title'] }}">
-<meta name="twitter:description" content="{{ $this->meta['og_description'] }}">
-<meta name="twitter:image" content="{{ $this->meta['og_image'] }}">
-@endpush
 
 <div>
     @teleport('head')

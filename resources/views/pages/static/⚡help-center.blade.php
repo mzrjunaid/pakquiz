@@ -216,6 +216,10 @@ new class extends Component {
 };
 ?>
 
+@slot('canonical')
+{{ url('/help') }}
+@endslot
+
 @slot('title')
 Help Center – PakQuiz | FAQs & Support
 @endslot
@@ -228,26 +232,9 @@ Find answers to common questions about PakQuiz. Learn how to practice MCQs, use 
 Help Center, PakQuiz FAQs, MCQs preparation help, FPSC exam questions, PPSC exam questions, NTS exam questions, CSS exam questions, PMS exam questions, exam preparation support
 @endslot
 
-@slot('canonical')
-{{ url('/help') }}
+@slot('image')
+{{ asset('images/og-image.png') }}
 @endslot
-
-@push('meta')
-<meta name="robots" content="index, follow">
-
-<meta property="og:type" content="website">
-<meta property="og:url" content="{{ url('/help') }}">
-<meta property="og:title" content="Help Center – PakQuiz | FAQs & Support">
-<meta property="og:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
-<meta property="og:image" content="{{ asset('images/og-image.png') }}">
-<meta property="og:site_name" content="PakQuiz">
-<meta property="og:locale" content="en_PK">
-
-<meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Help Center – PakQuiz | FAQs & Support">
-<meta name="twitter:description" content="Find answers to common questions about PakQuiz MCQs preparation platform.">
-<meta name="twitter:image" content="{{ asset('images/og-image.png') }}">
-@endpush
 
 <div class="max-w-7xl mx-auto">
     @teleport('head')

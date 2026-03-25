@@ -50,6 +50,7 @@
 
 
     {{-- ✅ Open Graph --}}
+    <meta property="fb:app_id" content="26509571205343495">
     <meta inertia property="og:title" content="{{ $page['props']['seo']['og_title'] }}" />
     <meta inertia property="og:description" content="{{ $page['props']['seo']['og_description'] }}" />
     <meta inertia property="og:image" content="{{ $page['props']['seo']['og_image'] }}" />
