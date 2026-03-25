@@ -58,9 +58,13 @@
                     {{ $mcq['subject']['name'] }}
                 </a>
             @endif
-            <button @click="shareLink" title="share" class="p-2 hover:bg-accent rounded-full">
-                <x-heroicon-o-share class="h-5 w-5" />
-            </button>
+            <div class="fb-share-button" data-href="{{ url($route) }}" data-layout="button" data-size="large">
+                <a target="_blank"
+                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url($route)) }}"
+                    class="fb-xfbml-parse-ignore">
+                    Share
+                </a>
+            </div>
         </div>
     </div>
 
