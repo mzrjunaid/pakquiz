@@ -1,7 +1,6 @@
 <?php
 
 use App\Http\Middleware\HandleAppearance;
-use App\Http\Middleware\HandleInertiaRequests;
 use App\Http\Middleware\RoleMiddleware;
 use App\Http\Middleware\UserStatusMiddleware;
 use Illuminate\Foundation\Application;

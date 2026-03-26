@@ -78,10 +78,6 @@
 </head>
 
 <body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
-    <div id="fb-root"></div>
-    <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v25.0&appId=26509571205343495">
-    </script>
     <livewire:navbar />
     <main>
         {{ $slot }}

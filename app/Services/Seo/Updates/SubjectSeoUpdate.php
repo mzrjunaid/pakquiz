@@ -42,9 +42,9 @@ class SubjectSeoUpdate extends BaseSeoUpdate
          */
         if ((int) $subject->id === 0) {
             return [
-                'title'       => 'Multiple General Subjects | PakQuiz',
+                'title' => 'Multiple General Subjects | PakQuiz',
                 'description' => 'Explore all general subjects with past papers and MCQs for exam preparation.',
-                'keywords'    => [
+                'keywords' => [
                     'joint subjects',
                     'general subjects',
                     'past papers',

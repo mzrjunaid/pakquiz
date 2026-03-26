@@ -51,20 +51,17 @@
             @endif
         </div>
 
-        <div class="flex items-center justify-end space-x-1">
+        <div class="flex items-center gap-2 justify-end">
             @if ($mcq['subject'])
                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
                     class="px-2 py-1 bg-primary/50 font-semibold tracking-wider text-xs rounded truncate max-w-[100px] md:max-w-none">
                     {{ $mcq['subject']['name'] }}
                 </a>
             @endif
-            <div class="fb-share-button" data-href="{{ url($route) }}" data-layout="button" data-size="large">
-                <a target="_blank"
-                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url($route)) }}"
-                    class="fb-xfbml-parse-ignore">
-                    <x-heroicon-o-share class="h-4 w-4 text-gray-400" />
-                </a>
-            </div>
+            <a target="_blank" href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url($route)) }}"
+                class="p-2 hover:bg-primary/80 rounded-full">
+                <x-heroicon-o-share class="h-4 w-4" />
+            </a>
         </div>
     </div>
 

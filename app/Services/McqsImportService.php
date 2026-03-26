@@ -2,6 +2,7 @@
 
 namespace App\Services;
 
+use App\Console\Commands\GenerateSitemap;
 use App\Jobs\GenerateMcqOgImageJob;
 use App\Models\Mcq;
 use App\Models\McqOption;
@@ -10,8 +11,12 @@ use App\Models\Topic;
 use App\Models\Tag;
 use App\Models\Paper;
 use App\Services\Seo\Updates\McqSeoUpdate;
+use App\Services\Seo\Updates\PaperSeoUpdate;
+use App\Services\Seo\Updates\SubjectSeoUpdate;
+use App\Services\Seo\Updates\TopicSeoUpdate;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
@@ -28,21 +33,19 @@ class McqsImportService
             // 2. Resolve relations
             $subject = Subject::firstOrCreate(
                 ['slug' => $data['subject_slug'] . '-mcqs'],
-                ['name' => Str::title(str_replace('-', ' ', $data['subject_slug']))],
-                ['is_active' => 1]
+                ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])), 'is_active' => 1],
             );
 
             $topic = Topic::firstOrCreate(
                 ['slug' => $data['topic_slug'] . '-mcqs', 'subject_id' => $subject->id],
-                ['name' => Str::title(str_replace('-', ' ', $data['topic_slug']))],
+                ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])), 'is_active' => 1],
             );
 
             $paper = null;
             if (!empty($data['paper_slug'])) {
                 $paper = Paper::firstOrCreate(
                     ['slug' => $data['paper_slug'] . '-mcqs'],
-                    ['name' => Str::title(str_replace('-', ' ', $data['paper_slug']))],
-                    ['is_active' => 1]
+                    ['name' => Str::title(str_replace('-', ' ', $data['paper_slug'])), 'is_active' => 1],
                 );
             }
 
@@ -55,30 +58,32 @@ class McqsImportService
                 $slug = $baseSlug . '-' . $counter++;
             }
 
+
+
             // 4. Create MCQ
             $mcq = Mcq::create([
-                'slug'        => $slug,
-                'question'    => $data['question'],
+                'slug' => $slug,
+                'question' => $data['question'],
                 'explanation' => $data['explanation'] ?? null,
-                'difficulty'  => $data['difficulty'],
-                'mcq_type'    => $data['mcq_type'],
-                'subject_id'  => $subject->id,
-                'topic_id'    => $topic->id,
-                'paper_id'    => $paper?->id,
-                'created_by'  => $createdBy,
-                'created_at'  => $now,
-                'updated_at'  => $now,
+                'difficulty' => $data['difficulty'],
+                'mcq_type' => $data['mcq_type'],
+                'subject_id' => $subject->id,
+                'topic_id' => $topic->id,
+                'paper_id' => $paper?->id,
+                'created_by' => $createdBy,
+                'created_at' => $now,
+                'updated_at' => $now,
             ]);
 
             // 5. Bulk insert options
             McqOption::insert(
                 collect($data['options'])->map(fn($opt) => [
-                    'mcq_id'      => $mcq->id,
+                    'mcq_id' => $mcq->id,
                     'option_text' => $opt['option_text'],
-                    'sort_order'  => $opt['sort_order'],
-                    'is_correct'  => $opt['is_correct'],
-                    'created_at'  => $now,
-                    'updated_at'  => $now,
+                    'sort_order' => $opt['sort_order'],
+                    'is_correct' => $opt['is_correct'],
+                    'created_at' => $now,
+                    'updated_at' => $now,
                 ])->toArray()
             );
 
@@ -97,12 +102,25 @@ class McqsImportService
             return $mcq;
         });
 
+
         // 7. Dispatch job AFTER transaction commits
         if ($mcq) {
+            if ($mcq->subject) {
+                app(SubjectSeoUpdate::class)->handleSingle($mcq->subject->id);
+            }
+            if ($mcq->topic) {
+                app(TopicSeoUpdate::class)->handleSingle($mcq->topic->id);
+            }
+            if ($mcq->paper) {
+                app(PaperSeoUpdate::class)->handleSingle($mcq->paper->id);
+            }
             app(McqSeoUpdate::class)->handleSingle($mcq->id);
             GenerateMcqOgImageJob::dispatch($mcq, 'generate');
         }
 
+
+
+        Cache::forget('home_page_data');
         return $mcq;
     }
 }
