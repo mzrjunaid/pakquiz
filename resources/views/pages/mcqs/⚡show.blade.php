@@ -69,8 +69,6 @@ new class extends Component {
             'mcq' => $this->mcq,
             'schema' => ['@context' => 'https://schema.org', '@graph' => [$breadcrumbs, $quiz]],
             'suggestedMcqs' => $this->suggestedMcqs(),
-            'latestPapers' => $this->latestPapers(),
-            'currentAffairs' => $this->currentAffairs(),
             'meta' => $this->meta(),
         ];
     }
@@ -79,18 +77,6 @@ new class extends Component {
     public function suggestedMcqs()
     {
         return Mcq::select('id', 'question', 'slug', 'subject_id', 'topic_id')->where('subject_id', $this->mcq->subject_id)->where('topic_id', $this->mcq->topic_id)->where('id', '!=', $this->mcq->id)->limit(5)->get();
-    }
-
-    #[Computed]
-    public function latestPapers()
-    {
-        return Paper::select('id', 'name', 'slug')->latest()->limit(5)->get();
-    }
-
-    #[Computed]
-    public function currentAffairs()
-    {
-        return Topic::select('id', 'name', 'slug', 'subject_id')->with('subject:id,name,slug')->where('subject_id', 39)->latest()->limit(5)->get();
     }
 
     #[Computed]
@@ -205,10 +191,13 @@ new class extends Component {
                                 {{ $mcq['subject']['name'] }}
                             </a>
                             @endif
-                            <button aria-label="Share" name="share" @click="shareLink"
-                                class="p-2 hover:bg-accent rounded-full">
-                                <x-heroicon-o-share class="h-5 w-5" />
-                            </button>
+                            <div class="fb-share-button" data-href="{{ url('/mcqs/' . $mcq->slug) }}" data-layout="button" data-size="large">
+                                <a target="_blank"
+                                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url('/mcqs/' . $mcq->slug)) }}"
+                                    class="fb-xfbml-parse-ignore">
+                                    <x-heroicon-o-share class="h-4 w-4 text-gray-400" />
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <h1 class="text-base md:text-2xl font-bold {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}"

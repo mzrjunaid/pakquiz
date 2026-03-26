@@ -62,7 +62,7 @@
                 <a target="_blank"
                     href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url($route)) }}"
                     class="fb-xfbml-parse-ignore">
-                    Share
+                    <x-heroicon-o-share class="h-4 w-4 text-gray-400" />
                 </a>
             </div>
         </div>

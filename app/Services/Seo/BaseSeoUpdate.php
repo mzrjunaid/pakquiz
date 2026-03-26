@@ -24,6 +24,12 @@ abstract class BaseSeoUpdate
             });
     }
 
+    public function handleSingle(int $id): void
+    {
+        $model = $this->query()->findOrFail($id);
+        $this->updateSeo($model);
+    }
+
     protected function updateSeo($model): void
     {
         $rawSeoData = $this->seoData($model);
