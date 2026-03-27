@@ -13,9 +13,10 @@
     RewriteRule .* - [E=Cache-Control:no-cache]
 
     # B. Force HTTPS and WWW simultaneously
-    RewriteCond %{HTTPS} off [OR]
-    RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$ [NC]
-    RewriteRule ^(.*)$ https://pakquiz.com/$1 [L,R=301]
+    RewriteCond %{HTTPS} off
+    RewriteCond %{HTTP:X-Forwarded-SSL} !on
+    RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$
+    RewriteRule ^(.*)$ "https\:\/\/pakquiz\.com\/$1" [R=301,L]
 
     # C. Handle Headers
     RewriteCond %{HTTP:Authorization} .
