@@ -191,11 +191,13 @@ new class extends Component {
                                     {{ $mcq['subject']['name'] }}
                                 </a>
                             @endif
-                            <a target="_blank"
-                                href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url('/mcqs/' . $mcq->slug)) }}"
-                                class="p-2 hover:bg-primary/80 rounded-full">
-                                <x-heroicon-o-share class="h-4 w-4" />
-                            </a>
+                            <div class="fb-share-button" data-href="{{ url('/mcqs/' . $mcq->slug) }}" data-layout="button" data-size="large">
+                                <a target="_blank"
+                                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url('/mcqs/' . $mcq->slug)) }}"
+                                    class="fb-xfbml-parse-ignore">
+                                    Share
+                                </a>
+                            </div>
                         </div>
                     </div>
                     <h1 class="text-base md:text-2xl font-bold {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}"
