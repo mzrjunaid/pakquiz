@@ -111,8 +111,8 @@ class SubjectController extends Controller
 
         // After fetching, confirm the file physically exists on disk        
         $mcqs->through(function ($mcq) {
-            $mcq->og_image_exists = $mcq->has_og_image
-                && File::exists(public_path('assets/images/mcqs/' . $mcq->seo->og_image));
+            $mcq->has_og_image = $mcq->has_og_image
+                && File::exists(public_path($mcq->seo->og_image));
             return $mcq;
         });
 
