@@ -3,20 +3,26 @@
     Options -MultiViews -Indexes
 </IfModule>
 
+<IfModule mod_headers.c>
+    <FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
+        Header set Access-Control-Allow-Origin "*"
+    </FilesMatch>
+</IfModule>
+
+# 2. Redirect Rules
 # 2. Redirect Rules
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # A. FACEBOOK BYPASS (MUST BE FIRST)
-    # This prevents Facebook from being redirected and stops throttling
+    # A. FACEBOOK BYPASS
     RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot) [NC]
     RewriteRule .* - [E=Cache-Control:no-cache]
 
-    # B. Force HTTPS and WWW simultaneously
-    RewriteCond %{HTTPS} off
-    RewriteCond %{HTTP:X-Forwarded-SSL} !on
-    RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$
-    RewriteRule ^(.*)$ "https\:\/\/pakquiz\.com\/$1" [R=301,L]
+    # B. Force HTTPS and Naked Domain (REPLACES YOUR OLD 2B)
+    # This catches both non-HTTPS and WWW requests in one jump
+    RewriteCond %{HTTPS} off [OR]
+    RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$ [NC]
+    RewriteRule ^(.*)$ https://pakquiz.com/$1 [L,R=301]
 
     # C. Handle Headers
     RewriteCond %{HTTP:Authorization} .
@@ -33,10 +39,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
-
-    # F. Redirect index.html to root
-    RewriteCond %{THE_REQUEST} ^.*/index\.html
-    RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
 </IfModule>
 
 # 3. Browser Caching (Lighthouse Fix)
