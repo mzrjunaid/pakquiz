@@ -20,7 +20,7 @@
     quizMode: @json(session('isQuizMode')),
     shareLink() {
         navigator.clipboard.writeText('{{ url($route) }}');
-        window.dispatchEvent(new CustomEvent('notify', { detail: 'Link copied!' }));
+        Toaster.success('Link copied to the clipboard!');
     },
     selectOption(id) {
         if (!this.quizMode || this.wasAnswered) return;
@@ -58,13 +58,9 @@
                     {{ $mcq['subject']['name'] }}
                 </a>
             @endif
-            <div class="fb-share-button" data-href="{{ url($route) }}" data-layout="button" data-size="large">
-                <a target="_blank"
-                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url($route)) }}"
-                    class="fb-xfbml-parse-ignore">
-                    Share
-                </a>
-            </div>
+            <button @click="shareLink" title="share" class="p-2 hover:bg-accent rounded-full">
+                <x-heroicon-o-share class="h-5 w-5" />
+            </button>
         </div>
     </div>
 

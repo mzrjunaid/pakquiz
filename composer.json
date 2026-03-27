@@ -20,6 +20,7 @@
         "laravel/tinker": "^2.10.1",
         "laravel/wayfinder": "^0.1.9",
         "livewire/livewire": "*",
+        "masmerise/livewire-toaster": "^2.9",
         "spatie/browsershot": "^5.2",
         "spatie/laravel-sitemap": "^7.3"
     },

@@ -165,7 +165,7 @@ new class extends Component {
         <section x-data="{
             shareLink() {
                 navigator.clipboard.writeText('{{ url('/mcqs/' . $mcq->slug) }}');
-                window.dispatchEvent(new CustomEvent('notify', { detail: 'Link copied!' }));
+                Toaster.success('Link copied to the clipboard!');
             }
         }" class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
@@ -191,13 +191,9 @@ new class extends Component {
                                     {{ $mcq['subject']['name'] }}
                                 </a>
                             @endif
-                            <div class="fb-share-button" data-href="{{ url('/mcqs/' . $mcq->slug) }}" data-layout="button" data-size="large">
-                                <a target="_blank"
-                                    href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url('/mcqs/' . $mcq->slug)) }}"
-                                    class="fb-xfbml-parse-ignore">
-                                    Share
-                                </a>
-                            </div>
+                            <button @click="shareLink" title="share" class="p-2 hover:bg-accent rounded-full">
+                                <x-heroicon-o-share class="h-5 w-5" />
+                            </button>
                         </div>
                     </div>
                     <h1 class="text-base md:text-2xl font-bold {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}"

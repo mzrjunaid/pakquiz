@@ -80,14 +80,14 @@
 <body class="bg-background/30 text-foreground font-sans font-normal antialiased min-h-screen">
     <div id="fb-root"></div>
     <script async defer crossorigin="anonymous"
-        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v25.0&appId=26509571205343495">
-    </script>
+        src="https://connect.facebook.net/en_US/sdk.js#xfbml=1&version=v25.0&appId=26509571205343495"></script>
     <livewire:navbar />
     <main>
         {{ $slot }}
         <livewire:quiz-settings class="fixed bottom-4 right-4 z-50 md:hidden" />
     </main>
     <livewire:footer />
+    <x-toaster-hub />
     @livewireScripts
 </body>
 

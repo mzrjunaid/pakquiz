@@ -4,8 +4,10 @@
 
 @import 'tw-animate-css';
 
+
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
+@source '../../vendor/masmerise/livewire-toaster/resources/views/*.blade.php';
 
 @custom-variant dark (&:is(.dark *));
 
