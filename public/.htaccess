@@ -14,8 +14,8 @@
 
     # B. Force HTTPS and WWW simultaneously
     RewriteCond %{HTTPS} off [OR]
-    RewriteCond %{HTTP_HOST} ^pakquiz\.com$ [NC]
-    RewriteRule ^(.*)$ https://www.pakquiz.com/$1 [L,R=301]
+    RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$ [NC]
+    RewriteRule ^(.*)$ https://pakquiz.com/$1 [L,R=301]
 
     # C. Handle Headers
     RewriteCond %{HTTP:Authorization} .

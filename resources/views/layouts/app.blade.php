@@ -8,7 +8,7 @@
     <title>
         {{ $title ?? config('app.name', 'PakQuiz') }}
     </title>
-    <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}" />
+    <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://pakquiz.com') }}" />
     <meta name="description" content="{{ $description ?? config('app.description', 'PakQuiz') }}">
     <meta name="robots" content="index, follow" />
 
@@ -17,7 +17,7 @@
     <meta property="og:type" content="website">
     <meta property="og:site_name" content="PakQuiz">
     <meta property="og:locale" content="en_PK">
-    <meta property="og:url" content="{{ $canonical ?? config('app.url', 'https://www.pakquiz.com') }}" />
+    <meta property="og:url" content="{{ $canonical ?? config('app.url', 'https://pakquiz.com') }}" />
     <meta property="og:title" content="{{ $title ?? config('app.name', 'PakQuiz') }}" />
     <meta property="og:description" content="{{ $description ?? config('app.description', 'PakQuiz') }}" />
     <meta property="og:image" content="{{ $image ?? asset('assets/images/og-main.png') }}" />
