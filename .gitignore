@@ -2,6 +2,8 @@
 /node_modules
 /public/hot
 /public/storage
+/public/sitemap*.xml
+/public/assets/images/mcqs/*
 /resources/js/actions
 /resources/js/routes
 /resources/js/wayfinder
