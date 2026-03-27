@@ -14,7 +14,7 @@
 
     # If the user agent is Facebook, stop further rules and allow access
     RewriteCond %{HTTP_USER_AGENT} ^.*(facebookexternalhit|Facebot).*$ [NC]
-    RewriteRule .* - [L]
+    RewriteRule .* - [E=nokeepalive:1, E=no-gzip:1, E=nothrottle:1, L]
 
     # Handle Headers
     RewriteCond %{HTTP:Authorization} .
