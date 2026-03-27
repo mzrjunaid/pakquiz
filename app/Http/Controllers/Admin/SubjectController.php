@@ -11,6 +11,7 @@ use App\Models\Subject;
 use App\Models\Topic;
 use App\Services\SubjectService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Inertia\Inertia;
 
 class SubjectController extends Controller
@@ -71,7 +72,7 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    //
     }
 
     /**
@@ -101,12 +102,19 @@ class SubjectController extends Controller
         $mcqs = $filter
             ->apply(Mcq::query()->with(['createdBy', 'paper', 'subject', 'topic'])->where('subject_id', $subject->id))
             ->withExists([
-                'seo as has_og_image' => fn($query) => $query->whereNotNull('og_image')
-            ])
+            'seo as has_og_image' => fn($query) => $query->whereNotNull('og_image')
+        ])
             ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
             ->onEachSide(0)
             ->withQueryString();
+
+        // After fetching, confirm the file physically exists on disk        
+        $mcqs->through(function ($mcq) {
+            $mcq->og_image_exists = $mcq->has_og_image
+                && File::exists(public_path('assets/images/mcqs/' . $mcq->seo->og_image));
+            return $mcq;
+        });
 
         return Inertia::render('admin/subjects/show', [
             'subject' => $subject,
@@ -136,7 +144,7 @@ class SubjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+    //
     }
 
     /**
@@ -144,6 +152,6 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+    //
     }
 }

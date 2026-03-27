@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ index.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ index.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::index
- * @see app/Http/Controllers/Admin/SubjectController.php:21
+ * @see app/Http/Controllers/Admin/SubjectController.php:22
  * @route '/admin/subjects'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -79,7 +79,7 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     index.form = indexForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -94,7 +94,7 @@ create.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
 create.url = (options?: RouteQueryOptions) => {
@@ -103,7 +103,7 @@ create.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -112,7 +112,7 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -122,7 +122,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
     const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -132,7 +132,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
         createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -141,7 +141,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::create
- * @see app/Http/Controllers/Admin/SubjectController.php:64
+ * @see app/Http/Controllers/Admin/SubjectController.php:65
  * @route '/admin/subjects/create'
  */
         createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -157,7 +157,7 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     create.form = createForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::store
- * @see app/Http/Controllers/Admin/SubjectController.php:72
+ * @see app/Http/Controllers/Admin/SubjectController.php:73
  * @route '/admin/subjects'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -172,7 +172,7 @@ store.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::store
- * @see app/Http/Controllers/Admin/SubjectController.php:72
+ * @see app/Http/Controllers/Admin/SubjectController.php:73
  * @route '/admin/subjects'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -181,7 +181,7 @@ store.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::store
- * @see app/Http/Controllers/Admin/SubjectController.php:72
+ * @see app/Http/Controllers/Admin/SubjectController.php:73
  * @route '/admin/subjects'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -191,7 +191,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::store
- * @see app/Http/Controllers/Admin/SubjectController.php:72
+ * @see app/Http/Controllers/Admin/SubjectController.php:73
  * @route '/admin/subjects'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -201,7 +201,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::store
- * @see app/Http/Controllers/Admin/SubjectController.php:72
+ * @see app/Http/Controllers/Admin/SubjectController.php:73
  * @route '/admin/subjects'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -212,7 +212,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
 export const show = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -227,7 +227,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
 show.url = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -260,7 +260,7 @@ show.url = (args: { subject: string | { slug: string } } | [subject: string | { 
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
 show.get = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +269,7 @@ show.get = (args: { subject: string | { slug: string } } | [subject: string | { 
 })
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
 show.head = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -279,7 +279,7 @@ show.head = (args: { subject: string | { slug: string } } | [subject: string | {
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
     const showForm = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -289,7 +289,7 @@ show.head = (args: { subject: string | { slug: string } } | [subject: string | {
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
         showForm.get = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -298,7 +298,7 @@ show.head = (args: { subject: string | { slug: string } } | [subject: string | {
         })
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::show
- * @see app/Http/Controllers/Admin/SubjectController.php:80
+ * @see app/Http/Controllers/Admin/SubjectController.php:81
  * @route '/admin/subjects/{subject}'
  */
         showForm.head = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -314,7 +314,7 @@ show.head = (args: { subject: string | { slug: string } } | [subject: string | {
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
 export const edit = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -329,7 +329,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
 edit.url = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -357,7 +357,7 @@ edit.url = (args: { subject: string | number } | [subject: string | number ] | s
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
 edit.get = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -366,7 +366,7 @@ edit.get = (args: { subject: string | number } | [subject: string | number ] | s
 })
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
 edit.head = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -376,7 +376,7 @@ edit.head = (args: { subject: string | number } | [subject: string | number ] | 
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
     const editForm = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -386,7 +386,7 @@ edit.head = (args: { subject: string | number } | [subject: string | number ] | 
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
         editForm.get = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -395,7 +395,7 @@ edit.head = (args: { subject: string | number } | [subject: string | number ] | 
         })
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::edit
- * @see app/Http/Controllers/Admin/SubjectController.php:129
+ * @see app/Http/Controllers/Admin/SubjectController.php:137
  * @route '/admin/subjects/{subject}/edit'
  */
         editForm.head = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -411,7 +411,7 @@ edit.head = (args: { subject: string | number } | [subject: string | number ] | 
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
 export const update = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -426,7 +426,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
 update.url = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -454,7 +454,7 @@ update.url = (args: { subject: string | number } | [subject: string | number ] |
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
 update.put = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -463,7 +463,7 @@ update.put = (args: { subject: string | number } | [subject: string | number ] |
 })
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
 update.patch = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -473,7 +473,7 @@ update.patch = (args: { subject: string | number } | [subject: string | number ]
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
     const updateForm = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -488,7 +488,7 @@ update.patch = (args: { subject: string | number } | [subject: string | number ]
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
         updateForm.put = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -502,7 +502,7 @@ update.patch = (args: { subject: string | number } | [subject: string | number ]
         })
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::update
- * @see app/Http/Controllers/Admin/SubjectController.php:137
+ * @see app/Http/Controllers/Admin/SubjectController.php:145
  * @route '/admin/subjects/{subject}'
  */
         updateForm.patch = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -518,7 +518,7 @@ update.patch = (args: { subject: string | number } | [subject: string | number ]
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::destroy
- * @see app/Http/Controllers/Admin/SubjectController.php:145
+ * @see app/Http/Controllers/Admin/SubjectController.php:153
  * @route '/admin/subjects/{subject}'
  */
 export const destroy = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -533,7 +533,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::destroy
- * @see app/Http/Controllers/Admin/SubjectController.php:145
+ * @see app/Http/Controllers/Admin/SubjectController.php:153
  * @route '/admin/subjects/{subject}'
  */
 destroy.url = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -561,7 +561,7 @@ destroy.url = (args: { subject: string | number } | [subject: string | number ] 
 
 /**
 * @see \App\Http\Controllers\Admin\SubjectController::destroy
- * @see app/Http/Controllers/Admin/SubjectController.php:145
+ * @see app/Http/Controllers/Admin/SubjectController.php:153
  * @route '/admin/subjects/{subject}'
  */
 destroy.delete = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -571,7 +571,7 @@ destroy.delete = (args: { subject: string | number } | [subject: string | number
 
     /**
 * @see \App\Http\Controllers\Admin\SubjectController::destroy
- * @see app/Http/Controllers/Admin/SubjectController.php:145
+ * @see app/Http/Controllers/Admin/SubjectController.php:153
  * @route '/admin/subjects/{subject}'
  */
     const destroyForm = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { subject: string | number } | [subject: string | number
 
             /**
 * @see \App\Http\Controllers\Admin\SubjectController::destroy
- * @see app/Http/Controllers/Admin/SubjectController.php:145
+ * @see app/Http/Controllers/Admin/SubjectController.php:153
  * @route '/admin/subjects/{subject}'
  */
         destroyForm.delete = (args: { subject: string | number } | [subject: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
