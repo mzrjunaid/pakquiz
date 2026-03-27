@@ -62,25 +62,25 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-{{ $this->meta['canonical'] }}
+    {{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $this->meta['description'] }}
+    {{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-{{ $this->meta['og_image'] }}
+    {{ $this->meta['og_image'] }}
 @endslot
 
 
 @slot('schema')
-<script type="application/ld+json">
-    {!!json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+    <script type="application/ld+json">
+    {!! json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endslot
 
@@ -171,7 +171,7 @@ new class extends Component {
                     </div>
                     <div class="space-y-4 md:space-y-6 min-h-[3000px]">
                         @foreach ($data['latestMcqs'] as $index => $mcq)
-                        <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
+                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
                         @endforeach
 
                         <div class="flex justify-center">
