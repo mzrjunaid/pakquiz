@@ -1,4 +1,10 @@
 User-agent: *
-Allow: /
+Disallow: /admin
+Disallow: /private
+
+# Allow Facebook crawler
+User-agent: facebookexternalhit
+Disallow:
 
 Sitemap: https://www.pakquiz.com/sitemap.xml
+
