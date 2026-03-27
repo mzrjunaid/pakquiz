@@ -7,32 +7,33 @@
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # Force HTTPS and WWW simultaneously
+    # A. FACEBOOK BYPASS (MUST BE FIRST)
+    # This prevents Facebook from being redirected and stops throttling
+    RewriteCond %{HTTP_USER_AGENT} ^.*(facebookexternalhit|Facebot).*$ [NC]
+    RewriteRule .* - [E=nokeepalive:1, E=no-gzip:1, E=nothrottle:1, L]
+
+    # B. Force HTTPS and WWW simultaneously
     RewriteCond %{HTTPS} off [OR]
     RewriteCond %{HTTP_HOST} ^pakquiz\.com$ [NC]
     RewriteRule ^(.*)$ https://www.pakquiz.com/$1 [L,R=301]
 
-    # If the user agent is Facebook, stop further rules and allow access
-    RewriteCond %{HTTP_USER_AGENT} ^.*(facebookexternalhit|Facebot).*$ [NC]
-    RewriteRule .* - [E=nokeepalive:1, E=no-gzip:1, E=nothrottle:1, L]
-
-    # Handle Headers
+    # C. Handle Headers
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # Clean URLs: Redirect Trailing Slashes
+    # D. Clean URLs: Redirect Trailing Slashes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # Send Requests To Front Controller
+    # E. Send Requests To Front Controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 
-    # Redirect index.html to root
+    # F. Redirect index.html to root
     RewriteCond %{THE_REQUEST} ^.*/index\.html
     RewriteRule ^(.*)index\.html$ /$1 [R=301,L]
 </IfModule>
@@ -54,6 +55,5 @@
 </IfModule>
 
 <IfModule mod_security.c>
-    SecFilterEngine Off
-    SecFilterScanPOST Off
+    SecRuleEngine Off
 </IfModule>
