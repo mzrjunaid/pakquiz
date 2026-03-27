@@ -9,8 +9,8 @@
 
     # A. FACEBOOK BYPASS (MUST BE FIRST)
     # This prevents Facebook from being redirected and stops throttling
-    RewriteCond %{HTTP_USER_AGENT} ^.*(facebookexternalhit|Facebot).*$ [NC]
-    RewriteRule .* - [E=nokeepalive:1, E=no-gzip:1, E=nothrottle:1, L]
+    RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot) [NC]
+    RewriteRule .* - [E=Cache-Control:no-cache]
 
     # B. Force HTTPS and WWW simultaneously
     RewriteCond %{HTTPS} off [OR]
