@@ -6,5 +6,5 @@ Disallow: /private
 User-agent: facebookexternalhit
 Disallow:
 
-Sitemap: https://www.pakquiz.com/sitemap.xml
+Sitemap: https://pakquiz.com/sitemap.xml
 
