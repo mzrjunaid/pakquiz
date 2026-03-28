@@ -19,7 +19,7 @@ return [
             ['title' => 'Current Affairs', 'link' => '/current-affairs-mcqs'],
             ['title' => 'General Knowledge', 'link' => '/general-knowledge-mcqs'],
             ['title' => 'Everyday Science', 'link' => '/everyday-science-mcqs'],
-            ['title' => 'English', 'link' => '/english'],
+            ['title' => 'English', 'link' => '/english-mcqs'],
             ['title' => 'All Subjects', 'link' => '/subjects'],
         ],
         'papers' => [
