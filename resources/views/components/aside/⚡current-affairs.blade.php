@@ -31,7 +31,7 @@ new class extends Component {
                 icon="heroicon-s-book-open" />
         @endforeach
         <div class="text-sm text-right flex justify-end mt-2">
-            <x-nav-link route="public.mcqs.index" class="hover:text-primary underline">
+            <x-nav-link route="public.subject.show" :params="['subject' => 'current-affairs']" class="hover:text-primary underline">
                 View All Current Affairs
             </x-nav-link>
         </div>
