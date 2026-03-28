@@ -186,6 +186,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
     Route::get('/mcqs-import-copy', [AdminMcqImportController::class, 'create_copy'])
         ->name('mcqs_import.create_copy');
 
+    Route::get('/mcqs-import-md-copy', [AdminMcqImportController::class, 'create_md_copy'])
+        ->name('mcqs_import.create_md_copy');
+
     Route::post('/mcqs-import', [AdminMcqImportController::class, 'store'])
         ->name('mcqs_import.store');
 

@@ -20,73 +20,10 @@ class AdminMcqImportController extends Controller
         return Inertia::render('admin/mcqs/import-copy');
     }
 
-    // public function store(Request $request)
-    // {
-    //     if($request->has('json')) {
-    //         $request->validate([
-    //             'json' => ['required', 'string'],
-    //         ]);
-
-    //         $decoded = json_decode($request->json, true);
-            
-    //         if (json_last_error() !== JSON_ERROR_NONE) {
-    //             return back()->withErrors([
-    //                 'json' => 'Invalid JSON format.'
-    //             ]);
-    //         }
-
-    //         if (!is_array($decoded)) {
-    //             return back()->withErrors([
-    //                 'json' => 'JSON must be an array of objects.'
-    //         ]);
-    //     }
-    //         $service = new McqsImportService();
-            
-    //         $inserted = 0;
-    //         $skipped = 0;
-
-    //         foreach ($data as $item) {
-    //             $mcq = $service->importSingle($item);
-
-    //             if ($mcq) {
-    //                 $inserted++;
-    //             } else {
-    //                 $skipped++;
-    //             }
-    //         }
-
-    //         return back()->with('success', "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped");
-    //     }
-
-    //     $request->validate([
-    //         'file' => 'required|file|mimes:json|max:10240',
-    //     ]);
-
-    //     $path = $request->file('file')->getRealPath();
-    //     $json = file_get_contents($path);
-    //     $data = json_decode($json, true);
-
-    //     if (json_last_error() !== JSON_ERROR_NONE) {
-    //         return back()->withErrors(['file' => 'Invalid JSON file.']);
-    //     }
-
-    //     $service = new McqsImportService();
-        
-    //     $inserted = 0;
-    //     $skipped = 0;
-
-    //     foreach ($data as $item) {
-    //         $mcq = $service->importSingle($item);
-
-    //         if ($mcq) {
-    //             $inserted++;
-    //         } else {
-    //             $skipped++;
-    //         }
-    //     }
-
-    //     return back()->with('success', "MCQs imported! Inserted: $inserted, Skipped duplicates: $skipped");
-    // }   
+    public function create_md_copy()
+    {
+        return Inertia::render('admin/mcqs/import-md-copy');
+    }
 
 public function store(Request $request, McqsImportService $service)
 {

@@ -150,7 +150,7 @@ new class extends Component {
                         </div>
                     </div>
                 </div>
-                <div>
+                <div class="hidden lg:block">
                     <x-mcq-card :mcq="$data['heroSectionMcqs'][0]" :idx="0" :route="route('public.mcqs.show', $data['heroSectionMcqs'][0]['slug'])" />
                 </div>
             </div>

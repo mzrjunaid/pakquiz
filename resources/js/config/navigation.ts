@@ -94,6 +94,10 @@ export const adminMainNavItems: NavItems[] = [
                 title: 'Import MCQ Copy',
                 href: mcqs_import.create_copy(),
             },
+            {
+                title: 'Import MCQ MD Copy',
+                href: mcqs_import.create_md_copy(),
+            },
         ],
     },
     {
