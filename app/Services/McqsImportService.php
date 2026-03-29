@@ -89,13 +89,28 @@ class McqsImportService
 
             // 6. Sync tags
             if (!empty($data['tags'])) {
-                $tagIds = collect($data['tags'])->map(
-                    fn($tagSlug) =>
-                    Tag::firstOrCreate(
-                        ['slug' => $tagSlug],
-                        ['name' => Str::title(str_replace('-', ' ', $tagSlug))]
-                    )->id
-                );
+                $tagIds = collect($data['tags'])
+                    ->filter()
+                    ->map(function ($rawTag) {
+                        $tagName = Str::of($rawTag)
+                            ->replace(['-', '_'], ' ')
+                            ->squish()
+                            ->title()
+                            ->toString();
+
+                        return [
+                            'name' => $tagName,
+                            'slug' => Str::slug($tagName),
+                        ];
+                    })
+                    ->unique('name')
+                    ->map(function ($tag) {
+                        return Tag::firstOrCreate(
+                            ['name' => $tag['name']],
+                            ['slug' => $tag['slug']]
+                        )->id;
+                    });
+
                 $mcq->tags()->sync($tagIds);
             }
 
