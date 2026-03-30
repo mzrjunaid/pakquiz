@@ -16,17 +16,30 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
         return TestingService::query()
             ->select('id', 'name')
             ->where(function ($q) {
-                $q->whereDoesntHave('seo')
-                    ->orWhereHas(
-                        'seo',
-                        fn($q2) =>
-                        $q2->whereColumn('seo_meta.updated_at', '<', 'testing_services.updated_at')
-                    );
-            })
+            $q->whereDoesntHave('seo')
+                ->orWhereHas(
+                'seo',
+            fn($q2) =>
+            $q2->whereColumn('seo_meta.updated_at', '<', 'testing_services.updated_at')
+            );
+        })
             ->where('name', '!=', 'N/A')
             ->with([
-                'tags:id,name', // optional: include tags for SEO enrichment
-            ]);
+            'papers:id,name,subject_id,testing_service_id',
+            'papers.subject:id,name',
+            'tags:id,name', // optional: include tags for SEO enrichment
+        ]);
+    }
+
+    protected function queryAll(): Builder
+    {
+        return TestingService::query()
+            ->select('id', 'name', 'updated_at')
+            ->with([
+            'papers:id,name,subject_id,testing_service_id',
+            'papers.subject:id,name',
+            'tags:id,name',
+        ]);
     }
 
     /**

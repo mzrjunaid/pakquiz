@@ -29,6 +29,16 @@ class TopicSeoUpdate extends BaseSeoUpdate
             ]);
     }
 
+    protected function queryAll(): Builder
+    {
+        return Topic::query()
+            ->select('id', 'name', 'subject_id', 'updated_at')
+            ->with([
+                'subject:id,name,updated_at',
+                'tags:id,name',
+            ]);
+    }
+
     /**
      * Generate SEO data for a given Topic
      */
@@ -90,8 +100,8 @@ class TopicSeoUpdate extends BaseSeoUpdate
         ], $allTagNames)));
 
         return [
-            'title' => str($title)->limit(60, ''),
-            'description' => str($description)->limit(160, ''),
+            'title' => $title,
+            'description' => $description,
             'keywords' => $keywords,
         ];
     }

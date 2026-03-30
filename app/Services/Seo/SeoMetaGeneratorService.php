@@ -12,11 +12,21 @@ class SeoMetaGeneratorService
     public function generate(array $data): array
     {
         return [
-            'title'          => $this->title($data['title'] ?? null),
-            'description'    => $this->description($data['description'] ?? null),
-            'og_title'       => $this->ogTitle($data),
+            'title' => $this->title($data['title'] ?? null),
+            'description' => $this->description($data['description'] ?? null),
+            'og_title' => $this->ogTitle($data),
             'og_description' => $this->ogDescription($data),
-            'og_image'       => $data['og_image'] ?? null,
+            'og_image' => $data['og_image'] ?? null,
+        ];
+    }
+
+    public function generateTitleDescription(array $data): array
+    {
+        return [
+            'title' => $this->title($data['title'] ?? null),
+            'description' => $this->description($data['description'] ?? null),
+            'og_title' => $this->ogTitle($data),
+            'og_description' => $this->ogDescription($data),
         ];
     }
 
@@ -25,15 +35,23 @@ class SeoMetaGeneratorService
      */
     protected function title(?string $title): ?string
     {
-        if (! $title) {
+        if (!$title) {
             return null;
         }
 
-        return Str::limit(
-            trim($title),
-            60,
-            ''
-        );
+        $title = trim($title);
+
+        if (mb_strlen($title) <= 70) {
+            return $title;
+        }
+
+        // Break at last word boundary within 70 chars
+        $truncated = mb_substr($title, 0, 70);
+        $lastSpace = mb_strrpos($truncated, ' ');
+
+        return $lastSpace !== false
+            ? mb_substr($truncated, 0, $lastSpace) . '...'
+            : $truncated . '...';
     }
 
     /**
@@ -41,15 +59,23 @@ class SeoMetaGeneratorService
      */
     protected function description(?string $description): ?string
     {
-        if (! $description) {
+        if (!$description) {
             return null;
         }
 
-        return Str::limit(
-            trim($description),
-            160,
-            ''
-        );
+        $description = trim($description);
+
+        if (mb_strlen($description) <= 160) {
+            return $description;
+        }
+
+        // Break at last word boundary within 160 chars
+        $truncated = mb_substr($description, 0, 160);
+        $lastSpace = mb_strrpos($truncated, ' ');
+
+        return $lastSpace !== false
+            ? mb_substr($truncated, 0, $lastSpace) . '...'
+            : $truncated . '...';
     }
 
     /**
@@ -59,8 +85,8 @@ class SeoMetaGeneratorService
     {
         return $this->title(
             $data['og_title']
-                ?? $data['title']
-                ?? null
+            ?? $data['title']
+            ?? null
         );
     }
 
@@ -71,8 +97,8 @@ class SeoMetaGeneratorService
     {
         return $this->description(
             $data['og_description']
-                ?? $data['description']
-                ?? null
+            ?? $data['description']
+            ?? null
         );
     }
 }

@@ -17,16 +17,24 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
             ->select(['id', 'name', 'type', 'updated_at'])
             ->withCount('papers')
             ->where(function (Builder $query) {
-                $query
-                    ->whereDoesntHave('seo')
-                    ->orWhereHas('seo', function (Builder $seoQuery) {
-                        $seoQuery->whereColumn(
-                            'seo_meta.updated_at',
-                            '<',
-                            'departments.updated_at'
-                        );
-                    });
-            });
+            $query
+                ->whereDoesntHave('seo')
+                ->orWhereHas('seo', function (Builder $seoQuery) {
+                $seoQuery->whereColumn(
+                    'seo_meta.updated_at',
+                    '<',
+                    'departments.updated_at'
+                );
+            }
+            );
+        });
+    }
+
+    protected function queryAll(): Builder
+    {
+        return Department::query()
+            ->select(['id', 'name', 'type', 'updated_at'])
+            ->withCount('papers');
     }
 
     /**
@@ -37,11 +45,11 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
         /**
          * ✅ Global department (N/A)
          */
-        if ((int) $department->id === 1) {
+        if ((int)$department->id === 1) {
             return [
-                'title'       => 'Departments & Organizations | PakQuiz',
+                'title' => 'Departments & Organizations | PakQuiz',
                 'description' => 'Explore all government and private departments with past papers and MCQs for exam preparation.',
-                'keywords'    => [
+                'keywords' => [
                     'departments',
                     'government departments',
                     'private organizations',
@@ -53,9 +61,9 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
             ];
         }
 
-        $name       = trim($department->name);
-        $type       = $department->type;
-        $paperCount = (int) ($department->papers_count ?? 0);
+        $name = trim($department->name);
+        $type = $department->type;
+        $paperCount = (int)($department->papers_count ?? 0);
 
         /**
          * -------------------------
@@ -65,12 +73,10 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
         $title = str(collect([
             $name,
             $type === 'government'
-                ? 'Government Department'
-                : 'Private Organization',
-            $paperCount ? "{$paperCount} Papers Available" : null,
-        ])->filter()->join(' | '))
-            ->limit(60, '')
-            ->toString();
+            ? 'Government Department'
+            : 'Private Organization',
+            '- PakQuiz',
+        ])->filter()->join(' | '));
 
         /**
          * -------------------------
@@ -80,13 +86,11 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
         $description = str(collect([
             "Prepare exams for {$name}",
             $type === 'government'
-                ? 'Official government department'
-                : 'Recognized private organization',
+            ? 'Official government department'
+            : 'Recognized private organization',
             $paperCount ? "Includes {$paperCount} solved papers" : null,
             'Practice MCQs and past papers online',
-        ])->filter()->join('. ') . '.')
-            ->limit(160, '')
-            ->toString();
+        ])->filter()->join('. ') . '...');
 
         /**
          * -------------------------
@@ -100,8 +104,8 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
             "{$name} past papers",
             "{$name} online test",
             $type === 'government'
-                ? 'government jobs test'
-                : 'private jobs test',
+            ? 'government jobs test'
+            : 'private jobs test',
             'mcqs practice',
             'online test preparation',
             'pakquiz',
@@ -112,9 +116,9 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
             ->toArray();
 
         return [
-            'title'       => $title,
+            'title' => $title,
             'description' => $description,
-            'keywords'    => $keywords, // handled by Keyword sync layer
+            'keywords' => $keywords, // handled by Keyword sync layer
         ];
     }
 }

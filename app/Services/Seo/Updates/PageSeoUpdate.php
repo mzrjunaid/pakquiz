@@ -16,11 +16,18 @@ class PageSeoUpdate extends BaseSeoUpdate
         return Page::query()
             ->select('id', 'title', 'description', 'keywords', 'updated_at')
             ->where(function ($q) {
-                $q->whereDoesntHave('seo')
-                    ->orWhereHas('seo', function ($q2) {
-                        $q2->whereColumn('seo_meta.updated_at', '<', 'pages.updated_at');
-                    });
-            });
+            $q->whereDoesntHave('seo')
+                ->orWhereHas('seo', function ($q2) {
+                $q2->whereColumn('seo_meta.updated_at', '<', 'pages.updated_at');
+            }
+            );
+        });
+    }
+
+    protected function queryAll(): Builder
+    {
+        return Page::query()
+            ->select('id', 'title', 'description', 'keywords', 'updated_at');
     }
 
     /**
@@ -28,7 +35,7 @@ class PageSeoUpdate extends BaseSeoUpdate
      */
     protected function seoData($page): array
     {
-        if (! $page instanceof Page) {
+        if (!$page instanceof Page) {
             throw new \InvalidArgumentException('Expected instance of Page');
         }
 
@@ -37,10 +44,11 @@ class PageSeoUpdate extends BaseSeoUpdate
 
         // keywords may be stored as comma-separated string or as array
         $keywords = [];
-        if (! empty($page->keywords)) {
+        if (!empty($page->keywords)) {
             if (is_array($page->keywords)) {
                 $keywords = $page->keywords;
-            } else {
+            }
+            else {
                 $keywords = array_filter(array_map('trim', explode(',', $page->keywords)));
             }
         }

@@ -31,6 +31,17 @@ class SubjectSeoUpdate extends BaseSeoUpdate
             ]);
     }
 
+    protected function queryAll(): Builder
+    {
+        return Subject::query()
+            ->select('id', 'name', 'updated_at')
+            ->with([
+                'papers:id,name,subject_id,testing_service_id',
+                'papers.testingService:id,name',
+                'tags:id,name',
+            ]);
+    }
+
     /**
      * Generate SEO data for a given Subject
      */

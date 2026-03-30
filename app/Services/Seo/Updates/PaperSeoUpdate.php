@@ -33,6 +33,17 @@ class PaperSeoUpdate extends BaseSeoUpdate
             ]);
     }
 
+    protected function queryAll(): Builder
+    {
+        return Paper::query()
+            ->select('id', 'name', 'subject_id', 'testing_service_id', 'updated_at')
+            ->with([
+                'subject:id,name',
+                'testingService:id,name',
+                'tags:id,name',
+            ]);
+    }
+
     /**
      * Generate SEO metadata
      */
@@ -76,7 +87,7 @@ class PaperSeoUpdate extends BaseSeoUpdate
             "Online preparation tests with answers",
         ])
             ->filter()
-            ->join('. ') . '.';
+            ->join(', ') . '.';
 
         /*
         |--------------------------------------------------------------------------
@@ -100,8 +111,8 @@ class PaperSeoUpdate extends BaseSeoUpdate
             ->toArray();
 
         return [
-            'title'       => Str::limit($title, 60, ''),
-            'description' => Str::limit($description, 160, ''),
+            'title'       => $title,
+            'description' => $description,
             'keywords'    => $keywords,
         ];
     }

@@ -59,7 +59,7 @@ class Topic extends Model
 
     public function canonicalUrl(): string
     {
-        return route('subject.topic.show', [
+        return route('public.subject.topic.show', [
             'subject' => $this->subject,
             'topic' => $this
         ]);

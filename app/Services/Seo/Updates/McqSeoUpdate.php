@@ -33,6 +33,19 @@ class McqSeoUpdate extends BaseSeoUpdate
             ]);
     }
 
+    protected function queryAll(): Builder
+    {
+        return Mcq::query()
+            ->select(['id', 'question', 'subject_id', 'paper_id', 'topic_id', 'updated_at'])
+            ->with([
+                'subject:id,name',
+                'paper:id,name,testing_service_id',
+                'paper.testingService:id,name',
+                'topic:id,name',
+                'tags:id,name',
+            ]);
+    }
+
     /**
      * Generate SEO metadata for a single MCQ
      */
@@ -57,7 +70,7 @@ class McqSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $title = collect([
-            Str::limit($question, 70, ''),
+            $question,
             $topic,
             $paper,
             $service ? "{$service} MCQs" : null,
@@ -79,7 +92,7 @@ class McqSeoUpdate extends BaseSeoUpdate
             "with explanations and online tests",
         ])
             ->filter()
-            ->join('. ') . '.';
+            ->join(', ') . '.';
 
         /*
         |--------------------------------------------------------------------------
@@ -106,8 +119,8 @@ class McqSeoUpdate extends BaseSeoUpdate
             ->toArray();
 
         return [
-            'title'       => Str::limit($title, 60, ''),
-            'description' => Str::limit($description, 160, ''),
+            'title'       => $title,
+            'description' => $description,
             'keywords'    => $keywords,
         ];
     }

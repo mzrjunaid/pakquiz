@@ -6,6 +6,7 @@ use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Models\Subject;
+use App\Models\Topic;
 
 class SeoData
 {
@@ -45,6 +46,29 @@ class SeoData
             'og_title' => $subject->seo->og_title . ' - PakQuiz' ?? $subject->name . ' - PakQuiz',
             'og_description' => $subject->seo->og_description ?? $subject->description,
             'og_image' => $subject->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
+        ];
+    }
+
+    public static function topicSeo(Subject $subject, Topic $topic): array
+    {
+        $topic->loadMissing('seo');
+
+        if (!$topic || !$topic->seo) {
+            return self::default ();
+        }
+
+        $canonical = $topic->seo->canonical
+            ?? $topic->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title' => $topic->seo->title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name . ' - PakQuiz',
+            'description' => $topic->description ?? $topic->seo->description,
+            'keywords' => $topic->tags->pluck('name')->implode(', ') ?? 'MCQs, ' . $subject->name . ', ' . $topic->name . ', Jobs',
+            'og_title' => $topic->seo->og_title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name . ' - PakQuiz',
+            'og_description' => $topic->seo->og_description ?? $topic->description,
+            'og_image' => $topic->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
         ];
     }

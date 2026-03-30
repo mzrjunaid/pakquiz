@@ -14,6 +14,12 @@ new class extends Component {
     public Topic $topic;
     use WithPagination;
 
+    #[Computed]
+    public function meta()
+    {
+        return cache()->remember('page_meta_topic-' . $this->topic->slug, 86400, fn() => SeoData::topicSeo($this->subject, $this->topic));
+    }
+
     public $perPage = 10;
 
     public function updatedPerPage()
@@ -42,16 +48,12 @@ new class extends Component {
 
         return [
             'mcqs' => $resource,
-            'pageIntro' => SeoData::subjectSeo($this->subject),
+            'pageIntro' => $this->meta,
             'schema' => $combinedSchema,
         ];
     }
 
-    #[Computed]
-    public function meta()
-    {
-        return cache()->remember('page_meta_subject-' . $this->subject->slug, 86400, fn() => SeoData::subjectSeo($this->subject));
-    }
+    
 };
 ?>
 

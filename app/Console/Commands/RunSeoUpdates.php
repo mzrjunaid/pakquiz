@@ -13,17 +13,17 @@ use App\Services\Seo\Updates\PageSeoUpdate;
 
 class RunSeoUpdates extends Command
 {
-    protected $signature = 'seo:update {--dry} {--model=* : Specify a single updater (TestingService, Subject, Paper, Topic, Mcq)}';
+    protected $signature = 'seo:update {--only= : Specify only title or description} {--dry} {--model=* : Specify a single updater (TestingService, Subject, Paper, Topic, Mcq, Department, Page)}';
     protected $description = 'Run SEO updates for all models';
 
     protected array $updaters = [
-        'Department'     => DepartmentSeoUpdate::class,
-        'Page'           => PageSeoUpdate::class,
-        'TestingService' => TestingServiceSeoUpdate::class,
-        'Subject'        => SubjectSeoUpdate::class,
-        'Paper'          => PaperSeoUpdate::class,
-        'Topic'          => TopicSeoUpdate::class,
-        'Mcq'            => McqSeoUpdate::class,
+        'Department' => DepartmentSeoUpdate::class ,
+        'Page' => PageSeoUpdate::class ,
+        'TestingService' => TestingServiceSeoUpdate::class ,
+        'Subject' => SubjectSeoUpdate::class ,
+        'Paper' => PaperSeoUpdate::class ,
+        'Topic' => TopicSeoUpdate::class ,
+        'Mcq' => McqSeoUpdate::class ,
     ];
 
     public function handle(): int
@@ -31,26 +31,25 @@ class RunSeoUpdates extends Command
         $this->info('Starting SEO updates...');
 
         $dryRun = $this->option('dry');
-        $selectedModels = $this->option('model'); // array of updater names
+        $selectedModels = $this->option('model');
+        $only = $this->option('only')
+            ? explode(',', $this->option('only'))
+            : [];
 
-        // Loop through updaters in recommended order
         foreach ($this->updaters as $name => $updaterClass) {
 
-            // Skip if --model option is provided and this updater is not selected
             if (!empty($selectedModels) && !in_array($name, $selectedModels)) {
                 continue;
             }
 
             $this->info("Running {$name} SEO update...");
 
-            $updater = app($updaterClass);
-
             if ($dryRun) {
                 $this->warn("Dry run enabled — skipping DB writes for {$name}");
                 continue;
             }
 
-            $updater->handle();
+            app($updaterClass)->handle($only);
 
             $this->info("{$name} SEO update completed.");
         }
