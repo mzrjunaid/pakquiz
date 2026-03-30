@@ -1,0 +1,1 @@
+import{c as r,j as o}from"./admin-y8Dj_C6u.js";import"./bootstrap-CWD7zuwT.js";/* empty css            */const i=m=>{const e=r.c(1);let t;return e[0]===Symbol.for("react.memo_cache_sentinel")?(t=o.jsx(o.Fragment,{}),e[0]=t):t=e[0],t};export{i as default};
