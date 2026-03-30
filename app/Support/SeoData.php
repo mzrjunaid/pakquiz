@@ -40,10 +40,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $subject->seo->title . ' - PakQuiz' ?? $subject->name . ' - PakQuiz',
+            'title' => $subject->seo->title . ' - PakQuiz' ?? $subject->name,
             'description' => $subject->description ?? $subject->seo->description,
             'keywords' => $subject->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $subject->seo->og_title . ' - PakQuiz' ?? $subject->name . ' - PakQuiz',
+            'og_title' => $subject->seo->og_title . ' - PakQuiz' ?? $subject->name,
             'og_description' => $subject->seo->og_description ?? $subject->description,
             'og_image' => $subject->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -63,10 +63,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $topic->seo->title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name . ' - PakQuiz',
+            'title' => $topic->seo->title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name,
             'description' => $topic->description ?? $topic->seo->description,
             'keywords' => $topic->tags->pluck('name')->implode(', ') ?? 'MCQs, ' . $subject->name . ', ' . $topic->name . ', Jobs',
-            'og_title' => $topic->seo->og_title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name . ' - PakQuiz',
+            'og_title' => $topic->seo->og_title . ' - PakQuiz' ?? $topic->name . ' - ' . $subject->name,
             'og_description' => $topic->seo->og_description ?? $topic->description,
             'og_image' => $topic->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -86,10 +86,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $paper->seo->title . ' - PakQuiz' ?? $paper->name . ' - PakQuiz',
+            'title' => $paper->seo->title . ' - PakQuiz' ?? $paper->name,
             'description' => $paper->description ?? $paper->seo->description,
             'keywords' => $paper->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $paper->seo->og_title . ' - PakQuiz' ?? $paper->name . ' - PakQuiz',
+            'og_title' => $paper->seo->og_title . ' - PakQuiz' ?? $paper->name,
             'og_description' => $paper->seo->og_description ?? $paper->description,
             'og_image' => $paper->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -109,10 +109,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $department->seo->title . ' - PakQuiz' ?? $department->name . ' - PakQuiz',
+            'title' => $department->seo->title . ' - PakQuiz' ?? $department->name,
             'description' => $department->description ?? $department->seo->description,
             // 'keywords' => $department->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $department->seo->og_title . ' - PakQuiz' ?? $department->name . ' - PakQuiz',
+            'og_title' => $department->seo->og_title . ' - PakQuiz' ?? $department->name,
             'og_description' => $department->seo->og_description ?? $department->description,
             'og_image' => $department->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -132,10 +132,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $mcq->seo->title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'title' => $mcq->seo->title . ' - PakQuiz' ?? $mcq->question,
             'description' => $mcq->explanation ?? $mcq->seo->description,
             'keywords' => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question . ' - PakQuiz',
+            'og_title' => $mcq->seo->og_title . ' - PakQuiz' ?? $mcq->question,
             'og_description' => $mcq->seo->og_description ?? $mcq->explanation,
             'og_image' => $mcq->seo->og_image ? asset($mcq->seo->og_image) : asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -146,10 +146,10 @@ class SeoData
     {
         if ($query) {
             return [
-                'title' => 'Search results for "' . $query . '" – PakQuiz',
+                'title' => 'Search results for "' . $query . '" | PakQuiz',
                 'description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
                 'keywords' => $query . ', MCQs, Preparation, Jobs',
-                'og_title' => 'Search results for "' . $query . '" – PakQuiz',
+                'og_title' => 'Search results for "' . $query . '" | PakQuiz',
                 'og_description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
                 'og_image' => asset('assets/images/og-main.png'),
                 'canonical' => url('/search') . '?q=' . urlencode($query),
