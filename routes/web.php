@@ -230,13 +230,13 @@ Route::name('public.')->group(function () {
     });
 
     Route::prefix('departments')->name('departments.')->group(function () {
-        Route::get('/', [PublicDepartmentController::class, 'index'])->name('index');
-        Route::get('/{department:slug}', [PublicDepartmentController::class, 'show'])->name('show');
+        Route::livewire('/', 'pages::departments.index')->name('index');
+        Route::livewire('/{department:slug}', 'pages::departments.show')->name('show');
     });
 
     Route::prefix('testing-services')->name('testing_services.')->group(function () {
-        Route::get('/', [PublicTestingServiceController::class, 'index'])->name('index');
-        Route::get('/{testingService:slug}', [PublicTestingServiceController::class, 'show'])->name('show');
+        Route::livewire('/', 'pages::testing-services.index')->name('index');
+        Route::livewire('/{testingService:slug}', 'pages::testing-services.show')->name('show');
     });
 
     Route::prefix('papers')->name('papers.')->group(function () {

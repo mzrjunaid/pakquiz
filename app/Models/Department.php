@@ -62,6 +62,6 @@ class Department extends Model
 
     public function canonicalUrl()
     {
-        return route('departments.show', $this);
+        return route('public.departments.show', $this);
     }
 }

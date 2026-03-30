@@ -10,8 +10,6 @@ use Livewire\WithPagination;
 
 new class extends Component {
     public Paper $paper;
-    public $department;
-
     use WithPagination;
 
     public $perPage = 10;
@@ -85,15 +83,6 @@ new class extends Component {
                         <li class="inline-flex items-center">
                             <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
                         </li>
-                        @if ($department)
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <a href="{{ route('public.departments.show', $department->slug) }}"
-                                    class="hover:text-primary">{{ $department->name }}</a>
-                            </div>
-                        </li>
-                        @endif
                         <li>
                             <div class="flex items-center">
                                 <span class="mx-2">/</span>

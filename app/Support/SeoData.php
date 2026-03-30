@@ -2,6 +2,7 @@
 
 namespace App\Support;
 
+use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Models\Subject;
@@ -11,7 +12,7 @@ class SeoData
     public static function fromModel($model)
     {
         if (!$model || !$model->seo) {
-            return self::default();
+            return self::default ();
         }
 
         return [
@@ -30,7 +31,7 @@ class SeoData
         $subject->loadMissing('seo');
 
         if (!$subject || !$subject->seo) {
-            return self::default();
+            return self::default ();
         }
 
         $canonical = $subject->seo->canonical
@@ -53,7 +54,7 @@ class SeoData
         $paper->loadMissing('seo');
 
         if (!$paper || !$paper->seo) {
-            return self::default();
+            return self::default ();
         }
 
         $canonical = $paper->seo->canonical
@@ -71,12 +72,35 @@ class SeoData
         ];
     }
 
+    public static function departmentSeo(Department $department): array
+    {
+        $department->loadMissing('seo');
+
+        if (!$department || !$department->seo) {
+            return self::default ();
+        }
+
+        $canonical = $department->seo->canonical
+            ?? $department->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title' => $department->seo->title . ' - PakQuiz' ?? $department->name . ' - PakQuiz',
+            'description' => $department->description ?? $department->seo->description,
+            // 'keywords' => $department->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title' => $department->seo->og_title . ' - PakQuiz' ?? $department->name . ' - PakQuiz',
+            'og_description' => $department->seo->og_description ?? $department->description,
+            'og_image' => $department->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
+        ];
+    }
+
     public static function mcqSeo(Mcq $mcq): array
     {
         $mcq->loadMissing('seo');
 
         if (!$mcq || !$mcq->seo) {
-            return self::default();
+            return self::default ();
         }
 
         $canonical = $mcq->seo->canonical
@@ -106,7 +130,8 @@ class SeoData
                 'og_image' => asset('assets/images/og-main.png'),
                 'canonical' => url('/search') . '?q=' . urlencode($query),
             ];
-        } else
+        }
+        else
             return [
                 'title' => 'Search PakQuiz – MCQs, Papers & Subjects',
                 'description' => 'Search PakQuiz\'s database of MCQs, practice papers and subjects for FPSC, PPSC, NTS, CSS and PMS exam preparation in Pakistan.',
@@ -118,7 +143,7 @@ class SeoData
             ];
     }
 
-    public static function default()
+    public static function default ()
     {
         return [
             'title' => config('app.name'),

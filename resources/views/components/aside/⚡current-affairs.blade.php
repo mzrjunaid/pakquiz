@@ -8,7 +8,7 @@ new class extends Component {
     #[Computed]
     public function currentAffairs()
     {
-        return Topic::query()->select('id', 'name', 'slug', 'subject_id')->with('subject:id,name,slug')->where('subject_id', 39)->latest()->limit(5)->get();
+        return Topic::query()->select('id', 'name', 'slug', 'subject_id')->with('subject:id,name,slug')->where('subject_id', 39)->latest()->limit(10)->get();
     }
 
     public function with()
