@@ -55,7 +55,7 @@ class PaperSeoUpdate extends BaseSeoUpdate
 
         $paperName   = trim($paper->name);
         $subject     = $paper->subject?->name;
-        $service     = $paper->testingService?->name;
+        $service     = $paper->testingService?->short_name;
 
         $tags        = $paper->tags->pluck('name')->toArray();
         $topTags     = array_slice($tags, 0, 2);
@@ -66,10 +66,9 @@ class PaperSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $title = collect([
-            $paperName,
-            $subject,
-            $service ? "{$service} Past Papers" : null,
-            !empty($topTags) ? implode(', ', $topTags) : null,
+            Str::limit($paperName, 30),
+            'Solved Past Papers & MCQs',
+            'PakQuiz',
         ])
             ->filter()
             ->join(' | ');

@@ -42,7 +42,6 @@ class PageSeoUpdate extends BaseSeoUpdate
         $title = trim($page->title ?? '');
         $description = trim($page->description ?? '');
 
-        // keywords may be stored as comma-separated string or as array
         $keywords = [];
         if (!empty($page->keywords)) {
             if (is_array($page->keywords)) {

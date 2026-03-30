@@ -5,6 +5,7 @@ namespace App\Services\Seo\Updates;
 use App\Models\Subject;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class SubjectSeoUpdate extends BaseSeoUpdate
 {
@@ -77,7 +78,7 @@ class SubjectSeoUpdate extends BaseSeoUpdate
         // Use top 2 papers for title & description
         $papers = $subject->papers->take(5);
         $paperNames = $papers->pluck('name')->toArray();
-        $serviceNames = $papers->map(fn($paper) => $paper->testingService?->name)
+        $serviceNames = $papers->map(fn($paper) => $paper->testingService?->short_name)
             ->filter()
             ->unique()
             ->toArray();
@@ -87,13 +88,14 @@ class SubjectSeoUpdate extends BaseSeoUpdate
         $tagsString = $tags ? implode(', ', $tags) : null;
 
         // Build SEO title
-        $titleParts = array_filter(array_merge(
-            [$subjectName],
-            $tags ? [$tagsString] : [],
-            $paperNames,
-            $serviceNames
-        ));
-        $title = implode(' | ', $titleParts);
+
+        $title = collect([
+            Str::of($subjectName)->limit(30)->title(),
+            'Solved Past Papers & MCQs',
+            'PakQuiz',
+        ])
+            ->filter()
+            ->join(' | ');
 
         // Build SEO description
         $descriptionParts = ["Prepare {$subjectName} exams"];

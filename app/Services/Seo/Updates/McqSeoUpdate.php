@@ -58,7 +58,7 @@ class McqSeoUpdate extends BaseSeoUpdate
         $question = trim($mcq->question);
         $topic    = $mcq->topic?->name;
         $paper    = $mcq->paper?->name;
-        $service  = $mcq->paper?->testingService?->name;
+        $service  = $mcq->paper?->testingService?->short_name;
 
 
         $subject = $mcq->subject?->name;
@@ -70,10 +70,10 @@ class McqSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $title = collect([
-            $question,
-            $topic,
-            $paper,
-            $service ? "{$service} MCQs" : null,
+            Str::limit($question, 35),
+            $service ? "{$service} Past Papers" : null,
+            'MCQ',
+            'PakQuiz',
         ])
             ->filter()
             ->join(' | ');

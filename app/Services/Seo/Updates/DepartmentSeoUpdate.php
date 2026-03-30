@@ -5,6 +5,7 @@ namespace App\Services\Seo\Updates;
 use App\Models\Department;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class DepartmentSeoUpdate extends BaseSeoUpdate
 {
@@ -70,12 +71,11 @@ class DepartmentSeoUpdate extends BaseSeoUpdate
          * SEO Title
          * -------------------------
          */
+
         $title = str(collect([
-            $name,
-            $type === 'government'
-            ? 'Government Department'
-            : 'Private Organization',
-            '- PakQuiz',
+            Str::limit($name, 35),
+            'Solved Past Papers & MCQs',
+            'PakQuiz',
         ])->filter()->join(' | '));
 
         /**

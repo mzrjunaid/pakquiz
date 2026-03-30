@@ -41,12 +41,12 @@ class SeoMetaGeneratorService
 
         $title = trim($title);
 
-        if (mb_strlen($title) <= 70) {
+        if (mb_strlen($title) <= 75) {
             return $title;
         }
 
-        // Break at last word boundary within 70 chars
-        $truncated = mb_substr($title, 0, 70);
+        // Break at last word boundary within 75 chars
+        $truncated = mb_substr($title, 0, 75);
         $lastSpace = mb_strrpos($truncated, ' ');
 
         return $lastSpace !== false

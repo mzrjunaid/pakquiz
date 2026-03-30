@@ -5,6 +5,7 @@ namespace App\Services\Seo\Updates;
 use App\Models\Topic;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class TopicSeoUpdate extends BaseSeoUpdate
 {
@@ -60,13 +61,13 @@ class TopicSeoUpdate extends BaseSeoUpdate
         | SEO TITLE
         |--------------------------------------------------
         */
-        $titleParts = array_filter([
-            "{$topicName} MCQs",
-            $subjectName,
-            $tagsString,
-            'Online Test & Practice',
-        ]);
-        $title = implode(' | ', $titleParts);
+        $title = collect([
+            Str::of($topicName)->limit(30)->title(),
+            'Solved Past Papers & MCQs',
+            'PakQuiz',
+        ])
+            ->filter()
+            ->join(' | ');
 
         /*
         |--------------------------------------------------
@@ -74,7 +75,7 @@ class TopicSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------
         */
         $descriptionParts = [
-            "Practice {$topicName} MCQs",
+            "Practice $topicName} MCQs",
             $subjectName ? "from {$subjectName} subject" : null,
             $tagsString ? "Including topics: {$tagsString}" : null,
             "with solved answers and explanations",
@@ -88,7 +89,7 @@ class TopicSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------
         */
         $allTagNames = $topic->tags->pluck('name')->toArray();
-        $keywords = array_unique(array_filter(array_merge([
+        $keywords = collect([
             $topicName,
             "{$topicName} MCQs",
             "{$topicName} online test",
@@ -97,7 +98,13 @@ class TopicSeoUpdate extends BaseSeoUpdate
             'online test',
             'MCQs practice',
             'PakQuiz',
-        ], $allTagNames)));
+        ])
+            ->merge($allTagNames)
+            ->map(fn($item) => str($item)->lower()->trim()) // Standardize to lowercase
+            ->filter()
+            ->unique()
+            ->values()
+            ->toArray();
 
         return [
             'title' => $title,

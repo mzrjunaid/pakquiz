@@ -5,6 +5,7 @@ namespace App\Services\Seo\Updates;
 use App\Models\TestingService;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Str;
 
 class TestingServiceSeoUpdate extends BaseSeoUpdate
 {
@@ -58,12 +59,13 @@ class TestingServiceSeoUpdate extends BaseSeoUpdate
         $tagsString = $tags ? implode(', ', $tags) : null;
 
         // Build SEO title
-        $titleParts = array_filter([
-            "{$serviceName} MCQs (Solved)",
-            "{$serviceName} Past Papers",
-            $tagsString,
-        ]);
-        $title = implode(' | ', $titleParts);
+        $title = collect([
+            Str::of($serviceName)->limit(30)->title(),
+            'Solved Past Papers & MCQs',
+            'PakQuiz',
+        ])
+            ->filter()
+            ->join(' | ');
 
         // Build SEO description
         $descriptionParts = [
