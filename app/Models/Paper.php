@@ -53,6 +53,16 @@ class Paper extends Model
         return $this->hasmany(Mcq::class, 'paper_id');
     }
 
+    public function job()
+    {
+        return $this->belongsTo(JobPosting::class, 'job_id');
+    }
+
+    public function syllabus()
+    {
+        return $this->hasMany(PaperSyllabus::class);
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class, 'created_by')->withDefault([
@@ -89,5 +99,39 @@ class Paper extends Model
     public function canonicalUrl()
     {
         return route('public.papers.show', $this);
+    }
+
+    // Fetch only official past papers
+    public function scopeOfficial($query)
+    {
+        return $query->where('type', 'official');
+    }
+
+    // Fetch only mock exams
+    public function scopeMock($query)
+    {
+        return $query->where('type', 'mock');
+    }
+
+    // Logic to check if it's dynamic
+    public function isDynamic()
+    {
+        return $this->type === 'mock';
+    }
+
+    public function generateMockQuestions()
+    {
+        $allQuestions = collect();
+
+        foreach ($this->syllabus as $weight) {
+            $questions = Mcq::where('subject_id', $weight->subject_id)
+                ->inRandomOrder()
+                ->limit($weight->question_count)
+                ->get();
+
+            $allQuestions = $allQuestions->concat($questions);
+        }
+
+        return $allQuestions;
     }
 }

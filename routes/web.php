@@ -224,6 +224,9 @@ Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 Route::name('public.')->group(function () {
     Route::livewire('/search', 'pages::search.index')->name('search');
 
+    Route::livewire('/jobs', 'pages::jobs.index')->name('jobs.index');
+    Route::livewire('/jobs/{job:slug}', 'pages::jobs.show')->name('jobs.show');
+
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
         Route::livewire('/', 'pages::mcqs.index')->name('index');
         Route::livewire('/{mcq:slug}', 'pages::mcqs.show')->name('show');

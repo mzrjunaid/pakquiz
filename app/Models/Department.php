@@ -27,12 +27,17 @@ class Department extends Model
 
     public function papers()
     {
-        return $this->hasMany(Paper::class , 'department_id');
+        return $this->hasMany(Paper::class, 'department_id');
+    }
+
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class , 'created_by')->withDefault([
+        return $this->belongsTo(User::class, 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
@@ -44,12 +49,12 @@ class Department extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class , 'page');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function keywords()
     {
-        return $this->morphToMany(Keyword::class , 'keywordable');
+        return $this->morphToMany(Keyword::class, 'keywordable');
     }
 
     public function scopeSortByCreator($query, string $direction)
