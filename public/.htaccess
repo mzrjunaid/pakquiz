@@ -1,115 +1,62 @@
-# ============================================================
-# PakQuiz.com — .htaccess
-# Stack: Laravel 12 + Livewire 3 + LiteSpeed
-# ============================================================
-
-# ── 1. LiteSpeed Cache ──────────────────────────────────────
-<IfModule LiteSpeed>
-    CacheLookup on
-    CacheEngine on
-
-    # Disable cache for all dynamic/session-bound paths
-    # /livewire/update — Livewire AJAX endpoint (wire:click, wire:model)
-    # /livewire/upload-file — Livewire file upload endpoint
-    # /user /admin /dashboard — authenticated areas
-    CacheDisable /livewire/update
-    CacheDisable /livewire/upload-file
-    CacheDisable /user
-    CacheDisable /admin
-    CacheDisable /dashboard
-    CacheDisable /login
-    CacheDisable /register
-    CacheDisable /logout
-</IfModule>
-
-# ── 2. Directory Options ─────────────────────────────────────
+# 1. Handle Basic Options
 <IfModule mod_negotiation.c>
     Options -MultiViews -Indexes
 </IfModule>
 
-# ── 3. Response Headers ──────────────────────────────────────
 <IfModule mod_headers.c>
-    # CORS for self-hosted fonts
     <FilesMatch "\.(ttf|otf|eot|woff|woff2)$">
         Header set Access-Control-Allow-Origin "*"
     </FilesMatch>
-
-    # Hide PHP version (security)
-    Header unset X-Powered-By
-    Header always unset X-Powered-By
-
-    # Prevent MIME-type sniffing
-    Header always set X-Content-Type-Options "nosniff"
-
-    # Clickjacking protection
-    Header always set X-Frame-Options "SAMEORIGIN"
 </IfModule>
 
-# ── 4. Rewrite Rules ─────────────────────────────────────────
+# 2. Redirect Rules
+# 2. Redirect Rules
 <IfModule mod_rewrite.c>
     RewriteEngine On
 
-    # A. Force HTTPS + naked domain (highest priority — runs first)
+    # A. FACEBOOK BYPASS
+    RewriteCond %{HTTP_USER_AGENT} (facebookexternalhit|Facebot) [NC]
+    RewriteRule .* - [E=Cache-Control:no-cache]
+
+    # B. Force HTTPS and Naked Domain (REPLACES YOUR OLD 2B)
+    # This catches both non-HTTPS and WWW requests in one jump
     RewriteCond %{HTTPS} off [OR]
     RewriteCond %{HTTP_HOST} ^www\.pakquiz\.com$ [NC]
     RewriteRule ^(.*)$ https://pakquiz.com/$1 [L,R=301]
 
-    # B. Pass auth headers to PHP (required for Laravel Sanctum/API)
+    # C. Handle Headers
     RewriteCond %{HTTP:Authorization} .
     RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
     RewriteCond %{HTTP:x-xsrf-token} .
     RewriteRule .* - [E=HTTP_X_XSRF_TOKEN:%{HTTP:X-XSRF-Token}]
 
-    # C. Remove trailing slashes (runs AFTER HTTPS — no double 301)
+    # D. Clean URLs: Redirect Trailing Slashes
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_URI} (.+)/$
     RewriteRule ^ %1 [L,R=301]
 
-    # D. Laravel + Livewire front controller
+    # E. Send Requests To Front Controller
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteCond %{REQUEST_FILENAME} !-f
     RewriteRule ^ index.php [L]
 </IfModule>
 
-# ── 5. Browser Caching ───────────────────────────────────────
+# 3. Browser Caching (Lighthouse Fix)
 <IfModule mod_expires.c>
     ExpiresActive On
-
-    # SAFE DEFAULT: do not cache anything unless explicitly listed below.
-    # Prevents Livewire JSON responses, dynamic HTML, and API endpoints
-    # from being accidentally browser-cached.
-    ExpiresDefault "access plus 0 seconds"
-
-    # Fonts — immutable, cache aggressively
-    ExpiresByType font/woff2                "access plus 1 year"
-    ExpiresByType font/woff                 "access plus 1 year"
-    ExpiresByType font/ttf                  "access plus 1 year"
-    ExpiresByType font/otf                  "access plus 1 year"
-    ExpiresByType application/font-woff     "access plus 1 year"
-
-    # Images — cache aggressively (use versioned filenames if you update them)
-    ExpiresByType image/svg+xml             "access plus 1 year"
-    ExpiresByType image/png                 "access plus 1 year"
-    ExpiresByType image/jpeg                "access plus 1 year"
-    ExpiresByType image/jpg                 "access plus 1 year"
-    ExpiresByType image/webp                "access plus 1 year"
-    ExpiresByType image/gif                 "access plus 1 year"
-    ExpiresByType image/x-icon              "access plus 1 year"
-    ExpiresByType image/vnd.microsoft.icon  "access plus 1 year"
-
-    # CSS + JS — Vite/Mix appends a hash to filenames on every build,
-    # so 1-year cache is safe. Old hashed files auto-expire naturally.
-    ExpiresByType text/css                  "access plus 1 year"
-    ExpiresByType application/javascript    "access plus 1 year"
-    ExpiresByType text/javascript           "access plus 1 year"
-
-    # text/html intentionally NOT listed — Laravel + Livewire manage
-    # HTML freshness via session/cache-control headers. Do not override.
+    ExpiresDefault "access plus 1 month"
+    
+    # Cache Vite assets, fonts, and images for 1 year
+    ExpiresByType font/woff2 "access plus 1 year"
+    ExpiresByType font/woff "access plus 1 year"
+    ExpiresByType image/svg+xml "access plus 1 year"
+    ExpiresByType image/png "access plus 1 year"
+    ExpiresByType image/jpeg "access plus 1 year"
+    ExpiresByType text/css "access plus 1 year"
+    ExpiresByType application/javascript "access plus 1 year"
+    ExpiresByType application/x-javascript "access plus 1 year"
 </IfModule>
 
-# ── 6. ModSecurity ───────────────────────────────────────────
 <IfModule mod_security.c>
-    # DetectionOnly: logs threats but does not block.
-    # Review logs, whitelist false positives, then switch to On.
-    SecRuleEngine DetectionOnly
+    SecRuleEngine Off
 </IfModule>
