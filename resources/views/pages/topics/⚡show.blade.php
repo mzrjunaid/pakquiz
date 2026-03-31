@@ -34,7 +34,12 @@ new class extends Component {
 
         $resource = McqIndexCollection::make($mcqs);
 
-        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->subject->name, 'item' => url('/subjects/' . $this->subject->slug)], ['@type' => 'ListItem', 'position' => 4, 'name' => $this->topic->name, 'item' => url('/topics/' . $this->topic->slug)]];
+        $breadcrumbList = [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $this->subject->name, 'item' => url('/subjects/' . $this->subject->slug)],
+            ['@type' => 'ListItem', 'position' => 4, 'name' => $this->topic->name, 'item' => url($this->subject->slug . '/' . $this->topic->slug)]
+        ];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
@@ -100,7 +105,14 @@ new class extends Component {
                         <li>
                             <div class="flex items-center">
                                 <span class="mx-2">/</span>
-                                <span class="font-medium text-primary">{{ $subject->name }}</span>
+                                <a href="{{ route('public.subject.show', $subject->slug) }}"
+                                    class="hover:text-primary">{{ $subject->name }}</a>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="flex items-center">
+                                <span class="mx-2">/</span>
+                                <span class="font-medium text-primary">{{ $topic->name }}</span>
                             </div>
                         </li>
                     </ol>
