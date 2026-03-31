@@ -75,7 +75,7 @@ class TopicSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------
         */
         $descriptionParts = [
-            "Practice $topicName} MCQs",
+            "Practice {$topicName} MCQs",
             $subjectName ? "from {$subjectName} subject" : null,
             $tagsString ? "Including topics: {$tagsString}" : null,
             "with solved answers and explanations",
