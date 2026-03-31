@@ -117,8 +117,8 @@ new class extends Component {
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
-                    {{ $pageIntro['title'] }}
+                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $topic->name . ' MCQs with Answers and Explanations' }}">
+                    {{ $topic->name . ' MCQs with Answers and Explanations' }}
                 </h1>
                 <p class="text-xs md:text-base text-justify">{{ $pageIntro['description'] }}</p>
             </div>
