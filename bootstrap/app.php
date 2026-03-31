@@ -7,7 +7,6 @@ use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
-use Livewire\Livewire;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -26,13 +25,6 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->web(append: [
             HandleAppearance::class,
             AddLinkHeadersForPreloadedAssets::class,
-        ]);
-
-        // Tell Livewire to persist your custom middleware across component updates
-        // Without this, auth checks break after page load
-        Livewire::addPersistentMiddleware([
-            RoleMiddleware::class,
-            UserStatusMiddleware::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
