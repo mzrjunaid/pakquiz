@@ -2,32 +2,46 @@
 
 namespace App\Services\Seo\Updates;
 
-use App\Models\Paper;
+use App\Models\JobPosting;
 use App\Services\Seo\BaseSeoUpdate;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Str;
 
-class PaperSeoUpdate extends BaseSeoUpdate
+class JobPostingSeoUpdate extends BaseSeoUpdate
 {
     /**
      * Papers needing SEO update
      */
     protected function query(): Builder
     {
-        return Paper::query()
-            ->select('id', 'name', 'subject_id', 'testing_service_id')
+        return JobPosting::query()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'department_id',
+                'testing_service_id',
+                'scale',
+                'total_posts',
+                'max_age',
+                'domicile',
+                'ad_number',
+                'case_number',
+                'closing_date',
+                'description',
+            )
             ->where(function (Builder $q) {
                 $q->whereDoesntHave('seo')
                     ->orWhereHas('seo', function (Builder $q2) {
                         $q2->whereColumn(
                             $q2->getModel()->getTable() . '.updated_at',
                             '<',
-                            'papers.updated_at'
+                            'job_postings.updated_at'
                         );
                     });
             })
             ->with([
-                'subject:id,name',
+                'department:id,name',
                 'testingService:id,short_name',
                 'tags:id,name',
             ]);
@@ -35,10 +49,24 @@ class PaperSeoUpdate extends BaseSeoUpdate
 
     protected function queryAll(): Builder
     {
-        return Paper::query()
-            ->select('id', 'name', 'subject_id', 'testing_service_id', 'updated_at')
+        return JobPosting::query()
+            ->select(
+                'id',
+                'title',
+                'slug',
+                'department_id',
+                'testing_service_id',
+                'scale',
+                'total_posts',
+                'max_age',
+                'domicile',
+                'ad_number',
+                'case_number',
+                'closing_date',
+                'description',
+            )
             ->with([
-                'subject:id,name',
+                'department:id,name',
                 'testingService:id,short_name',
                 'tags:id,name',
             ]);
@@ -47,18 +75,24 @@ class PaperSeoUpdate extends BaseSeoUpdate
     /**
      * Generate SEO metadata
      */
-    protected function seoData($paper): array
+    protected function seoData($job): array
     {
-        if (!$paper instanceof Paper) {
-            throw new \InvalidArgumentException('Expected instance of Paper');
+        if (!$job instanceof JobPosting) {
+            throw new \InvalidArgumentException('Expected instance of JobPosting');
         }
 
-        $paperName = trim($paper->name);
-        $subject = $paper->subject?->name;
-        $service = $paper->testingService?->short_name;
+        $jobTitle = trim($job->title);
+        $department = $job->department?->name;
+        $service = $job->testingService?->short_name;
+        $scale = $job->scale;
+        $totalPosts = $job->total_posts;
+        $maxAge = $job->max_age;
+        $domicile = $job->domicile;
+        $adNumber = $job->ad_number;
+        $caseNumber = $job->case_number;
+        $closingDate = $job->closing_date;
 
-        $tags = $paper->tags->pluck('name')->toArray();
-        $topTags = array_slice($tags, 0, 2);
+        $tags = $job->tags->pluck('name')->toArray();
 
         /*
         |--------------------------------------------------------------------------
@@ -66,8 +100,9 @@ class PaperSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $title = collect([
-            Str::limit($paperName, 30),
-            'Solved Past Papers & MCQs',
+            Str::limit($jobTitle, 30),
+            $department,
+            $service,
             'PakQuiz',
         ])
             ->filter()
@@ -79,11 +114,9 @@ class PaperSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $description = collect([
-            "Practice {$paperName}",
-            $subject ? "for {$subject}" : null,
-            $service ? "{$service} past papers and solved MCQs" : null,
-            !empty($topTags) ? "Topics: " . implode(', ', $topTags) : null,
-            "Online preparation tests with answers",
+            'Apply for ' . $jobTitle . ' jobs via ' . $service . ' Ad '
+            . $adNumber
+            . '. Check eligibility, syllabus, download past papers and mock tests at PakQuiz'
         ])
             ->filter()
             ->join(', ') . '.';
@@ -94,12 +127,18 @@ class PaperSeoUpdate extends BaseSeoUpdate
         |--------------------------------------------------------------------------
         */
         $keywords = collect(array_merge([
-            $paperName,
-            $subject,
+            $title,
+            $department,
             $service,
-            'mcqs',
+            $scale,
+            $totalPosts,
+            $maxAge,
+            $domicile,
+            $adNumber,
+            $caseNumber,
+            $closingDate,
             'past papers',
-            'online test',
+            'online mock test',
             'exam preparation',
             'pakquiz',
         ], $tags))

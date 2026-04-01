@@ -10,6 +10,7 @@ use App\Services\Seo\Updates\PaperSeoUpdate;
 use App\Services\Seo\Updates\TopicSeoUpdate;
 use App\Services\Seo\Updates\McqSeoUpdate;
 use App\Services\Seo\Updates\PageSeoUpdate;
+use App\Services\Seo\Updates\JobPostingSeoUpdate;
 
 class RunSeoUpdates extends Command
 {
@@ -17,13 +18,14 @@ class RunSeoUpdates extends Command
     protected $description = 'Run SEO updates for all models';
 
     protected array $updaters = [
-        'Department' => DepartmentSeoUpdate::class ,
-        'Page' => PageSeoUpdate::class ,
-        'TestingService' => TestingServiceSeoUpdate::class ,
-        'Subject' => SubjectSeoUpdate::class ,
-        'Paper' => PaperSeoUpdate::class ,
-        'Topic' => TopicSeoUpdate::class ,
-        'Mcq' => McqSeoUpdate::class ,
+        'TestingService' => TestingServiceSeoUpdate::class,
+        'Department' => DepartmentSeoUpdate::class,
+        'Subject' => SubjectSeoUpdate::class,
+        'Paper' => PaperSeoUpdate::class,
+        'JobPosting' => JobPostingSeoUpdate::class,
+        'Topic' => TopicSeoUpdate::class,
+        'Mcq' => McqSeoUpdate::class,
+        'Page' => PageSeoUpdate::class,
     ];
 
     public function handle(): int

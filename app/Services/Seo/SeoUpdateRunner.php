@@ -2,6 +2,7 @@
 
 namespace App\Services\Seo;
 
+use App\Services\Seo\Updates\JobPostingSeoUpdate;
 use App\Services\Seo\Updates\SubjectSeoUpdate;
 use App\Services\Seo\Updates\TopicSeoUpdate;
 use App\Services\Seo\Updates\PaperSeoUpdate;
@@ -25,12 +26,16 @@ class SeoUpdateRunner
         // 3️⃣ Update Papers
         app(PaperSeoUpdate::class)->handle();
 
-        // 4️⃣ Update Topics
+        // 4️⃣ Update Job Postings
+        app(JobPostingSeoUpdate::class)->handle();
+
+        // 5️⃣ Update Topics
         app(TopicSeoUpdate::class)->handle();
 
-        // 5️⃣ Update MCQs (depends on papers, topics, subjects)
+        // 6️⃣ Update MCQs (depends on papers, topics, subjects)
         app(McqSeoUpdate::class)->handle();
 
+        // 7️⃣ Update Pages
         app(PageSeoUpdate::class)->handle();
     }
 }

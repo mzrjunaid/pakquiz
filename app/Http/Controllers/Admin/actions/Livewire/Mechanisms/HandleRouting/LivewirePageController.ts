@@ -626,6 +626,186 @@ LivewirePageController04a61efe3086a9b488a1dd4e17c2b83c.head = (options?: RouteQu
     /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
  * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+const LivewirePageController1645ac25bf51cd2492a4911501274e26 = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController1645ac25bf51cd2492a4911501274e26.url(options),
+    method: 'get',
+})
+
+LivewirePageController1645ac25bf51cd2492a4911501274e26.definition = {
+    methods: ["get","head"],
+    url: '/jobs',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+LivewirePageController1645ac25bf51cd2492a4911501274e26.url = (options?: RouteQueryOptions) => {
+    return LivewirePageController1645ac25bf51cd2492a4911501274e26.definition.url + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+LivewirePageController1645ac25bf51cd2492a4911501274e26.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController1645ac25bf51cd2492a4911501274e26.url(options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+LivewirePageController1645ac25bf51cd2492a4911501274e26.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController1645ac25bf51cd2492a4911501274e26.url(options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+    const LivewirePageController1645ac25bf51cd2492a4911501274e26Form = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController1645ac25bf51cd2492a4911501274e26.url(options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+        LivewirePageController1645ac25bf51cd2492a4911501274e26Form.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController1645ac25bf51cd2492a4911501274e26.url(options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs'
+ */
+        LivewirePageController1645ac25bf51cd2492a4911501274e26Form.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController1645ac25bf51cd2492a4911501274e26.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController1645ac25bf51cd2492a4911501274e26.form = LivewirePageController1645ac25bf51cd2492a4911501274e26Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+const LivewirePageController681d8640dded3de8d182be566dee1f15 = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, options),
+    method: 'get',
+})
+
+LivewirePageController681d8640dded3de8d182be566dee1f15.definition = {
+    methods: ["get","head"],
+    url: '/jobs/{job}',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+LivewirePageController681d8640dded3de8d182be566dee1f15.url = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { job: args }
+    }
+
+            if (typeof args === 'object' && !Array.isArray(args) && 'slug' in args) {
+            args = { job: args.slug }
+        }
+    
+    if (Array.isArray(args)) {
+        args = {
+                    job: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        job: typeof args.job === 'object'
+                ? args.job.slug
+                : args.job,
+                }
+
+    return LivewirePageController681d8640dded3de8d182be566dee1f15.definition.url
+            .replace('{job}', parsedArgs.job.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+LivewirePageController681d8640dded3de8d182be566dee1f15.get = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, options),
+    method: 'get',
+})
+/**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+LivewirePageController681d8640dded3de8d182be566dee1f15.head = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, options),
+    method: 'head',
+})
+
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+    const LivewirePageController681d8640dded3de8d182be566dee1f15Form = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, options),
+        method: 'get',
+    })
+
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+        LivewirePageController681d8640dded3de8d182be566dee1f15Form.get = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, options),
+            method: 'get',
+        })
+            /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/jobs/{job}'
+ */
+        LivewirePageController681d8640dded3de8d182be566dee1f15Form.head = (args: { job: string | number | { slug: string | number } } | [job: string | number | { slug: string | number } ] | string | number | { slug: string | number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: LivewirePageController681d8640dded3de8d182be566dee1f15.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    LivewirePageController681d8640dded3de8d182be566dee1f15.form = LivewirePageController681d8640dded3de8d182be566dee1f15Form
+    /**
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/mcqs'
  */
 const LivewirePageControllera667167ce71b66453a9402d37ed90dab = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -1733,6 +1913,8 @@ const LivewirePageController = {
     '/terms-of-service': LivewirePageControllerafc93a7f43b9c83b4fdbb5592321e7c9,
     '/help-center': LivewirePageController956bb59c9e1c0fee21b18df019cfedf5,
     '/search': LivewirePageController04a61efe3086a9b488a1dd4e17c2b83c,
+    '/jobs': LivewirePageController1645ac25bf51cd2492a4911501274e26,
+    '/jobs/{job}': LivewirePageController681d8640dded3de8d182be566dee1f15,
     '/mcqs': LivewirePageControllera667167ce71b66453a9402d37ed90dab,
     '/mcqs/{mcq}': LivewirePageControllerce7095846e44f3351e72af6a0250b6ce,
     '/departments': LivewirePageController0aa6960c9307e7e78678ed9d41d8dcaf,

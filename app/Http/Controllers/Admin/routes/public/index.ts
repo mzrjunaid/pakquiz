@@ -1,4 +1,5 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
+import jobs from './jobs'
 import mcqs from './mcqs'
 import departments from './departments'
 import testing_services from './testing_services'
@@ -85,6 +86,7 @@ search.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     search.form = searchForm
 const publicMethod = {
     search: Object.assign(search, search),
+jobs: Object.assign(jobs, jobs),
 mcqs: Object.assign(mcqs, mcqs),
 departments: Object.assign(departments, departments),
 testing_services: Object.assign(testing_services, testing_services),

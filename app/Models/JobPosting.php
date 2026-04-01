@@ -11,9 +11,18 @@ class JobPosting extends Model
         'slug',
         'department_id',
         'testing_service_id',
+        'minimum_qualification',
+        'experience',
+        'scale',
+        'total_posts',
+        'max_age',
+        'age_relaxation',
+        'domicile',
         'ad_number',
+        'case_number',
         'closing_date',
         'pdf_url',
+        'apply_url',
         'description',
         'is_active',
     ];
@@ -29,7 +38,7 @@ class JobPosting extends Model
 
     public function papers()
     {
-        return $this->hasMany(Paper::class , 'job_id');
+        return $this->hasMany(Paper::class, 'job_id');
     }
 
     public function department()
@@ -44,14 +53,18 @@ class JobPosting extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class , 'page');
+        return $this->morphOne(SeoMeta::class, 'page');
     }
 
     public function keywords()
     {
-        return $this->morphToMany(Keyword::class , 'keywordable');
+        return $this->morphToMany(Keyword::class, 'keywordable');
     }
 
+    public function tags()
+    {
+        return $this->morphToMany(Tag::class, 'taggable');
+    }
 
 
     public function canonicalUrl()
