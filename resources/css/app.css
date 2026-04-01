@@ -4,7 +4,6 @@
 
 @import 'tw-animate-css';
 
-
 @source '../views';
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../vendor/masmerise/livewire-toaster/resources/views/*.blade.php';
@@ -98,7 +97,7 @@
     --info: oklch(97% 0.014 254.604);
     --info-foreground: oklch(0.15 0.08 25.66);
     --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.98 0.005 0);
     --border: oklch(0.3 0.02 25.66);
     --input: oklch(0.3 0.02 25.66);
     --ring: oklch(0.7 0.2 37.8);

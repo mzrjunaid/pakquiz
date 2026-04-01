@@ -61,6 +61,8 @@ new class extends Component {
                         </div>
                     </div>
 
+                    <x-nav-link route="public.jobs.index">Jobs</x-nav-link>
+
                     <!-- Another Dropdown -->
                     <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <x-nav-link route="public.papers.index">

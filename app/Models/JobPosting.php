@@ -10,11 +10,16 @@ class JobPosting extends Model
         'title',
         'slug',
         'department_id',
+        'testing_service_id',
         'ad_number',
         'closing_date',
         'pdf_url',
         'description',
         'is_active',
+    ];
+
+    protected $casts = [
+        'closing_date' => 'date',
     ];
 
     public function getRouteKeyName(): string
@@ -24,7 +29,7 @@ class JobPosting extends Model
 
     public function papers()
     {
-        return $this->hasMany(Paper::class, 'job_id');
+        return $this->hasMany(Paper::class , 'job_id');
     }
 
     public function department()
@@ -32,14 +37,19 @@ class JobPosting extends Model
         return $this->belongsTo(Department::class);
     }
 
+    public function testingService()
+    {
+        return $this->belongsTo(TestingService::class);
+    }
+
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function keywords()
     {
-        return $this->morphToMany(Keyword::class, 'keywordable');
+        return $this->morphToMany(Keyword::class , 'keywordable');
     }
 
 
@@ -49,7 +59,14 @@ class JobPosting extends Model
         return route('public.jobs.show', $this);
     }
 
-
+    public function getIsExpiredAttribute()
+    {
+        return $this->closing_date->isPast();
+    }
+    public function getFullAgeLimitAttribute()
+    {
+        return $this->max_age + $this->age_relaxation;
+    }
 
     public function scopeSortByClosingDate($query, string $direction)
     {

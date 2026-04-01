@@ -42,6 +42,11 @@ class TestingService extends Model
         );
     }
 
+    public function jobPostings()
+    {
+        return $this->hasMany(JobPosting::class);
+    }
+
     public function createdBy()
     {
         return $this->belongsTo(User::class , 'created_by')->withDefault(

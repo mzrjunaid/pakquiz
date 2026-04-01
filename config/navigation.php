@@ -12,6 +12,7 @@ return [
             ['title' => 'Home', 'link' => '/'],
             ['title' => 'Subjects', 'link' => '/subjects'],
             ['title' => 'Papers', 'link' => '/papers'],
+            ['title' => 'Jobs', 'link' => '/jobs'],
             ['title' => 'About Us', 'link' => '/about-us'],
             ['title' => 'Demo', 'link' => '/demo'],
         ],

@@ -224,8 +224,15 @@ Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 Route::name('public.')->group(function () {
     Route::livewire('/search', 'pages::search.index')->name('search');
 
-    Route::livewire('/jobs', 'pages::jobs.index')->name('jobs.index');
-    Route::livewire('/jobs/{job:slug}', 'pages::jobs.show')->name('jobs.show');
+    Route::prefix('jobs')->name('jobs.')->group(function () {
+        Route::livewire('/', 'pages::jobs.index')->name('index');
+
+        // Route::livewire('/{category?}', 'pages::jobs.category-index')
+        //     ->where('category', '(latest|past|upcoming)-jobs')
+        //     ->name('category_index');
+
+        Route::livewire('/{job:slug}', 'pages::jobs.show')->name('show');
+    });
 
     Route::prefix('mcqs')->name('mcqs.')->group(function () {
         Route::livewire('/', 'pages::mcqs.index')->name('index');
