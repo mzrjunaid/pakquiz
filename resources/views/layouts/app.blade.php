@@ -6,10 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>
-        {{ $title ?? config('app.name', 'PakQuiz') }}
+        {!! html_entity_decode(strip_tags($title ?? config('app.name', 'PakQuiz'))) !!}
     </title>
     <link rel="canonical" href="{{ $canonical ?? config('app.url', 'https://pakquiz.com') }}" />
-    <meta name="description" content="{{ $description ?? config('app.description', 'PakQuiz') }}">
+    <meta name="description"
+        content="{!! html_entity_decode(strip_tags($description ?? config('app.description', 'PakQuiz'))) !!}">
     <meta name="robots" content="index, follow" />
 
     <!-- Open Graph / Facebook -->
@@ -18,8 +19,10 @@
     <meta property="og:site_name" content="PakQuiz">
     <meta property="og:locale" content="en_PK">
     <meta property="og:url" content="{{ $canonical ?? config('app.url', 'https://pakquiz.com') }}" />
-    <meta property="og:title" content="{{ $title ?? config('app.name', 'PakQuiz') }}" />
-    <meta property="og:description" content="{{ $description ?? config('app.description', 'PakQuiz') }}" />
+    <meta property="og:title"
+        content="{!! html_entity_decode(strip_tags($title ?? config('app.name', 'PakQuiz'))) !!}" />
+    <meta property="og:description"
+        content="{!! html_entity_decode(strip_tags($description ?? config('app.description', 'PakQuiz'))) !!}" />
     <meta property="og:image" content="{{ $image ?? asset('assets/images/og-main.png') }}" />
     <meta property="og:image:width" content="1200">
     <meta property="og:image:height" content="630">
@@ -28,8 +31,10 @@
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@pakquiz" />
     <meta name="twitter:creator" content="@pakquiz" />
-    <meta name="twitter:title" content="{{ $title ?? config('app.name', 'PakQuiz') }}" />
-    <meta name="twitter:description" content="{{ $description ?? config('app.description', 'PakQuiz') }}" />
+    <meta name="twitter:title"
+        content="{!! html_entity_decode(strip_tags($title ?? config('app.name', 'PakQuiz'))) !!}" />
+    <meta name="twitter:description"
+        content="{!! html_entity_decode(strip_tags($description ?? config('app.description', 'PakQuiz'))) !!}" />
     <meta name="twitter:image" content="{{ $image ?? asset('assets/images/og-main.png') }}" />
 
 

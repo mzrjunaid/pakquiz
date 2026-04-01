@@ -38,12 +38,12 @@
             </div>
         @endif
 
-        @if ($job->subject)
+        @if ($job->ad_number)
             <div class="flex gap-2">
-                <a href="{{ route('public.subject.show', $job->subject->slug) }}"
+                <span
                     class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
-                    {{ $job->subject->name }}
-                </a>
+                    {{ $job->ad_number }}
+                </span>
             </div>
         @endif
 
@@ -57,7 +57,7 @@
         @endif
 
         @if($job->created_at->gt(now()->subDays(2)))
-            <span class="absolute top-2 right-4 animate-bounce rounded-full bg-destructive/50 text-secondary-foreground hover:bg-primary/80 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
+            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
         @endif
     </div>
 </div>

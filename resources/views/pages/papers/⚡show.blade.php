@@ -28,7 +28,11 @@ new class extends Component {
 
         $resource = McqIndexCollection::make($mcqs);
 
-        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/' . $this->paper->slug)]];
+        $breadcrumbList = [
+            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+            ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')],
+            ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/' . $this->paper->slug)]
+        ];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',

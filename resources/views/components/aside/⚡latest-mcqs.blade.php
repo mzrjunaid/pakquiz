@@ -37,7 +37,7 @@ new class extends Component {
             </div>
         @endforeach
         <div class="text-sm text-right flex justify-end mt-2">
-            <x-nav-link route="public.mcqs.index" class="text-primary hover:underline">
+            <x-nav-link route="public.mcqs.index" class="underline">
                 View All MCQs
             </x-nav-link>
         </div>

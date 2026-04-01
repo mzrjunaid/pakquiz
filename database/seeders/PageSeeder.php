@@ -53,6 +53,27 @@ class PageSeeder extends Seeder
                 'keywords' => 'PakQuiz, free demo tests, FPSC demo test, PPSC demo MCQs, NTS demo test, CSS demo preparation, online test demo PakQuiz'
             ],
 
+            'jobs' => [
+
+                'title' => 'Latest Govt Jobs in Pakistan '
+                . date('Y')
+                . ' – PPSC, FPSC & NTS | PakQuiz',
+
+                'description' => 'Find latest government & private jobs in Pakistan '
+                . date('Y')
+                . '. Apply for FPSC, PPSC, SPSC, KPPSC, NTS, CSS, PMS, Pak Army, Navy, PAF, Police, FIA, Banking, Teaching & IT vacancies — with eligibility, last dates & free online mock tests for every job advertisement. Start your PPSC & FPSC preparation today with PakQuiz.',
+
+                'keywords' => 'jobs in Pakistan '
+                . date('Y')
+                . ', government jobs Pakistan, latest jobs Pakistan today, FPSC jobs '
+                . date('Y')
+                . ', PPSC jobs '
+                . date('Y')
+                . ', SPSC jobs, KPPSC jobs, BPSC jobs, AJKPSC jobs, NTS jobs Pakistan, CSS jobs, PMS jobs, Pak Army jobs '
+                . date('Y')
+                . ', Pakistan Navy jobs, PAF jobs, police jobs Pakistan, FIA jobs, NAB jobs, teaching jobs Pakistan, banking jobs Pakistan, IT jobs Pakistan, engineering jobs Pakistan, health jobs Pakistan, private jobs Pakistan, government jobs 2026 Pakistan, today jobs Pakistan, latest vacancies Pakistan, job test preparation Pakistan, FPSC test preparation, PPSC test MCQs',
+            ],
+
 
             /* -------------------- TRUST & SUPPORT PAGES -------------------- */
 
@@ -91,12 +112,12 @@ class PageSeeder extends Seeder
 
         foreach ($pages as $key => $data) {
             Page::updateOrCreate(
-                ['key' => $key],
-                [
-                    'title'       => $data['title'],
-                    'description' => $data['description'],
-                    'keywords'    => $data['keywords'],
-                ]
+            ['key' => $key],
+            [
+                'title' => $data['title'],
+                'description' => $data['description'],
+                'keywords' => $data['keywords'],
+            ]
             );
         }
     }
