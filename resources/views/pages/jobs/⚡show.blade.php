@@ -1,14 +1,10 @@
 <?php
 
 use Livewire\Component;
-use App\Models\Page;
-use App\Models\Paper;
-use App\Support\SeoData;
-use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Http\Resources\Public\Paper\PaperIndexCollection;
 use App\Models\JobPosting;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
 
 new class extends Component {
     public JobPosting $job;
@@ -113,9 +109,19 @@ new class extends Component {
 
         $combinedSchema = $schema ? [$breadcrumbSchema, $schema] : [$breadcrumbSchema];
 
+        $relatedPapers = $this->job->testingService?->papers()
+        ->where('department_id', $this->job->department_id)
+        ->orWhere('name', 'like', '%' . Str::lower(trim(Str::before($this->job->title, '('))) . '%')
+        ->latest()
+        ->take(4)
+        ->withCount('mcqs')
+        ->get();
+
         return [
             'job' => $this->job,
             'schema' => $combinedSchema,
+            'relatedJobs' => cache()->remember('related_jobs_' . $this->job->id, 86400, fn() => $this->job->department?->jobs?->latest()?->take(6)->get() ?? []),
+            'relatedPapers' => $relatedPapers,
         ];
     }
 };
@@ -183,9 +189,10 @@ new class extends Component {
         </div>
     </section>
 
-    <section class="pb-12">
+    <div class="pb-12">
         <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
             <div class="lg:col-span-2 space-y-6">
+            <article class="space-y-6">
                 {{-- Key Details --}}
                 <div class="bg-white border border-gray-100 rounded-2xl p-6">
                     <h2 class="text-base font-medium text-gray-900 flex items-center gap-2 mb-4">
@@ -213,6 +220,16 @@ new class extends Component {
                 </div>
 
                 {{-- Eligibility --}}
+                <div class="bg-white border border-gray-100 rounded-2xl p-6">
+                    <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2 mb-4">
+                        <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center text-sm">📋</span>
+                        Description
+                    </h2>
+                    <p class="text-sm text-gray-700 leading-relaxed">
+                        {{ $job->description }}
+                    </p>
+                </div>
+
                 <div class="bg-white border border-gray-100 rounded-2xl p-6">
                     <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2 mb-4">
                         <span class="w-7 h-7 rounded-lg bg-blue-50 flex items-center justify-center text-sm">🎓</span>
@@ -279,9 +296,31 @@ new class extends Component {
                         <p class="text-sm text-secondary-foreground/80 leading-relaxed">
                             Prepare for the <strong>{{ $job->title }}</strong> written test with <strong>AI-powered mock tests</strong>, <strong>past papers</strong>, and <strong>subject-wise practice</strong> (GK, English, Maths, Analytical Reasoning, Islamiat, etc.) — with <strong>personalized performance analytics</strong>.
                         </p>
-                        <x-text-link href="{{ route('public.mcqs.index') }}" text="Start Preparing Now" icon="heroicon-o-chevron-right" class="text-secondary-foreground mt-2 inline-block" wire:navigate />
+                        <x-text-link href="{{ route('public.papers.index') }}" text="Start Preparing Now" icon="heroicon-o-chevron-right" class="text-secondary-foreground mt-2 inline-block" wire:navigate />
                     </div>
                 </div>
+            </article>
+            @if ($relatedJobs)
+            <section class="space-y-6">
+                <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2 mb-4">Latest Jobs in {{ $job->department->name }}</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    @foreach ($relatedJobs as $job)
+                        <x-job-card :job="$job" wire:navigate />
+                    @endforeach
+                </div>
+            </section>
+            @endif
+
+            @if ($relatedPapers->count() > 0)
+            <section class="space-y-6">
+                <h2 class="text-base font-semibold text-gray-900 flex items-center gap-2 mb-4">Related Official / Mock Papers for {{ $job->title }}</h2>
+                <div class="flex flex-col gap-4">
+                    @foreach ($relatedPapers as $paper)
+                        <x-paper-card :paper="$paper" wire:navigate />
+                    @endforeach
+                </div>
+            </section>
+            @endif
 
             </div>
             <x-aside>
@@ -294,5 +333,5 @@ new class extends Component {
                 <livewire:aside.current-affairs />
             </x-aside>
         </div>
-    </section>
+    </div>
 </div>
