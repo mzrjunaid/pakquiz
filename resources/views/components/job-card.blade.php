@@ -1,6 +1,10 @@
-@props(['job'])
+@props(['job', 'level' => 'h2'])
 
-<div class="group rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6">
+@php
+    $tag = in_array($level, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ? $level : 'h2';
+@endphp
+
+<div class="group relative rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6">
     <a href="{{ route('public.jobs.show', $job->slug) }}" class="block space-y-2">
         <div class="flex items-center justify-between gap-4">
             <div class="flex items-center gap-3">
@@ -8,10 +12,10 @@
                     <x-heroicon-o-newspaper class="h-4 w-4 shrink-0" />
                 </div>
                 <div class="flex flex-col">
-                    <h3
+                    <{{ $tag }}
                         class="text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
                         {{ $job->title }}
-                    </h3>
+                    </{{ $tag }}>
                     <span class="text-xs md:text-sm text-muted mt-1">
                         Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
                     </span>

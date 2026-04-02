@@ -2,10 +2,8 @@
 
 use App\Models\Page;
 use App\Models\Mcq;
-use App\Models\Department;
-use App\Models\Subject;
-use App\Models\Paper;
 use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
+use App\Models\JobPosting;
 use App\Support\SchemaGenerator;
 use App\Support\SeoData;
 use Illuminate\Support\Facades\DB;
@@ -39,53 +37,51 @@ new class extends Component {
         });
     }
 
-    public function render()
-    {
-        return view('pages::home.⚡index', [
-            'data' => cache()->remember('home_page_data', now()->addHour(), function () {
-                return [
-                    'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->limit(10)->get()),
-                    'heroSectionMcqs' => McqWithOptionsResource::collection(
-                        Mcq::query()
-                            ->where('is_active', true)
-                            ->where('explanation', '!=', null)
-                            ->oldest('created_at')
-                            ->limit(1)
-                            ->with(['options:id,mcq_id,option_text,is_correct', 'tags:id,name,slug', 'paper:id,name,slug', 'subject:id,name,slug', 'topic:id,name,slug', 'createdBy:id,name'])
-                            ->get(),
-                    ),
-                ];
-            }),
-        ]);
+    
+    public function with()
+    {    
+        return [
+            'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->limit(5)->get()),
+            'latestJobs' => JobPosting::latestJobs()->limit(5)->get(),
+            'heroSectionMcqs' => McqWithOptionsResource::collection(
+                Mcq::query()
+                    ->where('is_active', true)
+                    ->where('explanation', '!=', null)
+                    ->oldest('created_at')
+                    ->limit(1)
+                    ->with(['options:id,mcq_id,option_text,is_correct', 'tags:id,name,slug', 'paper:id,name,slug', 'subject:id,name,slug', 'topic:id,name,slug', 'createdBy:id,name'])
+                    ->get(),
+            ),
+        ];
     }
 };
 ?>
 
 @slot('canonical')
-    {{ $this->meta['canonical'] }}
+{{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-    {{ $this->meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-    {{ $this->meta['description'] }}
+{{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-    {{ $this->meta['og_image'] }}
+{{ $this->meta['og_image'] }}
 @endslot
 
 
 @slot('schema')
-    <script type="application/ld+json">
-    {!! json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
+<script type="application/ld+json">
+    {!!json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
 </script>
 @endslot
 
 <div>
-    <div class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12 space-y-12">
+    <section class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12 space-y-12">
         <section>
             <div class="grid items-center gap-12 lg:grid-cols-2">
                 <div>
@@ -151,48 +147,82 @@ new class extends Component {
                     </div>
                 </div>
                 <div class="hidden lg:block">
-                    <x-mcq-card :mcq="$data['heroSectionMcqs'][0]" :idx="0" :route="route('public.mcqs.show', $data['heroSectionMcqs'][0]['slug'])" />
+                    <x-mcq-card :mcq="$heroSectionMcqs[0]" :idx="0" :route="route('public.mcqs.show', $heroSectionMcqs[0]['slug'])" />
                 </div>
             </div>
         </section>
 
-        <section>
-            <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="space-y-2">
-                        <h2 class="text-base md:text-2xl font-bold">Latest MCQs Based on Recent Papers and Current
-                            Affairs
-                        </h2>
-                        <p class="text-xs md:text-base text-justify">PakQuiz offers 44,000+ MCQs, past papers and
-                            current affairs for PPSC, FPSC, NTS, CSS and PMS exams. Every question is sourced from real
-                            past papers and updated to match the latest 2026 exam patterns — covering General Knowledge,
-                            Pakistan Studies, English, Everyday Science and more. Start practicing by subject, paper or
-                            department and track your progress as you go.</p>
-                    </div>
-                    <div class="space-y-4 md:space-y-6 min-h-[3000px]">
-                        @foreach ($data['latestMcqs'] as $index => $mcq)
-                            <x-mcq-card :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
-                        @endforeach
+        <section class="grid gap-6 lg:grid-cols-3 lg:gap-8">
+            <section class="lg:col-span-2 space-y-6">
+            <article class="space-y-6">
+                <header class="space-y-2">
+                    <h2 class="text-base md:text-2xl font-bold">
+                        Latest Pakistan Competitive Exam MCQs {{date('Y')}}
+                    </h2>
+                    <p class="text-sm md:text-base text-justify">
+                        PakQuiz offers 44,000+ MCQs, past papers, and current affairs MCQs for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.
+                    </p>
+                    <p class="text-sm md:text-base text-justify">
+                        Every question is based on real past papers and updated for the latest {{date('Y')}} exam patterns.
+                    </p>
+                    <p class="text-sm md:text-base text-justify">
+                        Practice MCQs by subject, paper, department, and topic — including General Knowledge, Pakistan Studies, English, Islamiat, Everyday Science, and Current Affairs.
+                    </p>
+                </header>
+                <section class="space-y-4 md:space-y-6">
+                    @foreach ($latestMcqs as $index => $mcq)
+                        <x-mcq-card :level="'h3'" :mcq="$mcq" :idx="$index" :route="route('public.mcqs.show', $mcq['slug'])" />
+                    @endforeach
 
-                        <div class="flex justify-center">
-                            <a href="{{ route('public.mcqs.index') }}"
-                                class="w-full py-2 text-center rounded-lg bg-primary/80 hover:bg-primary/60 font-semibold tracking-wide transition-all">
-                                View All MCQs
-                            </a>
-                        </div>
+                    <nav class="flex justify-center">
+                        <a href="{{ route('public.mcqs.index') }}"
+                            class="w-full py-2 text-center rounded-lg bg-primary/80 hover:bg-primary/60 font-semibold tracking-wide transition-all">
+                            View All MCQs
+                        </a>
+                    </nav>
+                </section>
+            </article>
+            <article class="space-y-6">
+                <header class="space-y-2">
+                    <h2 class="text-base md:text-2xl font-bold">
+                        Latest PPSC, FPSC, NTS Jobs {{date('Y')}}
+                    </h2>
+                    <div class="text-sm md:text-base text-justify space-y-3 text-gray-700">
+                        <p>
+                            Stay updated with the latest <strong>Government Jobs in Pakistan</strong>. We track daily announcements from the <strong>PPSC, FPSC, NTS, and STS</strong> to bring you active job alerts, official advertisements, and application deadlines for 2026.
+                        </p>
+                        <p>
+                            Whether you are looking for <strong>Punjab Police careers</strong>, Educators' posts, or Federal Ministry vacancies, PakQuiz provides the complete syllabus and <strong>solved past papers</strong> for every advertised position.
+                        </p>
+                        <p>
+                            Don't just find a job—prepare to win it. Access specialized MCQ sets for <strong>CSS, PMS, and Tehsildar exams</strong> tailored to the most recent 2026 testing patterns.
+                        </p>
                     </div>
-                </div>
+                </header>
+                <section class="space-y-4 md:space-y-6">
+                    @foreach ($latestJobs as $index => $job)
+                        <x-job-card :level="'h4'" :job="$job" :idx="$index" :route="route('public.jobs.show', $job['slug'])" />
+                    @endforeach
 
-                <x-aside>
-                    <livewire:global-search />
-                    <livewire:aside.current-affairs />
-                    <livewire:aside.latest-papers />
-                    <livewire:aside.latest-subjects />
-                    <livewire:aside.latest-departments />
-                </x-aside>
-            </div>
+                    <nav class="flex justify-center">
+                        <a href="{{ route('public.jobs.index') }}"
+                            class="w-full py-2 text-center rounded-lg bg-primary/80 hover:bg-primary/60 font-semibold tracking-wide transition-all">
+                            View All Jobs
+                        </a>
+                    </nav>
+                </section>
+            </article>
+            </section>
+
+            <x-aside>
+                <livewire:global-search />
+                <livewire:aside.current-affairs />
+                <livewire:aside.latest-papers />
+                <livewire:aside.latest-subjects />
+                <livewire:aside.latest-departments />
+            </x-aside>
         </section>
-    </div>
+    </section>
     <section class="bg-accent px-4 py-16 text-accent-foreground sm:px-6 lg:px-8">
         <div class="mx-auto max-w-4xl text-center">
             <h2 class="mb-6 text-2xl font-bold md:text-4xl">Ready to Excel in Your Exams?</h2>

@@ -1,4 +1,4 @@
-@props(['mcq', 'idx' => 0, 'route' => '#'])
+@props(['level' => 'h2', 'mcq', 'idx' => 0, 'route' => '#'])
 
 @php
     $idx = $idx + 1;
@@ -12,6 +12,8 @@
             'medium' => 'text-yellow-900 border-yellow-900',
             'hard' => 'text-red-900 border-red-900',
         ][strtolower($mcq['difficulty'])] ?? 'text-gray-900 border-gray-900';
+
+    $tag = in_array($level, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ? $level : 'h2';
 @endphp
 
 <div x-data="{
@@ -64,12 +66,12 @@
         </div>
     </div>
 
-    <h2
+    <{{$tag}}
         class="my-6 text-sm font-semibold lg:text-base {{ $questionIsUrdu ? 'font-urdu direction-rtl text-right' : '' }}">
         <a href="{{ $route }}" class="hover:text-primary ">
             {{ $questionIsUrdu ? 'سوال نمبر' : 'Question' }} {{ $idx }}: {{ $mcq['question'] }}
         </a>
-    </h2>
+    </{{$tag}}>
 
     <div class="grid gap-2 md:grid-cols-2 lg:gap-3 {{ $questionIsUrdu ? 'font-urdu' : '' }}">
         @foreach ($mcq['options'] as $optIdx => $opt)

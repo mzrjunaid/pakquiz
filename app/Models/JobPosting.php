@@ -38,7 +38,7 @@ class JobPosting extends Model
 
     public function papers()
     {
-        return $this->hasMany(Paper::class, 'job_id');
+        return $this->hasMany(Paper::class , 'job_id');
     }
 
     public function department()
@@ -53,19 +53,18 @@ class JobPosting extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function keywords()
     {
-        return $this->morphToMany(Keyword::class, 'keywordable');
+        return $this->morphToMany(Keyword::class , 'keywordable');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
     }
-
 
     public function canonicalUrl()
     {
@@ -101,5 +100,14 @@ class JobPosting extends Model
     public function scopeSortByAdNumber($query, string $direction)
     {
         return $query->orderBy('ad_number', $direction);
+    }
+
+    public function scopeLatestJobs($query, int $limit = 5)
+    {
+        return $query
+            ->where('is_active', true)
+            ->where('closing_date', '>=', now())
+            ->latest()
+            ->limit($limit);
     }
 }
