@@ -60,8 +60,21 @@
             </div>
         @endif
 
+        @if ($job->created_at)
+            <div class="flex gap-2">
+                <span
+                    class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
+                    {{ __('Posted') }} {{ $job->created_at->diffForHumans() }}
+                </span>
+            </div>
+        @endif
+
         @if($job->created_at->gt(now()->subDays(2)))
             <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
+        @endif
+
+        @if($job->closing_date->lt(now()))
+            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('Expired') }}</span>
         @endif
     </div>
 </div>

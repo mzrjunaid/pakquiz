@@ -10,13 +10,18 @@ import { DataTablePagination } from '../../components/dataTable/data-table-pagin
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
 import { getColumns } from './data-table-columns';
 
+interface PaperTableProps extends DataTableProps<Paper> {
+    onGeneratePaper?: ({ paper, action }: { paper: Paper, action: 'generate' | 'regenerate' }) => void;
+}
+
 export default function PaperTable({
     tableData,
     filters = {},
     url,
     onEdit,
     onDelete,
-}: DataTableProps<Paper>) {
+    onGeneratePaper,
+}: PaperTableProps) {
     const { data, meta } = tableData;
     const { current_page, last_page, per_page, total, from, to } = meta;
 
@@ -91,6 +96,7 @@ export default function PaperTable({
         onEdit,
         onDelete,
         onSort: handleSort,
+        onGeneratePaper,
     });
 
     // eslint-disable-next-line react-hooks/incompatible-library

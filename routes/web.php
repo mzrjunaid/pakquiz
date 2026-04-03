@@ -170,6 +170,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
 
     Route::resource('papers', AdminPaperController::class);
 
+    Route::post('papers/{paper}/generate', [AdminPaperController::class, 'generate'])
+        ->name('papers.generate');
+
     Route::resource('mcqs', AdminMcqController::class);
 
     Route::resource('seo', SeoMetaController::class);

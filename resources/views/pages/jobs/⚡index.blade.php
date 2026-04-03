@@ -72,6 +72,12 @@ new class extends Component {
             'jobs' => $resource,
             'pageIntro' => Page::firstWhere('key', 'jobs'),
             'schema' => $combinedSchema,
+            'latestPapers' => Paper::query()
+                ->select('id', 'name', 'description', 'slug', 'created_at')
+                ->latest('created_at')
+                ->withCount('mcqs')
+                ->take(6)
+                ->get(),
         ];
     }
 };
@@ -128,7 +134,8 @@ new class extends Component {
 
     <section class="pb-12">
         <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            <div class="lg:col-span-2">
+            <div class="lg:col-span-2 space-y-6">
+                <section class="space-y-6">
                 <div class="relative">
                     <x-loading target="gotoPage, nextPage, previousPage" message="Loading Jobs..." />
                     <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
@@ -142,6 +149,16 @@ new class extends Component {
                 <div class="mt-8">
                     {{ $jobs->links('vendor.livewire.compact-pagination') }}
                 </div>
+                </section>
+                <section class="space-y-6">
+                    <h2 class="text-lg md:text-xl font-bold">Related Research Papers</h2>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        @foreach ($latestPapers as $paper)
+                            <x-paper-card :paper="$paper" :level="'h3'" />
+                        @endforeach
+                    </div>
+                </section>
+
             </div>
             <x-aside>
                 <livewire:aside.latest-mcqs />

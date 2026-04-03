@@ -22,7 +22,8 @@ class Paper extends Model
         'testing_service_id',
         'subject_id',
         'is_active',
-        'created_by'
+        'created_by',
+        'type'
     ];
 
     protected $casts = [
@@ -40,7 +41,7 @@ class Paper extends Model
 
     public function testingService()
     {
-        return $this->belongsTo(TestingService::class, 'testing_service_id');
+        return $this->belongsTo(TestingService::class , 'testing_service_id');
     }
 
     public function subject()
@@ -50,12 +51,20 @@ class Paper extends Model
 
     public function mcqs()
     {
-        return $this->hasmany(Mcq::class, 'paper_id');
+        return $this->hasmany(Mcq::class , 'paper_id');
+    }
+
+    public function mockPaperMcqs()
+    {
+        return $this->belongsToMany(Mcq::class , 'paper_mcqs')
+            ->withPivot('position')
+            ->withTimestamps()
+            ->orderBy('paper_mcqs.position');
     }
 
     public function job()
     {
-        return $this->belongsTo(JobPosting::class, 'job_id');
+        return $this->belongsTo(JobPosting::class , 'job_id');
     }
 
     public function syllabus()
@@ -65,7 +74,7 @@ class Paper extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault([
+        return $this->belongsTo(User::class , 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
@@ -83,12 +92,12 @@ class Paper extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
     }
 
     public function getRouteKeyName(): string
@@ -119,19 +128,28 @@ class Paper extends Model
         return $this->type === 'mock';
     }
 
-    public function generateMockQuestions()
+    // public function generateMockQuestions()
+    // {
+    //     $allQuestions = collect();
+
+    //     foreach ($this->syllabus as $weight) {
+    //         $questions = Mcq::where('subject_id', $weight->subject_id)
+    //             ->inRandomOrder()
+    //             ->limit($weight->question_count)
+    //             ->get();
+
+    //         $allQuestions = $allQuestions->concat($questions);
+    //     }
+
+    //     return $allQuestions->paginate(10)->onEachSide(0)->withQueryString();
+    // }
+
+    public function relatedPapers()
     {
-        $allQuestions = collect();
-
-        foreach ($this->syllabus as $weight) {
-            $questions = Mcq::where('subject_id', $weight->subject_id)
-                ->inRandomOrder()
-                ->limit($weight->question_count)
-                ->get();
-
-            $allQuestions = $allQuestions->concat($questions);
-        }
-
-        return $allQuestions;
+        return $this->where('department_id', $this->department_id)
+            ->where('subject_id', $this->subject_id)
+            ->where('id', '!=', $this->id)
+            ->limit(10)
+            ->get();
     }
 }

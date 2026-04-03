@@ -1,4 +1,14 @@
-@props(['paper'])
+@props(['paper', 'level' => 'h2'])
+
+@php
+    $levelClass = match($level) {
+        'h1' => 'text-2xl md:text-3xl',
+        'h2' => 'text-xl md:text-2xl',
+        'h3' => 'text-base md:text-lg',
+        'h4' => 'text-sm md:text-base',
+        default => 'text-sm md:text-base',
+    };
+@endphp
 
 <div class="group rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6">
     <a href="{{ route('public.papers.show', $paper->slug) }}" class="block space-y-2">
@@ -9,7 +19,7 @@
                 </div>
                 <div class="flex flex-col">
                     <h3
-                        class="text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
+                        class="{{ $levelClass }} font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
                         {{ $paper->name }}
                     </h3>
                     <span
@@ -53,6 +63,10 @@
                     {{ $paper->testingService->short_name }}
                 </a>
             </div>
+        @endif
+
+        @if($paper->created_at->gt(now()->subDays(2)))
+            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
         @endif
     </div>
 </div>

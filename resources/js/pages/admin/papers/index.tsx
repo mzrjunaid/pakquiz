@@ -4,6 +4,9 @@ import { CommonFilters, PaperResource, Stats } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
 import PaperTable from './components/data-table-index';
+import { Paper } from '@/types/paper';
+import { router } from '@inertiajs/react';
+import admin from '@/routes/admin';
 
 export default function PapersIndex({
     papers,
@@ -14,6 +17,14 @@ export default function PapersIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
+
+    const handleGeneratePaper = ({ paper, action }: { paper: Paper, action: 'generate' | 'regenerate' }) => {
+        router.post(admin.papers.generate(paper.slug).url, {
+            preserveScroll: true,
+            action,
+        });
+    };
+
     return (
         <AdminLayout title="Papers List">
             <TextHeading as="h1" size="xl" textColor="primary">
@@ -33,6 +44,7 @@ export default function PapersIndex({
                     tableData={papers}
                     filters={filters}
                     url={papersRoute.index().url}
+                    onGeneratePaper={handleGeneratePaper}
                 />
                 {/* <pre>{JSON.stringify(papers, null, 2)}</pre> */}
             </section>

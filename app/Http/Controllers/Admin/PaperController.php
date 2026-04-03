@@ -6,7 +6,9 @@ use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\PaperResource;
 use App\Models\Paper;
+use App\Services\GenerateMockPaperService;
 use App\Services\PaperService;
+
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -71,7 +73,7 @@ class PaperController extends Controller
      */
     public function store(Request $request)
     {
-        //
+    //
     }
 
     /**
@@ -95,7 +97,7 @@ class PaperController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        //
+    //
     }
 
     /**
@@ -103,6 +105,31 @@ class PaperController extends Controller
      */
     public function destroy(string $id)
     {
-        //
+    //
+    }
+
+    public function generate(Paper $paper, GenerateMockPaperService $service, Request $request)
+    {
+        $validated = $request->validate([
+            'action' => ['required', 'in:generate,regenerate'],
+        ]);
+
+        $action = $validated['action'];
+        $regenerate = $action === 'regenerate';
+
+        try {
+            $service->generate($paper, $regenerate);
+
+            return response()->json([
+                'success' => true,
+                'message' => "Paper {$action}d successfully.",
+            ]);
+        }
+        catch (\Throwable $e) {
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 422);
+        }
     }
 }

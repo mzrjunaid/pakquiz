@@ -160,13 +160,13 @@ new class extends Component {
                         Latest Pakistan Competitive Exam MCQs {{date('Y')}}
                     </h2>
                     <p class="text-sm md:text-base text-justify">
-                        PakQuiz offers 44,000+ MCQs, past papers, and current affairs MCQs for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.
+                        PakQuiz offers <strong>44,000+ MCQs</strong>, <strong>past papers</strong>, and <strong>current affairs MCQs</strong> for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.
                     </p>
                     <p class="text-sm md:text-base text-justify">
-                        Every question is based on real past papers and updated for the latest {{date('Y')}} exam patterns.
+                        Every question is based on <strong>real past papers</strong> and updated for the latest {{date('Y')}} exam patterns.
                     </p>
                     <p class="text-sm md:text-base text-justify">
-                        Practice MCQs by subject, paper, department, and topic — including General Knowledge, Pakistan Studies, English, Islamiat, Everyday Science, and Current Affairs.
+                        Practice MCQs by subject, paper, department, and topic — including <strong>General Knowledge</strong>, <strong>Pakistan Studies</strong>, <strong>English</strong>, <strong>Islamiat</strong>, <strong>Everyday Science</strong>, and <strong>Current Affairs</strong>.
                     </p>
                 </header>
                 <section class="space-y-4 md:space-y-6">

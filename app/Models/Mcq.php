@@ -42,6 +42,13 @@ class Mcq extends Model implements HasCanonical
         return $this->belongsTo(Paper::class);
     }
 
+    public function mockPapers()
+    {
+        return $this->belongsToMany(Paper::class, 'paper_mcqs')
+            ->withPivot('position')
+            ->withTimestamps();
+    }
+
     public function subject()
     {
         return $this->belongsTo(Subject::class);

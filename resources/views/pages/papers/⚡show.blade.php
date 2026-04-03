@@ -24,7 +24,16 @@ new class extends Component {
     public function with(): array
     {
         $limit = min(max((int) $this->perPage, 5), 100);
-        $mcqs = Mcq::query()->where('paper_id', $this->paper->id)->latest()->paginate($limit)->onEachSide(0)->withQueryString();
+
+        $paperType = $this->paper->type;
+
+        // dd($paperType);
+
+        if ($paperType === 'mock') {
+            $mcqs = $this->paper->mockPaperMcqs()->paginate($limit)->onEachSide(0)->withQueryString();
+        } else {
+            $mcqs = $this->paper->mcqs()->latest()->paginate($limit)->onEachSide(0)->withQueryString();
+        }
 
         $resource = McqIndexCollection::make($mcqs);
 
