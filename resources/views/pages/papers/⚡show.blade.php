@@ -126,7 +126,9 @@ new class extends Component {
                     {{ $pageIntro->name }}
                 </h1>
                 @if ($pageIntro->description)
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <div class="text-xs md:text-base text-justify">
+                    {!! html_entity_decode(strip_tags($pageIntro->description)) !!}
+                </div>
                 @endif
             </div>
             <div class="space-y-2 w-full md:w-1/3">
