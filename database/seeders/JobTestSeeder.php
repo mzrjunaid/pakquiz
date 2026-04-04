@@ -60,8 +60,7 @@ class JobTestSeeder extends Seeder
             [
                 'job_id' => $job->id,
                 'department_id' => $department->id,
-                'subject_id' => 1,
-                'testing_service_id' => 6,
+
                 'name' => 'Mock Test: System Support Officer Enforcement Station Pakistan 2026',
                 'slug' => 'system-support-officer-enforcement-station-2026-mock-test',
                 'type' => 'mock',
