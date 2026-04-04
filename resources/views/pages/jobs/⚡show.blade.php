@@ -10,12 +10,6 @@ new class extends Component {
     public JobPosting $job;
     use WithPagination;
 
-    // #[Computed]
-    // public function meta()
-    // {
-    //     return cache()->remember('page_meta_papers', 86400, fn() => SeoData::fromModel(Page::where('key', 'papers')->with('seo')->firstOrFail()));
-    // }
-
     public $perPage = 10;
 
     public function updatedPerPage()
@@ -120,7 +114,7 @@ new class extends Component {
         return [
             'job' => $this->job,
             'schema' => $combinedSchema,
-            'relatedJobs' => cache()->remember('related_jobs_' . $this->job->id, 86400, fn() => $this->job->department?->jobs?->latest()?->take(6)->get() ?? []),
+            'relatedJobs' => $this->job->department?->jobs?->latest()?->take(6)->get(),
             'relatedPapers' => $relatedPapers,
         ];
     }
