@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
 export const suggestions = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -16,7 +16,7 @@ suggestions.definition = {
 
 /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
 suggestions.url = (options?: RouteQueryOptions) => {
@@ -25,7 +25,7 @@ suggestions.url = (options?: RouteQueryOptions) => {
 
 /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
 suggestions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -34,7 +34,7 @@ suggestions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
 })
 /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
 suggestions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -44,7 +44,7 @@ suggestions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
     /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
     const suggestionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -54,7 +54,7 @@ suggestions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 
             /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
         suggestionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -63,7 +63,7 @@ suggestions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
             /**
 * @see \App\Http\Controllers\Public\SearchController::suggestions
- * @see app/Http/Controllers/Public/SearchController.php:57
+ * @see app/Http/Controllers/Public/SearchController.php:64
  * @route '/api/search-suggestions'
  */
         suggestionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

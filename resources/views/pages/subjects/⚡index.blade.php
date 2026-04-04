@@ -52,25 +52,25 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-{{ $this->meta['canonical'] }}
+    {{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $this->meta['description'] }}
+    {{ $this->meta['description'] }}
 @endslot
 
 
 @slot('image')
-{{ $this->meta['og_image'] }}
+    {{ $this->meta['og_image'] }}
 @endslot
 
 <div>
     @teleport('head')
-    <script type="application/ld+json">
+        <script type="application/ld+json">
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
@@ -110,7 +110,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($subjects as $subject)
-                            <x-subject-card :subject="$subject" />
+                                <x-subject-card :subject="$subject" />
                             @endforeach
                         </div>
                     </div>

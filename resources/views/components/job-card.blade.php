@@ -15,10 +15,10 @@
                     <{{ $tag }}
                         class="text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
                         {{ $job->title }}
-                    </{{ $tag }}>
-                    <span class="text-xs md:text-sm text-muted mt-1">
-                        Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
-                    </span>
+                        </{{ $tag }}>
+                        <span class="text-xs md:text-sm text-muted mt-1">
+                            Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
+                        </span>
                 </div>
             </div>
             <div class="flex items-center shrink-0 gap-2">
@@ -28,7 +28,7 @@
             </div>
         </div>
         <div class="flex items-center gap-2 px-2">
-            <p class="text-xs md:text-sm text-muted line-clamp-2">{{ $job->description ?? 'No description available' }}</p>
+            <div class="text-xs md:text-sm text-muted line-clamp-2">{!! $job->description ?? 'No description available' !!}</div>
         </div>
     </a>
 
@@ -69,12 +69,14 @@
             </div>
         @endif
 
-        @if($job->created_at->gt(now()->subDays(2)))
-            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
+        @if ($job->created_at->gt(now()->subDays(2)))
+            <span
+                class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
         @endif
 
-        @if($job->closing_date->lt(now()))
-            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('Expired') }}</span>
+        @if ($job->closing_date->lt(now()))
+            <span
+                class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('Expired') }}</span>
         @endif
     </div>
 </div>

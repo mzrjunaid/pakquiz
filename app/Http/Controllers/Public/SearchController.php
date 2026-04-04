@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Department;
 use App\Models\Subject;
 use App\Models\Paper;
 use App\Models\Topic;
@@ -26,6 +27,12 @@ class SearchController extends Controller
         return Inertia::render('public/search/index', [
             'query' => $q,
             'results' => [
+                'departments' => Department::query()
+                    ->where('name', 'like', "%{$q}%")
+                    ->select('id', 'name', 'slug')
+                    ->limit(5)
+                    ->get(),
+
                 'subjects' => Subject::query()
                     ->where('name', 'like', "%{$q}%")
                     ->select('id', 'name', 'slug')
@@ -63,7 +70,8 @@ class SearchController extends Controller
 
 
         $query = trim($request->input('q', ''));
-        if (!$query) return response()->json([]);
+        if (!$query)
+            return response()->json([]);
 
         $topics = Topic::select('id', 'name', 'slug', 'subject_id')
             ->where('name', 'like', "%{$query}%")
@@ -74,6 +82,17 @@ class SearchController extends Controller
                 'title' => $m->name,
                 'link' => route('public.subject.topic.show', [$m->subject->slug, $m->slug]),
                 'type' => 'Topic',
+            ]);
+
+        $departments = Department::select('id', 'name', 'slug')
+            ->where('name', 'like', "%{$query}%")
+            ->limit(3)
+            ->get()
+            ->map(fn($m) => [
+                'slug' => $m->slug,
+                'title' => $m->name,
+                'link' => route('public.departments.show', $m->slug),
+                'type' => 'Department',
             ]);
 
         $subjects = Subject::select('id', 'name', 'slug')
@@ -109,10 +128,13 @@ class SearchController extends Controller
                 'type' => 'MCQ',
             ]);
 
+
+
         return response()->json(
             collect($subjects)
                 ->merge($topics)
                 ->merge($papers)
+                ->merge($departments)
                 ->merge($mcqs)
                 ->take(12)
                 ->values()

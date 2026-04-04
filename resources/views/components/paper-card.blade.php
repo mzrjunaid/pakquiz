@@ -1,7 +1,7 @@
 @props(['paper', 'level' => 'h2'])
 
 @php
-    $levelClass = match($level) {
+    $levelClass = match ($level) {
         'h1' => 'text-2xl md:text-3xl',
         'h2' => 'text-xl md:text-2xl',
         'h3' => 'text-base md:text-lg',
@@ -65,8 +65,9 @@
             </div>
         @endif
 
-        @if($paper->created_at->gt(now()->subDays(2)))
-            <span class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
+        @if ($paper->created_at && $paper->created_at->gt(now()->subDays(2)))
+            <span
+                class="absolute top-4 right-8 animate-bounce rounded-full bg-primary/80 text-secondary-foreground hover:bg-primary/90 px-1.5 py-0.5 md:px-2 md:py-1 text-xs block max-w-[80px] md:max-w-md truncate whitespace-nowrap font-semibold">{{ __('New') }}</span>
         @endif
     </div>
 </div>

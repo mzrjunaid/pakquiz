@@ -5,6 +5,7 @@ use App\Models\Mcq;
 use App\Models\Paper;
 use App\Models\Subject;
 use App\Models\Topic;
+use App\Models\Department;
 use Illuminate\Support\Str;
 
 new class extends Component {
@@ -20,6 +21,19 @@ new class extends Component {
         }
 
         $this->results = collect()
+            ->concat(
+                Department::select('id', 'name', 'slug')
+                    ->where('name', 'like', "%{$this->search}%")
+                    ->limit(3)
+                    ->get()
+                    ->map(
+                        fn($m) => [
+                            'title' => $m->name,
+                            'link' => route('public.departments.show', $m->slug),
+                            'type' => 'Department',
+                        ],
+                    ),
+            )
             ->concat(
                 Subject::select('id', 'name', 'slug')
                     ->where('name', 'like', "%{$this->search}%")

@@ -3,6 +3,7 @@
 use App\Http\Resources\Public\Mcq\McqIndexCollection;
 use App\Models\Mcq;
 use App\Models\Subject;
+use App\Models\Topic;
 use App\Support\SeoData;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
@@ -17,6 +18,16 @@ new class extends Component {
     public function updatedPerPage()
     {
         $this->resetPage();
+    }
+
+    #[Computed]
+    public function currentAffairs()
+    {
+        if ($this->subject->slug === 'current-affairs-mcqs') {
+            return Topic::where('subject_id', 39)->latest()->get();
+        }
+
+        return null;
     }
 
     public function with(): array
@@ -42,6 +53,7 @@ new class extends Component {
             'mcqs' => $resource,
             'pageIntro' => SeoData::subjectSeo($this->subject),
             'schema' => $combinedSchema,
+            'currentAffairs' => $this->currentAffairs,
         ];
     }
 
@@ -54,24 +66,24 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-{{ $this->meta['canonical'] }}
+    {{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $this->meta['description'] }}
+    {{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-{{ $this->meta['og_image'] }}
+    {{ $this->meta['og_image'] }}
 @endslot
 
 <div>
     @teleport('head')
-    <script type="application/ld+json">
+        <script type="application/ld+json">
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
@@ -117,7 +129,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($mcqs as $mcq)
-                            <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                             @endforeach
                         </div>
                     </div>
@@ -127,9 +139,29 @@ new class extends Component {
                     </div>
                 </div>
                 <x-aside>
-                    <livewire:aside.latest-mcqs />
+                    @if ($currentAffairs)
+                        <div class="rounded-lg bg-card p-6 shadow-md">
+                            <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
+                            <p class="mb-3 text-muted-foreground text-sm">Stay updated with the latest current affairs
+                                for FPSC, PPSC, NTS, CSS,
+                                PMS
+                                and other competitive exams in Pakistan.</p>
+                            <div class="md:px-2">
+                                @foreach ($currentAffairs as $currentAffair)
+                                    <x-aside.link route="public.subject.topic.show" :params="[
+                                        'subject' => $currentAffair->subject->slug,
+                                        'topic' => $currentAffair->slug,
+                                    ]"
+                                        label="{{ $currentAffair->name }}" icon="heroicon-s-book-open" />
+                                @endforeach
+                            </div>
+                        </div>
+                    @else
+                        <livewire:aside.current-affairs />
+                    @endif
+                    <livewire:aside.latest-subjects />
+                    <livewire:aside.latest-departments />
                     <livewire:aside.latest-papers />
-                    <livewire:aside.current-affairs />
                 </x-aside>
             </div>
         </section>
