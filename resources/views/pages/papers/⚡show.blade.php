@@ -37,11 +37,7 @@ new class extends Component {
 
         $resource = McqIndexCollection::make($mcqs);
 
-        $breadcrumbList = [
-            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
-            ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')],
-            ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/' . $this->paper->slug)]
-        ];
+        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/' . $this->paper->slug)]];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
@@ -63,30 +59,30 @@ new class extends Component {
     #[Computed]
     public function meta()
     {
-        return cache()->remember('page_meta_paper-' . $this->paper->slug, 86400, fn() => SeoData::paperSeo($this->paper));
+        return SeoData::paperSeo($this->paper);
     }
 };
 ?>
 
 @slot('canonical')
-{{ $this->meta['canonical'] }}
+    {{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-{{ $this->meta['title'] }}
+    {{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $this->meta['description'] }}
+    {{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-{{ $this->meta['og_image'] }}
+    {{ $this->meta['og_image'] }}
 @endslot
 
 <div>
     @teleport('head')
-    <script type="application/ld+json">
+        <script type="application/ld+json">
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
@@ -99,13 +95,13 @@ new class extends Component {
                             <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
                         </li>
                         @if ($department)
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <a href="{{ route('public.departments.show', $department->slug) }}"
-                                    class="hover:text-primary">{{ $department->name }}</a>
-                            </div>
-                        </li>
+                            <li>
+                                <div class="flex items-center">
+                                    <span class="mx-2">/</span>
+                                    <a href="{{ route('public.departments.show', $department->slug) }}"
+                                        class="hover:text-primary">{{ $department->name }}</a>
+                                </div>
+                            </li>
                         @endif
                         <li>
                             <div class="flex items-center">
@@ -126,9 +122,9 @@ new class extends Component {
                     {{ $pageIntro->name }}
                 </h1>
                 @if ($pageIntro->description)
-                <div class="text-xs md:text-base text-justify">
-                    {!! html_entity_decode($pageIntro->description) !!}
-                </div>
+                    <div class="text-xs md:text-base text-justify space-y-3">
+                        {!! $pageIntro->description !!}
+                    </div>
                 @endif
             </div>
             <div class="space-y-2 w-full md:w-1/3">
@@ -145,7 +141,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($mcqs as $mcq)
-                            <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                             @endforeach
                         </div>
                     </div>
