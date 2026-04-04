@@ -121,7 +121,7 @@ export const getColumns = ({
             cell: ({ row }) => {
                 const testing_service = row.original.testing_service;
                 return (
-                    <TextLink href={testingServices.show(testing_service?.slug)}>
+                    testing_service && <TextLink href={testingServices.show(testing_service?.slug)}>
                         {testing_service?.name}
                     </TextLink>
                 );
