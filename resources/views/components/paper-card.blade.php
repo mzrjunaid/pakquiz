@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="flex items-center gap-2 px-2">
-            <p class="mt-2 text-sm text-muted line-clamp-2">{{ $paper->description ?? 'No description available' }}</p>
+            <div class="mt-2 text-sm text-muted line-clamp-2">{!! html_entity_decode($paper->description ?? 'No description available') !!}</div>
         </div>
     </a>
 

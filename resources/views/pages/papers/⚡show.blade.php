@@ -127,7 +127,7 @@ new class extends Component {
                 </h1>
                 @if ($pageIntro->description)
                 <div class="text-xs md:text-base text-justify">
-                    {!! html_entity_decode(strip_tags($pageIntro->description)) !!}
+                    {!! html_entity_decode($pageIntro->description) !!}
                 </div>
                 @endif
             </div>
