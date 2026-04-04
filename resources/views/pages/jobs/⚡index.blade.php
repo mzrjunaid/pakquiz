@@ -140,9 +140,13 @@ new class extends Component {
                     <x-loading target="gotoPage, nextPage, previousPage" message="Loading Jobs..." />
                     <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                         class="space-y-4">
-                        @foreach ($jobs as $job)
+                        @forelse ($jobs as $job)
                         <x-job-card :job="$job" />
-                        @endforeach
+                        @empty
+                            <div class="text-center py-12">
+                                <p class="text-gray-500">No jobs available, check back later.</p>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
 
