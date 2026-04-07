@@ -19,6 +19,15 @@ use Livewire\Attributes\Computed;
 new class extends Component {
     public Mcq $mcq;
 
+    #[Computed]
+    public function relatedMcqs()
+    {
+        return Mcq::where('topic_id', $this->mcq->topic_id)
+            ->where('id', '!=', $this->mcq->id)
+            ->take(10)
+            ->get();
+    }
+
     public function with(): array
     {
         $breadcrumbs_list = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')]];
@@ -68,6 +77,7 @@ new class extends Component {
         return [
             'mcq' => $this->mcq,
             'schema' => ['@context' => 'https://schema.org', '@graph' => [$breadcrumbs, $quiz]],
+            'relatedMcqs' => $this->relatedMcqs,
             'suggestedMcqs' => $this->suggestedMcqs(),
             'meta' => $this->meta(),
         ];
@@ -110,34 +120,25 @@ new class extends Component {
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
-    <div class="max-w-7xl mx-auto px-4 lg:px-0 space-y-4 py-12">
-        <section class="flex flex-col gap-6 md:flex-row items-end px-4 md:px-0">
-            <div class="space-y-4 w-full md:w-2/3">
-                <h2 class="text-2xl font-bold text-primary">MCQ Detail</h2>
-            </div>
-            <div class="space-y-2 w-full md:w-1/3 block md:hidden">
-                <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
-                <livewire:global-search />
-            </div>
-        </section>
-        <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
-            <ol class="inline-flex items-center md:space-x-2 font-medium">
+    <div class="max-w-7xl mx-auto px-4 lg:px-0 space-y-4 py-6 md:py-12">
+        <nav class="flex flex-wrap text-sm" aria-label="{{ __('Breadcrumb') }}">
+            <ol class="inline-flex items-center flex-wrap md:space-x-2 font-medium">
                 <li>
                     <a href="/" class="hover:text-primary flex items-center gap-1">
-                        @svg('ri-home-4-line', 'h-4 w-4')
+                        <x-heroicon-o-home class="h-4 w-4" />
                         {{ __('Home') }}
                     </a>
                 </li>
                 <li>
                     <div class="flex items-center gap-1">
-                        @svg('ri-arrow-right-s-line', 'h-4 w-4')
+                        <x-heroicon-o-chevron-right class="h-4 w-4" />
                         <a href="{{ route('public.mcqs.index') }}" class="hover:text-primary">{{ __('MCQs') }}</a>
                     </div>
                 </li>
                 @if ($mcq->subject)
                     <li>
                         <div class="flex items-center gap-1">
-                            @svg('ri-arrow-right-s-line', 'h-4 w-4')
+                            <x-heroicon-o-chevron-right class="h-4 w-4" />
                             <a href="{{ route('public.subject.show', $mcq->subject->slug) }}"
                                 class="hover:text-primary line-clamp-1">{{ $mcq->subject->name }}</a>
                         </div>
@@ -146,7 +147,7 @@ new class extends Component {
                 @if ($mcq->topic)
                     <li>
                         <div class="flex items-center gap-1">
-                            @svg('ri-arrow-right-s-line', 'h-4 w-4')
+                            <x-heroicon-o-chevron-right class="h-4 w-4" />
                             <a href="{{ route('public.subject.topic.show', ['subject' => $mcq->subject->slug, 'topic' => $mcq->topic->slug]) }}"
                                 class="hover:text-primary line-clamp-1">{{ $mcq->topic->name }}</a>
                         </div>
@@ -154,13 +155,23 @@ new class extends Component {
                 @endif
                 <li>
                     <div class="flex items-center gap-1">
-                        @svg('ri-arrow-right-s-line', 'h-4 w-4')
+                        <x-heroicon-o-chevron-right class="h-4 w-4" />
                         <span
-                            class="font-medium  max-w-xs line-clamp-1 {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}">{{ $mcq->question }}</span>
+                            class="font-medium text-primary max-w-xs line-clamp-1 {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}">{{ $mcq->question }}</span>
                     </div>
                 </li>
             </ol>
         </nav>
+        <section class="flex flex-col gap-3 md:gap-6 md:flex-row items-end">
+            <div class="space-y-4 w-full md:w-2/3">
+                <h2 class="text-2xl font-bold text-primary">MCQ Detail</h2>
+            </div>
+            <div class="space-y-2 w-full md:w-1/3 block md:hidden">
+                <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
+                <livewire:global-search />
+            </div>
+        </section>
+        
 
         <section x-data="{
             shareLink() {
@@ -169,8 +180,8 @@ new class extends Component {
             }
         }" class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2 space-y-8 overflow-hidden">
-                    <div class="flex flex-col-reverse md:flex-row md:justify-between gap-2">
+                <div class="lg:col-span-2 space-y-6 md:space-y-12 overflow-hidden">
+                    <div class="flex items-center justify-between gap-2">
                         <div class="flex flex-wrap items-center gap-2">
                             <span
                                 class="inline-flex gap-1 items-center px-2.5 py-0.5 rounded-full text-xs font-medium border ">
@@ -187,7 +198,7 @@ new class extends Component {
                         <div class="flex items-center gap-2 justify-end">
                             @if ($mcq['subject'])
                                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
-                                    class="px-2 py-1 bg-primary/60 hover:bg-primary/80 text-xs tracking-wider rounded truncate max-w-[100px] md:max-w-none">
+                                    class="px-2 py-1 bg-primary/60 hover:bg-primary/80 text-xs tracking-wider rounded truncate max-w-[130px] md:max-w-none">
                                     {{ $mcq['subject']['name'] }}
                                 </a>
                             @endif
@@ -270,6 +281,22 @@ new class extends Component {
                     </div>
 
                     <livewire:suggestion-form :mcq_id="$mcq['id']" />
+
+                    <div class="rounded-lg bg-card p-4 md:p-6 shadow-md relative mb-2">
+                        <h2 class="mb-2 text-lg font-semibold">Related MCQs</h2>
+                        <p class="mb-3 text-muted text-sm">Explore the latest MCQs related to subject and topic.</p>
+                        <div class="md:px-2">
+
+                            @foreach ($relatedMcqs as $relatedMcq)
+                                <x-aside.link :route="'public.mcqs.show'" :label="$relatedMcq->question" :params="$relatedMcq->slug" />
+                            @endforeach
+                            <div class="text-sm text-right flex justify-end mt-2">
+                                <x-nav-link route="public.mcqs.index" class="hover:text-primary underline">
+                                    View All MCQs
+                                </x-nav-link>
+                            </div>
+                        </div>
+                    </div>
 
 
                 </div>

@@ -28,14 +28,17 @@ new class extends Component {
     public function with(): array
     {
         $limit = min(max((int) $this->perPage, 5), 100);
-        $subjects = Subject::select('id', 'name', 'slug', 'description', 'created_at')->withCount('mcqs')->latest()->paginate($limit)->onEachSide(0)->withQueryString();
+        $subjects = Subject::select('id', 'name', 'slug', 'description', 'created_at', 'updated_at')->withCount('mcqs')->latest('updated_at')->paginate($limit)->onEachSide(0)->withQueryString();
 
         $resource = SubjectIndexCollection::make($subjects);
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Subjects', 'item' => url('/subjects')]],
+            'itemListElement' => [
+                ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
+                ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Subjects', 'item' => url('/subjects')],
+            ],
         ];
 
         $schema = $resource->toItemListSchema(request());
@@ -76,25 +79,26 @@ new class extends Component {
     @endteleport
 
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
-        <section class="flex flex-col gap-6 md:flex-row px-4 py-12 md:px-0">
-            <div class="space-y-4 w-full md:w-2/3">
+        <section class="flex flex-col gap-6 md:flex-row py-6 md:py-12 md:px-0">
+            <div class="space-y-2 md:space-y-4 w-full md:w-2/3">
                 <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                     <ol class="inline-flex items-center md:space-x-1">
-                        <li class="inline-flex items-center">
+                        <li class="inline-flex flex gap-1 items-center">
+                            <x-heroicon-o-home class="h-4 w-4" />
                             <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
                         </li>
                         <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
+                            <div class="flex gap-1 items-center">
+                                <x-heroicon-o-chevron-right class="h-3 w-3" />
                                 <span class="font-medium text-primary">{{ __('All Subjects') }}</span>
                             </div>
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
+                <h1 class="text-lg md:text-xl lg:text-2xl font-semibold md:font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
                     {{ $pageIntro->title }}
                 </h1>
-                <p class="text-xs md:text-base text-justify">{!!  $pageIntro->description !!}</p>
+                <div class="text-sm md:text-lg lg:text-xl">{!!  $pageIntro->description !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

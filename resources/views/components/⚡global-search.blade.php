@@ -104,7 +104,7 @@ new class extends Component {
 };
 ?>
 
-<div class="relative w-full max-w-md">
+<div class="relative w-full max-w-md hidden md:block">
     <div class="space-y-2">
         <label for="search" class="text-sm md:text-base font-bold sr-only"
             aria-label="Search MCQs, Papers, Topics">Search MCQs, Papers, Topics</label>

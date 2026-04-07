@@ -36,7 +36,7 @@ new class extends Component {
 ?>
 
 
-<div class="rounded-lg bg-card p-6 shadow-md relative">
+<div class="rounded-lg bg-card p-4 md:p-6 shadow-md relative mb-2">
     <div wire:loading.flex wire:target="submit"
         class="absolute inset-0 z-50 items-center justify-center bg-white/60 backdrop-blur-[1px] rounded-lg">
         <div class="flex flex-col items-center">
@@ -100,12 +100,12 @@ new class extends Component {
             </div>
         @endif
 
-        <div class="flex items-center justify-between mt-8">
-            <p class="text-sm text-gray-500">We appreciate your contribution to improving the quality of our MCQs.</p>
+        <div class="flex flex-col md:flex-row-reverse gap-2 md:gap-0 items-start md:items-center justify-between mt-2 md:mt-4">
             <button type="submit"
                 class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm  bg-primary/60 hover:bg-primary/80 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary">
                 <x-heroicon-s-paper-airplane class="h-4 w-4 mr-2" /> Submit Suggestion
             </button>
+            <p class="text-sm text-gray-500">We appreciate your contribution to improving the quality of our MCQs.</p>
         </div>
     </form>
 

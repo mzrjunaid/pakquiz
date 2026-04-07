@@ -5,7 +5,11 @@ import laravel from 'laravel-vite-plugin';
 import { defineConfig } from 'vite';
 
 export default defineConfig({
-    server: {
+  server: {
+    host: '0.0.0.0',
+    hmr: {
+      host: '192.168.1.100',
+    },
     proxy: {
       '/login': {
         target: 'http://127.0.0.1:8000',
@@ -19,30 +23,30 @@ export default defineConfig({
       },
     },
   },
-    plugins: [
-        laravel({
-            input: [
-                'resources/css/app.css',
-                'resources/js/public.js',
-                'resources/js/admin.tsx',
-            ],
-            refresh: true,
-        }),
-        react({
-            babel: {
-                plugins: ['babel-plugin-react-compiler'],
-            },
-        }),
-        tailwindcss(),
-        wayfinder({
-            formVariants: true,
-            patterns: ['admin/**/*', 'admin.*'],
-            path: 'app/Http/Controllers/Admin',
-            routes: true,
-            actions: true,
-        }),
-    ],
-    esbuild: {
-        jsx: 'automatic',
-    },
+  plugins: [
+    laravel({
+      input: [
+        'resources/css/app.css',
+        'resources/js/public.js',
+        'resources/js/admin.tsx',
+      ],
+      refresh: true,
+    }),
+    react({
+      babel: {
+        plugins: ['babel-plugin-react-compiler'],
+      },
+    }),
+    tailwindcss(),
+    wayfinder({
+      formVariants: true,
+      patterns: ['admin/**/*', 'admin.*'],
+      path: 'app/Http/Controllers/Admin',
+      routes: true,
+      actions: true,
+    }),
+  ],
+  esbuild: {
+    jsx: 'automatic',
+  },
 });

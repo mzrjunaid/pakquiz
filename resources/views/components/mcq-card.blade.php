@@ -36,14 +36,10 @@
         'border-gray-200 bg-white': !wasAnswered,
     }"
     class="rounded-md border px-2 py-4 shadow-sm lg:rounded-xl lg:p-5 transition-colors duration-200">
-    <div class="mb-2 flex flex-col-reverse md:flex-row md:justify-between gap-2">
-        <div class="flex flex-wrap items-center gap-2">
+    <div class="mb-2 flex flex-row justify-between gap-2">
+        <div class="flex flex-wrap items-center gap-2 justify-between">
             <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium border bg-gray-50">
                 <x-heroicon-s-cpu-chip class="mr-1 h-3 w-3" /> AI
-            </span>
-            <span :class="quizMode ? 'border-red-900 text-red-900' : 'border-green-900 text-green-900'"
-                class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold tracking-wider border bg-white">
-                <span x-text="quizMode ? '📝 Quiz' : '📖 Study'"></span>
             </span>
             @if ($mcq['difficulty'])
                 <span
@@ -53,17 +49,18 @@
             @endif
         </div>
 
-        <div class="flex items-center gap-2 justify-end">
+        <div class="flex items-center gap-2">
             @if ($mcq['subject'])
                 <a href="{{ route('public.subject.show', $mcq['subject']['slug']) }}"
-                    class="px-2 py-1 bg-primary/50 font-semibold tracking-wider text-xs rounded truncate max-w-[100px] md:max-w-none">
+                    class="px-2 py-1 border border-primary font-semibold tracking-wider text-xs rounded-full truncate max-w-[130px] md:max-w-none">
                     {{ $mcq['subject']['name'] }}
                 </a>
             @endif
-            <button @click="shareLink" title="share" class="p-2 hover:bg-accent rounded-full">
+            <button @click="shareLink" title="share" class="p-2 hover:bg-accent rounded-full ">
                 <x-heroicon-o-share class="h-5 w-5" />
             </button>
         </div>
+
     </div>
 
     <{{$tag}}
@@ -77,25 +74,17 @@
         @foreach ($mcq['options'] as $optIdx => $opt)
             <button @click="selectOption({{ $opt->id }})" :disabled="!quizMode || wasAnswered"
                 :class="{
-                    'border-green-500 bg-green-50': (wasAnswered || !quizMode) &&
+                    'border-green-500 bg-green-50 text-green-900': (wasAnswered || !quizMode) &&
                         {{ $opt->is_correct ? 'true' : 'false' }},
-                    'border-red-500 bg-red-100': wasAnswered && selectedOptionId == {{ $opt->id }} && !
+                    'border-red-500 bg-red-100 text-red-900': wasAnswered && selectedOptionId == {{ $opt->id }} && !
                         {{ $opt->is_correct ? 'true' : 'false' }},
-                    'border-gray-200 bg-white/60 hover:border-primary': !wasAnswered || (quizMode && !wasAnswered)
+                    'border-gray-300 text-gray-500 bg-white/60 hover:border-primary': !wasAnswered || (quizMode && !wasAnswered)
                 }"
                 class="w-full rounded-md border p-2 text-left text-sm transition md:p-3 lg:rounded-lg lg:border-2 lg:text-base flex items-center gap-2">
-                <span class="font-bold uppercase text-gray-400">
+                <span class="font-semibold uppercase">
                     {{ chr(65 + $optIdx) }}.
                 </span>
                 <span>{{ $opt->option_text }}</span>
-
-                <template x-if="(wasAnswered || !quizMode) && {{ $opt->is_correct ? 'true' : 'false' }}">
-                    <span class="ml-auto text-green-600 font-bold">✓</span>
-                </template>
-                <template
-                    x-if="wasAnswered && selectedOptionId == {{ $opt->id }} && !{{ $opt->is_correct ? 'true' : 'false' }}">
-                    <span class="ml-auto text-red-600 font-bold">✗</span>
-                </template>
             </button>
         @endforeach
     </div>

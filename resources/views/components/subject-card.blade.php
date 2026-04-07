@@ -1,6 +1,6 @@
 @props(['subject'])
 
-<div class="group rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6">
+<div class="group rounded-md bg-card py-2 px-4 shadow-sm transition-all hover:shadow-md md:p-6">
     <a href="{{ route('public.subject.show', $subject->slug) }}" class="block space-y-2">
         <div class="flex items-center justify-between">
             <div class="flex items-center gap-3">
@@ -11,40 +11,34 @@
                         </path>
                     </svg>
                 </div>
-                <h2 class="text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl">
+                <h2 class="text-base md:text-lg lg:text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
                     {{ $subject->name }}
                 </h2>
             </div>
             <div class="flex items-center gap-2">
-                <span class="text-sm text-muted mt-1">{{ $subject->mcqs_count }} MCQs</span>
+                <span class="hidden md:block text-sm text-muted mt-1">{{ $subject->mcqs_count }} MCQs</span>
                 <x-heroicon-o-chevron-right
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
-        <p class="mt-2 text-sm text-muted line-clamp-2">{{ $subject->description }}</p>
+        <p class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! $subject->description !!}</p>
     </a>
 
     {{-- Limit only three topics loop --}}
-    <div class="flex gap-2 mt-4">
-        @forelse ($subject->topics->take(3) as $topic)
+    @if ($subject->topics->count() > 0)
+    <div class="flex flex-wrap gap-2 mt-2 md:mt-4">
+        @foreach ($subject->topics->take(3) as $topic)
         <a href="{{ route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug]) }}"
             class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
             {{ $topic->name }}
         </a>
-        @empty
-        <p class="mt-2 text-sm text-muted line-clamp-2">No topics found</p>
-        @endforelse
+        @endforeach
     </div>
+    @endif
     @if ($subject->updated_at)
-    <div class="mt-4 flex items-center gap-1.5 border-t border-gray-100 pt-3 text-xs text-gray-500 md:text-sm">
-        <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-                d="M1   2 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-        </svg>
-        <span>
-            Last updated:
-            {{ $subject->updated_at }}
-        </span>
+    <div class="mt-2 flex items-center gap-1 text-xs text-gray-500 md:text-sm">
+        <x-heroicon-o-clock class="h-4 w-4" />
+        <span>Last updated: {{ $subject->updated_at->diffForHumans() }}</span>
     </div>
     @endif
 </div>

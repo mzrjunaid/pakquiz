@@ -177,6 +177,11 @@ new class extends Component {
                 </div>
             </div>
 
+            <a href="{{ route('public.jobs.index') }}"
+                class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 rounded-sm">
+                Jobs
+            </a>
+
             <!-- Another Dropdown -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
                 <button aria-label="Papers" name="papers" @click="open = !open"
