@@ -169,7 +169,7 @@ new class extends Component {
             }
         }" class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2 space-y-8">
+                <div class="lg:col-span-2 space-y-8 overflow-hidden">
                     <div class="flex flex-col-reverse md:flex-row md:justify-between gap-2">
                         <div class="flex flex-wrap items-center gap-2">
                             <span

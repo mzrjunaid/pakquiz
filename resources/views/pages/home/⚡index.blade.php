@@ -9,6 +9,7 @@ use App\Support\SeoData;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
+use Illuminate\Support\Str;
 
 new class extends Component {
     #[Computed]
@@ -52,6 +53,7 @@ new class extends Component {
                     ->with(['options:id,mcq_id,option_text,is_correct', 'tags:id,name,slug', 'paper:id,name,slug', 'subject:id,name,slug', 'topic:id,name,slug', 'createdBy:id,name'])
                     ->get(),
             ),
+            'schema' => $this->schema,
         ];
     }
 };
@@ -73,14 +75,12 @@ new class extends Component {
 {{ $this->meta['og_image'] }}
 @endslot
 
-
-@slot('schema')
-<script type="application/ld+json">
-    {!!json_encode($this->schema, JSON_UNESCAPED_SLASHES | JSON_PRETTY_PRINT) !!}
-</script>
-@endslot
-
 <div>
+    @teleport('head')
+        <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+    @endteleport
     <section class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12 space-y-12">
         <section>
             <div class="grid items-center gap-12 lg:grid-cols-2">
@@ -153,21 +153,20 @@ new class extends Component {
         </section>
 
         <section class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            <section class="lg:col-span-2 space-y-6">
+            <section class="lg:col-span-2 space-y-6 overflow-hidden">
             <article class="space-y-6">
                 <header class="space-y-2">
-                    <h2 class="text-base md:text-2xl font-bold">
+                    <h2 class="text-base md:text-2xl font-bold mb-3">
                         Latest Pakistan Competitive Exam MCQs {{date('Y')}}
                     </h2>
-                    <p class="text-sm md:text-base text-justify">
-                        PakQuiz offers <strong>44,000+ MCQs</strong>, <strong>past papers</strong>, and <strong>current affairs MCQs</strong> for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.
-                    </p>
-                    <p class="text-sm md:text-base text-justify">
-                        Every question is based on <strong>real past papers</strong> and updated for the latest {{date('Y')}} exam patterns.
-                    </p>
-                    <p class="text-sm md:text-base text-justify">
-                        Practice MCQs by subject, paper, department, and topic — including <strong>General Knowledge</strong>, <strong>Pakistan Studies</strong>, <strong>English</strong>, <strong>Islamiat</strong>, <strong>Everyday Science</strong>, and <strong>Current Affairs</strong>.
-                    </p>
+                    <div class="text-sm md:text-base text-justify space-y-3">
+                        {!! Str::markdown('PakQuiz offers **44,000+ MCQs**, **past papers**, and **current affairs MCQs** for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.
+
+Every question is based on **real past papers** and updated for the latest '.date('Y') . ' exam patterns.
+
+Practice MCQs by subject, paper, department, and topic — including **General Knowledge**, **Pakistan Studies**, **English**, **Islamiat**, **Everyday Science**, and **Current Affairs**.') 
+                            !!}
+                    </div>
                 </header>
                 <section class="space-y-4 md:space-y-6">
                     @foreach ($latestMcqs as $index => $mcq)
@@ -184,19 +183,15 @@ new class extends Component {
             </article>
             <article class="space-y-6">
                 <header class="space-y-2">
-                    <h2 class="text-base md:text-2xl font-bold">
+                    <h2 class="text-base md:text-2xl font-bold mb-3">
                         Latest PPSC, FPSC, NTS Jobs {{date('Y')}}
                     </h2>
-                    <div class="text-sm md:text-base text-justify space-y-3 text-gray-700">
-                        <p>
-                            Stay updated with the latest <strong>Government Jobs in Pakistan</strong>. We track daily announcements from the <strong>PPSC, FPSC, NTS, and STS</strong> to bring you active job alerts, official advertisements, and application deadlines for 2026.
-                        </p>
-                        <p>
-                            Whether you are looking for <strong>Punjab Police careers</strong>, Educators' posts, or Federal Ministry vacancies, PakQuiz provides the complete syllabus and <strong>solved past papers</strong> for every advertised position.
-                        </p>
-                        <p>
-                            Don't just find a job—prepare to win it. Access specialized MCQ sets for <strong>CSS, PMS, and Tehsildar exams</strong> tailored to the most recent 2026 testing patterns.
-                        </p>
+                    <div class="text-sm md:text-base text-justify space-y-3">
+                        {!! Str::markdown('Stay updated with the latest **Government Jobs in Pakistan**. We track daily announcements from the **PPSC, FPSC, NTS, and STS** to bring you active job alerts, official advertisements, and application deadlines for ' . date('Y') . '.
+
+Whether you are looking for **Punjab Police careers**, Educators\' posts, or Federal Ministry vacancies, PakQuiz provides the complete syllabus and **solved past papers** for every advertised position.
+
+Don\'t just find a job—prepare to win it. Access specialized MCQ sets for **CSS, PMS, and Tehsildar exams** tailored to the most recent ' . date('Y') . ' testing patterns.') !!}
                     </div>
                 </header>
                 <section class="space-y-4 md:space-y-6">

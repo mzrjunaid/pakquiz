@@ -31,14 +31,14 @@ class McqsImportService
             }
 
             // 2. Resolve relations
-            $subject = Subject::firstOrCreate(
+            $subject = Subject::updateOrCreate(
                 ['slug' => $data['subject_slug'] . '-mcqs'],
-                ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])), 'is_active' => 1],
+                ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
             );
 
-            $topic = Topic::firstOrCreate(
+            $topic = Topic::updateOrCreate(
                 ['slug' => $data['topic_slug'] . '-mcqs', 'subject_id' => $subject->id],
-                ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])), 'is_active' => 1],
+                ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
             );
 
             $paper = null;

@@ -232,7 +232,7 @@ $latestPapers = $asideData['latestPapers'];
 
         <section class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 overflow-hidden">
                     @if ($papers->isEmpty())
                     <div>
                         <div class="text-center p-6 rounded-lg shadow-md border">

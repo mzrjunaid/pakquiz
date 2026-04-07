@@ -183,7 +183,7 @@ new class extends Component {
 
     <div class="pb-12">
         <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            <div class="lg:col-span-2 space-y-6">
+            <div class="lg:col-span-2 space-y-6 overflow-hidden">
                 <article class="space-y-6">
                     {{-- Key Details --}}
                     <div class="bg-white border border-gray-100 rounded-2xl p-6">

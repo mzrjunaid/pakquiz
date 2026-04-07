@@ -71,7 +71,7 @@ new class extends Component {
 <div>
     @teleport('head')
         <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
 
@@ -94,7 +94,7 @@ new class extends Component {
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
                     {{ $pageIntro->title }}
                 </h1>
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <p class="text-xs md:text-base text-justify">{!!  $pageIntro->description !!}</p>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
@@ -104,7 +104,7 @@ new class extends Component {
 
         <section class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 overflow-hidden">
                     <div class="relative">
                         <x-loading target="gotoPage, nextPage, previousPage" message="Loading Subjects..." />
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"

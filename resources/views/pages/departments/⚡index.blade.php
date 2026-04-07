@@ -113,7 +113,7 @@ new class extends Component {
 
         <section class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2">
+                <div class="lg:col-span-2 overflow-hidden">
                     <div class="relative">
                         <x-loading target="gotoPage, nextPage, previousPage" message="Loading Departments..." />
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"

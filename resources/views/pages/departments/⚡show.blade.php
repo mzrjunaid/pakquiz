@@ -154,7 +154,7 @@ new class extends Component {
 
         <section class="pb-12">
             <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2 space-y-6">
+                <div class="lg:col-span-2 space-y-6 overflow-hidden">
                     <section class="space-y-4">
                         <div class="relative">
                             <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
