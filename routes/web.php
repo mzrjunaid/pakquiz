@@ -13,9 +13,6 @@ use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Mcq;
-use App\Models\Paper;
-use App\Models\Subject;
-use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
@@ -205,16 +202,21 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
         ->name('papers_import.store');
 });
 
-use App\Http\Controllers\Public\DemoController;
-use App\Http\Controllers\Public\DepartmentController as PublicDepartmentController;
-use App\Http\Controllers\Public\HomeController;
 use App\Http\Controllers\Public\PremiumController;
 use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
-use App\Http\Controllers\Public\TestingServiceController as PublicTestingServiceController;
 
 Route::livewire('/', 'pages::home.index')->name('home');
-Route::middleware(HandleInertiaRequests::class)->get('/demo', [DemoController::class, 'index'])->name('demo');
+Route::livewire('/demo', 'pages::demo.index', function () {
+    if (session()->has('quiz_results')) {
+        return redirect()->route('quiz.result');
+    }
+})->name('demo');
+Route::livewire('/quiz/result', 'pages::demo.result', function () {
+    if (!session()->has('quiz_results')) {
+        return redirect()->route('demo');
+    }
+})->name('quiz.result');
 Route::livewire('/about-us', 'pages::static.about-us')->name('aboutUs');
 Route::livewire('/contact-us', 'pages::static.contact-us')->name('contactUs');
 Route::livewire('/join-us', 'pages::static.join-us')->name('joinUs');
@@ -279,7 +281,5 @@ Route::name('public.')->group(function () {
         Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     });
 });
-
-Route::put('/set-quiz-mode', [HomeController::class, 'setQuizMode'])->name('quiz_mode');
 
 require __DIR__ . '/settings.php';

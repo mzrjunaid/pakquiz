@@ -289,8 +289,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     home.form = homeForm
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 export const demo = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -304,8 +304,8 @@ demo.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.url = (options?: RouteQueryOptions) => {
@@ -313,8 +313,8 @@ demo.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -322,8 +322,8 @@ demo.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -332,8 +332,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
     const demoForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -342,8 +342,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
         demoForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -351,8 +351,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
         demoForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
