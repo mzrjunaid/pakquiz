@@ -22,10 +22,21 @@ new class extends Component {
     #[Computed]
     public function relatedMcqs()
     {
-        return Mcq::where('topic_id', $this->mcq->topic_id)
-            ->where('id', '!=', $this->mcq->id)
+        // 1. Get an array of tag IDs from the current MCQ
+        $tagIds = $this->mcq->tags->pluck('id');
+
+        $related = Mcq::where('id', '!=', $this->mcq->id)
+            ->where(function ($query) use ($tagIds) {
+                $query->where('topic_id', $this->mcq->topic_id)
+                    // 2. Filter by the relationship
+                    ->orWhereHas('tags', function ($q) use ($tagIds) {
+                        $q->whereIn('tags.id', $tagIds);
+                    });
+            })
             ->take(10)
             ->get();
+
+        return $related;
     }
 
     public function with(): array
@@ -240,10 +251,10 @@ new class extends Component {
                                     class="h-4 w-4 transform transition-transform group-hover:text-primary"
                                     x-bind:class="open ? '' : 'rotate-180'" />
                             </button>
-                            <p x-show="open" x-transition
+                            <div x-show="open" x-transition
                                 class="p-4 border border-primary rounded-lg text-sm md:text-base leading-relaxed">
                                 {!! str($mcq->explanation)->markdown() !!}
-                            </p>
+                            </div>
                         </div>
                     @endif
 
@@ -282,21 +293,15 @@ new class extends Component {
 
                     <livewire:suggestion-form :mcq_id="$mcq['id']" />
 
-                    <div class="rounded-lg bg-card p-4 md:p-6 shadow-md relative mb-2">
-                        <h2 class="mb-2 text-lg font-semibold">Related MCQs</h2>
-                        <p class="mb-3 text-muted text-sm">Explore the latest MCQs related to subject and topic.</p>
-                        <div class="md:px-2">
-
+                    <section class="mt-6 space-y-2 md:mt-12 md:space-y-4">
+                        <h2 class="text-base md:text-2xl font-bold">Related MCQs</h2>
+                        <p class="text-xs md:text-base text-justify">{!! str('Related MCQs where subject and topic are same as this mcq')->markdown() !!}</p>
+                        <div class="space-y-4">
                             @foreach ($relatedMcqs as $relatedMcq)
-                                <x-aside.link :route="'public.mcqs.show'" :label="$relatedMcq->question" :params="$relatedMcq->slug" />
+                            <x-mcq-card :mcq="$relatedMcq" :idx="$loop->index" :route="route('public.mcqs.show', $relatedMcq->slug)" />
                             @endforeach
-                            <div class="text-sm text-right flex justify-end mt-2">
-                                <x-nav-link route="public.mcqs.index" class="hover:text-primary underline">
-                                    View All MCQs
-                                </x-nav-link>
-                            </div>
                         </div>
-                    </div>
+                    </section>
 
 
                 </div>
