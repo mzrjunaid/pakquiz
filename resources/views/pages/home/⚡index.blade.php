@@ -99,7 +99,7 @@ new class extends Component {
                     </h1>
 
                     <p class="mb-4 sm:mb-8 text-sm leading-relaxed md:text-xl">
-                        44,000+ MCQs for PPSC, FPSC, NTS & CSS — AI-Enhanced & Updated for 2026
+                        44,000+ MCQs for PPSC, FPSC, NTS & CSS — AI-Enhanced & Updated for {{date('Y')}}
                         Practice subject-wise questions from real past papers. Built for Pakistani competitive exam
                         aspirants.
                     </p>
@@ -157,7 +157,7 @@ new class extends Component {
             <article class="space-y-6">
                 <header class="space-y-2">
                     <h2 class="text-base md:text-2xl font-bold mb-3">
-                        Latest Pakistan Competitive Exam MCQs {{date('Y')}}
+                        {!! str('Latest Pakistan Competitive Exam MCQs ' . date('Y'))->title() !!}
                     </h2>
                     <div class="text-sm md:text-base text-justify space-y-3">
                         {!! Str::markdown('PakQuiz offers **44,000+ MCQs**, **past papers**, and **current affairs MCQs** for PPSC, FPSC, NTS, CSS, PMS, and other competitive exams in Pakistan.

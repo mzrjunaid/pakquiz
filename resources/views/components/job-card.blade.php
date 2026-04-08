@@ -2,6 +2,15 @@
 
 @php
     $tag = in_array($level, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ? $level : 'h2';
+    $levelClass = match($level) {
+        'h1' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        'h2' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        'h3' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        'h4' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        'h5' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        'h6' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+        default => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
+    };
 @endphp
 
 <div class="group relative rounded-md bg-card p-4 shadow-sm transition-all hover:shadow-md md:p-6">
@@ -13,9 +22,9 @@
                 </div>
                 <div class="flex flex-col">
                     <{{ $tag }}
-                        class="text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
-                        {{ $job->title }}
-                        </{{ $tag }}>
+                        class="{{ $levelClass }} font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-2">
+                        {!! str($job->title)->title() !!}
+                    </{{ $tag }}>
                         <span class="text-xs md:text-sm text-muted mt-1">
                             Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
                         </span>
@@ -28,7 +37,7 @@
             </div>
         </div>
         <div class="flex items-center gap-2 px-2">
-            <div class="text-xs md:text-sm text-muted line-clamp-2">{!! $job->description ?? 'No description available' !!}</div>
+            <div class="text-xs md:text-sm text-muted line-clamp-2">{!! str($job->description)->markdown() ?? 'No description available' !!}</div>
         </div>
     </a>
 

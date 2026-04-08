@@ -88,22 +88,21 @@ new class extends Component {
         <section class="flex flex-col gap-6 md:flex-row px-4 py-12 md:px-0">
             <div class="space-y-4 w-full md:w-2/3">
                 <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
-                    <ol class="inline-flex items-center md:space-x-1">
-                        <li class="inline-flex items-center">
+                    <ol class="inline-flex gap-0.5 items-center md:space-x-1">
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-home class="w-4 h-4" />
                             <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <span class="font-medium text-primary">{{ __('All Departments') }}</span>
-                            </div>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <span class="font-medium text-primary">{{ __('All Departments') }}</span>
                         </li>
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
-                    {{ $pageIntro->title }}
+                    {!! str($pageIntro->title)->title() !!}
                 </h1>
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <div class="text-xs md:text-base text-justify">{!! str($pageIntro->description)->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

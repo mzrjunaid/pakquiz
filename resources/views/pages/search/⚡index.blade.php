@@ -164,18 +164,19 @@ new class extends Component {
         <section class="flex flex-col gap-1 px-4 md:px-0">
             <nav aria-label="Breadcrumb" class="mb-6">
                 <ol class="flex flex-wrap items-center gap-1.5 text-sm text-muted-foreground">
-                    <li>
-                        <a href="{{ route('home') }}"
-                            class="flex items-center gap-1 hover:text-primary transition-colors">
-                            @svg('ri-home-4-line', 'h-4 w-4')
-                            Home
-                        </a>
+                    <li class="flex items-center gap-1 hover:text-primary transition-colors">
+                        <x-heroicon-o-home class="h-4 w-4" />
+                        <a href="{{ route('home') }}">Home</a>
                     </li>
-                    <li>@svg('ri-arrow-right-s-line', 'h-4 w-4')</li>
-                    <li class="font-medium text-foreground">Search</li>
+                    <li class="flex items-center gap-1 hover:text-primary transition-colors">
+                        <x-heroicon-o-chevron-right class="h-4 w-4" />
+                        <span class="font-medium text-primary max-w-sm truncate line-clamp-1" title="Search" aria-label="Search">Search</span>
+                    </li>
                     @if ($query)
-                    <li>@svg('ri-arrow-right-s-line', 'h-4 w-4')</li>
-                    <li class="max-w-[200px] truncate font-medium text-foreground">"{{ $query }}"</li>
+                        <li class="flex items-center gap-1 text-primary">
+                            <x-heroicon-o-chevron-right class="h-4 w-4" />
+                            <span class="max-w-sm truncate font-medium line-clamp-1" title="{{ $query }}" aria-label="{{ $query }}">"{{ $query }}"</span>
+                        </li>
                     @endif
                 </ol>
             </nav>

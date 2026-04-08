@@ -12,7 +12,7 @@
                     </svg>
                 </div>
                 <h2 class="text-base md:text-lg lg:text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
-                    {{ $subject->name }}
+                    {!! str($subject->name)->title() !!}
                 </h2>
             </div>
             <div class="flex items-center gap-2">
@@ -21,7 +21,7 @@
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
-        <div class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! $subject->description !!}</div>
+        <div class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! str($subject->description)->markdown() !!}</div>
     </a>
 
     {{-- Limit only three topics loop --}}

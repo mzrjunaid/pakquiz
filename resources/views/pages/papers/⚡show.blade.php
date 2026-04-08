@@ -109,16 +109,16 @@ new class extends Component {
                         </li>
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-chevron-right class="w-4 h-4" />
-                            <span class="font-medium text-primary max-w-sm truncate" title="{{ $paper->name }}" aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
+                            <span class="font-medium text-primary max-w-sm truncate line-clamp-1" title="{{ $paper->name }}" aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
                         </li>
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" title="{{ $pageIntro->name }}">
-                    {{ $pageIntro->name }}
+                    {!! str($pageIntro->name)->title() !!}
                 </h1>
                 @if ($pageIntro->description)
                     <div class="text-xs md:text-base text-justify space-y-3">
-                        {!! $pageIntro->description !!}
+                        {!! str($pageIntro->description)->markdown() !!}
                     </div>
                 @endif
             </div>

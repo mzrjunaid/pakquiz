@@ -224,7 +224,7 @@ new class extends Component {
                             Description
                         </h2>
                         <div class="text-sm text-gray-700 leading-relaxed space-y-3">
-                            {!! $job->description !!}
+                            {!! str($job->description)->markdown() !!}
                         </div>
                     </div>
 

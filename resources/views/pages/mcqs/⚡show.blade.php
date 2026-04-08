@@ -164,7 +164,7 @@ new class extends Component {
         </nav>
         <section class="flex flex-col gap-3 md:gap-6 md:flex-row items-end">
             <div class="space-y-4 w-full md:w-2/3">
-                <h2 class="text-2xl font-bold text-primary">MCQ Detail</h2>
+                <h1 class="text-2xl font-bold text-primary">MCQ Detail</h1>
             </div>
             <div class="space-y-2 w-full md:w-1/3 block md:hidden">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
@@ -207,10 +207,10 @@ new class extends Component {
                             </button>
                         </div>
                     </div>
-                    <h1 class="text-base md:text-2xl font-bold {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}"
+                    <h2 class="text-base md:text-2xl font-bold {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}"
                         wire:ignore.self title="{{ $mcq->question }}">
-                        {{ $mcq->question }}
-                    </h1>
+                        {!! str($mcq->question)->title() !!}
+                    </h2>
                     <div
                         class="grid gap-2 md:grid-cols-1 lg:gap-3 {{ $mcq->isUrdu($mcq->question) ? 'font-urdu direction-rtl text-right' : '' }}">
                         @foreach ($mcq->options as $optIdx => $opt)
@@ -242,7 +242,7 @@ new class extends Component {
                             </button>
                             <p x-show="open" x-transition
                                 class="p-4 border border-primary rounded-lg text-sm md:text-base leading-relaxed">
-                                {{ $mcq->explanation }}
+                                {!! str($mcq->explanation)->markdown() !!}
                             </p>
                         </div>
                     @endif

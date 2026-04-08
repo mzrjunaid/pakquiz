@@ -2,11 +2,13 @@
 
 @php
     $levelClass = match ($level) {
-        'h1' => 'text-2xl md:text-3xl',
-        'h2' => 'text-xl md:text-2xl',
-        'h3' => 'text-base md:text-lg',
-        'h4' => 'text-sm md:text-base',
-        default => 'text-sm md:text-base',
+        'h1' => 'text-base sm:text-md font-semibold text-foreground transition-colors group-hover:text-primary md:text-2xl',
+        'h2' => 'text-sm sm:text-base md:text-md font-semibold text-foreground transition-colors group-hover:text-primary md:text-lg',
+        'h3' => 'text-sm sm:text-md font-semibold text-foreground transition-colors group-hover:text-primary md:text-lg',
+        'h4' => 'text-sm sm:text-base font-semibold text-foreground transition-colors group-hover:text-primary md:text-md',
+        'h5' => 'text-sm sm:text-sm font-semibold text-foreground transition-colors group-hover:text-primary md:text-base',
+        'h6' => 'text-sm sm:text-xs font-semibold text-foreground transition-colors group-hover:text-primary md:text-sm',
+        default => 'text-sm sm:text-md font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
     };
 @endphp
 
@@ -18,16 +20,16 @@
                     <x-heroicon-o-document-text class="h-4 w-4 shrink-0" />
                 </div>
                 <div class="flex flex-col">
-                    <h3
-                        class="{{ $levelClass }} font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-1">
-                        {{ $paper->name }}
-                    </h3>
+                    <{{$level}}
+                        class="{{ $levelClass }} font-semibold text-foreground capitalize transition-colors group-hover:text-primary md:text-xl line-clamp-2">
+                        {{ str($paper->name)->title() }}
+                    </{{$level}}>
                     <span
                         class="text-sm text-muted mt-1">{{ $paper->schedule_at ? $paper->schedule_at->format('d M, Y') : $paper->paper_year }}</span>
                 </div>
             </div>
             <div class="flex items-center shrink-0 gap-2">
-                <span class="text-sm text-muted mt-1">{{ $paper->mcqs_count }} MCQs</span>
+                <span class="text-sm text-muted mt-1 hidden md:block">{{ $paper->mcqs_count }} MCQs</span>
                 <x-heroicon-o-chevron-right
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>

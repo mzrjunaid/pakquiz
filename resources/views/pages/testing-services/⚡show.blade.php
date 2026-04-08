@@ -99,10 +99,10 @@ new class extends Component {
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" title="{{ $pageIntro->name }}">
-                    {{ $pageIntro->name }}
+                    {!! str($pageIntro->name)->title() !!}
                 </h1>
                 @if ($pageIntro->description)
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <div class="text-sm md:text-base text-justify">{!! str($pageIntro->description)->markdown() !!}</div>
                 @endif
             </div>
             <div class="space-y-2 w-full md:w-1/3">

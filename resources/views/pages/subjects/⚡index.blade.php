@@ -96,9 +96,9 @@ new class extends Component {
                     </ol>
                 </nav>
                 <h1 class="text-lg md:text-xl lg:text-2xl font-semibold md:font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
-                    {{ $pageIntro->title }}
+                    {!! str($pageIntro->title)->title() !!}
                 </h1>
-                <div class="text-sm md:text-lg lg:text-xl">{!!  $pageIntro->description !!}</div>
+                <div class="text-sm md:text-lg lg:text-xl">{!!  str($pageIntro->description)->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

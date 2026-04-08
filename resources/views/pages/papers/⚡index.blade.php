@@ -7,6 +7,7 @@ use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use App\Http\Resources\Public\Paper\PaperIndexCollection;
+use Illuminate\Support\Str;
 
 new class extends Component {
     use WithPagination;
@@ -99,9 +100,9 @@ new class extends Component {
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
-                    {{ $pageIntro->title }}
+                    {!! str($pageIntro->title)->title() !!}
                 </h1>
-                <p class="text-xs md:text-base text-justify">{{ $pageIntro->description }}</p>
+                <div class="text-xs md:text-base text-justify">{!! str($pageIntro->description)->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
