@@ -114,13 +114,13 @@ new class extends Component {
                         </li>
                     </ol>
                 </nav>
-                <h1 class="text-lg md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
+                <h1 class="text-md sm:text-lg md:text-3xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
                     {{ $pageIntro['title'] }}
                 </h1>
-                <div class="text-sm sm:text-base text-justify">{!! $pageIntro['description'] !!}</div>
+                <div class="text-sm sm:text-base md:text-lg text-justify">{!! $pageIntro['description'] !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
-                <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
+                <h2 class="text-sm md:text-base lg:text-lg font-bold">Search MCQs, Papers, Topics</h2>
                 <livewire:global-search />
             </div>
         </section>

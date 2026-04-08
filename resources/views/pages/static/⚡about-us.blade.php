@@ -61,14 +61,13 @@ MCQs preparation Pakistan, FPSC MCQs, PPSC MCQs, NTS preparation, CSS PMS prepar
                     </p>
                     <nav class="flex justify-center mb-2 text-sm" aria-label="{{ __('Breadcrumb') }}">
                         <ol class="inline-flex items-center md:space-x-1">
-                            <li class="inline-flex items-center">
-                                <a href="/" class="text-white">{{ __('Home') }}</a>
+                            <li class="inline-flex gap-1 items-center">
+                                <x-heroicon-o-home class="w-4 h-4" />
+                                <a href="/" class="text-white" title="{{ __('Home') }}" aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                             </li>
-                            <li>
-                                <div class="flex items-center">
-                                    <span class="mx-2">/</span>
-                                    <span class="font-medium text-white">{{ __('About Us') }}</span>
-                                </div>
+                            <li class="inline-flex gap-1 items-center">
+                                <x-heroicon-o-chevron-right class="w-4 h-4" />
+                                <span class="font-medium text-white" title="{{ __('About Us') }}" aria-label="{{ __('About Us') }}">{{ __('About Us') }}</span>
                             </li>
                         </ol>
                     </nav>

@@ -91,30 +91,25 @@ new class extends Component {
             <div class="space-y-4 w-full md:w-2/3">
                 <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                     <ol class="inline-flex items-center md:space-x-1">
-                        <li class="inline-flex items-center">
-                            <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-home class="w-4 h-4" />
+                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}" aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                         </li>
                         @if ($department)
-                            <li>
-                                <div class="flex items-center">
-                                    <span class="mx-2">/</span>
-                                    <a href="{{ route('public.departments.show', $department->slug) }}"
-                                        class="hover:text-primary">{{ $department->name }}</a>
-                                </div>
+                            <li class="inline-flex gap-1 items-center">
+                                <x-heroicon-o-chevron-right class="w-4 h-4" />
+                                <a href="{{ route('public.departments.show', $department->slug) }}"
+                                    class="hover:text-primary" title="{{ $department->name }}" aria-label="{{ $department->name }}">{{ $department->name }}</a>
                             </li>
                         @endif
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <a href="{{ route('public.papers.index') }}"
-                                    class="hover:text-primary">{{ __('Papers') }}</a>
-                            </div>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <a href="{{ route('public.papers.index') }}"
+                                class="hover:text-primary" title="{{ __('Papers') }}" aria-label="{{ __('Papers') }}">{{ __('Papers') }}</a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <span class="font-medium text-primary max-w-sm truncate">{{ $paper->name }}</span>
-                            </div>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <span class="font-medium text-primary max-w-sm truncate" title="{{ $paper->name }}" aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
                         </li>
                     </ol>
                 </nav>

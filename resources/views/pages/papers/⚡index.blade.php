@@ -88,14 +88,13 @@ new class extends Component {
             <div class="space-y-4 w-full md:w-2/3">
                 <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                     <ol class="inline-flex items-center md:space-x-1">
-                        <li class="inline-flex items-center">
-                            <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-home class="w-4 h-4" />
+                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}" aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                         </li>
-                        <li>
-                            <div class="flex items-center">
-                                <span class="mx-2">/</span>
-                                <span class="font-medium text-primary">{{ __('All Papers') }}</span>
-                            </div>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <span class="font-medium text-primary" title="{{ __('All Papers') }}" aria-label="{{ __('All Papers') }}">{{ __('All Papers') }}</span>
                         </li>
                     </ol>
                 </nav>
