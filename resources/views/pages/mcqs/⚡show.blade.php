@@ -33,7 +33,7 @@ new class extends Component {
                         $q->whereIn('tags.id', $tagIds);
                     });
             })
-            ->take(10)
+            ->take(5)
             ->get();
 
         return $related;
