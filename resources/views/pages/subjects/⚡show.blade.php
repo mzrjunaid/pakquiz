@@ -117,7 +117,7 @@ new class extends Component {
                 <h1 class="text-lg md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
                     {{ $pageIntro['title'] }}
                 </h1>
-                <p class="text-sm sm:text-base text-justify">{{ $pageIntro['description'] }}</p>
+                <div class="text-sm sm:text-base text-justify">{!! $pageIntro['description'] !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

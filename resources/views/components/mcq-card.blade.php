@@ -98,7 +98,7 @@
             </button>
             <div x-show="open" x-transition
                 class="p-4 border border-primary rounded-lg text-sm md:text-base leading-relaxed">
-                {{ $mcq['explanation'] }}
+                {!! $mcq['explanation'] !!}
             </div>
         </div>
     @endif
