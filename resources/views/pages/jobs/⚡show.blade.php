@@ -128,22 +128,19 @@ new class extends Component {
     <section class="flex flex-col gap-6 md:flex-row py-6 md:px-0">
         <div class="space-y-4 w-full">
             <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
-                <ol class="inline-flex items-center md:space-x-1">
-                    <li class="inline-flex items-center">
+                <ol class="inline-flex gap-0.5 items-center md:space-x-1">
+                    <li class="inline-flex gap-1 items-center">
+                        <x-heroicon-o-home class="w-4 h-4" />
                         <a href="/" class="hover:text-primary">{{ __('Home') }}</a>
                     </li>
-                    <li>
-                        <div class="flex items-center">
-                            <span class="mx-2">/</span>
-                            <a href="{{ route('public.jobs.index') }}"
-                                class="hover:text-primary">{{ __('All Jobs') }}</a>
-                        </div>
+                    <li class="flex gap-1 items-center">
+                        <x-heroicon-o-chevron-right class="w-4 h-4" />
+                        <a href="{{ route('public.jobs.index') }}"
+                            class="hover:text-primary">{{ __('All Jobs') }}</a>
                     </li>
-                    <li>
-                        <div class="flex items-center">
-                            <span class="mx-2">/</span>
-                            <span class="font-medium text-primary">{{ $job->title }}</span>
-                        </div>
+                    <li class="flex gap-1 items-center">
+                        <x-heroicon-o-chevron-right class="w-4 h-4" />
+                        <span class="font-medium text-primary">{{ $job->title }}</span>
                     </li>
                 </ol>
             </nav>
