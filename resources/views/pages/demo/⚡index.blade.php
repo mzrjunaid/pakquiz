@@ -1,16 +1,51 @@
 <?php
 
 use App\Models\Mcq;
+use App\Models\Page;
+use App\Support\SchemaGenerator;
+use App\Support\SeoData;
+use Livewire\Attributes\Computed;
 use Livewire\Component;
 
 new class extends Component
 {
-    public $data;
+    public array $data = [];
+
+    #[Computed(persist: true, cache: 60 * 60 * 24)]
+    public function meta()
+    {
+        return SeoData::fromModel(Page::where('key', 'demo')->with('seo')->firstOrFail());
+    }
+
+    #[Computed]
+    public function schema()
+    {
+        return SchemaGenerator::demoPage($this->data);
+    }
 
     public function mount()
     {
-        $mcqs = Mcq::select('id', 'question', 'subject_id')->with(['options', 'subject'])->limit(10)->get();
-        $this->data = $mcqs->toArray();
+        // 1. Handle Redirect Logic
+        if (session()->has('quiz_results')) {
+            return redirect()->route('quiz.result');
+        }
+
+        $this->data = cache()->remember('demo_mcqs', 60 * 60 * 24, function () {
+            return Mcq::select('id', 'question', 'subject_id')
+                ->with(['options', 'subject'])
+                ->latest()
+                ->limit(10)
+                ->get()
+                ->toArray();
+        });
+    }
+
+    public function with()
+    {
+        return [
+            'meta' => $this->meta,
+            'schema' => $this->schema,
+        ];
     }
 
     public int $currentQuestion = 0;
@@ -45,6 +80,29 @@ new class extends Component
     }
 };
 ?>
+
+@slot('canonical')
+{{ $meta['canonical'] }}
+@endslot
+
+@slot('title')
+{{ $meta['title'] }}
+@endslot
+
+@slot('description')
+{{ $meta['description'] }}
+@endslot
+
+@slot('image')
+{{ asset('assets/images/pages/og_demo.webp') ?? $meta['og_image'] }}
+@endslot
+
+<div>
+    @teleport('head')
+    <script type="application/ld+json">
+        {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    </script>
+    @endteleport
 <section class="max-w-7xl mx-auto lg:py-12 py-6 space-y-6">
 
     <header class="space-y-2 px-4">

@@ -2,8 +2,6 @@
 
 namespace App\Services\Seo;
 
-use Illuminate\Support\Str;
-
 class SeoMetaGeneratorService
 {
     /**

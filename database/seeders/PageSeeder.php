@@ -49,7 +49,7 @@ class PageSeeder extends Seeder
 
             'demo' => [
                 'title' => 'Free Demo Tests for FPSC, PPSC, NTS & CSS Preparation',
-                'description' => 'Try free demo MCQ tests for FPSC, PPSC, NTS, CSS and PMS exams. Experience PakQuiz practice system before full preparation.',
+                'description' => 'PakQuiz offers free MCQ practice tests for CSS, FPSC, PPSC, PMS & all competitive exams. Timed, auto-graded tests on GK, Pak Affairs, English & Current Affairs.',
                 'keywords' => 'PakQuiz, free demo tests, FPSC demo test, PPSC demo MCQs, NTS demo test, CSS demo preparation, online test demo PakQuiz'
             ],
 

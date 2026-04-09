@@ -5,6 +5,7 @@ namespace App\Support;
 use App\Models\Mcq;
 use App\Models\Topic;
 use App\Models\Page;
+use Illuminate\Support\Str;
 
 class SchemaGenerator
 {
@@ -199,7 +200,7 @@ class SchemaGenerator
                 ],
                 'about' => [
                     '@type' => 'Organization',
-                    '@id' => $baseUrl . '#organization',  // references your existing Organization schema
+                    '@id' => $baseUrl . '#organization', // references your existing Organization schema
                 ],
                 'breadcrumb' => [
                     '@type' => 'BreadcrumbList',
@@ -542,11 +543,11 @@ class SchemaGenerator
                 '@id' => $canonicalUrl . '#webpage',
                 'url' => $canonicalUrl,
                 'name' => $query
-                    ? "Search results for \"{$query}\" – PakQuiz"
-                    : 'Search PakQuiz – MCQs, Papers & Subjects',
+                ? "Search results for \"{$query}\" – PakQuiz"
+                : 'Search PakQuiz – MCQs, Papers & Subjects',
                 'description' => $query
-                    ? "Search results for \"{$query}\" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS."
-                    : "Search PakQuiz's database of MCQs, practice papers and subjects for competitive exam preparation in Pakistan.",
+                ? "Search results for \"{$query}\" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS."
+                : "Search PakQuiz's database of MCQs, practice papers and subjects for competitive exam preparation in Pakistan.",
                 'inLanguage' => 'en-PK',
                 'isPartOf' => [
                     '@type' => 'WebSite',
@@ -585,5 +586,37 @@ class SchemaGenerator
         }
 
         return $schemas;
+    }
+
+    public static function demoPage(array $mcqs): array
+    {
+        return [
+            "@context" => "https://schema.org",
+            "@type" => "Quiz",
+            "name" => "Free Demo Tests for FPSC, PPSC, NTS & CSS Preparation",
+            "description" => "PakQuiz offers free MCQ practice tests for CSS, FPSC, PPSC, PMS & all competitive exams. Timed, auto-graded tests on GK, Pak Affairs, English & Current Affairs.",
+            "about" => [
+                "@type" => "Thing",
+                "name" => "General Knowledge, Pak Affairs, English & Current Affairs"
+            ],
+            "educationalAlignment" => [
+                [
+                    "@type" => "AlignmentObject",
+                    "alignmentType" => "educationalLevel",
+                    "educationalFramework" => "Standardized Testing",
+                    "targetName" => "Student Practice"
+                ]
+            ],
+            "hasPart" => array_map(function ($mcq) {
+            return [
+                    "@type" => "Question",
+                    "name" => Str::limit(strip_tags($mcq['question']), 100),
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => "Check the quiz to see the correct answer."
+                    ]
+                ];
+        }, $mcqs)
+        ];
     }
 }

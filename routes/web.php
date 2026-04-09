@@ -207,11 +207,7 @@ use App\Http\Controllers\Public\SearchController;
 use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
 
 Route::livewire('/', 'pages::home.index')->name('home');
-Route::livewire('/demo', 'pages::demo.index', function () {
-    if (session()->has('quiz_results')) {
-        return redirect()->route('quiz.result');
-    }
-})->name('demo');
+Route::livewire('/demo', 'pages::demo.index')->name('demo');
 Route::livewire('/quiz/result', 'pages::demo.result', function () {
     if (!session()->has('quiz_results')) {
         return redirect()->route('demo');
