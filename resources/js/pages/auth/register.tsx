@@ -10,7 +10,9 @@ import { Label } from '@/components/ui/label';
 import { Spinner } from '@/components/ui/spinner';
 import AuthLayout from '@/layouts/auth-layout';
 
+
 export default function Register() {
+    const registerRoute = store();
     return (
         <AuthLayout
             title="Create an account"
@@ -18,9 +20,9 @@ export default function Register() {
         >
             <Head title="Register" />
             <Form
-                {...store.form()}
+                action={registerRoute.url}
+                method={registerRoute.method}
                 resetOnSuccess={['password', 'password_confirmation']}
-                disableWhileProcessing
                 className="flex flex-col gap-6"
             >
                 {({ processing, errors }) => (
