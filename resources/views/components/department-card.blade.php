@@ -23,9 +23,11 @@
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
-        <div class="flex items-center gap-2 px-2">
-            <p class="mt-2 text-sm text-muted line-clamp-2">{{ $department->description ?? 'No description available' }}</p>
-        </div>
+        @if ($department->description)
+            <div class="flex items-center gap-2 px-2">
+                <div class="mt-2 text-sm text-muted line-clamp-2">{!! str($department->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+            </div>
+        @endif
     </a>
 
     <div class="flex flex-wrap gap-2 mt-4">

@@ -21,7 +21,9 @@
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
-        <div class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! str($subject->description)->markdown() !!}</div>
+        @if ($subject->description)
+            <div class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! str($subject->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+        @endif
     </a>
 
     {{-- Limit only three topics loop --}}
