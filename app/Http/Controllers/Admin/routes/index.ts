@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::login
  * @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:47
@@ -834,3 +834,93 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
         })
     
     helpCenter.form = helpCenterForm
+/**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+export const indexnow = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexnow.url(args, options),
+    method: 'get',
+})
+
+indexnow.definition = {
+    methods: ["get","head"],
+    url: '/{key}.txt',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+indexnow.url = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { key: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    key: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        key: args.key,
+                }
+
+    return indexnow.definition.url
+            .replace('{key}', parsedArgs.key.toString())
+            .replace(/\/+$/, '') + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+indexnow.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexnow.url(args, options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+indexnow.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: indexnow.url(args, options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+    const indexnowForm = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: indexnow.url(args, options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+        indexnowForm.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexnow.url(args, options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+        indexnowForm.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexnow.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    indexnow.form = indexnowForm

@@ -219,6 +219,12 @@ Route::livewire('/join-us', 'pages::static.join-us')->name('joinUs');
 Route::livewire('/privacy-policy', 'pages::static.privacy-policy')->name('privacyPolicy');
 Route::livewire('/terms-of-service', 'pages::static.terms-of-service')->name('termsOfService');
 Route::livewire('/help-center', 'pages::static.help-center')->name('helpCenter');
+Route::get('/{key}.txt', function ($key) {
+    if ($key === config('services.indexnow.key')) {
+        return response($key)->header('Content-Type', 'text/plain');
+    }
+    abort(404);
+})->name('indexnow');
 
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
