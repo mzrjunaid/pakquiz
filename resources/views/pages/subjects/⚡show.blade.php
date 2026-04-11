@@ -20,7 +20,7 @@ new class extends Component {
         $this->resetPage();
     }
 
-    #[Computed]
+    #[Computed(persist: true, cache: 86400)]
     public function currentAffairs()
     {
         if ($this->subject->slug === 'current-affairs-mcqs') {
@@ -30,6 +30,12 @@ new class extends Component {
         return null;
     }
 
+    #[Computed(persist: true, cache: 86400)]
+    public function topics()
+    {
+        return Topic::where('subject_id', $this->subject->id)->latest()->get();
+    }
+
     public function with(): array
     {
         $limit = min(max((int) $this->perPage, 5), 100);
@@ -37,10 +43,7 @@ new class extends Component {
 
         $resource = McqIndexCollection::make($mcqs);
 
-        $breadcrumbList = [
-            ['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')],
-            ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')],
-            ['@type' => 'ListItem', 'position' => 3, 'name' => $this->subject->name, 'item' => url('/subjects/' . $this->subject->slug)]];
+        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All MCQs', 'item' => url('/mcqs')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->subject->name, 'item' => url('/subjects/' . $this->subject->slug)]];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
@@ -57,6 +60,7 @@ new class extends Component {
             'pageIntro' => SeoData::subjectSeo($this->subject),
             'schema' => $combinedSchema,
             'currentAffairs' => $this->currentAffairs,
+            'topics' => $this->topics,
         ];
     }
 
@@ -161,6 +165,20 @@ new class extends Component {
                             </div>
                         </div>
                     @else
+                        <div class="rounded-lg bg-card p-6 shadow-md">
+                            <h2 class="mb-2 text-lg font-semibold">Topics</h2>
+                            <p class="mb-3 text-muted-foreground text-sm">Explore topics related to
+                                {{ $subject->name }}</p>
+                            <div class="md:px-2">
+                                @foreach ($topics as $topic)
+                                    <x-aside.link route="public.subject.topic.show" :params="[
+                                        'subject' => $topic->subject->slug,
+                                        'topic' => $topic->slug,
+                                    ]"
+                                        label="{{ $topic->name }}" icon="heroicon-s-book-open" />
+                                @endforeach
+                            </div>
+                        </div>
                         <livewire:aside.current-affairs />
                     @endif
                     <livewire:aside.latest-subjects />

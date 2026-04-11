@@ -595,85 +595,6 @@ destroy.delete = (args: { paper: string | number } | [paper: string | number ] |
         })
     
     destroy.form = destroyForm
-/**
-* @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:111
- * @route '/admin/papers/{paper}/generate'
- */
-export const generate = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: generate.url(args, options),
-    method: 'post',
-})
-
-generate.definition = {
-    methods: ["post"],
-    url: '/admin/papers/{paper}/generate',
-} satisfies RouteDefinition<["post"]>
-
-/**
-* @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:111
- * @route '/admin/papers/{paper}/generate'
- */
-generate.url = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
-    if (typeof args === 'string' || typeof args === 'number') {
-        args = { paper: args }
-    }
-
-            if (typeof args === 'object' && !Array.isArray(args) && 'slug' in args) {
-            args = { paper: args.slug }
-        }
-    
-    if (Array.isArray(args)) {
-        args = {
-                    paper: args[0],
-                }
-    }
-
-    args = applyUrlDefaults(args)
-
-    const parsedArgs = {
-                        paper: typeof args.paper === 'object'
-                ? args.paper.slug
-                : args.paper,
-                }
-
-    return generate.definition.url
-            .replace('{paper}', parsedArgs.paper.toString())
-            .replace(/\/+$/, '') + queryParams(options)
-}
-
-/**
-* @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:111
- * @route '/admin/papers/{paper}/generate'
- */
-generate.post = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
-    url: generate.url(args, options),
-    method: 'post',
-})
-
-    /**
-* @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:111
- * @route '/admin/papers/{paper}/generate'
- */
-    const generateForm = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-        action: generate.url(args, options),
-        method: 'post',
-    })
-
-            /**
-* @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:111
- * @route '/admin/papers/{paper}/generate'
- */
-        generateForm.post = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: generate.url(args, options),
-            method: 'post',
-        })
-    
-    generate.form = generateForm
 const papers = {
     index: Object.assign(index, index),
 create: Object.assign(create, create),
@@ -682,7 +603,6 @@ show: Object.assign(show, show),
 edit: Object.assign(edit, edit),
 update: Object.assign(update, update),
 destroy: Object.assign(destroy, destroy),
-generate: Object.assign(generate, generate),
 }
 
 export default papers
