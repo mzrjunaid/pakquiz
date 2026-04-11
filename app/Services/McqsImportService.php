@@ -14,32 +14,64 @@ use App\Services\Seo\Updates\McqSeoUpdate;
 use App\Services\Seo\Updates\PaperSeoUpdate;
 use App\Services\Seo\Updates\SubjectSeoUpdate;
 use App\Services\Seo\Updates\TopicSeoUpdate;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Bus;
+use Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
 
 class McqsImportService
 {
-    public function importSingle(array $data, int $createdBy = 1): ?Mcq
+    public function importSingle(array $data): ?Mcq
     {
-        $mcq = DB::transaction(function () use ($data, $createdBy) {
+        $mcq = DB::transaction(function () use ($data) {
+
+            $createdBy = Auth::user()?->id ?? 1;
+
+            $data['difficulty'] = str($data['difficulty'])->lower()->trim()->toString();
+            $data['mcq_type'] = str($data['mcq_type'])->lower()->trim()->toString();
+
+            $data['difficulty'] = match ($data['difficulty']) {
+                'easy' => 'easy',
+                'medium' => 'medium',
+                'hard' => 'hard',
+                default => 'easy',
+            };
+
+            $data['mcq_type'] = match ($data['mcq_type']) {
+                'single' => 'single',
+                'multiple' => 'multiple',
+                default => 'single',
+            };
+
             // 1. Deduplicate by slug
             if (!empty($data['slug']) && Mcq::where('slug', $data['slug'])->exists()) {
                 return null;
             }
 
             // 2. Resolve relations
-            $subject = Subject::updateOrCreate(
-                ['slug' => $data['subject_slug'] . '-mcqs'],
-                ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
-            );
+            if ($data['subject_slug'] == 'current-affairs') {
+                $subject = Subject::updateOrCreate(
+                    ['slug' => $data['subject_slug'] . '-mcqs'],
+                    ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
+                );
+            } else {
+                $subject = Subject::updateOrCreate(
+                    ['slug' => $data['subject_slug'] . '-mcqs'],
+                    ['name' => Str::title(str_replace('-', ' ', $data['subject_slug'])), 'is_active' => 1],
+                );
+            }
 
-            $topic = Topic::updateOrCreate(
-                ['slug' => $data['topic_slug'] . '-mcqs', 'subject_id' => $subject->id],
-                ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
-            );
+            if ($data['subject_slug'] == 'current-affairs') {
+                $topic = Topic::updateOrCreate(
+                    ['slug' => $data['topic_slug'] . '-mcqs', 'subject_id' => $subject->id],
+                    ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])) . ' - ' . date('Y'), 'is_active' => 1],
+                );
+            } else {
+                $topic = Topic::updateOrCreate(
+                    ['slug' => $data['topic_slug'] . '-mcqs', 'subject_id' => $subject->id],
+                    ['name' => Str::title(str_replace('-', ' ', $data['topic_slug'])), 'is_active' => 1],
+                );
+            }
 
             $paper = null;
             if (!empty($data['paper_slug'])) {
@@ -65,8 +97,8 @@ class McqsImportService
                 'slug' => $slug,
                 'question' => $data['question'],
                 'explanation' => $data['explanation'] ?? null,
-                'difficulty' => $data['difficulty'],
-                'mcq_type' => $data['mcq_type'],
+                'difficulty' => str($data['difficulty'])->lower()->trim()->toString(),
+                'mcq_type' => str($data['mcq_type'])->lower()->trim()->toString(),
                 'subject_id' => $subject->id,
                 'topic_id' => $topic->id,
                 'paper_id' => $paper?->id,
@@ -130,7 +162,9 @@ class McqsImportService
                 app(PaperSeoUpdate::class)->handleSingle($mcq->paper->id);
             }
             app(McqSeoUpdate::class)->handleSingle($mcq->id);
-            GenerateMcqOgImageJob::dispatch($mcq, 'generate');
+            if ($mcq->subject_id == 39) {
+                GenerateMcqOgImageJob::dispatch($mcq, 'generate');
+            }
         }
 
 
