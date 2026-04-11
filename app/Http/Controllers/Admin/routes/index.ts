@@ -1,4 +1,4 @@
-import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../wayfinder'
+import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../wayfinder'
 /**
 * @see \Laravel\Fortify\Http\Controllers\AuthenticatedSessionController::login
  * @see vendor/laravel/fortify/src/Http/Controllers/AuthenticatedSessionController.php:47
@@ -289,8 +289,8 @@ home.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     home.form = homeForm
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 export const demo = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -304,8 +304,8 @@ demo.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.url = (options?: RouteQueryOptions) => {
@@ -313,8 +313,8 @@ demo.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -322,8 +322,8 @@ demo.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
 demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -332,8 +332,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
     const demoForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -342,8 +342,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
         demoForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -351,8 +351,8 @@ demo.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\DemoController::demo
- * @see app/Http/Controllers/Public/DemoController.php:17
+* @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
  * @route '/demo'
  */
         demoForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -835,67 +835,92 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     helpCenter.form = helpCenterForm
 /**
-* @see \App\Http\Controllers\Public\HomeController::quiz_mode
- * @see app/Http/Controllers/Public/HomeController.php:142
- * @route '/set-quiz-mode'
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
  */
-export const quiz_mode = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: quiz_mode.url(options),
-    method: 'put',
+export const indexnow = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexnow.url(args, options),
+    method: 'get',
 })
 
-quiz_mode.definition = {
-    methods: ["put"],
-    url: '/set-quiz-mode',
-} satisfies RouteDefinition<["put"]>
+indexnow.definition = {
+    methods: ["get","head"],
+    url: '/{key}.txt',
+} satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::quiz_mode
- * @see app/Http/Controllers/Public/HomeController.php:142
- * @route '/set-quiz-mode'
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
  */
-quiz_mode.url = (options?: RouteQueryOptions) => {
-    return quiz_mode.definition.url + queryParams(options)
+indexnow.url = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions) => {
+    if (typeof args === 'string' || typeof args === 'number') {
+        args = { key: args }
+    }
+
+    
+    if (Array.isArray(args)) {
+        args = {
+                    key: args[0],
+                }
+    }
+
+    args = applyUrlDefaults(args)
+
+    const parsedArgs = {
+                        key: args.key,
+                }
+
+    return indexnow.definition.url
+            .replace('{key}', parsedArgs.key.toString())
+            .replace(/\/+$/, '') + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\Public\HomeController::quiz_mode
- * @see app/Http/Controllers/Public/HomeController.php:142
- * @route '/set-quiz-mode'
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
  */
-quiz_mode.put = (options?: RouteQueryOptions): RouteDefinition<'put'> => ({
-    url: quiz_mode.url(options),
-    method: 'put',
+indexnow.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: indexnow.url(args, options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+indexnow.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: indexnow.url(args, options),
+    method: 'head',
 })
 
     /**
-* @see \App\Http\Controllers\Public\HomeController::quiz_mode
- * @see app/Http/Controllers/Public/HomeController.php:142
- * @route '/set-quiz-mode'
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
  */
-    const quiz_modeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-        action: quiz_mode.url({
-                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                        _method: 'PUT',
-                        ...(options?.query ?? options?.mergeQuery ?? {}),
-                    }
-                }),
-        method: 'post',
+    const indexnowForm = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: indexnow.url(args, options),
+        method: 'get',
     })
 
             /**
-* @see \App\Http\Controllers\Public\HomeController::quiz_mode
- * @see app/Http/Controllers/Public/HomeController.php:142
- * @route '/set-quiz-mode'
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
  */
-        quiz_modeForm.put = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
-            action: quiz_mode.url({
+        indexnowForm.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexnow.url(args, options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:222
+ * @route '/{key}.txt'
+ */
+        indexnowForm.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: indexnow.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'PUT',
+                            _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
                         }
                     }),
-            method: 'post',
+            method: 'get',
         })
     
-    quiz_mode.form = quiz_modeForm
+    indexnow.form = indexnowForm

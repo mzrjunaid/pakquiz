@@ -3,6 +3,8 @@
 namespace App\Http\Controllers\Public;
 
 use App\Http\Controllers\Controller;
+use App\Models\Subject;
+use App\Models\Topic;
 use App\Services\McqImport\McqImportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -22,7 +24,11 @@ class AdminMcqImportController extends Controller
 
     public function create_md_copy()
     {
-        return Inertia::render('admin/mcqs/import-md-copy');
+        $subjects = Subject::select('id', 'name', 'slug')->get();
+        return Inertia::render('admin/mcqs/import-md-copy', [
+            'subjects' => $subjects,
+            'topics' => Topic::select('id', 'name', 'slug','subject_id')->get(),
+        ]);
     }
 
     public function store(Request $request, McqImportService $service)

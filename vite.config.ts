@@ -2,13 +2,28 @@ import { wayfinder } from '@laravel/vite-plugin-wayfinder';
 import tailwindcss from '@tailwindcss/vite';
 import react from '@vitejs/plugin-react';
 import laravel from 'laravel-vite-plugin';
+import { networkInterfaces } from 'os';
 import { defineConfig } from 'vite';
+
+function getNetworkIp() {
+  const interfaces = networkInterfaces();
+  for (const interfaceName in interfaces) {
+    const interfaceInfo = interfaces[interfaceName];
+    if (!interfaceInfo) continue;
+    for (const interfaceData of interfaceInfo) {
+      if (interfaceData.family === 'IPv4' && !interfaceData.internal) {
+        return interfaceData.address;
+      }
+    }
+  }
+  return 'localhost';
+}
 
 export default defineConfig({
   server: {
-    host: '0.0.0.0',
+    host: true,
     hmr: {
-      host: '192.168.18.62',
+      host: getNetworkIp(),
     },
     proxy: {
       '/login': {

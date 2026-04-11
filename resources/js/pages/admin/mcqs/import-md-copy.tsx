@@ -15,11 +15,14 @@ import {
     Copy,
     Eye,
     FileText,
+    RefreshCw,
     XCircle,
 } from 'lucide-react';
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { toast } from 'sonner';
 import AdminLayout from '../components/admin-layout';
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import prompts from '@/constants/prompts';
 
 interface Mcq {
     question: string;
@@ -87,9 +90,9 @@ function parseTags(block: string) {
     const raw = field(block, 'Tags');
     return raw
         ? raw
-              .split(',')
-              .map((t) => t.trim())
-              .filter(Boolean)
+            .split(',')
+            .map((t) => t.trim())
+            .filter(Boolean)
         : [];
 }
 
@@ -137,7 +140,7 @@ function DifficultyBadge({
             className={cn(
                 'rounded-full border px-2 py-0.5 text-xs font-medium capitalize',
                 styles[difficulty] ??
-                    'border-border bg-muted text-muted-foreground',
+                'border-border bg-muted text-muted-foreground',
             )}
         >
             {difficulty}
@@ -244,16 +247,42 @@ function McqCard({ mcq, index }: { mcq: Mcq; index: number }) {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-export default function McqMdImporter() {
+
+
+
+
+
+
+
+export default function McqMdImporter({
+    subjects,
+    topics,
+}: {
+    subjects: { id: number; name: string; slug: string }[];
+    topics: { id: number; name: string; slug: string; subject_id: number }[];
+}) {
     const { data, setData, post, errors } = useForm<{
         json: string;
     }>();
     const [mdText, setMdText] = useState('');
     const [mcqs, setMcqs] = useState(() => parseMcqMarkdown(mdText));
     const [error, setError] = useState('');
+    const [prompt, setPrompt] = useState<string>(prompts['current-affairs']);
     const [copied, setCopied] = useState(false);
+    const [copiedPrompt, setCopiedPrompt] = useState(false);
+    const [selectedSubject, setSelectedSubject] = useState<number | null>(subjects[17].id);
+    const [selectedTopic, setSelectedTopic] = useState<number | null>(topics[0].id);
 
     const blockCount = mdText.split(/\n---+/).filter(Boolean).length;
+
+    useEffect(() => {
+        if (selectedSubject) {
+            const subject = subjects.find((s) => s.id === selectedSubject);
+            if (subject) {
+                setPrompt(prompts[subject.slug]);
+            }
+        }
+    }, [selectedSubject, subjects]);
 
     const handleParse = useCallback(() => {
         setError('');
@@ -290,6 +319,12 @@ export default function McqMdImporter() {
         [data, post],
     );
 
+    const copyPrompt = useCallback(() => {
+        navigator.clipboard.writeText(prompt);
+        setCopiedPrompt(true);
+        setTimeout(() => setCopiedPrompt(false), 1500);
+    }, [prompt]);
+
     const copyJson = useCallback(() => {
         navigator.clipboard.writeText(JSON.stringify(mcqs, null, 2));
         setCopied(true);
@@ -307,7 +342,8 @@ export default function McqMdImporter() {
                 )}
 
                 {/* ── Left: textarea ── */}
-                <div className="flex flex-col gap-3">
+
+                <div className='flex flex-col gap-3'>
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -317,23 +353,67 @@ export default function McqMdImporter() {
                             {blockCount} block{blockCount !== 1 ? 's' : ''}
                         </Badge>
                     </div>
+                    <Tabs defaultValue="MD" className='flex flex-col gap-3'>
+                        <TabsList className="w-fit bg-muted/10">
+                            <TabsTrigger value="MD">MD</TabsTrigger>
+                            <TabsTrigger value="Prompt">Prompt</TabsTrigger>
+                        </TabsList>
+                        <TabsContent value="MD" className='min-h-[500px] max-h-[500px] overflow-y-auto'>
+                            <Textarea
+                                value={mdText}
+                                onChange={(e) => setMdText(e.target.value)}
+                                placeholder="Paste your MCQ markdown here…"
+                                className="min-h-full flex-1 resize-none font-mono text-xs"
+                            />
+                            {error && (
+                                <Alert variant="destructive" className="py-2">
+                                    <AlertCircle className="h-4 w-4" />
+                                    <AlertDescription className="text-xs">
+                                        {error}
+                                    </AlertDescription>
+                                </Alert>
+                            )}
+                        </TabsContent>
+                        <TabsContent value="Prompt">
+                            <div className='flex flex-col gap-3'>
+                                {/* create prompt here for AI to generate mcqs in markdown format */}
+                                <div className='flex items-center justify-between'>
+                                    <div className="flex items-center gap-2 text-sm font-medium">
+                                        <FileText className="h-4 w-4 text-muted-foreground" />
+                                        Prompt
+                                    </div>
+                                    <div className='flex items-center gap-2'>
+                                        <Button variant="outline" size="sm" onClick={copyPrompt}>
+                                            <Copy className="h-4 w-4" />
+                                            {copiedPrompt ? 'Copied!' : 'Copy Prompt'}
+                                        </Button>
+                                        <Select
+                                            value={selectedSubject}
+                                            onValueChange={(value) => setSelectedSubject(value)}
+                                        >
+                                            <SelectTrigger>
+                                                <SelectValue placeholder="Select subject" />
+                                            </SelectTrigger>
+                                            <SelectContent>
+                                                {subjects.map((subject) => (
+                                                    <SelectItem key={subject.id} value={subject.id}>
+                                                        {subject.name}
+                                                    </SelectItem>
+                                                ))}
+                                            </SelectContent>
+                                        </Select>
+                                    </div>
+                                </div>
 
-                    <Textarea
-                        value={mdText}
-                        onChange={(e) => setMdText(e.target.value)}
-                        placeholder="Paste your MCQ markdown here…"
-                        className="max-h-[550px] flex-1 resize-none font-mono text-xs"
-                    />
-
-                    {error && (
-                        <Alert variant="destructive" className="py-2">
-                            <AlertCircle className="h-4 w-4" />
-                            <AlertDescription className="text-xs">
-                                {error}
-                            </AlertDescription>
-                        </Alert>
-                    )}
-
+                                <Textarea
+                                    value={prompt}
+                                    onChange={(e) => setPrompt(e.target.value)}
+                                    placeholder="Paste your prompt here…"
+                                    className="min-h-full flex-1 resize-none font-mono text-xs"
+                                />
+                            </div>
+                        </TabsContent>
+                    </Tabs>
                     <div className="flex gap-2">
                         <Button onClick={handleParse} className="flex-1">
                             Parse
