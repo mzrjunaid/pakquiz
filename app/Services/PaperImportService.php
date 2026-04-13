@@ -4,12 +4,15 @@ namespace App\Services;
 
 use App\Models\Department;
 use App\Models\Subject;
-use App\Models\Topic;
-use App\Models\User;
 use App\Models\Paper;
 use App\Models\TestingService;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;
+use App\Services\Seo\Updates\DepartmentSeoUpdate;
+use App\Services\Seo\Updates\TestingServiceSeoUpdate;
+use App\Services\Seo\Updates\SubjectSeoUpdate;
+use App\Services\Seo\Updates\PaperSeoUpdate;
 
 class PaperImportService
 {
@@ -22,23 +25,23 @@ class PaperImportService
                 return null; // Skip duplicate
             }
 
-            $department = Department::firstOrCreate(
+            $department = Department::updateOrCreate(
             ['slug' => $data['department']['slug']],
             ['name' => $data['department']['name']]
             );
 
-            $testing_service = TestingService::firstOrCreate(
+            $testing_service = TestingService::updateOrCreate(
             ['slug' => $data['testing_service']['slug']],
             ['name' => $data['testing_service']['name']]
             );
 
             // 2️⃣ Resolve relations
-            $subject = Subject::firstOrCreate(
+            $subject = Subject::updateOrCreate(
             ['slug' => $data['subject']['slug']],
             ['name' => $data['subject']['name'], 'is_active' => 1]
             );
 
-            $user = User::findOrFail(1);
+            $user = Auth::user();
 
             // Generate slug safely
             $baseSlug = !empty($data['slug']) ? $data['slug'] : Str::slug($data['name']);
@@ -52,7 +55,7 @@ class PaperImportService
 
             $paper = Paper::create([
                 'name' => $data['name'],
-                'slug' => $slug,
+                'slug' => $slug . '-mcqs',
                 'description' => $data['description'],
                 'schedule_at' => $data['schedule_at'],
                 'paper_year' => $data['paper_year'],
@@ -64,7 +67,33 @@ class PaperImportService
                 'created_at' => now(),
             ]);
 
+
+            $this->afterCreate($paper);
+
             return $paper;
         });
+    }
+
+    private function afterCreate(?Paper $paper): void
+    {
+        if (!$paper) {
+            return;
+        }
+
+        $paper->loadMissing(['subject', 'department', 'testing_service']);
+
+        if ($paper->subject) {
+            app(SubjectSeoUpdate::class)->handleSingle($paper->subject->id);
+        }
+        if ($paper->department) {
+            app(DepartmentSeoUpdate::class)->handleSingle($paper->department->id);
+        }
+
+        if ($paper->testing_service) {
+            app(TestingServiceSeoUpdate::class)->handleSingle($paper->testing_service->id);
+        }
+
+        app(PaperSeoUpdate::class)->handleSingle($paper->id);
+
     }
 }
