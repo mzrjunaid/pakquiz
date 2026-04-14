@@ -7,13 +7,16 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\McqResource;
 use App\Http\Resources\Admin\McqShowResource;
 use App\Models\Mcq;
-use App\Models\SeoMeta;
+use App\Models\Paper;
+use App\Models\Subject;
+use App\Models\Tag;
+use App\Models\Topic;
 use App\Services\McqService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 use Inertia\Inertia;
-use Intervention\Image\Drivers\Imagick\Driver;
-use Intervention\Image\ImageManager;
-use Intervention\Image\Typography\FontFactory;
 
 use App\Jobs\GenerateMcqOgImageJob;
 use Illuminate\Support\Facades\File;
@@ -109,17 +112,152 @@ class McqController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(Mcq $mcq)
     {
-        return Inertia::render('admin/mcqs/edit', []);
+        $mcq->loadMissing([
+            'options:id,mcq_id,option_text,is_correct,sort_order',
+            'tags:id,name,slug',
+        ]);
+
+        return Inertia::render('admin/mcqs/edit', [
+            'mcq' => [
+                'id' => $mcq->id,
+                'question' => $mcq->question,
+                'slug' => $mcq->slug,
+                'explanation' => $mcq->explanation ?? '',
+                'subject_id' => $mcq->subject_id,
+                'topic_id' => $mcq->topic_id,
+                'paper_id' => $mcq->paper_id,
+                'difficulty' => $mcq->difficulty,
+                'mcq_type' => $mcq->mcq_type,
+                'is_active' => $mcq->is_active,
+                'tags' => $mcq->tags->pluck('name')->implode(', '),
+                'options' => $mcq->options->map(fn($option) => [
+        'id' => $option->id,
+        'option_text' => $option->option_text,
+        'is_correct' => (bool)$option->is_correct,
+        'sort_order' => $option->sort_order,
+        ])->values(),
+            ],
+            'subjects' => Subject::query()
+            ->latest()
+            ->get(['id', 'name']),
+            'topics' => Topic::query()
+            ->latest()
+            ->get(['id', 'name', 'subject_id']),
+            'papers' => Paper::query()
+            ->latest()
+            ->get(['id', 'name', 'subject_id']),
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, string $id)
+    public function update(Request $request, Mcq $mcq)
     {
-    //
+        $validated = $request->validate([
+            'question' => ['required', 'string'],
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                'alpha_dash:ascii',
+                Rule::unique('mcqs', 'slug')->ignore($mcq->id),
+            ],
+            'explanation' => ['nullable', 'string'],
+            'subject_id' => ['required', 'exists:subjects,id'],
+            'topic_id' => [
+                'nullable',
+                Rule::exists('topics', 'id')->where(
+        fn($query) => $query->where('subject_id', $request->input('subject_id'))
+            ),
+            ],
+            'paper_id' => [
+                'nullable',
+                Rule::exists('papers', 'id')->where(
+        fn($query) => $query->where('subject_id', $request->input('subject_id'))
+            ),
+            ],
+            'difficulty' => ['required', Rule::in(['easy', 'medium', 'hard'])],
+            'mcq_type' => ['required', Rule::in(['single', 'multiple', 'true_false'])],
+            'is_active' => ['required', 'boolean'],
+            'tags' => ['nullable', 'string'],
+            'options' => ['required', 'array', 'min:2'],
+            'options.*.option_text' => ['required', 'string', 'max:255'],
+            'options.*.is_correct' => ['required', 'boolean'],
+            'options.*.sort_order' => ['nullable', 'integer', 'min:1'],
+        ]);
+
+        $correctOptionsCount = collect($validated['options'])
+            ->filter(fn($option) => !empty($option['is_correct']))
+            ->count();
+
+        if ($correctOptionsCount === 0) {
+            return back()
+                ->withErrors(['options' => 'Please mark at least one correct option.'])
+                ->withInput();
+        }
+
+        if ($validated['mcq_type'] !== 'multiple' && $correctOptionsCount > 1) {
+            return back()
+                ->withErrors([
+                'options' => 'Single choice and true/false MCQs can only have one correct option.',
+            ])
+                ->withInput();
+        }
+
+        DB::transaction(function () use ($mcq, $validated) {
+            $mcq->update([
+                'question' => $validated['question'],
+                'slug' => $validated['slug'],
+                'explanation' => $validated['explanation'] ?: null,
+                'subject_id' => $validated['subject_id'],
+                'topic_id' => $validated['topic_id'] ?? null,
+                'paper_id' => $validated['paper_id'] ?? null,
+                'difficulty' => $validated['difficulty'],
+                'mcq_type' => $validated['mcq_type'],
+                'is_active' => $validated['is_active'],
+            ]);
+
+            $mcq->options()->delete();
+
+            $mcq->options()->createMany(
+                collect($validated['options'])
+                ->values()
+                ->map(fn($option, $index) => [
+            'option_text' => $option['option_text'],
+            'is_correct' => (bool)$option['is_correct'],
+            'sort_order' => $index + 1,
+            ])
+                ->all()
+            );
+
+            $tagIds = collect(explode(',', $validated['tags'] ?? ''))
+                ->map(fn($tag) => trim($tag))
+                ->filter()
+                ->unique()
+                ->map(function ($tagName) {
+                $tag = Tag::firstOrCreate(
+                ['slug' => Str::slug($tagName)],
+                ['name' => $tagName]
+                );
+
+                if ($tag->name !== $tagName) {
+                    $tag->update(['name' => $tagName]);
+                }
+
+                return $tag->id;
+            }
+            )
+                ->all();
+
+            $mcq->tags()->sync($tagIds);
+        });
+
+        return redirect()
+            ->route('admin.mcqs.edit', $mcq)
+            ->with('success', 'MCQ updated successfully.');
     }
 
     /**

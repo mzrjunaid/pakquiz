@@ -4,6 +4,7 @@ import { Switch } from '@/components/ui/switch';
 import { Mcq } from '@/types/mcq';
 import { Edit, Share } from 'lucide-react';
 import AdminLayout from '../components/admin-layout';
+import { Link } from '@inertiajs/react';
 
 export default function McqsShow({ mcq }: { mcq: Mcq }) {
     return (
@@ -40,7 +41,7 @@ export default function McqsShow({ mcq }: { mcq: Mcq }) {
                                 variant="secondary"
                                 size="icon"
                                 className="rounded-full cursor-pointer"
-                                // onClick={() => handleShare()}
+                            // onClick={() => handleShare()}
                             >
                                 <Share />
                             </Button>
@@ -49,8 +50,11 @@ export default function McqsShow({ mcq }: { mcq: Mcq }) {
                                 size="icon"
                                 className="rounded-full cursor-pointer"
                                 // onClick={() => handleEdit()}
+                                asChild
                             >
-                                <Edit />
+                                <Link href={`/admin/mcqs/${mcq.slug}/edit`}>
+                                    <Edit />
+                                </Link>
                             </Button>
                         </div>
                     </div>
@@ -133,10 +137,10 @@ export default function McqsShow({ mcq }: { mcq: Mcq }) {
                                     <span>
                                         {mcq
                                             ? mcq.tags?.map((tag, i) => (
-                                                  <span key={i}>
-                                                      {tag.name},{' '}
-                                                  </span>
-                                              ))
+                                                <span key={i}>
+                                                    {tag.name},{' '}
+                                                </span>
+                                            ))
                                             : ''}
                                     </span>
                                 </div>

@@ -16,6 +16,10 @@ export default function McqsIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
+    const handleEditMcq = (mcq: Mcq) => {
+        router.visit(admin.mcqs.edit(mcq.slug).url);
+    };
+
     const generateOgImage = (mcq: Mcq, action: 'generate' | 'regenerate') => {
         router.get(admin.mcq_og_image(mcq.slug).url, {
             preserveScroll: true,
@@ -44,6 +48,7 @@ export default function McqsIndex({
                     tableData={mcqs}
                     filters={filters}
                     url={admin.mcqs.index().url}
+                    onEdit={handleEditMcq}
                     generateOgImage={generateOgImage}
                 />
                 {/* <pre>{JSON.stringify(mcqs, null, 2)}</pre> */}
