@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SeoMetaController;
 use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
+use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Public\AdminMcqImportController;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Mcq;
@@ -17,6 +18,10 @@ use Illuminate\Support\Facades\Route;
 use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Typography\FontFactory;
+
+use Cloudstudio\Ollama\Facades\Ollama;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Illuminate\Http\Request;
 
 Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved', HandleInertiaRequests::class])->group(function () {
 
@@ -225,6 +230,10 @@ Route::get('/{key}.txt', function ($key) {
     }
     abort(404);
 })->name('indexnow');
+
+Route::livewire('/chat', 'pages::chat.index')->name('chat');
+
+Route::get('/chat/stream', [ChatController::class, 'stream']);
 
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 

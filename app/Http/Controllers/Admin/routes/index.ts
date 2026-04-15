@@ -835,7 +835,7 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     helpCenter.form = helpCenterForm
 /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
 export const indexnow = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -849,7 +849,7 @@ indexnow.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
 indexnow.url = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -876,7 +876,7 @@ indexnow.url = (args: { key: string | number } | [key: string | number ] | strin
 }
 
 /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
 indexnow.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -884,7 +884,7 @@ indexnow.get = (args: { key: string | number } | [key: string | number ] | strin
     method: 'get',
 })
 /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
 indexnow.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -893,7 +893,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
 })
 
     /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
     const indexnowForm = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -902,7 +902,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
     })
 
             /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
         indexnowForm.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -910,7 +910,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
             method: 'get',
         })
             /**
- * @see routes/web.php:222
+ * @see routes/web.php:227
  * @route '/{key}.txt'
  */
         indexnowForm.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -924,3 +924,74 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
         })
     
     indexnow.form = indexnowForm
+/**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+export const chat = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: chat.url(options),
+    method: 'get',
+})
+
+chat.definition = {
+    methods: ["get","head"],
+    url: '/chat',
+} satisfies RouteDefinition<["get","head"]>
+
+/**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+chat.url = (options?: RouteQueryOptions) => {
+    return chat.definition.url + queryParams(options)
+}
+
+/**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+chat.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: chat.url(options),
+    method: 'get',
+})
+/**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+chat.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: chat.url(options),
+    method: 'head',
+})
+
+    /**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+    const chatForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: chat.url(options),
+        method: 'get',
+    })
+
+            /**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+        chatForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: chat.url(options),
+            method: 'get',
+        })
+            /**
+ * @see routes/web.php:234
+ * @route '/chat'
+ */
+        chatForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: chat.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    chat.form = chatForm

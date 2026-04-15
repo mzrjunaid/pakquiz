@@ -22,6 +22,10 @@ return Application::configure(basePath: dirname(__DIR__))
             'status' => UserStatusMiddleware::class,
         ]);
 
+        $middleware->validateCsrfTokens(except: [
+            '/chat/stream',
+        ]);
+
         $middleware->web(append: [
             HandleAppearance::class,
             AddLinkHeadersForPreloadedAssets::class,

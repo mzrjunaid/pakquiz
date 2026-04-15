@@ -88,7 +88,7 @@ dashboard.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     dashboard.form = dashboardForm
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 export const mcq_og_image = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -103,7 +103,7 @@ mcq_og_image.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcq_og_image.url = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -136,7 +136,7 @@ mcq_og_image.url = (args: { mcq: string | { slug: string } } | [mcq: string | { 
 
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcq_og_image.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -145,7 +145,7 @@ mcq_og_image.get = (args: { mcq: string | { slug: string } } | [mcq: string | { 
 })
 /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
 mcq_og_image.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -155,7 +155,7 @@ mcq_og_image.head = (args: { mcq: string | { slug: string } } | [mcq: string | {
 
     /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
     const mcq_og_imageForm = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -165,7 +165,7 @@ mcq_og_image.head = (args: { mcq: string | { slug: string } } | [mcq: string | {
 
             /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
         mcq_og_imageForm.get = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -174,7 +174,7 @@ mcq_og_image.head = (args: { mcq: string | { slug: string } } | [mcq: string | {
         })
             /**
 * @see \App\Http\Controllers\Admin\McqController::mcq_og_image
- * @see app/Http/Controllers/Admin/McqController.php:135
+ * @see app/Http/Controllers/Admin/McqController.php:273
  * @route '/admin/api/generate-mcq-og-image/{mcq}'
  */
         mcq_og_imageForm.head = (args: { mcq: string | { slug: string } } | [mcq: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
