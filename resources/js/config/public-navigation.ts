@@ -11,6 +11,7 @@ import {
 import papers from '@/routes/public/papers';
 import subject from '@/routes/public/subject';
 import { NavItem, NavItems } from '@/types';
+import { router } from '@inertiajs/react';
 import {
     BookOpen,
     Clipboard,

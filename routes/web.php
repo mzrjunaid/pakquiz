@@ -237,6 +237,8 @@ Route::get('/chat/stream', [ChatController::class, 'stream']);
 
 Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
+require __DIR__ . '/settings.php';
+
 Route::name('public.')->group(function () {
     Route::livewire('/search', 'pages::search.index')->name('search');
 
@@ -292,5 +294,3 @@ Route::name('public.')->group(function () {
         Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     });
 });
-
-require __DIR__ . '/settings.php';

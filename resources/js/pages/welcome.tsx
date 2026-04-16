@@ -33,7 +33,6 @@ export default function Welcome({
     const homepageSchema = {
         '@context': 'https://schema.org',
         '@graph': [
-            // ORGANIZATION
             {
                 '@type': 'Organization',
                 '@id': 'https://www.pakquiz.com/#organization',
@@ -57,7 +56,6 @@ export default function Welcome({
                 },
             },
 
-            // WEBSITE
             {
                 '@type': 'WebSite',
                 '@id': 'https://www.pakquiz.com/#website',
@@ -76,7 +74,6 @@ export default function Welcome({
                 },
             },
 
-            // HOMEPAGE WEBPAGE
             {
                 '@type': 'WebPage',
                 '@id': 'https://www.pakquiz.com/#webpage',
@@ -154,8 +151,10 @@ export default function Welcome({
 
                         {/* Sidebar */}
                         <PageSidebar>
-                            <FeatureCard title="Latest Papers"
-                                description="Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan.">
+                            <FeatureCard
+                                title="Latest Papers"
+                                description="Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan."
+                            >
                                 <div className="md:px-2">
                                     {latestPapers.map((paper, idx) => (
                                         <div
@@ -173,8 +172,10 @@ export default function Welcome({
                                     ))}
                                 </div>
                             </FeatureCard>
-                            <FeatureCard title="Latest Subjects"
-                                description="Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan.">
+                            <FeatureCard
+                                title="Latest Subjects"
+                                description="Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan."
+                            >
                                 <div className="md:px-2">
                                     {subjects_list.map((subject, idx) => (
                                         <div
@@ -225,8 +226,10 @@ export default function Welcome({
                                     )}
                                 </div>
                             </FeatureCard>
-                            <FeatureCard title="Departments"
-                                description="Explore the latest departments for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan." >
+                            <FeatureCard
+                                title="Departments"
+                                description="Explore the latest departments for FPSC, PPSC, NTS, CSS, PMS and other competitive exams in Pakistan."
+                            >
                                 <div className="md:px-2">
                                     {departments_list.map((dept, idx) => (
                                         <div

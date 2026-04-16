@@ -40,7 +40,11 @@ export function NavMain({
                                 )}
                                 asChild
                             >
-                                <Link href={item.href} prefetch>
+                                <Link
+                                    href={item.href}
+                                    target="_blank"
+                                    prefetch={false}
+                                >
                                     {item.icon && <item.icon />}
                                     <span>{item.title}</span>
                                 </Link>
@@ -56,8 +60,13 @@ export function NavMain({
                                     {item.subItems.map((item) => (
                                         <DropdownMenuItem
                                             key={`sidebar-submenu-${item.title}`}
+                                            asChild
                                         >
-                                            <Link href={item.href} prefetch>
+                                            <Link
+                                                href={item.href}
+                                                target="_blank"
+                                                prefetch={false}
+                                            >
                                                 {item.icon && <item.icon />}
                                                 <span>{item.title}</span>
                                             </Link>

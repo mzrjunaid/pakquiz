@@ -36,10 +36,7 @@ export default function Password() {
                     />
 
                     <Form
-                        {...PasswordController.update.form()}
-                        options={{
-                            preserveScroll: true,
-                        }}
+                        {...PasswordController.update()}
                         resetOnError={[
                             'password',
                             'password_confirmation',

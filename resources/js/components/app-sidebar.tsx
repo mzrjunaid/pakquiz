@@ -12,7 +12,6 @@ import {
 } from '@/components/ui/sidebar';
 
 import { adminFooterNavItems, adminMainNavItems } from '@/config/navigation';
-import { publicMainNavItems } from '@/config/public-navigation';
 import { home } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import { SharedData } from '@/types';
@@ -50,10 +49,6 @@ export function AppSidebar() {
             </SidebarHeader>
 
             <SidebarContent>
-                <NavMain
-                    navGroupTitle="Public"
-                    items={publicMainNavItems}
-                ></NavMain>
                 {auth.user && (
                     <NavMain navGroupTitle="Admin" items={adminMainNavItems} />
                 )}
