@@ -5,8 +5,11 @@ export interface Topic {
     name: string;
     slug: string;
     description: string;
+    subject_id: number;
+    sort_order: number;
     created_by: SimpleUser;
     created_at: string;
+    mcqs_count?: number;
 }
 
 export interface Subject {

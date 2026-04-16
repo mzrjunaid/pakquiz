@@ -19,11 +19,14 @@ class TopicResource extends JsonResource
             'name' => $this->name,
             'slug' => $this->slug,
             'description' => $this->description,
+            'subject_id' => $this->subject_id,
+            'sort_order' => $this->sort_order,
             'created_by' => [
                 'id'   => $this->createdBy?->id,
                 'name' => $this->createdBy?->name,
             ],
             'created_at' => $this->created_at?->toDateString(),
+            'mcqs_count' => $this->whenCounted('mcqs'),
         ];
     }
 }

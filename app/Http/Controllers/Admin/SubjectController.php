@@ -6,9 +6,9 @@ use App\Filters\CommonFilter;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\McqResource;
 use App\Http\Resources\SubjectResource;
+use App\Http\Resources\TopicResource;
 use App\Models\Mcq;
 use App\Models\Subject;
-use App\Models\Topic;
 use App\Services\SubjectService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
@@ -72,7 +72,7 @@ class SubjectController extends Controller
      */
     public function store(Request $request)
     {
-    //
+        //
     }
 
     /**
@@ -97,13 +97,21 @@ class SubjectController extends Controller
             : 'created_at';
 
         $sortOrder = $request->input('sort_order') === 'asc' ? 'asc' : 'desc';
-        $subject->loadMissing(['topics:id,name,slug,subject_id']);
+        $subject->loadMissing([
+            'topics' => function ($query) {
+                $query
+                    ->with('createdBy')
+                    ->withCount('mcqs')
+                    ->orderBy('sort_order')
+                    ->orderBy('name');
+            }
+        ]);
 
         $mcqs = $filter
             ->apply(Mcq::query()->with(['createdBy', 'paper', 'subject', 'topic'])->where('subject_id', $subject->id))
             ->withExists([
-            'seo as has_og_image' => fn($query) => $query->whereNotNull('og_image')
-        ])
+                'seo as has_og_image' => fn($query) => $query->whereNotNull('og_image')
+            ])
             ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
             ->onEachSide(0)
@@ -118,6 +126,7 @@ class SubjectController extends Controller
 
         return Inertia::render('admin/subjects/show', [
             'subject' => $subject,
+            'topics' => TopicResource::collection($subject->topics)->resolve(),
             'mcqs' => McqResource::collection($mcqs),
             'filters' => $request->only([
                 'name',
@@ -144,7 +153,7 @@ class SubjectController extends Controller
      */
     public function update(Request $request, string $id)
     {
-    //
+        //
     }
 
     /**
@@ -152,6 +161,6 @@ class SubjectController extends Controller
      */
     public function destroy(string $id)
     {
-    //
+        //
     }
 }

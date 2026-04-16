@@ -2,19 +2,22 @@ import { TextHeading } from '@/components/ui/typography';
 import admin from '@/routes/admin';
 import { CommonFilters, McqsResource, Stats } from '@/types/admin';
 import { Mcq } from '@/types/mcq';
-import { Subject } from '@/types/subject';
+import { Subject, Topic } from '@/types/subject';
 import { router } from '@inertiajs/react';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
 import McqsTable from '../mcqs/components/data-table-index';
+import TopicManagement from './components/topic-management';
 
 export default function SubjectsShow({
     subject,
+    topics,
     mcqs,
     stats,
     filters,
 }: {
     subject: Subject;
+    topics: Topic[];
     mcqs: McqsResource;
     filters: CommonFilters;
     stats: Stats;
@@ -42,6 +45,12 @@ export default function SubjectsShow({
                     total={stats.top_creator?.total_entries}
                 />
             </div>
+            <section className="space-y-4">
+                <TextHeading as="h2" size="lg" textColor="primary">
+                    Topic Management
+                </TextHeading>
+                <TopicManagement subject={subject} topics={topics} />
+            </section>
             <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">
                 <McqsTable
                     tableData={mcqs}
