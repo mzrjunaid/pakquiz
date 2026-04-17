@@ -16,7 +16,7 @@ export interface SeoMeta {
     keywords: string;
     og_title: string;
     og_description: string;
-    og_image: string;
+    og_image: string | File | null;
     page_type: string;
     page_id: number;
     page_name: string;

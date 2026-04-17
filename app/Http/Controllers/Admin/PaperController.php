@@ -12,6 +12,8 @@ use App\Models\Tag;
 use App\Models\TestingService;
 use App\Services\GenerateMockPaperService;
 use App\Services\PaperService;
+use DB;
+use File;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -171,6 +173,10 @@ class PaperController extends Controller
      */
     public function edit(Paper $paper)
     {
+
+        // $seoData = $paper->load('seo');
+        // dd($seoData);
+
         return Inertia::render('admin/papers/edit', [
             'paper' => [
                 'id' => $paper->id,
@@ -196,6 +202,13 @@ class PaperController extends Controller
                 ->orderBy('name')
                 ->get(['id', 'name']),
             'paperTags' => $paper->tags->select('name', 'slug')->toArray(),
+            'seoData' => [
+                'title' => $paper->seo?->title,
+                'description' => $paper->seo?->description,
+                'og_title' => $paper->seo?->og_title,
+                'og_description' => $paper->seo?->og_description,
+                'og_image' => $paper->seo?->og_image,
+            ],
         ]);
     }
 
@@ -221,32 +234,72 @@ class PaperController extends Controller
             'testing_service_id' => ['required', 'exists:testing_services,id'],
             'is_active' => ['required', 'boolean'],
             'type' => ['required', Rule::in(['official', 'mock'])],
-            'tags' => ['nullable', 'string'],
+            'tags' => ['nullable', 'string', 'max:500'],
+
+            'seo_title' => ['nullable', 'string', 'max:255'],
+            'seo_description' => ['nullable', 'string', 'max:500'],
+            'seo_og_title' => ['nullable', 'string', 'max:255'],
+            'seo_og_description' => ['nullable', 'string', 'max:500'],
+            'seo_og_image' => ['nullable', 'image', 'mimes:jpeg,png,jpg,webp', 'max:5120'],
         ]);
+
+        $data = collect($validated)
+            ->except('tags', 'seo_title', 'seo_description', 'seo_og_title', 'seo_og_description', 'seo_og_image')
+            ->toArray();
+
 
         $tagIds = collect(explode(',', $validated['tags'] ?? ''))
             ->map(fn($tag) => trim($tag))
             ->filter()
             ->unique()
-            ->map(
-                function ($tagName) {
-                    $tag = Tag::firstOrCreate(
-                        ['slug' => Str::slug($tagName)],
-                        ['name' => $tagName]
-                    );
+            ->map(function ($tagName) {
+                return Tag::firstOrCreate(
+                    ['slug' => Str::slug($tagName)],
+                    ['name' => $tagName]
+                )->id;
+            })
+            ->toArray();
 
-                    if ($tag->name !== $tagName) {
-                        $tag->update(['name' => $tagName]);
-                    }
+        DB::transaction(function () use ($paper, $data, $tagIds, $request) {
 
-                    return $tag->id;
+            $paper->update($data);
+
+            $paper->tags()->sync($tagIds);
+
+            $seoData = [
+                'title' => $request->seo_title,
+                'description' => $request->seo_description,
+                'og_title' => $request->seo_og_title,
+                'og_description' => $request->seo_og_description,
+            ];
+
+            $ogImage = $request->file('seo_og_image');
+
+            if ($ogImage) {
+
+                $slug = $paper->slug;
+
+                $destinationPath = public_path('assets/images/papers');
+
+                if (!File::exists($destinationPath)) {
+                    File::makeDirectory($destinationPath, 0755, true);
                 }
-            )
-            ->all();
 
-        $paper->update($validated);
+                $fileName = $slug . '.' . $ogImage->getClientOriginalExtension();
 
-        $paper->tags()->sync($tagIds);
+                $filePath = $destinationPath . '/' . $fileName;
+
+                if (File::exists($filePath)) {
+                    File::delete($filePath);
+                }
+
+                $ogImage->move($destinationPath, $fileName);
+
+                $seoData['og_image'] = 'assets/images/papers/' . $fileName;
+            }
+
+            $paper->seo()->update($seoData);
+        });
 
         return redirect()
             ->route('admin.papers.edit', $paper)
@@ -288,4 +341,5 @@ class PaperController extends Controller
             ], 422);
         }
     }
+
 }

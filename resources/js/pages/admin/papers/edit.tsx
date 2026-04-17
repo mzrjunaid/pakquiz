@@ -12,7 +12,8 @@ import {
 import { Switch } from '@/components/ui/switch';
 import { Textarea } from '@/components/ui/textarea';
 import admin from '@/routes/admin';
-import { Link, useForm } from '@inertiajs/react';
+import { SeoMeta } from '@/types/seo';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import { useState, type FormEvent } from 'react';
 import Markdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
@@ -44,6 +45,7 @@ interface PaperEditProps {
     subjects: SelectOption[];
     testingServices: SelectOption[];
     paperTags: { name: string; slug: string }[];
+    seoData: SeoMeta;
 }
 
 export default function PapersEdit({
@@ -52,7 +54,9 @@ export default function PapersEdit({
     subjects,
     testingServices,
     paperTags,
+    seoData,
 }: PaperEditProps) {
+    const { base_url } = usePage().props;
     const [descriptionPreview, setDescriptionPreview] = useState(
         paper.description ?? '',
     );
@@ -69,6 +73,11 @@ export default function PapersEdit({
         is_active: paper.is_active,
         type: paper.type,
         tags: paperTags.map((tag) => tag.name).join(','),
+        seo_title: seoData?.title ?? '',
+        seo_description: seoData?.description ?? '',
+        seo_og_title: seoData?.og_title ?? '',
+        seo_og_description: seoData?.og_description ?? '',
+        seo_og_image: seoData?.og_image ?? '',
     });
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
@@ -156,28 +165,6 @@ export default function PapersEdit({
                                     <InputError message={form.errors.tags} />
                                 </Field>
                             </div>
-
-                            <Field>
-                                <FieldLabel htmlFor="description">
-                                    Description
-                                </FieldLabel>
-                                <Textarea
-                                    id="description"
-                                    value={form.data.description}
-                                    onChange={(event) => {
-                                        setDescriptionPreview(
-                                            event.target.value,
-                                        );
-                                        form.setData(
-                                            'description',
-                                            event.target.value,
-                                        );
-                                    }}
-                                    rows={5}
-                                    placeholder="Add a short description for this paper"
-                                />
-                                <InputError message={form.errors.description} />
-                            </Field>
 
                             <div className="grid gap-5 md:grid-cols-2">
                                 <Field>
@@ -356,6 +343,130 @@ export default function PapersEdit({
                                     />
                                 </Field>
                             </div>
+
+                            <Field>
+                                <FieldLabel htmlFor="description">
+                                    Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="description"
+                                    value={form.data.description}
+                                    onChange={(event) => {
+                                        setDescriptionPreview(
+                                            event.target.value,
+                                        );
+                                        form.setData(
+                                            'description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short description for this paper"
+                                />
+                                <InputError message={form.errors.description} />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_title">
+                                    SEO Title
+                                </FieldLabel>
+                                <Input
+                                    id="seo_title"
+                                    value={form.data.seo_title}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_title',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO title for this paper"
+                                />
+                                <InputError message={form.errors.seo_title} />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_description">
+                                    SEO Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="seo_description"
+                                    value={form.data.seo_description}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short SEO description for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_description}
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_og_title">
+                                    SEO OG Title
+                                </FieldLabel>
+                                <Input
+                                    id="seo_og_title"
+                                    value={form.data.seo_og_title}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_og_title',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO OG title for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_og_title}
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_og_description">
+                                    SEO OG Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="seo_og_description"
+                                    value={form.data.seo_og_description}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_og_description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short SEO OG description for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_og_description}
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_og_image">
+                                    SEO OG Image
+                                </FieldLabel>
+                                <Input
+                                    type="file"
+                                    id="seo_og_image"
+                                    accept="image/*"
+                                    // value={form.data.seo_og_image}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_og_image',
+                                            event.target.files?.[0] ?? '',
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO OG image for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_og_image}
+                                />
+                            </Field>
                         </FieldGroup>
 
                         <div className="flex flex-col gap-3 border-t pt-6 sm:flex-row sm:justify-end">
@@ -381,6 +492,7 @@ export default function PapersEdit({
                         </div>
                     </div>
                 </div>
+
                 {paperTags && (
                     <div className="rounded-xl border bg-card p-6 shadow-xs">
                         <h2 className="text-lg font-semibold">Tags</h2>
@@ -401,6 +513,19 @@ export default function PapersEdit({
                         </div>
                     </div>
                 )}
+
+                <div>
+                    {form.data.seo_og_image && (
+                        <img
+                            src={
+                                base_url +
+                                '/' +
+                                form.data.seo_og_image.toString()
+                            }
+                            alt="OG Image"
+                        />
+                    )}
+                </div>
             </div>
         </AdminLayout>
     );
