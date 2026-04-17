@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class aside.layout extends Component
+class AsideLayout extends Component
 {
     /**
      * Create a new component instance.

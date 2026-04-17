@@ -6,7 +6,7 @@ use Closure;
 use Illuminate\Contracts\View\View;
 use Illuminate\View\Component;
 
-class aside.link extends Component
+class AsideLink extends Component
 {
     /**
      * Create a new component instance.

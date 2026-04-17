@@ -25,15 +25,7 @@ new class extends Component {
     {
         $limit = min(max((int) $this->perPage, 5), 100);
 
-        $paperType = $this->paper->type;
-
-        // dd($paperType);
-
-        if ($paperType === 'mock') {
-            $mcqs = $this->paper->mockPaperMcqs()->paginate($limit)->onEachSide(0)->withQueryString();
-        } else {
-            $mcqs = $this->paper->mcqs()->latest()->paginate($limit)->onEachSide(0)->withQueryString();
-        }
+        $mcqs = $this->paper->type === 'mock' ? $this->paper->mockPaperMcqs()->latest()->paginate($limit)->onEachSide(0)->withQueryString() : $this->paper->mcqs()->latest()->paginate($limit)->onEachSide(0)->withQueryString();
 
         $resource = McqIndexCollection::make($mcqs);
 
@@ -93,23 +85,27 @@ new class extends Component {
                     <ol class="inline-flex items-center md:space-x-1">
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-home class="w-4 h-4" />
-                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}" aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
+                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}"
+                                aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                         </li>
                         @if ($department)
                             <li class="inline-flex gap-1 items-center">
                                 <x-heroicon-o-chevron-right class="w-4 h-4" />
                                 <a href="{{ route('public.departments.show', $department->slug) }}"
-                                    class="hover:text-primary" title="{{ $department->name }}" aria-label="{{ $department->name }}">{{ $department->name }}</a>
+                                    class="hover:text-primary" title="{{ $department->name }}"
+                                    aria-label="{{ $department->name }}">{{ $department->name }}</a>
                             </li>
                         @endif
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-chevron-right class="w-4 h-4" />
-                            <a href="{{ route('public.papers.index') }}"
-                                class="hover:text-primary" title="{{ __('Papers') }}" aria-label="{{ __('Papers') }}">{{ __('Papers') }}</a>
+                            <a href="{{ route('public.papers.index') }}" class="hover:text-primary"
+                                title="{{ __('Papers') }}" aria-label="{{ __('Papers') }}">{{ __('Papers') }}</a>
                         </li>
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-chevron-right class="w-4 h-4" />
-                            <span class="font-medium text-primary max-w-sm truncate line-clamp-1" title="{{ $paper->name }}" aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
+                            <span class="font-medium text-primary max-w-sm truncate line-clamp-1"
+                                title="{{ $paper->name }}"
+                                aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
                         </li>
                     </ol>
                 </nav>
@@ -117,7 +113,7 @@ new class extends Component {
                     {!! str($pageIntro->name)->title() !!}
                 </h1>
                 @if ($pageIntro->description)
-                    <div class="text-xs md:text-base text-justify space-y-3">
+                    <div class="prose prose-sm text-xs md:text-base text-justify space-y-3">
                         {!! str($pageIntro->description)->markdown() !!}
                     </div>
                 @endif

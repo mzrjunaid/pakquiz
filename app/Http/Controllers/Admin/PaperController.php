@@ -8,10 +8,12 @@ use App\Http\Resources\PaperResource;
 use App\Models\Department;
 use App\Models\Paper;
 use App\Models\Subject;
+use App\Models\Tag;
 use App\Models\TestingService;
 use App\Services\GenerateMockPaperService;
 use App\Services\PaperService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
 
@@ -68,7 +70,23 @@ class PaperController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/papers/create', []);
+        $departments = Department::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        $subjects = Subject::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        $testingServices = TestingService::query()
+            ->orderBy('name')
+            ->get(['id', 'name']);
+
+        return Inertia::render('admin/papers/create', [
+            'departments' => $departments,
+            'subjects' => $subjects,
+            'testingServices' => $testingServices,
+        ]);
     }
 
     /**
@@ -76,15 +94,76 @@ class PaperController extends Controller
      */
     public function store(Request $request)
     {
-    //
+        $validated = $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'slug' => [
+                'required',
+                'string',
+                'max:255',
+                'alpha_dash:ascii',
+                Rule::unique('papers', 'slug'),
+            ],
+            'description' => ['nullable', 'string'],
+            'schedule_at' => ['nullable', 'date'],
+            'paper_year' => ['nullable', 'integer', 'min:1900', 'max:' . (now()->year + 10)],
+            'department_id' => ['required', 'exists:departments,id'],
+            'subject_id' => ['nullable', 'exists:subjects,id'],
+            'testing_service_id' => ['required', 'exists:testing_services,id'],
+            'is_active' => ['required', 'boolean'],
+            'type' => ['required', Rule::in(['official', 'mock'])],
+            'tags' => ['nullable', 'string'],
+        ]);
+
+        $tagIds = collect(explode(',', $validated['tags'] ?? ''))
+            ->map(fn($tag) => trim($tag))
+            ->filter()
+            ->unique()
+            ->map(
+                function ($tagName) {
+                    $tag = Tag::firstOrCreate(
+                        ['slug' => Str::slug($tagName)],
+                        ['name' => $tagName]
+                    );
+
+                    if ($tag->name !== $tagName) {
+                        $tag->update(['name' => $tagName]);
+                    }
+
+                    return $tag->id;
+                }
+            )
+            ->all();
+
+        $paper = Paper::create($validated);
+
+        $paper->tags()->sync($tagIds);
+
+        return redirect()
+            ->route('admin.papers.show', $paper)
+            ->with('success', 'Paper created successfully.');
     }
 
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Paper $paper)
     {
-        return Inertia::render('admin/papers/show', []);
+        return Inertia::render('admin/papers/show', [
+            'paper' => [
+                'id' => $paper->id,
+                'name' => $paper->name,
+                'slug' => $paper->slug,
+                'description' => $paper->description,
+                'schedule_at' => $paper->schedule_at?->format('Y-m-d'),
+                'paper_year' => $paper->paper_year,
+                'department_id' => $paper->department_id,
+                'subject_id' => $paper->subject_id,
+                'testing_service_id' => $paper->testing_service_id,
+                'is_active' => $paper->is_active,
+                'type' => $paper->type,
+                'tags' => $paper->tags->pluck('name')->implode(','),
+            ],
+        ]);
     }
 
     /**
@@ -105,6 +184,7 @@ class PaperController extends Controller
                 'testing_service_id' => $paper->testing_service_id,
                 'is_active' => $paper->is_active,
                 'type' => $paper->type,
+                'tags' => $paper->tags->pluck('name')->implode(','),
             ],
             'departments' => Department::query()
                 ->orderBy('name')
@@ -115,6 +195,7 @@ class PaperController extends Controller
             'testingServices' => TestingService::query()
                 ->orderBy('name')
                 ->get(['id', 'name']),
+            'paperTags' => $paper->tags->select('name', 'slug')->toArray(),
         ]);
     }
 
@@ -136,13 +217,36 @@ class PaperController extends Controller
             'schedule_at' => ['nullable', 'date'],
             'paper_year' => ['nullable', 'integer', 'min:1900', 'max:' . (now()->year + 10)],
             'department_id' => ['required', 'exists:departments,id'],
-            'subject_id' => ['required', 'exists:subjects,id'],
+            'subject_id' => ['nullable', 'exists:subjects,id'],
             'testing_service_id' => ['required', 'exists:testing_services,id'],
             'is_active' => ['required', 'boolean'],
             'type' => ['required', Rule::in(['official', 'mock'])],
+            'tags' => ['nullable', 'string'],
         ]);
 
+        $tagIds = collect(explode(',', $validated['tags'] ?? ''))
+            ->map(fn($tag) => trim($tag))
+            ->filter()
+            ->unique()
+            ->map(
+                function ($tagName) {
+                    $tag = Tag::firstOrCreate(
+                        ['slug' => Str::slug($tagName)],
+                        ['name' => $tagName]
+                    );
+
+                    if ($tag->name !== $tagName) {
+                        $tag->update(['name' => $tagName]);
+                    }
+
+                    return $tag->id;
+                }
+            )
+            ->all();
+
         $paper->update($validated);
+
+        $paper->tags()->sync($tagIds);
 
         return redirect()
             ->route('admin.papers.edit', $paper)
@@ -152,9 +256,13 @@ class PaperController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy(Paper $paper)
     {
-    //
+        $paper->delete();
+
+        return redirect()
+            ->route('admin.papers.index')
+            ->with('success', 'Paper deleted successfully.');
     }
 
     public function generate(Paper $paper, GenerateMockPaperService $service, Request $request)
@@ -173,8 +281,7 @@ class PaperController extends Controller
                 'success' => true,
                 'message' => "Paper {$action}d successfully.",
             ]);
-        }
-        catch (\Throwable $e) {
+        } catch (\Throwable $e) {
             return response()->json([
                 'success' => false,
                 'message' => $e->getMessage(),
