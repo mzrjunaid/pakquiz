@@ -8,7 +8,7 @@ import {
     DropdownMenuSeparator,
     DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import departments from '@/routes/admin/departments';
+import seo from '@/routes/admin/seo';
 import { SeoMeta } from '@/types/seo';
 import { ColumnDef } from '@tanstack/react-table';
 import { ArrowUpDown, MoreHorizontal } from 'lucide-react';
@@ -58,7 +58,7 @@ export const getColumns = ({
         },
         cell: ({ row }) => (
             <TextLink
-                href={departments.show(row.original.id)}
+                href={seo.show(row.original.id).url}
                 className="max-w-xs truncate"
             >
                 {row.getValue('title')}
@@ -155,6 +155,14 @@ export const getColumns = ({
                             Copy ID
                         </DropdownMenuItem>
                         <DropdownMenuSeparator />
+                        <DropdownMenuItem asChild>
+                            <TextLink
+                                href={seo.show(service.id).url}
+                                className="w-full"
+                            >
+                                View
+                            </TextLink>
+                        </DropdownMenuItem>
                         <DropdownMenuItem onClick={() => onEdit?.(service)}>
                             Edit
                         </DropdownMenuItem>

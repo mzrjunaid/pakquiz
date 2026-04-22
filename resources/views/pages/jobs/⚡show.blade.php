@@ -112,15 +112,15 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-    {{ $this->job->canonicalUrl() }}
+    {{ $job->canonicalUrl() }}
 @endslot
 
 @slot('title')
-    {{ $this->job->title . ' | ' . $this->job->department->name . ' | ' . $this->job?->testingService?->short_name . ' | PakQuiz' }}
+    {{ $job->title . ' | ' . $job->department->name . ' | ' . $job?->testingService?->short_name . ' | PakQuiz' }}
 @endslot
 
 @slot('description')
-    {{ $this->job->description }}
+    {{ $job->description }}
 @endslot
 
 

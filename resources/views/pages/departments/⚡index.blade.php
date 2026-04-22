@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Resources\Public\Dept\DepartmentIndexCollection;
+use App\Http\Resources\Frontend\Dept\DepartmentIndexCollection;
 use Livewire\Component;
 use App\Models\Page;
 use App\Support\SeoData;

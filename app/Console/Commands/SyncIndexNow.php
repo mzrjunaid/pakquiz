@@ -2,7 +2,6 @@
 
 namespace App\Console\Commands;
 
-use App\Models\Mcq;
 use App\Services\IndexNowService;
 use Illuminate\Console\Command;
 

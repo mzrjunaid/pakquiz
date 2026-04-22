@@ -4,6 +4,9 @@ import { CommonFilters, DepartmentResource, Stats } from '@/types/admin';
 import AdminLayout from '../components/admin-layout';
 import StatsCard from '../components/stats-card';
 import DepartmentTable from './components/data-table-index';
+import { Department } from '@/types/department';
+import admin from '@/routes/admin';
+import { router } from '@inertiajs/react';
 
 export default function DepartmentsIndex({
     departments,
@@ -14,6 +17,10 @@ export default function DepartmentsIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
+    const handleEdit = (department: Department) => {
+        // console.log('department', department);
+        router.visit(admin.departments.edit(department.slug).url);
+    };
     return (
         <AdminLayout title="Departments List">
             <TextHeading as="h1" size="xl" textColor="primary">
@@ -25,7 +32,7 @@ export default function DepartmentsIndex({
                 <StatsCard title="This Week" total={stats.this_week} />
                 <StatsCard
                     title={`Top Creator - ${stats.top_creator?.name}`}
-                    total={stats.top_creator?.total_services}
+                    total={stats.top_creator?.total_entries}
                 />
             </div>
 
@@ -34,6 +41,7 @@ export default function DepartmentsIndex({
                     tableData={departments}
                     filters={filters}
                     url={departmentsRoute.index().url}
+                    onEdit={handleEdit}
                 />
             </div>
         </AdminLayout>

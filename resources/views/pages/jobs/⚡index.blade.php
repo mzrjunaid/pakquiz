@@ -1,13 +1,12 @@
 <?php
 
-use App\Http\Resources\Public\Job\JobIndexCollection;
+use App\Http\Resources\Frontend\Job\JobIndexCollection;
 use Livewire\Component;
 use App\Models\Page;
 use App\Models\Paper;
 use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Http\Resources\Public\Paper\PaperIndexCollection;
 use App\Models\JobPosting;
 
 new class extends Component {
@@ -72,6 +71,7 @@ new class extends Component {
             'jobs' => $resource,
             'pageIntro' => Page::firstWhere('key', 'jobs'),
             'schema' => $combinedSchema,
+            'meta' => $this->meta,
             'latestPapers' => Paper::query()
                 ->select('id', 'name', 'description', 'slug', 'created_at')
                 ->latest('created_at')
@@ -84,19 +84,19 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-{{ $this->meta['canonical'] }}
+{{ $meta['canonical'] }}
 @endslot
 
 @slot('title')
-{{ $this->meta['title'] }}
+{{ $meta['title'] }}
 @endslot
 
 @slot('description')
-{{ $this->meta['description'] }}
+{{ $meta['description'] }}
 @endslot
 
 @slot('image')
-{{ $this->meta['og_image'] }}
+{{ $meta['og_image'] }}
 @endslot
 
 

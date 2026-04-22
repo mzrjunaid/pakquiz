@@ -9,7 +9,7 @@ $categories = [
 
 <?php
 
-use App\Http\Resources\Public\Paper\PaperIndexCollection;
+use App\Http\Resources\Frontend\Paper\PaperIndexCollection;
 use App\Models\Paper;
 use App\Models\Subject;
 use App\Models\TestingService;

@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Filters\Public\McqsFilter;
+use App\Filters\Frontend\McqsFilter;
 use App\Traits\Filterable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
@@ -44,7 +44,7 @@ class Mcq extends Model implements HasCanonical
 
     public function mockPapers()
     {
-        return $this->belongsToMany(Paper::class, 'paper_mcqs')
+        return $this->belongsToMany(Paper::class , 'paper_mcqs')
             ->withPivot('position')
             ->withTimestamps();
     }
@@ -72,7 +72,7 @@ class Mcq extends Model implements HasCanonical
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class, 'created_by')->withDefault([
+        return $this->belongsTo(User::class , 'created_by')->withDefault([
             'name' => 'Unknown User'
         ]);
     }
@@ -84,12 +84,12 @@ class Mcq extends Model implements HasCanonical
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class, 'page');
+        return $this->morphOne(SeoMeta::class , 'page');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class, 'taggable');
+        return $this->morphToMany(Tag::class , 'taggable');
     }
 
     public function getRouteKeyName(): string
@@ -114,13 +114,13 @@ class Mcq extends Model implements HasCanonical
             ->where('is_active', true)
             ->latest()
             ->with([
-                'options:id,mcq_id,option_text,is_correct',
-                'tags:id,name,slug',
-                'paper:id,name,slug',
-                'subject:id,name,slug',
-                'topic:id,name,slug',
-                'createdBy:id,name',
-            ])
+            'options:id,mcq_id,option_text,is_correct',
+            'tags:id,name,slug',
+            'paper:id,name,slug',
+            'subject:id,name,slug',
+            'topic:id,name,slug',
+            'createdBy:id,name',
+        ])
             ->limit($limit);
     }
 

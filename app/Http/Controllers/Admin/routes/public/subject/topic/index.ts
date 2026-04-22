@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition, applyUrlDefaults } from './../../../../wayfinder'
 /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
 export const index = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ index.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
 index.url = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -48,8 +48,8 @@ index.url = (args: { subject: string | { slug: string } } | [subject: string | {
 }
 
 /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
 index.get = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -57,8 +57,8 @@ index.get = (args: { subject: string | { slug: string } } | [subject: string | {
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
 index.head = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -67,8 +67,8 @@ index.head = (args: { subject: string | { slug: string } } | [subject: string | 
 })
 
     /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
     const indexForm = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -77,8 +77,8 @@ index.head = (args: { subject: string | { slug: string } } | [subject: string | 
     })
 
             /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
         indexForm.get = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -86,8 +86,8 @@ index.head = (args: { subject: string | { slug: string } } | [subject: string | 
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\SubjectController::index
- * @see app/Http/Controllers/Public/SubjectController.php:168
+* @see \App\Http\Controllers\Frontend\SubjectController::index
+ * @see app/Http/Controllers/Frontend/SubjectController.php:168
  * @route '/{subject}/topics'
  */
         indexForm.head = (args: { subject: string | { slug: string } } | [subject: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

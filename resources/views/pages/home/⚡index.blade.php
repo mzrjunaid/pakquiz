@@ -2,7 +2,7 @@
 
 use App\Models\Page;
 use App\Models\Mcq;
-use App\Http\Resources\Public\Mcq\McqWithOptionsResource;
+use App\Http\Resources\Frontend\Mcq\McqWithOptionsResource;
 use App\Models\JobPosting;
 use App\Support\SchemaGenerator;
 use App\Support\SeoData;

@@ -1,13 +1,13 @@
 <?php
 
-use App\Http\Resources\Public\Mcq\McqIndexCollection;
+use App\Http\Resources\Frontend\Mcq\McqIndexCollection;
 use Livewire\Component;
 use App\Models\Page;
 use App\Models\Paper;
 use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Http\Resources\Public\Paper\PaperIndexCollection;
+use App\Http\Resources\Frontend\Paper\PaperIndexCollection;
 use App\Models\Department;
 use App\Models\Mcq;
 

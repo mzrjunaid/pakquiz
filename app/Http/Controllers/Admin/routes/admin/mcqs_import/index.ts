@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
 export const create = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ create.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
 create.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ create.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
 create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -33,8 +33,8 @@ create.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
 create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -43,8 +43,8 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
     const createForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,8 +53,8 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
         createForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,8 +62,8 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:15
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:15
  * @route '/admin/mcqs-import'
  */
         createForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -78,8 +78,8 @@ create.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     create.form = createForm
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
 export const create_copy = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -93,8 +93,8 @@ create_copy.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
 create_copy.url = (options?: RouteQueryOptions) => {
@@ -102,8 +102,8 @@ create_copy.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
 create_copy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -111,8 +111,8 @@ create_copy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
 create_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -121,8 +121,8 @@ create_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
     const create_copyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -131,8 +131,8 @@ create_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
         create_copyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -140,8 +140,8 @@ create_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:20
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:20
  * @route '/admin/mcqs-import-copy'
  */
         create_copyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -156,8 +156,8 @@ create_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     create_copy.form = create_copyForm
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
 export const create_md_copy = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -171,8 +171,8 @@ create_md_copy.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
 create_md_copy.url = (options?: RouteQueryOptions) => {
@@ -180,8 +180,8 @@ create_md_copy.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
 create_md_copy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -189,8 +189,8 @@ create_md_copy.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
 create_md_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -199,8 +199,8 @@ create_md_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
 })
 
     /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
     const create_md_copyForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -209,8 +209,8 @@ create_md_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     })
 
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
         create_md_copyForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -218,8 +218,8 @@ create_md_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::create_md_copy
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:25
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::create_md_copy
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:25
  * @route '/admin/mcqs-import-md-copy'
  */
         create_md_copyForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -234,8 +234,8 @@ create_md_copy.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => 
     
     create_md_copy.form = create_md_copyForm
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::store
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:34
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::store
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:34
  * @route '/admin/mcqs-import'
  */
 export const store = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -249,8 +249,8 @@ store.definition = {
 } satisfies RouteDefinition<["post"]>
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::store
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:34
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::store
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:34
  * @route '/admin/mcqs-import'
  */
 store.url = (options?: RouteQueryOptions) => {
@@ -258,8 +258,8 @@ store.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::store
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:34
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::store
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:34
  * @route '/admin/mcqs-import'
  */
 store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -268,8 +268,8 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::store
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:34
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::store
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:34
  * @route '/admin/mcqs-import'
  */
     const storeForm = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -278,8 +278,8 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\AdminMcqImportController::store
- * @see app/Http/Controllers/Public/AdminMcqImportController.php:34
+* @see \App\Http\Controllers\Frontend\AdminMcqImportController::store
+ * @see app/Http/Controllers/Frontend/AdminMcqImportController.php:34
  * @route '/admin/mcqs-import'
  */
         storeForm.post = (options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

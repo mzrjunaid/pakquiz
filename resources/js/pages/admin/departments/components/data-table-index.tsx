@@ -10,7 +10,7 @@ import { DataTablePagination } from '../../components/dataTable/data-table-pagin
 import { DataTableToolbar } from '../../components/dataTable/search-filter';
 import { getColumns } from './data-table-columns';
 
-export default function PaperTable({
+export default function DepartmentTable({
     tableData,
     filters = {},
     url,

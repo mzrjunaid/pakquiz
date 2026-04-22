@@ -1,4 +1,3 @@
-import { setQuizMode } from '@/actions/App/Http/Controllers/Public/HomeController';
 import { SharedData } from '@/types';
 import { router, usePage } from '@inertiajs/react';
 
@@ -7,7 +6,7 @@ export function useQuizMode() {
 
     const setIsQuizMode = (value: boolean) => {
         router.put(
-            setQuizMode().url,
+            "/set-quiz-mode",
             {
                 isQuizMode: value,
             },

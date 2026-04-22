@@ -14,6 +14,8 @@ class SeoMetaResource extends JsonResource
      */
     public function toArray($request): array
     {
+        $pageType = class_basename($this->page_type);
+
         return [
             'id' => $this->id,
             'title' => $this->title,
@@ -22,9 +24,10 @@ class SeoMetaResource extends JsonResource
             'og_title' => $this->og_title,
             'og_description' => $this->og_description,
             'og_image' => $this->og_image,
-            'page_type' => class_basename($this->page_type), // Just the model name
+            'page_type' => $pageType,
             'page_id' => $this->page_id,
-            'page_name' => $this->resolvePageName(), // Dynamic human-readable name
+            'page_name' => $this->resolvePageName(),
+            'page_label' => $this->resolvePageName() ?: "{$pageType} #{$this->page_id}",
             'created_at' => $this->created_at?->toDateTimeString(),
             'updated_at' => $this->updated_at?->toDateTimeString(),
         ];
@@ -42,9 +45,10 @@ class SeoMetaResource extends JsonResource
         }
 
         return match (true) {
-            property_exists($this->page, 'name') => $this->page->name,
-            property_exists($this->page, 'title') => $this->page->title,
-            property_exists($this->page, 'question') => $this->page->question,
+            isset($this->page->name) => $this->page->name,
+            isset($this->page->title) => $this->page->title,
+            isset($this->page->question) => str($this->page->question)->limit(90)->value(),
+            isset($this->page->key) => $this->page->key,
             default => class_basename($this->page), // fallback if no readable field
         };
     }

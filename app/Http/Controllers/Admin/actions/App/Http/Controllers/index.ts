@@ -1,10 +1,10 @@
 import Admin from './Admin'
-import Public from './Public'
+import Frontend from './Frontend'
 import ChatController from './ChatController'
 import Settings from './Settings'
 const Controllers = {
     Admin: Object.assign(Admin, Admin),
-Public: Object.assign(Public, Public),
+Frontend: Object.assign(Frontend, Frontend),
 ChatController: Object.assign(ChatController, ChatController),
 Settings: Object.assign(Settings, Settings),
 }

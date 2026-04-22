@@ -1,7 +1,7 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../wayfinder'
 /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
 export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -15,8 +15,8 @@ index.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
 index.url = (options?: RouteQueryOptions) => {
@@ -24,8 +24,8 @@ index.url = (options?: RouteQueryOptions) => {
 }
 
 /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
 index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -33,8 +33,8 @@ index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
 index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -43,8 +43,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
 })
 
     /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
     const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -53,8 +53,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     })
 
             /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
         indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -62,8 +62,8 @@ index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\Public\PremiumController::index
- * @see app/Http/Controllers/Public/PremiumController.php:13
+* @see \App\Http\Controllers\Frontend\PremiumController::index
+ * @see app/Http/Controllers/Frontend/PremiumController.php:12
  * @route '/premium'
  */
         indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({

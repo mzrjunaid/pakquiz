@@ -1,7 +1,10 @@
 export interface SeoMetaStats {
     total: number;
     by_type: {
+        Department: number;
+        JobPosting: number;
         Mcq: number;
+        Page: number;
         Paper: number;
         Subject: number;
         Topic: number;
@@ -20,27 +23,19 @@ export interface SeoMeta {
     page_type: string;
     page_id: number;
     page_name: string;
+    page_label: string;
     created_at: string;
     updated_at: string;
 }
 
-export const page_type = [
-    { label: 'Select Page Type', value: null },
-    { Label: 'Mcq', value: 'Mcq' },
-    { Label: 'Paper', value: 'Paper' },
-    { Label: 'Subject', value: 'Subject' },
-    { Label: 'Topic', value: 'Topic' },
-    { Label: 'TestingService', value: 'TestingService' },
-    { Label: 'Home', value: 'Home' },
-    { Label: 'About', value: 'About' },
-    { Label: 'Contact', value: 'Contact' },
-    { Label: 'PrivacyPolicy', value: 'PrivacyPolicy' },
-    { Label: 'TermsAndConditions', value: 'TermsAndConditions' },
-    { Label: 'JoinUs', value: 'JoinUs' },
-    { Label: 'NotFound', value: 'NotFound' },
-    { Label: 'HelpCenter', value: 'HelpCenter' },
-    { Label: 'Dashboard', value: 'Dashboard' },
-    { Label: 'Login', value: 'Login' },
-    { Label: 'Register', value: 'Register' },
-    { Label: 'Subscription', value: 'Subscription' },
-];
+export interface SeoPageTypeOption {
+    label: string;
+    value: string;
+}
+
+export interface SeoPageOption {
+    value: number;
+    label: string;
+}
+
+export type SeoPageOptions = Record<string, SeoPageOption[]>;

@@ -3,8 +3,8 @@
 namespace App\Http\Resources\Admin;
 
 use App\Http\Resources\PaperResource;
-use App\Http\Resources\Public\Mcq\OptionsResource;
-use App\Http\Resources\Public\TagResource;
+use App\Http\Resources\Frontend\Mcq\OptionsResource;
+use App\Http\Resources\Frontend\TagResource;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Carbon;

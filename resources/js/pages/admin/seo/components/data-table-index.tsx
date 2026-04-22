@@ -85,7 +85,7 @@ export default function SeoMetaTable({
         updateFilters({ per_page: perPage, page: 1 });
     };
 
-    const hasActiveFilters = Boolean(filters.name || filters.page_type);
+    const hasActiveFilters = Boolean(filters.title || filters.page_type);
 
     const columns = getColumns({
         onEdit,

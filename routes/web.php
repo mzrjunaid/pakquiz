@@ -11,7 +11,10 @@ use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
 use App\Http\Controllers\ChatController;
-use App\Http\Controllers\Public\AdminMcqImportController;
+use App\Http\Controllers\Frontend\AdminMcqImportController;
+use App\Http\Controllers\Frontend\PremiumController;
+use App\Http\Controllers\Frontend\SearchController;
+use App\Http\Controllers\Frontend\SubjectController;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Mcq;
 use Illuminate\Support\Facades\Route;
@@ -19,11 +22,7 @@ use Intervention\Image\ImageManager;
 use Intervention\Image\Drivers\Imagick\Driver;
 use Intervention\Image\Typography\FontFactory;
 
-use Cloudstudio\Ollama\Facades\Ollama;
-use Symfony\Component\HttpFoundation\StreamedResponse;
-use Illuminate\Http\Request;
-
-Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved', HandleInertiaRequests::class])->group(function () {
+Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:admin,super-admin,editor', 'status:approved', HandleInertiaRequests::class])->group(function () {
 
     Route::get('/test-image', function () {
 
@@ -207,10 +206,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'verified', 'role:ad
         ->name('papers_import.store');
 });
 
-use App\Http\Controllers\Public\PremiumController;
-use App\Http\Controllers\Public\SearchController;
-use App\Http\Controllers\Public\SubjectController as PublicSubjectController;
-
+    
 Route::livewire('/', 'pages::home.index')->name('home');
 Route::livewire('/demo', 'pages::demo.index')->name('demo');
 Route::livewire('/quiz/result', 'pages::demo.result', function () {
@@ -242,7 +238,7 @@ require __DIR__ . '/settings.php';
 Route::name('public.')->group(function () {
     Route::livewire('/search', 'pages::search.index')->name('search');
 
-    Route::prefix('jobs')->name('jobs.')->group(function () {
+    Route::name('jobs.')->prefix('jobs')->group(function () {
         Route::livewire('/', 'pages::jobs.index')->name('index');
 
         // Route::livewire('/{category?}', 'pages::jobs.category-index')
@@ -252,22 +248,22 @@ Route::name('public.')->group(function () {
         Route::livewire('/{job:slug}', 'pages::jobs.show')->name('show');
     });
 
-    Route::prefix('mcqs')->name('mcqs.')->group(function () {
+    Route::name('mcqs.')->prefix('mcqs')->group(function () {
         Route::livewire('/', 'pages::mcqs.index')->name('index');
         Route::livewire('/{mcq:slug}', 'pages::mcqs.show')->name('show');
     });
 
-    Route::prefix('departments')->name('departments.')->group(function () {
+    Route::name('departments.')->prefix('departments')->group(function () {
         Route::livewire('/', 'pages::departments.index')->name('index');
         Route::livewire('/{department:slug}', 'pages::departments.show')->name('show');
     });
 
-    Route::prefix('testing-services')->name('testing_services.')->group(function () {
+    Route::name('testing_services.')->prefix('testing-services')->group(function () {
         Route::livewire('/', 'pages::testing-services.index')->name('index');
         Route::livewire('/{testingService:slug}', 'pages::testing-services.show')->name('show');
     });
 
-    Route::prefix('papers')->name('papers.')->group(function () {
+    Route::name('papers.')->prefix('papers')->group(function () {
 
         Route::livewire('/', 'pages::papers.index')->name('index');
 
@@ -284,7 +280,7 @@ Route::name('public.')->group(function () {
         Route::livewire('/{subject:slug}', 'pages::subjects.show')->name('show');
 
         Route::name('topic.')->group(function () {
-            Route::get('/{subject:slug}/topics', [PublicSubjectController::class, 'topics'])
+            Route::get('/{subject:slug}/topics', [SubjectController::class, 'topics'])
                 ->name('index');
             Route::livewire('/{subject:slug}/{topic:slug}', 'pages::topics.show')->name('show');
         });
