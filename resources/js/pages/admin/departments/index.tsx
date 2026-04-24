@@ -7,6 +7,7 @@ import DepartmentTable from './components/data-table-index';
 import { Department } from '@/types/department';
 import admin from '@/routes/admin';
 import { router } from '@inertiajs/react';
+import { Button } from '@/components/ui/button';
 
 export default function DepartmentsIndex({
     departments,
@@ -21,11 +22,31 @@ export default function DepartmentsIndex({
         // console.log('department', department);
         router.visit(admin.departments.edit(department.slug).url);
     };
+    const handleDelete = (department: Department) => {
+        if (!confirm('Are you sure you want to delete this department?')) {
+            return;
+        }
+        // console.log('department', department);
+        router.delete(admin.departments.destroy(department.slug).url, {
+            onSuccess: () => {
+                router.reload();
+            },
+        });
+    };
     return (
         <AdminLayout title="Departments List">
-            <TextHeading as="h1" size="xl" textColor="primary">
-                Department
-            </TextHeading>
+            <div className="flex items-center justify-between">
+                <TextHeading as="h1" size="xl" textColor="primary">
+                    Departments
+                </TextHeading>
+                <Button
+                    onClick={() => router.visit(departmentsRoute.create().url)}
+                    variant={'default'}
+                    size={'sm'}
+                >
+                    Create Department
+                </Button>
+            </div>
             <div className="grid auto-rows-min gap-4 sm:grid-cols-2 md:grid-cols-4">
                 <StatsCard title="Total Departments" total={stats.total} />
                 <StatsCard title="Today" total={stats.today} />
@@ -42,6 +63,7 @@ export default function DepartmentsIndex({
                     filters={filters}
                     url={departmentsRoute.index().url}
                     onEdit={handleEdit}
+                    onDelete={handleDelete}
                 />
             </div>
         </AdminLayout>

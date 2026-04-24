@@ -141,7 +141,9 @@ new class extends Component {
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->name }}">
                     {!! str($pageIntro->name)->title() !!}
                 </h1>
-                <div class="text-xs md:text-base text-justify">{!! str($pageIntro->description)->markdown() !!}</div>
+                <div class="prose prose-sm md:prose-base lg:prose-lg max-w-none w-full">
+                    {!! str($pageIntro->description)->markdown() !!}
+                </div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>

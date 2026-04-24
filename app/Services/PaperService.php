@@ -12,32 +12,43 @@ class PaperService
 
     public function stats(): array
     {
-        return Cache::remember('paper_stats', now()->addMinutes(10), function () {
+        return Cache::remember('paper_stats', now()->addMinutes(5), function () {
 
-            // Top creator query
+            $counts = DB::table('papers')
+                ->selectRaw('
+                COUNT(*) as total,
+                SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) as today,
+                SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END) as this_week
+            ', [
+                now()->startOfWeek(),
+                now()->endOfWeek()
+            ])
+                ->first() ?? (object)[
+                'total' => 0,
+                'today' => 0,
+                'this_week' => 0,
+            ];
+
             $topCreator = DB::table('papers')
-                ->select('created_by', DB::raw('COUNT(*) as total'))
-                ->groupBy('created_by')
-                ->orderByDesc('total')
+                ->join('users', 'papers.created_by', '=', 'users.id')
+                ->select(
+                'users.id',
+                'users.name',
+                DB::raw('COUNT(papers.id) as total_entries')
+            )
+                ->groupBy('users.id', 'users.name')
+                ->orderByDesc('total_entries')
                 ->first();
 
-            $topCreatorData = null;
-            if ($topCreator) {
-                $user = User::find($topCreator->created_by);
-                if ($user) {
-                    $topCreatorData = [
-                        'id' => $user->id,
-                        'name' => $user->name,
-                        'total_entries' => $topCreator->total,
-                    ];
-                }
-            }
-
             return [
-                'total'       => Paper::query()->count(),
-                'today'       => Paper::query()->whereDate('created_at', today())->count(),
-                'this_week'   => Paper::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
-                'top_creator' => $topCreatorData,
+                'total' => (int)$counts->total,
+                'today' => (int)$counts->today,
+                'this_week' => (int)$counts->this_week,
+                'top_creator' => $topCreator ? [
+                    'id' => $topCreator->id,
+                    'name' => $topCreator->name,
+                    'total_entries' => (int)$topCreator->total_entries,
+                ] : null,
             ];
         });
     }

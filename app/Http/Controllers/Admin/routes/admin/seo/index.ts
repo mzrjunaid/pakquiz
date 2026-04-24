@@ -317,7 +317,7 @@ show.head = (args: { seo: number | { id: number } } | [seo: number | { id: numbe
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-export const edit = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+export const edit = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -332,11 +332,14 @@ edit.definition = {
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-edit.url = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions) => {
+edit.url = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { seo: args }
     }
 
+            if (typeof args === 'object' && !Array.isArray(args) && 'id' in args) {
+            args = { seo: args.id }
+        }
     
     if (Array.isArray(args)) {
         args = {
@@ -347,7 +350,9 @@ edit.url = (args: { seo: string | number } | [seo: string | number ] | string | 
     args = applyUrlDefaults(args)
 
     const parsedArgs = {
-                        seo: args.seo,
+                        seo: typeof args.seo === 'object'
+                ? args.seo.id
+                : args.seo,
                 }
 
     return edit.definition.url
@@ -360,7 +365,7 @@ edit.url = (args: { seo: string | number } | [seo: string | number ] | string | 
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-edit.get = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+edit.get = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: edit.url(args, options),
     method: 'get',
 })
@@ -369,7 +374,7 @@ edit.get = (args: { seo: string | number } | [seo: string | number ] | string | 
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-edit.head = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+edit.head = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: edit.url(args, options),
     method: 'head',
 })
@@ -379,7 +384,7 @@ edit.head = (args: { seo: string | number } | [seo: string | number ] | string |
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-    const editForm = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    const editForm = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
         action: edit.url(args, options),
         method: 'get',
     })
@@ -389,7 +394,7 @@ edit.head = (args: { seo: string | number } | [seo: string | number ] | string |
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-        editForm.get = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.get = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, options),
             method: 'get',
         })
@@ -398,7 +403,7 @@ edit.head = (args: { seo: string | number } | [seo: string | number ] | string |
  * @see app/Http/Controllers/Admin/SeoMetaController.php:119
  * @route '/admin/seo/{seo}/edit'
  */
-        editForm.head = (args: { seo: string | number } | [seo: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        editForm.head = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
             action: edit.url(args, {
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
@@ -411,7 +416,7 @@ edit.head = (args: { seo: string | number } | [seo: string | number ] | string |
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
 export const update = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -426,7 +431,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
 update.url = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -459,7 +464,7 @@ update.url = (args: { seo: number | { id: number } } | [seo: number | { id: numb
 
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
 update.put = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -468,7 +473,7 @@ update.put = (args: { seo: number | { id: number } } | [seo: number | { id: numb
 })
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
 update.patch = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -478,7 +483,7 @@ update.patch = (args: { seo: number | { id: number } } | [seo: number | { id: nu
 
     /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
     const updateForm = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -493,7 +498,7 @@ update.patch = (args: { seo: number | { id: number } } | [seo: number | { id: nu
 
             /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
         updateForm.put = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -507,7 +512,7 @@ update.patch = (args: { seo: number | { id: number } } | [seo: number | { id: nu
         })
             /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::update
- * @see app/Http/Controllers/Admin/SeoMetaController.php:135
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:133
  * @route '/admin/seo/{seo}'
  */
         updateForm.patch = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -523,7 +528,7 @@ update.patch = (args: { seo: number | { id: number } } | [seo: number | { id: nu
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::destroy
- * @see app/Http/Controllers/Admin/SeoMetaController.php:148
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:146
  * @route '/admin/seo/{seo}'
  */
 export const destroy = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -538,7 +543,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::destroy
- * @see app/Http/Controllers/Admin/SeoMetaController.php:148
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:146
  * @route '/admin/seo/{seo}'
  */
 destroy.url = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions) => {
@@ -571,7 +576,7 @@ destroy.url = (args: { seo: number | { id: number } } | [seo: number | { id: num
 
 /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::destroy
- * @see app/Http/Controllers/Admin/SeoMetaController.php:148
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:146
  * @route '/admin/seo/{seo}'
  */
 destroy.delete = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -581,7 +586,7 @@ destroy.delete = (args: { seo: number | { id: number } } | [seo: number | { id: 
 
     /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::destroy
- * @see app/Http/Controllers/Admin/SeoMetaController.php:148
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:146
  * @route '/admin/seo/{seo}'
  */
     const destroyForm = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -596,7 +601,7 @@ destroy.delete = (args: { seo: number | { id: number } } | [seo: number | { id: 
 
             /**
 * @see \App\Http\Controllers\Admin\SeoMetaController::destroy
- * @see app/Http/Controllers/Admin/SeoMetaController.php:148
+ * @see app/Http/Controllers/Admin/SeoMetaController.php:146
  * @route '/admin/seo/{seo}'
  */
         destroyForm.delete = (args: { seo: number | { id: number } } | [seo: number | { id: number } ] | number | { id: number }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
