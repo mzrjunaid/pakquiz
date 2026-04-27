@@ -4,6 +4,7 @@ import AdminLayout from '../components/admin-layout';
 
 import testingServicesRoute from '@/routes/admin/testing-services';
 
+import { router } from '@inertiajs/react';
 import StatsCard from '../components/stats-card';
 import TestingServicesTable from './components/data-table-index';
 
@@ -16,6 +17,9 @@ export default function TestingServicesIndex({
     filters: CommonFilters;
     stats: Stats;
 }) {
+    const handleEdit = (service: TestingServiceResource['data'][number]) => {
+        router.visit(testingServicesRoute.edit(service.slug).url);
+    };
     return (
         <AdminLayout title="Testing Services List">
             <TextHeading as="h1" size="xl" textColor="primary">
@@ -27,7 +31,7 @@ export default function TestingServicesIndex({
                 <StatsCard title="This Week" total={stats.this_week} />
                 <StatsCard
                     title={`Top Creator - ${stats.top_creator?.name}`}
-                    total={stats.top_creator?.total_services}
+                    total={stats.top_creator?.total_entries}
                 />
             </div>
             <section className="relative min-h-[100vh] flex-1 overflow-hidden md:min-h-min">
@@ -35,6 +39,7 @@ export default function TestingServicesIndex({
                     tableData={testingServices}
                     filters={filters}
                     url={testingServicesRoute.index().url}
+                    onEdit={handleEdit}
                 />
             </section>
         </AdminLayout>

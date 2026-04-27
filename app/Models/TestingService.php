@@ -33,8 +33,8 @@ class TestingService extends Model
     public function paperMcqs()
     {
         return $this->hasManyThrough(
-            Mcq::class ,
-            Paper::class ,
+            Mcq::class,
+            Paper::class,
             'testing_service_id',
             'paper_id',
             'id',
@@ -49,10 +49,10 @@ class TestingService extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(User::class , 'created_by')->withDefault(
-        [
-            'name' => 'Unknown User'
-        ]
+        return $this->belongsTo(User::class, 'created_by')->withDefault(
+            [
+                'name' => 'Unknown User'
+            ]
         );
     }
 
@@ -83,12 +83,17 @@ class TestingService extends Model
 
     public function seo()
     {
-        return $this->morphOne(SeoMeta::class , 'page');
+        return $this->morphOne(SeoMeta::class, 'page');
+    }
+
+    public function keywords()
+    {
+        return $this->morphToMany(Keyword::class, 'keywordable');
     }
 
     public function tags()
     {
-        return $this->morphToMany(Tag::class , 'taggable');
+        return $this->morphToMany(Tag::class, 'taggable');
     }
 
     public function canonicalUrl()

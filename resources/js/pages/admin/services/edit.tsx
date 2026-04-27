@@ -1,9 +1,354 @@
+import InputError from '@/components/input-error';
+import { MultiSelect } from '@/components/multi-select';
+import { Button } from '@/components/ui/button';
+import { Field, FieldGroup, FieldLabel } from '@/components/ui/field';
+import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
+import admin from '@/routes/admin';
+import { SeoMeta } from '@/types/seo';
+import { TestingService } from '@/types/testing-service';
+import { Link, useForm, usePage } from '@inertiajs/react';
+import { useState, type FormEvent } from 'react';
+import Markdown from 'react-markdown';
+import remarkGfm from 'remark-gfm';
 import AdminLayout from '../components/admin-layout';
 
-export default function TestingServicesEdit() {
+interface Tags {
+    id: number;
+    slug: string;
+    name: string;
+}
+
+interface TestingServiceEditProps {
+    testingService: TestingService;
+    seoData: SeoMeta;
+    keywords: string;
+    tags: Tags[];
+    allTags: Tags[];
+}
+
+export default function TestingServiceEdit({
+    testingService,
+    seoData,
+    keywords,
+    tags,
+    allTags,
+}: TestingServiceEditProps) {
+    const { base_url } = usePage().props;
+    const [descriptionPreview, setDescriptionPreview] = useState(
+        testingService.description ?? '',
+    );
+
+    const form = useForm({
+        name: testingService.name,
+        slug: testingService.slug,
+        short_name: testingService.short_name,
+        description: testingService.description ?? '',
+        seo_title: seoData?.title ?? '',
+        seo_description: seoData?.description ?? '',
+        og_title: seoData?.og_title ?? '',
+        og_description: seoData?.og_description ?? '',
+        keywords: keywords ?? '',
+        tags: tags.map((tag) => tag.slug),
+
+        seo_og_image_url: seoData?.og_image
+            ? `${base_url}${seoData.og_image}`
+            : '',
+        seo_og_image: seoData?.og_image ?? '',
+    });
+
+    const submit = (event: FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+
+        form.put(admin.testingServices.update(testingService.slug).url, {
+            preserveScroll: true,
+        });
+    };
+
     return (
-        <AdminLayout title="Testing Services Edit">
-            <h2>Testing Service Edit</h2>
+        <AdminLayout title={`Edit Testing Service - ${testingService.name}`}>
+            <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
+                <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+                    <div>
+                        <h1 className="text-2xl font-semibold tracking-tight">
+                            Edit Testing Service
+                        </h1>
+                        <p className="text-sm text-muted-foreground">
+                            Update the testing service details used on the admin
+                            and public side.
+                        </p>
+                    </div>
+                    <Button variant="outline" asChild>
+                        <Link href={admin.testingServices.index().url}>
+                            Back to testing services
+                        </Link>
+                    </Button>
+                </div>
+
+                <div className="flex flex-col gap-6 lg:flex-row">
+                    <form
+                        onSubmit={submit}
+                        className="w-full space-y-6 rounded-xl border bg-card p-6 shadow-xs lg:w-2/3"
+                    >
+                        <FieldGroup className="gap-5">
+                            <Field>
+                                <FieldLabel htmlFor="name">
+                                    Testing Service Name
+                                </FieldLabel>
+                                <Input
+                                    id="name"
+                                    value={form.data.name}
+                                    onChange={(event) =>
+                                        form.setData('name', event.target.value)
+                                    }
+                                    placeholder="Enter testing service name"
+                                />
+                                <InputError message={form.errors.name} />
+                            </Field>
+
+                            <div className="grid gap-5 md:grid-cols-2">
+                                <Field>
+                                    <FieldLabel htmlFor="slug">Slug</FieldLabel>
+                                    <Input
+                                        id="slug"
+                                        value={form.data.slug}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'slug',
+                                                event.target.value,
+                                            )
+                                        }
+                                        placeholder="department-slug"
+                                    />
+                                    <InputError message={form.errors.slug} />
+                                </Field>
+                                <Field>
+                                    <FieldLabel>Short Name</FieldLabel>
+                                    <Input
+                                        value={form.data.short_name}
+                                        onChange={(event) =>
+                                            form.setData(
+                                                'short_name',
+                                                event.target.value,
+                                            )
+                                        }
+                                        placeholder="Short name for this testing service"
+                                    />
+                                    <InputError
+                                        message={form.errors.short_name}
+                                    />
+                                </Field>
+                            </div>
+
+                            <Field>
+                                <FieldLabel htmlFor="description">
+                                    Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="description"
+                                    value={form.data.description}
+                                    onChange={(event) => {
+                                        setDescriptionPreview(
+                                            event.target.value,
+                                        );
+                                        form.setData(
+                                            'description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short description for this paper"
+                                />
+                                <InputError message={form.errors.description} />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_title">
+                                    SEO Title
+                                </FieldLabel>
+                                <Input
+                                    id="seo_title"
+                                    value={form.data.seo_title}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_title',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO title for this paper"
+                                />
+                                <InputError message={form.errors.seo_title} />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_description">
+                                    SEO Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="seo_description"
+                                    value={form.data.seo_description}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short SEO description for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_description}
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="og_title">
+                                    OG Title
+                                </FieldLabel>
+                                <Input
+                                    id="og_title"
+                                    value={form.data.og_title}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'og_title',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO OG title for this paper"
+                                />
+                                <InputError message={form.errors.og_title} />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="og_description">
+                                    OG Description
+                                </FieldLabel>
+                                <Textarea
+                                    id="og_description"
+                                    value={form.data.og_description}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'og_description',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short SEO OG description for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.og_description}
+                                />
+                            </Field>
+
+                            <Field>
+                                <FieldLabel htmlFor="keywords">
+                                    Keywords
+                                </FieldLabel>
+                                <Textarea
+                                    id="keywords"
+                                    value={form.data.keywords}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'keywords',
+                                            event.target.value,
+                                        );
+                                    }}
+                                    rows={5}
+                                    placeholder="Add a short SEO keywords separated by commas"
+                                />
+                                <InputError message={form.errors.keywords} />
+                            </Field>
+
+                            <div className="grid gap-2">
+                                <Field>
+                                    <FieldLabel htmlFor="tags">Tags</FieldLabel>
+                                    <MultiSelect
+                                        data={form.data.tags ?? []}
+                                        allData={allTags}
+                                    />
+                                    <InputError message={form.errors.tags} />
+                                </Field>
+                                <div className="space-y-2">
+                                    <p className="text-sm text-muted-foreground">
+                                        Add tags to this testing service to help
+                                        users find it when searching or
+                                        browsing.
+                                    </p>
+                                    <div className="flex flex-wrap">
+                                        {tags.map((tag) => (
+                                            <span
+                                                key={tag.id}
+                                                className="mr-2 inline-block max-w-xs truncate overflow-hidden rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
+                                            >
+                                                {tag.name}
+                                            </span>
+                                        ))}
+                                    </div>
+                                </div>
+                            </div>
+
+                            <Field>
+                                <FieldLabel htmlFor="seo_og_image">
+                                    SEO OG Image
+                                </FieldLabel>
+                                <Input
+                                    type="file"
+                                    id="seo_og_image"
+                                    accept="image/*"
+                                    // value={form.data.seo_og_image}
+                                    onChange={(event) => {
+                                        form.setData(
+                                            'seo_og_image',
+                                            event.target.files?.[0] ?? '',
+                                        );
+                                    }}
+                                    placeholder="Add a short SEO OG image for this paper"
+                                />
+                                <InputError
+                                    message={form.errors.seo_og_image}
+                                />
+                            </Field>
+                        </FieldGroup>
+
+                        <div className="flex flex-col gap-3 border-t pt-6 sm:flex-row sm:justify-end">
+                            <Button type="button" variant="outline" asChild>
+                                <Link href={admin.departments.index().url}>
+                                    Cancel
+                                </Link>
+                            </Button>
+                            <Button type="submit" disabled={form.processing}>
+                                {form.processing
+                                    ? 'Saving...'
+                                    : 'Update Department'}
+                            </Button>
+                        </div>
+                    </form>
+
+                    <div className="w-full rounded-xl border bg-card p-6 shadow-xs lg:w-1/3">
+                        <h2 className="mb-2 text-lg font-semibold">
+                            Description Preview
+                        </h2>
+                        <div className="prose prose-sm dark:text-gray-200">
+                            <Markdown remarkPlugins={[remarkGfm]}>
+                                {descriptionPreview}
+                            </Markdown>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    {form.data.seo_og_image && (
+                        <img
+                            src={
+                                base_url +
+                                '/' +
+                                form.data.seo_og_image.toString()
+                            }
+                            alt="OG Image"
+                        />
+                    )}
+                </div>
+            </div>
         </AdminLayout>
     );
 }

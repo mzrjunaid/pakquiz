@@ -83,9 +83,22 @@ class TestingServiceController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(string $id)
+    public function edit(TestingService $testingService)
     {
-        return Inertia::render('admin/services/edit', []);
+        $testingService->load('seo', 'keywords', 'tags');
+
+        return Inertia::render('admin/services/edit', [
+            'testingService' => [
+                'id' => $testingService->id,
+                'slug' => $testingService->slug,
+                'name' => $testingService->name,
+                'short_name' => $testingService->short_name,
+                'description' => $testingService->description,
+            ],
+            'seoData' => $testingService->seo,
+            'keywords' => $testingService->keywords->pluck('keyword')->implode(',') ?? '',
+            'tags' => $testingService->tags->select('id', 'name', 'slug')->toArray(),
+        ]);
     }
 
     /**
