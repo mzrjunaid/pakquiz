@@ -9,15 +9,17 @@ use Illuminate\Support\Facades\DB;
 
 class GenerateMockPaperService
 {
-    public function generate(Paper $paper): void
+    public function generate(Paper $paper, string $action): void
     {
         if ($paper->type !== 'mock') {
             return;
         }
 
-        DB::transaction(function () use ($paper) {
+        DB::transaction(function () use ($paper, $action) {
 
-            $paper->mockPaperMcqs()->detach();
+            if ($action === 'regenerate') {
+                $paper->mockPaperMcqs()->detach();
+            }
 
             $mcqIds = collect();
 

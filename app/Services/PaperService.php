@@ -29,7 +29,7 @@ class PaperService
                 'this_week' => 0,
             ];
 
-            $topCreator = DB::table('papers')
+            $topCreator = Paper::query()
                 ->join('users', 'papers.created_by', '=', 'users.id')
                 ->select(
                 'users.id',
@@ -45,9 +45,9 @@ class PaperService
                 'today' => (int)$counts->today,
                 'this_week' => (int)$counts->this_week,
                 'top_creator' => $topCreator ? [
-                    'id' => $topCreator->id,
-                    'name' => $topCreator->name,
-                    'total_entries' => (int)$topCreator->total_entries,
+                    'id' => $topCreator['id'],
+                    'name' => $topCreator['name'],
+                    'total_entries' => (int)$topCreator['total_entries'],
                 ] : null,
             ];
         });

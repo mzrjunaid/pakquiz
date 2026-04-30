@@ -14,25 +14,25 @@ import remarkGfm from 'remark-gfm';
 import AdminLayout from '../components/admin-layout';
 
 interface Tags {
-    id: number;
+    value: number;
+    label: string;
     slug: string;
-    name: string;
 }
 
 interface TestingServiceEditProps {
     testingService: TestingService;
     seoData: SeoMeta;
     keywords: string;
-    tags: Tags[];
-    allTags: Tags[];
+    selectedTagSlugs: string[];
+    availableTags: Tags[];
 }
 
 export default function TestingServiceEdit({
     testingService,
     seoData,
     keywords,
-    tags,
-    allTags,
+    selectedTagSlugs,
+    availableTags,
 }: TestingServiceEditProps) {
     const { base_url } = usePage().props;
     const [descriptionPreview, setDescriptionPreview] = useState(
@@ -49,7 +49,7 @@ export default function TestingServiceEdit({
         og_title: seoData?.og_title ?? '',
         og_description: seoData?.og_description ?? '',
         keywords: keywords ?? '',
-        tags: tags.map((tag) => tag.slug),
+        tags: selectedTagSlugs ?? [],
 
         seo_og_image_url: seoData?.og_image
             ? `${base_url}${seoData.og_image}`
@@ -263,8 +263,11 @@ export default function TestingServiceEdit({
                                 <Field>
                                     <FieldLabel htmlFor="tags">Tags</FieldLabel>
                                     <MultiSelect
-                                        data={form.data.tags ?? []}
-                                        allData={allTags}
+                                        data={availableTags.map((tag) => tag.slug)}
+                                        value={form.data.tags}
+                                        onChange={(values) =>
+                                            form.setData('tags', values)
+                                        }
                                     />
                                     <InputError message={form.errors.tags} />
                                 </Field>
@@ -274,16 +277,6 @@ export default function TestingServiceEdit({
                                         users find it when searching or
                                         browsing.
                                     </p>
-                                    <div className="flex flex-wrap">
-                                        {tags.map((tag) => (
-                                            <span
-                                                key={tag.id}
-                                                className="mr-2 inline-block max-w-xs truncate overflow-hidden rounded-full bg-primary/10 px-3 py-1 text-sm font-medium text-primary"
-                                            >
-                                                {tag.name}
-                                            </span>
-                                        ))}
-                                    </div>
                                 </div>
                             </div>
 

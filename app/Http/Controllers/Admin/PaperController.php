@@ -12,9 +12,9 @@ use App\Models\Tag;
 use App\Models\TestingService;
 use App\Services\GenerateMockPaperService;
 use App\Services\PaperService;
-use DB;
-use File;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 use Inertia\Inertia;
@@ -244,7 +244,7 @@ class PaperController extends Controller
         ]);
 
         $data = collect($validated)
-            ->except('tags', 'seo_title', 'seo_description', 'seo_og_title', 'seo_og_description', 'seo_og_image')
+            ->except(['tags', 'seo_title', 'seo_description', 'seo_og_title', 'seo_og_description', 'seo_og_image'])
             ->toArray();
 
 
@@ -325,10 +325,9 @@ class PaperController extends Controller
         ]);
 
         $action = $validated['action'];
-        $regenerate = $action === 'regenerate';
 
         try {
-            $service->generate($paper, $regenerate);
+            $service->generate($paper, $action);
 
             return response()->json([
                 'success' => true,

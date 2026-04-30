@@ -14,7 +14,7 @@ use App\Services\Seo\Updates\McqSeoUpdate;
 use App\Services\Seo\Updates\PaperSeoUpdate;
 use App\Services\Seo\Updates\SubjectSeoUpdate;
 use App\Services\Seo\Updates\TopicSeoUpdate;
-use Auth;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Str;

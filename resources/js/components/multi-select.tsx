@@ -13,28 +13,22 @@ import {
     useComboboxAnchor,
 } from '@/components/ui/combobox';
 
-interface AllData {
-    id: number;
-    slug?: string;
-    name: string;
-}
+type MultiSelectProps = {
+    data: string[];
+    value: string[];
+    onChange: (values: string[]) => void;
+};
 
 export function MultiSelect({
     data,
-    allData,
-}: {
-    data: string[];
-    allData?: AllData[];
-}) {
+    value,
+    onChange,
+}: MultiSelectProps) {
     const anchor = useComboboxAnchor();
 
     const [items, setItems] = React.useState<string[]>(data);
-    const [value, setValue] = React.useState<string[]>([]);
-    const [inputValue, setInputValue] = React.useState('');
 
-    React.useEffect(() => {
-        setValue(data);
-    }, [data]);
+    const [inputValue, setInputValue] = React.useState('');
 
     React.useEffect(() => {
         setItems(data);
@@ -42,19 +36,16 @@ export function MultiSelect({
 
     const addItem = (val: string) => {
         const trimmed = val.trim();
+        const sluged = trimmed.replace(/[^a-zA-Z0-9]/g, '-').toLowerCase();
+
         if (!trimmed) return;
 
-        // eslint-disable-next-line prefer-const
-        let finalValue = trimmed;
-
-        // add to items if not exists
-        if (!items.includes(trimmed)) {
-            setItems((prev) => [...prev, trimmed]);
+        if (!items.includes(sluged)) {
+            setItems((prev) => [...prev, sluged]);
         }
 
-        // ✅ select it as well
-        if (!value.includes(finalValue)) {
-            setValue((prev) => [...prev, finalValue]);
+        if (!value.includes(sluged)) {
+            onChange([...value, sluged]);
         }
 
         setInputValue('');
@@ -66,7 +57,7 @@ export function MultiSelect({
             autoHighlight
             items={items}
             value={value}
-            onValueChange={setValue}
+            onValueChange={onChange}
             inputValue={inputValue}
             onInputValueChange={setInputValue}
         >
@@ -75,12 +66,16 @@ export function MultiSelect({
                     {(values) => (
                         <>
                             {values.map((value: string) => (
-                                <ComboboxChip key={value}>{value}</ComboboxChip>
+                                <ComboboxChip key={value}>
+                                    {value}
+                                </ComboboxChip>
                             ))}
+
                             <ComboboxChipsInput
                                 onKeyDown={(e) => {
                                     if (e.key === 'Enter') {
                                         e.preventDefault();
+
                                         addItem(inputValue);
                                     }
                                 }}

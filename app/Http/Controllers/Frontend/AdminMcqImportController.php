@@ -9,6 +9,8 @@ use App\Services\McqImport\McqImportService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
+use JsonException;
+use Illuminate\Validation\ValidationException;
 
 class AdminMcqImportController extends Controller
 {
@@ -83,20 +85,35 @@ class AdminMcqImportController extends Controller
         );
     }
 
+
     private function decodeJson(string $json, string $field): array
     {
-        $decoded = json_decode($json, true);
-
-        if (json_last_error() !== JSON_ERROR_NONE) {
-            return back()->withErrors([
+        try {
+            $decoded = json_decode(
+                $json,
+                true,
+                512,
+                JSON_THROW_ON_ERROR
+            );
+        }
+        catch (JsonException) {
+            throw ValidationException::withMessages([
                 $field => 'Invalid JSON format.',
-            ])->throwResponse();
+            ]);
         }
 
         if (!is_array($decoded)) {
-            return back()->withErrors([
+            throw ValidationException::withMessages([
                 $field => 'JSON must be an array of objects.',
-            ])->throwResponse();
+            ]);
+        }
+
+        foreach ($decoded as $item) {
+            if (!is_array($item)) {
+                throw ValidationException::withMessages([
+                    $field => 'JSON must be an array of objects.',
+                ]);
+            }
         }
 
         return $decoded;
