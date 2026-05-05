@@ -1,9 +1,9 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../../../../wayfinder'
 /**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
 export const suggestions = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: suggestions.url(options),
     method: 'get',
@@ -16,67 +16,70 @@ suggestions.definition = {
 
 /**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
 suggestions.url = (options?: RouteQueryOptions) => {
     return suggestions.definition.url + queryParams(options)
 }
 
 /**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
 suggestions.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: suggestions.url(options),
     method: 'get',
 })
+
 /**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
 suggestions.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: suggestions.url(options),
     method: 'head',
 })
 
-    /**
+/**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
-    const suggestionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: suggestions.url(options),
-        method: 'get',
-    })
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
+const suggestionsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: suggestions.url(options),
+    method: 'get',
+})
 
-            /**
+/**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
-        suggestionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: suggestions.url(options),
-            method: 'get',
-        })
-            /**
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
+suggestionsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: suggestions.url(options),
+    method: 'get',
+})
+
+/**
 * @see \App\Http\Controllers\Frontend\SearchController::suggestions
- * @see app/Http/Controllers/Frontend/SearchController.php:64
- * @route '/api/search-suggestions'
- */
-        suggestionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: suggestions.url({
-                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-                            _method: 'HEAD',
-                            ...(options?.query ?? options?.mergeQuery ?? {}),
-                        }
-                    }),
-            method: 'get',
-        })
-    
-    suggestions.form = suggestionsForm
+* @see app/Http/Controllers/Frontend/SearchController.php:64
+* @route '/api/search-suggestions'
+*/
+suggestionsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+    action: suggestions.url({
+        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+            _method: 'HEAD',
+            ...(options?.query ?? options?.mergeQuery ?? {}),
+        }
+    }),
+    method: 'get',
+})
+
+suggestions.form = suggestionsForm
+
 const SearchController = { suggestions }
 
 export default SearchController
