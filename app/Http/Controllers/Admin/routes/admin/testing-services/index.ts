@@ -417,9 +417,15 @@ edit.form = editForm
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 export const update = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
@@ -432,9 +438,15 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 update.url = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { testing_service: args }
@@ -459,9 +471,15 @@ update.url = (args: { testing_service: string | number } | [testing_service: str
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 update.put = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
     url: update.url(args, options),
     method: 'put',
@@ -469,9 +487,15 @@ update.put = (args: { testing_service: string | number } | [testing_service: str
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 update.patch = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
     url: update.url(args, options),
     method: 'patch',
@@ -479,6 +503,7 @@ update.patch = (args: { testing_service: string | number } | [testing_service: s
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
@@ -491,9 +516,24 @@ const updateForm = (args: { testing_service: string | number } | [testing_servic
     }),
     method: 'post',
 })
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+    const updateForm = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: update.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'PUT',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::update
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:94
 * @route '/admin/testing-services/{testing_service}'
 */
@@ -529,6 +569,41 @@ update.form = updateForm
 * @see app/Http/Controllers/Admin/TestingServiceController.php:102
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+        updateForm.put = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PUT',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+            /**
+* @see \App\Http\Controllers\Admin\TestingServiceController::update
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:107
+ * @route '/admin/testing-services/{testing_service}'
+ */
+        updateForm.patch = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: update.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'PATCH',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    update.form = updateForm
+/**
+* @see \App\Http\Controllers\Admin\TestingServiceController::destroy
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:115
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 export const destroy = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
@@ -541,9 +616,15 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::destroy
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:102
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:115
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 destroy.url = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions) => {
     if (typeof args === 'string' || typeof args === 'number') {
         args = { testing_service: args }
@@ -568,9 +649,15 @@ destroy.url = (args: { testing_service: string | number } | [testing_service: st
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::destroy
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:102
 * @route '/admin/testing-services/{testing_service}'
 */
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:115
+ * @route '/admin/testing-services/{testing_service}'
+ */
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 destroy.delete = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
     url: destroy.url(args, options),
     method: 'delete',
@@ -578,6 +665,7 @@ destroy.delete = (args: { testing_service: string | number } | [testing_service:
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::destroy
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:102
 * @route '/admin/testing-services/{testing_service}'
 */
@@ -590,9 +678,24 @@ const destroyForm = (args: { testing_service: string | number } | [testing_servi
     }),
     method: 'post',
 })
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:115
+ * @route '/admin/testing-services/{testing_service}'
+ */
+    const destroyForm = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+        action: destroy.url(args, {
+                    [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                        _method: 'DELETE',
+                        ...(options?.query ?? options?.mergeQuery ?? {}),
+                    }
+                }),
+        method: 'post',
+    })
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 
 /**
 * @see \App\Http\Controllers\Admin\TestingServiceController::destroy
+<<<<<<< HEAD
 * @see app/Http/Controllers/Admin/TestingServiceController.php:102
 * @route '/admin/testing-services/{testing_service}'
 */
@@ -608,6 +711,22 @@ destroyForm.delete = (args: { testing_service: string | number } | [testing_serv
 
 destroy.form = destroyForm
 
+=======
+ * @see app/Http/Controllers/Admin/TestingServiceController.php:115
+ * @route '/admin/testing-services/{testing_service}'
+ */
+        destroyForm.delete = (args: { testing_service: string | number } | [testing_service: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
+            action: destroy.url(args, {
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'DELETE',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'post',
+        })
+    
+    destroy.form = destroyForm
+>>>>>>> 9a88d735b01af63dab132ae26c148da92584ec92
 const testingServices = {
     index: Object.assign(index, index),
     create: Object.assign(create, create),

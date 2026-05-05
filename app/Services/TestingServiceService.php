@@ -15,7 +15,7 @@ class TestingServiceService
         return Cache::remember('testing_service_stats', now()->addMinutes(10), function () {
 
             // Top creator query
-            $topCreator = DB::table('testing_services')
+            $topCreator = TestingService::query()
                 ->select('created_by', DB::raw('COUNT(*) as total'))
                 ->groupBy('created_by')
                 ->orderByDesc('total')
@@ -23,20 +23,20 @@ class TestingServiceService
 
             $topCreatorData = null;
             if ($topCreator) {
-                $user = User::find($topCreator->created_by);
+                $user = User::find($topCreator['created_by']);
                 if ($user) {
                     $topCreatorData = [
                         'id' => $user->id,
                         'name' => $user->name,
-                        'total_entries' => $topCreator->total,
+                        'total_entries' => $topCreator['total'],
                     ];
                 }
             }
 
             return [
-                'total'       => TestingService::query()->count(),
-                'today'       => TestingService::query()->whereDate('created_at', today())->count(),
-                'this_week'   => TestingService::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
+                'total' => TestingService::query()->count(),
+                'today' => TestingService::query()->whereDate('created_at', today())->count(),
+                'this_week' => TestingService::query()->whereBetween('created_at', [now()->startOfWeek(), now()->endOfWeek()])->count(),
                 'top_creator' => $topCreatorData,
             ];
         });

@@ -14,6 +14,7 @@ use App\Models\Subject;
 use App\Models\TestingService;
 use App\Models\Topic;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\ValidationException;
 use Inertia\Inertia;
@@ -21,14 +22,14 @@ use Inertia\Inertia;
 class SeoMetaController extends Controller
 {
     protected const PAGE_TYPE_MAP = [
-        'Department' => Department::class,
-        'JobPosting' => JobPosting::class,
-        'Mcq' => Mcq::class,
-        'Page' => Page::class,
-        'Paper' => Paper::class,
-        'Subject' => Subject::class,
-        'TestingService' => TestingService::class,
-        'Topic' => Topic::class,
+        'Department' => Department::class ,
+        'JobPosting' => JobPosting::class ,
+        'Mcq' => Mcq::class ,
+        'Page' => Page::class ,
+        'Paper' => Paper::class ,
+        'Subject' => Subject::class ,
+        'TestingService' => TestingService::class ,
+        'Topic' => Topic::class ,
     ];
 
     /**
@@ -52,12 +53,12 @@ class SeoMetaController extends Controller
         $seoMeta = SeoMeta::query()
             ->with('page')
             ->when($request->filled('page_type'), function ($query) use ($request) {
-                $pageType = self::PAGE_TYPE_MAP[$request->page_type] ?? null;
+            $pageType = self::PAGE_TYPE_MAP[$request->page_type] ?? null;
 
-                if ($pageType) {
-                    $query->where('page_type', $pageType);
-                }
-            })
+            if ($pageType) {
+                $query->where('page_type', $pageType);
+            }
+        })
             ->when($request->filled('title'), fn($q) => $q->where('title', 'like', "%{$request->title}%"))
             ->orderBy($sortBy, $sortOrder)
             ->paginate($perPage)
@@ -66,10 +67,10 @@ class SeoMetaController extends Controller
         return Inertia::render('admin/seo/index', [
             'seoMeta' => SeoMetaResource::collection($seoMeta),
             'filters' => [
-                'title'      => $request->input('title', ''),
-                'page_type'  => $request->input('page_type', ''),
-                'per_page'   => $request->integer('per_page', 10),
-                'sort_by'    => $sortBy,
+                'title' => $request->input('title', ''),
+                'page_type' => $request->input('page_type', ''),
+                'per_page' => $request->integer('per_page', 10),
+                'sort_by' => $sortBy,
                 'sort_order' => $sortOrder,
             ],
 
@@ -117,7 +118,7 @@ class SeoMetaController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(SeoMeta $seo)
-    {   
+    {
         $seo->load('page');
 
         return Inertia::render('admin/seo/edit', [
@@ -155,7 +156,7 @@ class SeoMetaController extends Controller
     {
         $pageTypeKeys = array_keys(self::PAGE_TYPE_MAP);
 
-        $validated = $request->validate([
+        $validated = Validator::make($request->all(), [
             'title' => ['required', 'string', 'max:255'],
             'description' => ['nullable', 'string'],
             'keywords' => ['nullable', 'string'],
@@ -164,29 +165,48 @@ class SeoMetaController extends Controller
             'og_image' => ['nullable', 'string', 'max:2048'],
             'page_type' => ['required', 'string', Rule::in($pageTypeKeys)],
             'page_id' => ['required', 'integer'],
-        ]);
+        ])->after(function ($validator) use ($request, $seo) {
 
-        $pageTypeClass = self::PAGE_TYPE_MAP[$validated['page_type']];
+            $pageType = $request->input('page_type');
 
-        $modelExists = $pageTypeClass::query()->whereKey($validated['page_id'])->exists();
+            $pageTypeClass = self::PAGE_TYPE_MAP[$pageType] ?? null;
 
-        if (! $modelExists) {
-            throw ValidationException::withMessages([
-                'page_id' => 'The selected page target does not exist.',
-            ]);
-        }
+            if (!$pageTypeClass) {
+                return;
+            }
 
-        validator($validated, [
-            'page_id' => [
-                Rule::unique('seo_meta')
-                    ->ignore($seo?->id)
-                    ->where(fn($query) => $query->where('page_type', $pageTypeClass)),
-            ],
-        ], [
-            'page_id.unique' => 'SEO meta already exists for the selected page.',
-        ])->validate();
+            $pageId = $request->input('page_id');
 
-        $validated['page_type'] = $pageTypeClass;
+            $exists = $pageTypeClass::query()
+                ->whereKey($pageId)
+                ->exists();
+
+            if (!$exists) {
+                $validator->errors()->add(
+                    'page_id',
+                    'The selected page target does not exist.'
+                );
+
+                return;
+            }
+
+            $alreadyExists = SeoMeta::query()
+                ->where('page_type', $pageTypeClass)
+                ->where('page_id', $pageId)
+                ->when($seo, fn($query) =>
+            $query->whereKeyNot($seo->id)
+            )
+                ->exists();
+
+            if ($alreadyExists) {
+                $validator->errors()->add(
+                    'page_id',
+                    'SEO meta already exists for the selected page.'
+                );
+            }
+        })->validate();
+
+        $validated['page_type'] = self::PAGE_TYPE_MAP[$validated['page_type']];
 
         return $validated;
     }
@@ -195,9 +215,9 @@ class SeoMetaController extends Controller
     {
         return collect(self::PAGE_TYPE_MAP)
             ->map(fn($class, $label) => [
-                'label' => $label,
-                'value' => $label,
-            ])
+        'label' => $label,
+        'value' => $label,
+        ])
             ->values()
             ->all();
     }
@@ -206,39 +226,39 @@ class SeoMetaController extends Controller
     {
         return [
             'Department' => Department::query()->select('id', 'name')->orderBy('name')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+            ->values()
+            ->all(),
             'JobPosting' => JobPosting::query()->select('id', 'title')->orderBy('title')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->title])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->title])
+            ->values()
+            ->all(),
             'Mcq' => Mcq::query()->select('id', 'question')->orderByDesc('id')->limit(250)->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => str($item->question)->limit(90)->value()])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => str($item->question)->limit(90)->value()])
+            ->values()
+            ->all(),
             'Page' => Page::query()->select('id', 'key', 'title')->orderBy('key')->get()
-                ->map(fn($item) => [
-                    'value' => $item->id,
-                    'label' => $item->title ? "{$item->title} ({$item->key})" : $item->key,
-                ])->values()
-                ->all(),
+            ->map(fn($item) => [
+        'value' => $item->id,
+        'label' => $item->title ? "{$item->title} ({$item->key})" : $item->key,
+        ])->values()
+            ->all(),
             'Paper' => Paper::query()->select('id', 'name')->orderBy('name')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+            ->values()
+            ->all(),
             'Subject' => Subject::query()->select('id', 'name')->orderBy('name')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+            ->values()
+            ->all(),
             'TestingService' => TestingService::query()->select('id', 'name')->orderBy('name')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+            ->values()
+            ->all(),
             'Topic' => Topic::query()->select('id', 'name')->orderBy('name')->get()
-                ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
-                ->values()
-                ->all(),
+            ->map(fn($item) => ['value' => $item->id, 'label' => $item->name])
+            ->values()
+            ->all(),
         ];
     }
 }
