@@ -6,7 +6,7 @@ use App\Models\Paper;
 use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Http\Resources\Public\Paper\PaperIndexCollection;
+use App\Http\Resources\Frontend\Paper\PaperIndexCollection;
 use Illuminate\Support\Str;
 
 new class extends Component {

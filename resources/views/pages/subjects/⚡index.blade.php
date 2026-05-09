@@ -6,8 +6,7 @@ use App\Models\Subject;
 use App\Support\SeoData;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
-use App\Http\Resources\Public\Subject\SubjectIndexCollection;
-use App\Http\Resources\Public\Subject\SubjectIndexResource;
+use App\Http\Resources\Frontend\Subject\SubjectIndexCollection;
 
 new class extends Component {
     use WithPagination;

@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Resources\Public\Mcq\McqIndexCollection;
+use App\Http\Resources\Frontend\Mcq\McqIndexCollection;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Support\SeoData;
