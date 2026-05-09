@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/app-center-head-DS0mjWfE.js
-import{c as r,u as a,j as l,H as p}from"./admin-lLYi9xap.js";function u(o){const t=r.c(5),{schema:s}=o,{seo:n}=a().props;let e;t[0]!==s?(e=s&&l.jsx("script",{type:"application/ld+json",dangerouslySetInnerHTML:{__html:JSON.stringify(s)}}),t[0]=s,t[1]=e):e=t[1];let i;return t[2]!==n.title||t[3]!==e?(i=l.jsx(p,{title:n.title,children:e}),t[2]=n.title,t[3]=e,t[4]=i):i=t[4],i}export{u as A};
-========
-import{c as r,u as a,j as l,H as p}from"./admin-DVLvjKFD.js";function u(o){const t=r.c(5),{schema:s}=o,{seo:n}=a().props;let e;t[0]!==s?(e=s&&l.jsx("script",{type:"application/ld+json",dangerouslySetInnerHTML:{__html:JSON.stringify(s)}}),t[0]=s,t[1]=e):e=t[1];let i;return t[2]!==n.title||t[3]!==e?(i=l.jsx(p,{title:n.title,children:e}),t[2]=n.title,t[3]=e,t[4]=i):i=t[4],i}export{u as A};
->>>>>>>> 21d55a18fcc42b287bf7ef9c1a1ac14f2a9873d7:public/build/assets/app-center-head-DDeRE6JA.js

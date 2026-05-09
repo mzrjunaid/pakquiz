@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/input-error-m7YeMbxb.js
-import{c,j as m}from"./admin-lLYi9xap.js";import{c as n}from"./utils-D0Zg16Wk.js";function x(l){const e=c.c(8);let s,t,r;e[0]!==l?({message:s,className:r,...t}=l,e[0]=l,e[1]=s,e[2]=t,e[3]=r):(s=e[1],t=e[2],r=e[3]);const a=r===void 0?"":r;let o;return e[4]!==a||e[5]!==s||e[6]!==t?(o=s?m.jsx("p",{...t,className:n("text-sm text-red-600 dark:text-red-400",a),children:s}):null,e[4]=a,e[5]=s,e[6]=t,e[7]=o):o=e[7],o}export{x as I};
-========
-import{c,j as m}from"./admin-DVLvjKFD.js";import{c as n}from"./utils-D0Zg16Wk.js";function x(l){const e=c.c(8);let s,t,r;e[0]!==l?({message:s,className:r,...t}=l,e[0]=l,e[1]=s,e[2]=t,e[3]=r):(s=e[1],t=e[2],r=e[3]);const a=r===void 0?"":r;let o;return e[4]!==a||e[5]!==s||e[6]!==t?(o=s?m.jsx("p",{...t,className:n("text-sm text-red-600 dark:text-red-400",a),children:s}):null,e[4]=a,e[5]=s,e[6]=t,e[7]=o):o=e[7],o}export{x as I};
->>>>>>>> 21d55a18fcc42b287bf7ef9c1a1ac14f2a9873d7:public/build/assets/input-error-Di_gpeaf.js

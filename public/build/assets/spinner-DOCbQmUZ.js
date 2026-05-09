@@ -1,5 +1,0 @@
-<<<<<<<< HEAD:public/build/assets/spinner-DOCbQmUZ.js
-import{c as o,j as l}from"./admin-lLYi9xap.js";import{c as m}from"./utils-D0Zg16Wk.js";import{L as n}from"./loader-circle-CkqK72-1.js";function u(i){const e=o.c(8);let s,r;e[0]!==i?({className:s,...r}=i,e[0]=i,e[1]=s,e[2]=r):(s=e[1],r=e[2]);let t;e[3]!==s?(t=m("size-4 animate-spin",s),e[3]=s,e[4]=t):t=e[4];let a;return e[5]!==r||e[6]!==t?(a=l.jsx(n,{role:"status","aria-label":"Loading",className:t,...r}),e[5]=r,e[6]=t,e[7]=a):a=e[7],a}export{u as S};
-========
-import{c as o,j as l}from"./admin-DVLvjKFD.js";import{c as m}from"./utils-D0Zg16Wk.js";import{L as n}from"./loader-circle-DB4rSKa_.js";function u(i){const e=o.c(8);let s,r;e[0]!==i?({className:s,...r}=i,e[0]=i,e[1]=s,e[2]=r):(s=e[1],r=e[2]);let t;e[3]!==s?(t=m("size-4 animate-spin",s),e[3]=s,e[4]=t):t=e[4];let a;return e[5]!==r||e[6]!==t?(a=l.jsx(n,{role:"status","aria-label":"Loading",className:t,...r}),e[5]=r,e[6]=t,e[7]=a):a=e[7],a}export{u as S};
->>>>>>>> 21d55a18fcc42b287bf7ef9c1a1ac14f2a9873d7:public/build/assets/spinner-Bppk1Eoq.js
