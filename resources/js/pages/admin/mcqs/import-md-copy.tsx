@@ -18,7 +18,7 @@ import {
     RefreshCw,
     XCircle,
 } from 'lucide-react';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import AdminLayout from '../components/admin-layout';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -251,99 +251,213 @@ function McqCard({ mcq, index }: { mcq: Mcq; index: number }) {
 
 
 
+'use client';
+ 
+
+
+import {
+    ChevronDown, Sparkles, Settings2,
+} from 'lucide-react';
+import { PromptConfig } from '@/constants/prompts';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import {
+    Collapsible,
+    CollapsibleContent,
+    CollapsibleTrigger,
+} from '@/components/ui/collapsible';
+ 
+// ─── Types ────────────────────────────────────────────────────────────────────
+ 
+interface Subject {
+    id: number;
+    name: string;
+    slug: string;
+}
+ 
+interface Topic {
+    id: number;
+    name: string;
+    slug: string;
+    subject_id: number;
+}
+ 
+interface Props {
+    subjects: Subject[];
+    topics: Topic[];
+    authUserId?: number;
+}
+ 
+// ─── Date scope options ───────────────────────────────────────────────────────
+ 
+const DATE_SCOPE_OPTIONS = [
+    { label: 'Yesterday', value: 'yesterday' },
+    { label: 'Today', value: 'today' },
+    { label: 'Last 3 Days', value: 'the last 3 days' },
+    { label: 'Last Week', value: 'the last week' },
+    { label: 'Last Month', value: 'the last month' },
+];
+ 
 
 
 
-export default function McqMdImporter({
-    subjects,
-    topics,
-}: {
-    subjects: { id: number; name: string; slug: string }[];
-    topics: { id: number; name: string; slug: string; subject_id: number }[];
-}) {
-    const { data, setData, post, errors } = useForm<{
-        json: string;
-    }>();
+
+export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Props) {
+    // ── Inertia form ──
+    const { data, setData, post, errors } = useForm<{ json: string }>({ json: '' });
+ 
+    // ── MD / parse state ──
     const [mdText, setMdText] = useState('');
-    const [mcqs, setMcqs] = useState(() => parseMcqMarkdown(mdText));
-    const [error, setError] = useState('');
-    const [prompt, setPrompt] = useState<string>(prompts['current-affairs']);
-    const [copied, setCopied] = useState(false);
+    const [mcqs, setMcqs] = useState<ReturnType<typeof parseMcqMarkdown>>([]);
+    const [parseError, setParseError] = useState('');
+ 
+    // ── Copy states ──
     const [copiedPrompt, setCopiedPrompt] = useState(false);
-    const [selectedSubject, setSelectedSubject] = useState<number | null>(subjects[17].id);
-    const [selectedTopic, setSelectedTopic] = useState<number | null>(topics[0].id);
-
-    const blockCount = mdText.split(/\n---+/).filter(Boolean).length;
-
+    const [copiedJson, setCopiedJson] = useState(false);
+ 
+    // ── Subject / topic selection ──
+    const [selectedSubjectId, setSelectedSubjectId] = useState<number>(
+        subjects[0]?.id ?? 0,
+    );
+    const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
+ 
+    // ── Prompt config ──
+    const [quantity, setQuantity] = useState(50);
+    const [dateScope, setDateScope] = useState('yesterday');
+    const [customInstruction, setCustomInstruction] = useState('');
+    const [advancedOpen, setAdvancedOpen] = useState(false);
+ 
+    // ── Derived: filtered topics for current subject ──
+    const filteredTopics = useMemo(
+        () => topics.filter((t) => t.subject_id === selectedSubjectId),
+        [topics, selectedSubjectId],
+    );
+ 
+    // ── Derived: current slugs ──
+    const selectedSubject = useMemo(
+        () => subjects.find((s) => s.id === selectedSubjectId),
+        [subjects, selectedSubjectId],
+    );
+    const selectedTopic = useMemo(
+        () => (selectedTopicId ? topics.find((t) => t.id === selectedTopicId) : null),
+        [topics, selectedTopicId],
+    );
+ 
+    // ── Build prompt ──
+    const buildPrompt = useCallback((): string => {
+        if (!selectedSubject) return '';
+        const promptFn = prompts[selectedSubject.slug];
+        if (!promptFn) return `# No prompt template found for: ${selectedSubject.slug}`;
+ 
+        const config: PromptConfig = {
+            subjectSlug: selectedSubject.slug,
+            topicSlug: selectedTopic?.slug,
+            quantity,
+            createdBy: authUserId,
+            dateScope,
+            customInstruction: customInstruction.trim() || undefined,
+        };
+ 
+        return promptFn(config);
+    }, [selectedSubject, selectedTopic, quantity, dateScope, customInstruction, authUserId]);
+ 
+    // ── Prompt textarea (editable) ──
+    const [promptText, setPromptText] = useState<string>(() => buildPrompt());
+ 
+    // ── Regenerate prompt when config changes ──
     useEffect(() => {
-        if (selectedSubject) {
-            const subject = subjects.find((s) => s.id === selectedSubject);
-            if (subject) {
-                setPrompt(prompts[subject.slug]);
-            }
-        }
-    }, [selectedSubject, subjects]);
-
+        setPromptText(buildPrompt());
+    }, [buildPrompt]);
+ 
+    // ── Reset topic when subject changes ──
+    useEffect(() => {
+        setSelectedTopicId(null);
+    }, [selectedSubjectId]);
+ 
+    // ── Derived: block count ──
+    const blockCount = useMemo(
+        () => mdText.split(/\n---+/).filter(Boolean).length,
+        [mdText],
+    );
+ 
+    // ── Handlers ──
     const handleParse = useCallback(() => {
-        setError('');
+        setParseError('');
         try {
             const result = parseMcqMarkdown(mdText);
             if (!result.length) {
-                setError(
-                    'No MCQ blocks found. Make sure blocks are separated by ---.',
-                );
+                setParseError('No MCQ blocks found. Make sure blocks are separated by ---.');
                 return;
             }
             setMcqs(result);
             setData('json', JSON.stringify(result));
-            toast.success('MCQs parsed successfully.');
+            toast.success(`${result.length} MCQ${result.length !== 1 ? 's' : ''} parsed successfully.`);
         } catch (e: any) {
-            setError('Parse error: ' + e.message);
-            toast.error('Parse error: ' + e.message);
+            const msg = 'Parse error: ' + e.message;
+            setParseError(msg);
+            toast.error(msg);
         }
-    }, [mdText]);
-
+    }, [mdText, setData]);
+ 
     const handleImport = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
-
             if (!data.json) {
-                setError('No JSON data to import.');
+                toast.error('No data to import. Parse your MCQs first.');
                 return;
             }
-
-            data.json = data.json as string;
-
-            post(mcqs_import.store().url);
+            post(mcqs_import.store().url, {
+                onSuccess: () => toast.success('MCQs imported successfully.'),
+                onError: () => toast.error('Import failed. Check errors below.'),
+            });
         },
         [data, post],
     );
-
-    const copyPrompt = useCallback(() => {
-        navigator.clipboard.writeText(prompt);
+ 
+    const handleCopyPrompt = useCallback(() => {
+        navigator.clipboard.writeText(promptText);
         setCopiedPrompt(true);
         setTimeout(() => setCopiedPrompt(false), 1500);
-    }, [prompt]);
-
-    const copyJson = useCallback(() => {
+    }, [promptText]);
+ 
+    const handleCopyJson = useCallback(() => {
         navigator.clipboard.writeText(JSON.stringify(mcqs, null, 2));
-        setCopied(true);
-        setTimeout(() => setCopied(false), 1500);
+        setCopiedJson(true);
+        setTimeout(() => setCopiedJson(false), 1500);
     }, [mcqs]);
-
+ 
+    const handleClear = useCallback(() => {
+        setMdText('');
+        setMcqs([]);
+        setParseError('');
+        setData('json', '');
+    }, [setData]);
+ 
+    const handleRegeneratePrompt = useCallback(() => {
+        setPromptText(buildPrompt());
+        toast.success('Prompt regenerated.');
+    }, [buildPrompt]);
+ 
+    // ─── Render ───────────────────────────────────────────────────────────────
+ 
     return (
         <AdminLayout title="Import MD MCQs">
             <div className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-2">
+ 
+                {/* ── Server-side import errors ── */}
                 {errors.json && (
                     <Alert variant="destructive" className="col-span-full">
                         <AlertCircle className="h-4 w-4" />
                         <AlertDescription>{errors.json}</AlertDescription>
                     </Alert>
                 )}
-
-                {/* ── Left: textarea ── */}
-
-                <div className='flex flex-col gap-3'>
+ 
+                {/* ════════════════════════════════════════
+                    LEFT PANEL — Markdown input + Prompt
+                ════════════════════════════════════════ */}
+                <div className="flex flex-col gap-3">
+ 
+                    {/* Header */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <FileText className="h-4 w-4 text-muted-foreground" />
@@ -353,86 +467,220 @@ export default function McqMdImporter({
                             {blockCount} block{blockCount !== 1 ? 's' : ''}
                         </Badge>
                     </div>
-                    <Tabs defaultValue="MD" className='flex flex-col gap-3'>
+ 
+                    {/* Tabs */}
+                    <Tabs defaultValue="prompt" className="flex flex-col gap-3">
                         <TabsList className="w-fit bg-muted/10">
-                            <TabsTrigger value="MD">MD</TabsTrigger>
-                            <TabsTrigger value="Prompt">Prompt</TabsTrigger>
+                            <TabsTrigger value="md">MD</TabsTrigger>
+                            <TabsTrigger value="prompt">
+                                <Sparkles className="mr-1.5 h-3.5 w-3.5" />
+                                Prompt
+                            </TabsTrigger>
                         </TabsList>
-                        <TabsContent value="MD" className='min-h-[500px] max-h-[500px] overflow-y-auto'>
-                            <Textarea
-                                value={mdText}
-                                onChange={(e) => setMdText(e.target.value)}
-                                placeholder="Paste your MCQ markdown here…"
-                                className="min-h-full flex-1 resize-none font-mono text-xs"
-                            />
-                            {error && (
+ 
+                        {/* ── MD tab ── */}
+                        <TabsContent value="md" className="mt-0 flex flex-col gap-2">
+                            <div className="min-h-[500px] max-h-[500px] overflow-y-auto">
+                                <Textarea
+                                    value={mdText}
+                                    onChange={(e) => setMdText(e.target.value)}
+                                    placeholder="Paste your MCQ markdown here…"
+                                    className="min-h-[500px] resize-none font-mono text-xs"
+                                />
+                            </div>
+                            {parseError && (
                                 <Alert variant="destructive" className="py-2">
                                     <AlertCircle className="h-4 w-4" />
-                                    <AlertDescription className="text-xs">
-                                        {error}
-                                    </AlertDescription>
+                                    <AlertDescription className="text-xs">{parseError}</AlertDescription>
                                 </Alert>
                             )}
                         </TabsContent>
-                        <TabsContent value="Prompt">
-                            <div className='flex flex-col gap-3'>
-                                {/* create prompt here for AI to generate mcqs in markdown format */}
-                                <div className='flex items-center justify-between'>
-                                    <div className="flex items-center gap-2 text-sm font-medium">
-                                        <FileText className="h-4 w-4 text-muted-foreground" />
-                                        Prompt
-                                    </div>
-                                    <div className='flex items-center gap-2'>
-                                        <Button variant="outline" size="sm" onClick={copyPrompt}>
-                                            <Copy className="h-4 w-4" />
-                                            {copiedPrompt ? 'Copied!' : 'Copy Prompt'}
-                                        </Button>
-                                        <Select
-                                            value={selectedSubject}
-                                            onValueChange={(value) => setSelectedSubject(value)}
-                                        >
-                                            <SelectTrigger>
-                                                <SelectValue placeholder="Select subject" />
+ 
+                        {/* ── Prompt tab ── */}
+                        <TabsContent value="prompt" className="mt-0 flex flex-col gap-3">
+ 
+                            {/* ── Config row ── */}
+                            <div className="flex flex-wrap items-end gap-2">
+ 
+                                {/* Subject */}
+                                <div className="flex flex-col gap-1">
+                                    <Label className="text-xs text-muted-foreground">Subject</Label>
+                                    <Select
+                                        value={String(selectedSubjectId)}
+                                        onValueChange={(v) => setSelectedSubjectId(Number(v))}
+                                    >
+                                        <SelectTrigger className="h-8 w-40 text-xs">
+                                            <SelectValue placeholder="Subject" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            {subjects.map((s) => (
+                                                <SelectItem key={s.id} value={String(s.id)} className="text-xs">
+                                                    {s.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+ 
+                                {/* Topic */}
+                                <div className="flex flex-col gap-1">
+                                    <Label className="text-xs text-muted-foreground">
+                                        Topic <span className="opacity-50">(optional)</span>
+                                    </Label>
+                                    <Select
+                                        value={selectedTopicId ? String(selectedTopicId) : '__all__'}
+                                        onValueChange={(v) =>
+                                            setSelectedTopicId(v === '__all__' ? null : Number(v))
+                                        }
+                                    >
+                                        <SelectTrigger className="h-8 w-48 text-xs">
+                                            <SelectValue placeholder="All topics" />
+                                        </SelectTrigger>
+                                        <SelectContent>
+                                            <SelectItem value="__all__" className="text-xs text-muted-foreground">
+                                                All topics
+                                            </SelectItem>
+                                            {filteredTopics.map((t) => (
+                                                <SelectItem key={t.id} value={String(t.id)} className="text-xs">
+                                                    {t.name}
+                                                </SelectItem>
+                                            ))}
+                                        </SelectContent>
+                                    </Select>
+                                </div>
+ 
+                                {/* Quantity */}
+                                <div className="flex flex-col gap-1">
+                                    <Label className="text-xs text-muted-foreground">Quantity</Label>
+                                    <Input
+                                        type="number"
+                                        min={5}
+                                        max={100}
+                                        value={quantity}
+                                        onChange={(e) => setQuantity(Math.max(5, Math.min(100, Number(e.target.value))))}
+                                        className="h-8 w-20 text-xs"
+                                    />
+                                </div>
+ 
+                                {/* Date scope (shown only for current-affairs subject) */}
+                                {selectedSubject?.slug.includes('current-affairs') && (
+                                    <div className="flex flex-col gap-1">
+                                        <Label className="text-xs text-muted-foreground">Date scope</Label>
+                                        <Select value={dateScope} onValueChange={setDateScope}>
+                                            <SelectTrigger className="h-8 w-36 text-xs">
+                                                <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
-                                                {subjects.map((subject) => (
-                                                    <SelectItem key={subject.id} value={subject.id}>
-                                                        {subject.name}
+                                                {DATE_SCOPE_OPTIONS.map((o) => (
+                                                    <SelectItem key={o.value} value={o.value} className="text-xs">
+                                                        {o.label}
                                                     </SelectItem>
                                                 ))}
                                             </SelectContent>
                                         </Select>
                                     </div>
-                                </div>
-
-                                <Textarea
-                                    value={prompt}
-                                    onChange={(e) => setPrompt(e.target.value)}
-                                    placeholder="Paste your prompt here…"
-                                    className="min-h-full flex-1 resize-none font-mono text-xs"
-                                />
+                                )}
+ 
+                                {/* Spacer */}
+                                <div className="flex-1" />
+ 
+                                {/* Actions */}
+                                <Button
+                                    variant="ghost"
+                                    size="sm"
+                                    className="h-8 gap-1.5 text-xs"
+                                    onClick={handleRegeneratePrompt}
+                                    title="Regenerate prompt from current config"
+                                >
+                                    <RefreshCw className="h-3.5 w-3.5" />
+                                    Reset
+                                </Button>
+                                <Button
+                                    variant="outline"
+                                    size="sm"
+                                    className="h-8 gap-1.5 text-xs"
+                                    onClick={handleCopyPrompt}
+                                >
+                                    {copiedPrompt
+                                        ? <><Check className="h-3.5 w-3.5" /> Copied!</>
+                                        : <><Copy className="h-3.5 w-3.5" /> Copy prompt</>
+                                    }
+                                </Button>
+                            </div>
+ 
+                            {/* ── Advanced: custom instruction ── */}
+                            <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
+                                <CollapsibleTrigger asChild>
+                                    <Button variant="ghost" size="sm" className="h-7 gap-1.5 text-xs text-muted-foreground">
+                                        <Settings2 className="h-3.5 w-3.5" />
+                                        Advanced
+                                        <ChevronDown
+                                            className={`h-3.5 w-3.5 transition-transform ${advancedOpen ? 'rotate-180' : ''}`}
+                                        />
+                                    </Button>
+                                </CollapsibleTrigger>
+                                <CollapsibleContent className="flex flex-col gap-1.5 pt-2">
+                                    <Label className="text-xs text-muted-foreground">
+                                        Custom instruction <span className="opacity-50">(appended to prompt)</span>
+                                    </Label>
+                                    <Textarea
+                                        value={customInstruction}
+                                        onChange={(e) => setCustomInstruction(e.target.value)}
+                                        placeholder="e.g. Focus only on administrative reforms. Avoid military topics."
+                                        className="min-h-[72px] resize-none text-xs"
+                                    />
+                                </CollapsibleContent>
+                            </Collapsible>
+ 
+                            {/* ── Editable prompt textarea ── */}
+                            <Textarea
+                                value={promptText}
+                                onChange={(e) => setPromptText(e.target.value)}
+                                placeholder="Prompt will appear here…"
+                                className="min-h-[340px] resize-none font-mono text-xs"
+                            />
+ 
+                            {/* Info badges */}
+                            <div className="flex flex-wrap gap-1.5">
+                                {selectedSubject && (
+                                    <Badge variant="secondary" className="text-xs font-mono">
+                                        subject: {selectedSubject.slug}
+                                    </Badge>
+                                )}
+                                {selectedTopic && (
+                                    <Badge variant="secondary" className="text-xs font-mono">
+                                        topic: {selectedTopic.slug}
+                                    </Badge>
+                                )}
+                                <Badge variant="secondary" className="text-xs font-mono">
+                                    qty: {quantity}
+                                </Badge>
+                                {selectedSubject?.slug.includes('current-affairs') && (
+                                    <Badge variant="secondary" className="text-xs font-mono">
+                                        scope: {dateScope}
+                                    </Badge>
+                                )}
                             </div>
                         </TabsContent>
                     </Tabs>
+ 
+                    {/* ── Action buttons ── */}
                     <div className="flex gap-2">
                         <Button onClick={handleParse} className="flex-1">
                             Parse
                         </Button>
-                        <Button
-                            variant="outline"
-                            onClick={() => {
-                                setMdText('');
-                                setMcqs([]);
-                                setError('');
-                            }}
-                        >
+                        <Button variant="outline" onClick={handleClear}>
                             Clear
                         </Button>
                     </div>
                 </div>
-
-                {/* ── Right: preview / JSON ── */}
+ 
+                {/* ════════════════════════════════════════
+                    RIGHT PANEL — Preview / JSON output
+                ════════════════════════════════════════ */}
                 <div className="flex flex-col gap-3">
+ 
+                    {/* Header */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium">
                             <Eye className="h-4 w-4 text-muted-foreground" />
@@ -442,25 +690,20 @@ export default function McqMdImporter({
                             {mcqs.length} MCQ{mcqs.length !== 1 ? 's' : ''}
                         </Badge>
                     </div>
-
-                    <Tabs
-                        defaultValue="preview"
-                        className="flex flex-col gap-3"
-                    >
+ 
+                    <Tabs defaultValue="preview" className="flex flex-col gap-3">
                         <TabsList className="w-fit bg-muted/10">
                             <TabsTrigger value="preview">Preview</TabsTrigger>
                             <TabsTrigger value="json">JSON</TabsTrigger>
                         </TabsList>
-
-                        {/* Preview */}
+ 
+                        {/* ── Preview tab ── */}
                         <TabsContent value="preview" className="mt-0">
                             <ScrollArea className="h-[500px] max-h-[500px] rounded-lg border bg-muted/20 pr-2">
                                 {mcqs.length === 0 ? (
-                                    <div className="flex h-[500px] max-h-[500px] flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
+                                    <div className="flex h-[500px] flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
                                         <FileText className="h-6 w-6 opacity-30" />
-                                        <span>
-                                            Paste MD on the left and click Parse
-                                        </span>
+                                        <span>Paste MD on the left and click Parse</span>
                                     </div>
                                 ) : (
                                     mcqs.map((mcq, i) => (
@@ -469,37 +712,42 @@ export default function McqMdImporter({
                                 )}
                             </ScrollArea>
                         </TabsContent>
-
-                        {/* JSON */}
-                        <TabsContent
-                            value="json"
-                            className="mt-0 flex flex-col gap-2"
-                        >
+ 
+                        {/* ── JSON tab ── */}
+                        <TabsContent value="json" className="mt-0 flex flex-col gap-2">
                             <ScrollArea className="h-[500px] max-h-[500px] rounded-lg border bg-muted/20">
-                                <pre className="p-3 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap">
-                                    {JSON.stringify(mcqs, null, 2)}
+                                <pre className="whitespace-pre-wrap break-words p-3 font-mono text-xs leading-relaxed">
+                                    {mcqs.length
+                                        ? JSON.stringify(mcqs, null, 2)
+                                        : '// No MCQs parsed yet'}
                                 </pre>
                             </ScrollArea>
                         </TabsContent>
                     </Tabs>
+ 
+                    {/* ── Action buttons ── */}
                     <div className="flex gap-2">
                         <Button
                             variant="outline"
-                            onClick={copyJson}
+                            onClick={handleCopyJson}
+                            disabled={!mcqs.length}
                             className="flex-1 gap-2"
                         >
-                            {copied ? (
-                                <Check className="h-4 w-4" />
-                            ) : (
-                                <Copy className="h-4 w-4" />
-                            )}
-                            {copied ? 'Copied!' : 'Copy JSON'}
+                            {copiedJson
+                                ? <><Check className="h-4 w-4" /> Copied!</>
+                                : <><Copy className="h-4 w-4" /> Copy JSON</>
+                            }
                         </Button>
-                        <Button onClick={handleImport} className="flex-1">
+                        <Button
+                            onClick={handleImport}
+                            disabled={!data.json}
+                            className="flex-1"
+                        >
                             Send to import service
                         </Button>
                     </div>
                 </div>
+ 
             </div>
         </AdminLayout>
     );

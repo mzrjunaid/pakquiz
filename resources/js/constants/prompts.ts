@@ -1,40 +1,153 @@
-const currentAffairsPrompt = `
+// ─────────────────────────────────────────────────────────────────────────────
+// Dynamic MCQ prompt builder — all prompts are functions that accept a config
+// ─────────────────────────────────────────────────────────────────────────────
+
+export interface PromptConfig {
+    topicSlug?: string;        // single selected topic slug (overrides topic list)
+    topics?: string[];         // allowed topic slugs (subset filter)
+    subjectSlug?: string;      // e.g. "current-affairs"
+    quantity?: number;         // number of MCQs to generate
+    createdBy?: number;        // DB user id
+    dateScope?: string;        // "yesterday" | "last week" | custom
+    paperSlug?: string;        // null or paper slug string
+    customInstruction?: string;
+}
+
+// ─── Shared helpers ───────────────────────────────────────────────────────────
+
+const ALL_CURRENT_AFFAIRS_TOPICS = [
+    'appointments-resignations',
+    'ai-and-technology',
+    'awards-and-honours',
+    'climate-and-environment',
+    'defense-and-security',
+    'education-and-social',
+    'elections-and-democracy',
+    'foreign-relations',
+    'global-economy',
+    'global-energy',
+    'health-and-medicine',
+    'important-days-and-events',
+    'international-organizations',
+    'natural-disasters',
+    'pakistan-economy',
+    'pakistan-politics',
+    'reports-and-rankings',
+    'science-and-technology',
+    'space-and-exploration',
+    'sports-current-affairs',
+    'summits-and-conferences',
+    'terrorism-and-conflicts',
+    'trade-and-commerce',
+    'treaties-and-agreements',
+];
+
+const buildTopicInstruction = (topicSlug?: string, topics?: string[], fallback = ALL_CURRENT_AFFAIRS_TOPICS): string => {
+    if (topicSlug) {
+        return `Always use this exact topic slug for ALL MCQs:\n**${topicSlug}**`;
+    }
+    const list = (topics && topics.length > 0 ? topics : fallback)
+        .map((t) => `- ${t}`)
+        .join('\n');
+    return `Choose the **most relevant topic slug** from this list:\n\n${list}`;
+};
+
+const sharedOutputFormat = (subjectSlug: string, createdBy: number, paperSlug: string) => `
+# STRICT OUTPUT FORMAT
+
+Return **ALL MCQs strictly in this exact Markdown format**. Do not change the structure.
+
+\`\`\`
+# MCQ {N}
+Question: {question text}
+Slug: {slug}
+Difficulty: easy|medium|hard
+MCQ Type: single|multiple
+Subject Slug: ${subjectSlug}
+Topic Slug: {topic-slug}
+Paper Slug: ${paperSlug}
+Created By: ${createdBy}
+Tags: {comma, hyphenated, tags}
+Options:
+A) {option text}
+B) {option text} [correct]
+C) {option text}
+D) {option text}
+Explanation: {explanation text}
+---
+\`\`\`
+`;
+
+const sharedFieldRules = `
+# FIELD RULES
+
+## Slug
+- Lowercase, hyphen-separated, unique, SEO-friendly
+- Example: \`who-was-appointed-new-chairman-of-ogra-april-2026\`
+
+## Difficulty
+- **easy** = direct factual recall
+- **medium** = slightly analytical / detail-based
+- **hard** = deeper or less obvious fact
+
+## MCQ Type
+- \`single\` = one correct answer (default)
+- \`multiple\` = only if more than one option is genuinely correct
+
+## Tags
+- 3–8 tags, lowercase, hyphenated, topic-relevant
+- Include entity names where useful
+- Example: \`pakistan, ogra, chairman-appointment, energy, regulation\`
+
+## Options
+- Always 4 options (A–D)
+- Realistic, plausible distractors — no obviously fake answers
+- Mark correct answer with \`[correct]\`
+- **Randomise correct answer position** across A/B/C/D — do NOT cluster on A or B
+
+## Explanation
+- 1–3 lines
+- Explain why the answer is correct with factual context
+- May include markdown emphasis or a Wikipedia link if applicable
+`;
+
+// ─── Current Affairs ──────────────────────────────────────────────────────────
+
+const currentAffairsPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'current-affairs',
+        quantity = 50,
+        createdBy = 1,
+        dateScope = 'yesterday',
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
 You are an expert **Current Affairs researcher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
 
-Your task is to generate **high-quality Current Affairs MCQs based ONLY on Yesterday's important events**.
+Your task is to generate **high-quality Current Affairs MCQs based ONLY on ${dateScope}'s important events**.
 
-These MCQs are being created for a **Pakistan competitive exam preparation platform** and must be suitable for:
+These MCQs are for a **Pakistan competitive exam preparation platform** suitable for:
+FPSC, PPSC, NTS, CSS, PMS, General Job Tests, Current Affairs quiz preparation.
 
-- FPSC
-- PPSC
-- NTS
-- CSS
-- PMS
-- General Job Tests
-- Current Affairs quiz preparation
-
-The output must be:
-- **factually accurate**
-- **exam-oriented**
-- **non-repetitive**
-- **import-ready**
-- returned in my **STRICT custom Markdown format**
+The output must be: factually accurate, exam-oriented, non-repetitive, import-ready, in strict Markdown format.
 
 ---
 
 # DATE SCOPE
 
-Generate MCQs only from **important events that happened yesterday**.
-
-If an event started earlier but had a **major update yesterday**, it may be included.
-
-Do **not** include outdated or irrelevant old news unless it had a significant development yesterday.
+Generate MCQs only from **important events that happened ${dateScope}**.
+If an event started earlier but had a **major update ${dateScope}**, it may be included.
+Do **not** include outdated or irrelevant old news unless it had a significant development ${dateScope}.
 
 ---
 
 # CONTENT COVERAGE
 
-Cover yesterday’s important developments from these areas:
+Cover ${dateScope}'s important developments from these areas:
 
 - Pakistan Current Affairs
 - International Current Affairs
@@ -51,385 +164,119 @@ Cover yesterday’s important developments from these areas:
 
 # QUESTION QUALITY RULES
 
-Create MCQs that are:
-- factual
-- objective
-- exam-relevant
-- concise
-- useful for daily current affairs prep
-
 Prefer questions about:
-- appointments and resignations
-- awards and honours
-- reports and rankings
-- summits and conferences
-- treaties and agreements
-- international organizations
-- capitals, countries and currencies (when relevant)
-- dates, venues and hosts
-- winners, titles and records
-- policy decisions and official announcements
-- international affairs
-- Pakistan government affairs
-- elections and democracy
-- trade and commerce
-- defense and security developments
-- health and medical breakthroughs
-- space and science discoveries
-- natural disasters and climate events
-- AI and technology updates
-- terrorism and conflict updates
+appointments, resignations, awards, honours, reports, rankings, summits, conferences, treaties, agreements, international organizations, capitals/countries/currencies, dates/venues/hosts, winners/titles/records, policy decisions, official announcements, Pakistan government affairs, elections, trade, defense, health breakthroughs, space/science discoveries, natural disasters, AI/technology updates, terrorism/conflict updates.
 
-Avoid:
-- opinion-based questions
-- vague wording
-- trick questions without value
-- gossip/entertainment fluff
-- duplicate questions
-- unnecessary complexity
+Avoid: opinion-based questions, vague wording, trick questions, gossip/entertainment, duplicate questions.
 
 ---
 
-# STRICT OUTPUT FORMAT (VERY IMPORTANT)
-
-Return **ALL MCQs strictly in the following Markdown format**.
-
-Do not change the structure.
-
-Do not add extra commentary before or after.
-
-Use this exact format:
-
-# MCQ {N}
-Question: {question text}
-Slug: {slug}
-Difficulty: easy|medium|hard
-MCQ Type: single|multiple
-Subject Slug: {subject-slug}
-Topic Slug: {topic-slug}
-Paper Slug: null
-Created By: 1
-Tags: {comma, hyphanated, tags}
-Options:
-A) {option text}
-B) {option text} [correct]
-C) {option text}
-D) {option text}
-Explanation: {explanation text}
----
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
 
 ---
 
-# FIELD RULES
+# TOPIC SLUG RULE
 
-## 1) Question
-- Write a clear, grammatically correct MCQ question
-- Keep it concise and exam-friendly
-- Avoid ambiguous wording
+${buildTopicInstruction(topicSlug, topics)}
 
-## 2) Slug
-Generate a **clean SEO-friendly unique slug** based on the question.
+---
 
-Rules:
-- lowercase only
-- words separated by hyphens
-- no special characters
-- no duplicate slugs
-
-Example:
-who-was-appointed-new-chairman-of-ogra-april-2026
-
-## 3) Difficulty
-Use only one of:
-- easy
-- medium
-- hard
-
-Guideline:
-- **easy** = direct factual recall
-- **medium** = slightly analytical / detail-based
-- **hard** = deeper or less obvious fact
-
-## 4) MCQ Type
-Use:
-- 'single' for one correct answer
-- 'multiple' only if more than one option is correct
-
-Default to 'single' unless necessary.
-
-## 5) Subject Slug
-Always use:
-current-affairs
-
-## 6) Topic Slug
-Choose the **following relevant topic slug** based on the question.
-
--appointments-resignations
--ai-and-technology
--awards-and-honours
--climate-and-environment
--defense-and-security
--education-and-social
--elections-and-democracy
--foreign-relations
--global-economy
--global-energy
--health-and-medicine
--important-days-and-events
--international-organizations
--natural-disasters
--pakistan-economy
--pakistan-politics
--reports-and-rankings
--science-and-technology
--space-and-exploration
--sports-current-affairs
--summits-and-conferences
--terrorism-and-conflicts
--trade-and-commerce
--treaties-and-agreements
-
-Use the **best-matching topic slug** for each MCQ. Don't use any other topic unless it is very necessary.
-
-## 7) Paper Slug
-Always use:
-null
-
-## 8) Created By
-Always use the exact user ID I provided
-
-## 9) Tags
-Generate **relevant comma-separated tags** for each MCQ.
-
-Rules:
-- 3 to 8 tags
-- lowercase preferred
-- Hyphenated
-- use topic-relevant tags
-- include entity names where useful
-- avoid useless generic tags
-
-Example:
-pakistan, ogra, chairman-nadra, appointment, energy, regulation
-
-## 10) Options
-Rules:
-- Always provide **4 options**
-- Keep options realistic and plausible
-- Avoid obviously fake distractors
-- Mark the correct option using:
-  [correct]
-
-Example:
-A) Islamabad
-B) Lahore [correct]
-C) Karachi
-D) Peshawar
-
-## 11) Explanation
-Write a **short but useful explanation**:
-- 1 to 3 lines
-- explain why the answer is correct
-- You can use MD Format to emphasise information or give a reference to the source, or highlight with class "text-primary" link with Wikipedia if the source is found on Wikipedia.
-- include factual context where useful
+${sharedFieldRules}
 
 ---
 
 # IMPORTANT MCQ RULES
 
-- **Randomise correct answers**
-  Do NOT keep all correct answers on Option A or B.
-- Make sure answer positions are naturally distributed across A, B, C, and D.
-- Do not repeat the same fact in multiple questions unless asked.
-- Questions must be based on **high-value yesterday current affairs**.
-- If there are not enough strong events, prioritise **quality over quantity**.
+- Randomise correct answers — distribute naturally across A, B, C, and D
+- Do not repeat the same fact in multiple questions
+- Base all questions on **high-value ${dateScope} events**
+- If not enough strong events exist, prioritise **quality over quantity**
 
 ---
 
 # OUTPUT QUANTITY
 
-Generate **50 high-quality MCQs**.
-
-If there are enough important events, you may generate up to **50 MCQs**, but prioritise **quality, uniqueness, and exam relevance**.
+Generate **${quantity} high-quality MCQs**.
 
 ---
 
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
 # FINAL INSTRUCTION
 
-Return the response in a code block to keep the format accurate, **clean Markdown only**, and in the exact structure requested.
+Return the response in a **single fenced code block** (\`\`\`).
+Clean Markdown only. Exact structure as specified.
+Do not include introductions, notes, apologies, or section headings outside MCQ blocks.
+`.trim();
+};
 
-Do not include:
-- introductions
-- notes
-- apologies
-- explanations outside the MCQ format
-- section headings other than the MCQ blocks
+// ─── History ──────────────────────────────────────────────────────────────────
 
-`;
+const ALL_HISTORY_TOPICS = [
+    'ancient-history',
+    'medieval-history',
+    'mughal-empire',
+    'british-india',
+    'pakistan-movement',
+    'world-war-i',
+    'world-war-ii',
+    'cold-war',
+    'modern-history',
+    'islamic-history',
+];
 
-const pakStudiesPrompt = `
-`;
+const historyPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'history',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
 
-const englishPrompt = `
-`;
-
-const islamicStudiesPrompt = `
-`;
-
-const mathPrompt = `
-`;
-
-const physicsPrompt = `
-`;
-
-const chemistryPrompt = `
-`;
-
-const biologyPrompt = `
-`;
-
-const computerPrompt = `
-`;
-
-const generalKnowledgePrompt = `
-`;
-
-const historyPrompt = `
+    return `
 You are an expert **History researcher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
 
-Your task is to generate **high-quality Mughal History MCQs** in a **topic-by-topic structured format**.
+Your task is to generate **high-quality History MCQs** in a **topic-by-topic structured format**.
 
-These MCQs are for **Pakistan competitive exams**, including:
-
-- FPSC
-- PPSC
-- NTS
-- CSS
-- PMS
-- General Job Tests
+These MCQs are for **Pakistan competitive exams**: FPSC, PPSC, NTS, CSS, PMS, General Job Tests.
 
 ---
 
 # OBJECTIVE
 
-Generate **exam-oriented, factual, and non-repetitive MCQs** covering the **Mughal Empire in a systematic topic-wise manner**.
-
----
-
-# TOPIC-WISE COVERAGE (VERY IMPORTANT)
-
-You must generate MCQs **topic by topic**, not randomly.
-
-Follow this sequence:
-
-1. Foundation of Mughal Empire  
-   (Babur, First Battle of Panipat, Central Asian background)
-
-2. Humayun  
-   (Struggles, exile, return, Persian influence)
-
-3. Akbar the Great  
-   (Administration, Mansabdari system, Din-i-Ilahi, expansion)
-
-4. Jahangir  
-   (Policies, Nur Jahan, justice system, foreign relations)
-
-5. Shah Jahan  
-   (Architecture, administration, golden age, Taj Mahal)
-
-6. Aurangzeb  
-   (Religious policies, Deccan campaigns, decline factors)
-
-7. Mughal Administration  
-   (Central administration, revenue system, military system)
-
-8. Mughal Economy & Society  
-   (Agriculture, trade, social structure)
-
-9. Mughal Art & Culture  
-   (Architecture, painting, literature)
-
-10. Decline of Mughal Empire  
-   (Internal weaknesses, invasions, regional powers)
-
----
-
-# MCQ DISTRIBUTION
-
-- Generate **balanced MCQs from each topic**
-- Cover **all major rulers and systems**
-- Avoid over-focusing on a single emperor
+Generate **exam-oriented, factual, and non-repetitive MCQs** covering History in a systematic topic-wise manner.
 
 ---
 
 # QUESTION QUALITY RULES
 
 Each MCQ must be:
-- factual
-- exam-relevant
-- concise
-- non-ambiguous
+- Factual, exam-relevant, concise, non-ambiguous
 
-Focus on:
-- dates
-- battles
-- policies
-- systems
-- personalities
-- contributions
-- causes and effects
+Focus on: dates, battles, policies, systems, personalities, contributions, causes and effects.
 
-Avoid:
-- opinions
-- vague questions
-- repeated facts
+Avoid: opinions, vague questions, repeated facts.
 
 ---
 
-# STRICT OUTPUT FORMAT (MANDATORY)
-
-Follow this exact Markdown structure:
-
-# MCQ {N}
-Question: {question text}
-Slug: {slug}
-Difficulty: easy|medium|hard
-MCQ Type: single
-Subject Slug: history
-Topic Slug: mughal-empire
-Paper Slug: null
-Created By: 1
-Tags: {comma-separated-tags}
-Options:
-A) {option}
-B) {option}
-C) {option}
-D) {option}
-Explanation: {1-2 line explanation}
----
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
 
 ---
 
-# FIELD RULES
+# TOPIC SLUG RULE
 
-## Slug
-- lowercase
-- hyphen-separated
-- unique
-
-## Difficulty
-- easy = direct fact
-- medium = conceptual/detail
-- hard = analytical/deep
-
-## Tags
-- 3 to 8 tags
-- topic-relevant
-- hyphenated
+${buildTopicInstruction(topicSlug, topics, ALL_HISTORY_TOPICS)}
 
 ---
 
-# IMPORTANT RULES
+${sharedFieldRules}
+
+---
+
+# IMPORTANT MCQ RULES
 
 - Randomize correct answers (A/B/C/D distribution)
 - Do NOT repeat facts
@@ -441,39 +288,596 @@ Explanation: {1-2 line explanation}
 
 # OUTPUT QUANTITY
 
-- Generate **50 MCQs total**
-- Ensure **all topics are covered proportionally**
+Generate **${quantity} MCQs total**.
 
 ---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
 
 # FINAL INSTRUCTION
 
 Return output in a **single Markdown code block**.
+Do NOT include explanations outside MCQs, headings, or commentary.
+`.trim();
+};
 
-Do NOT include:
-- explanations outside MCQs
-- headings
-- commentary
+// ─── Pakistan Studies ─────────────────────────────────────────────────────────
 
-`;
+const ALL_PAK_STUDIES_TOPICS = [
+    'geography-of-pakistan',
+    'pakistan-movement',
+    'constitutional-history',
+    'government-and-politics',
+    'economy-of-pakistan',
+    'foreign-policy',
+    'culture-and-society',
+    'education-system',
+    'natural-resources',
+    'provinces-and-regions',
+];
 
-const geographyPrompt = `
-`;
+const pakStudiesPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'pak-studies',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
 
-const prompts: Record<string, string> = {
-  'current-affairs-mcqs': currentAffairsPrompt,
-  'pak-studies-mcqs': pakStudiesPrompt,
-  'english-mcqs': englishPrompt,
-  'islamic-studies-mcqs': islamicStudiesPrompt,
-  'math-mcqs': mathPrompt,
-  'physics-mcqs': physicsPrompt,
-  'chemistry-mcqs': chemistryPrompt,
-  'biology-mcqs': biologyPrompt,
-  'computer-mcqs': computerPrompt,
-  'general-knowledge-mcqs': generalKnowledgePrompt,
-  'history-mcqs': historyPrompt,
-  'geography-mcqs': geographyPrompt,
+    return `
+You are an expert **Pakistan Studies researcher**, **competitive exam analyst**, and **MCQ content writer**.
 
+Generate **high-quality Pakistan Studies MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: geography, constitutional milestones, political history, economy, foreign policy, culture, provinces, natural resources.
+
+Avoid: opinions, ambiguous questions, repeated facts.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_PAK_STUDIES_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Islamic Studies ──────────────────────────────────────────────────────────
+
+const ALL_ISLAMIC_STUDIES_TOPICS = [
+    'quran-and-tafseer',
+    'hadith-and-sunnah',
+    'fiqh-and-jurisprudence',
+    'islamic-history',
+    'prophets-and-companions',
+    'pillars-of-islam',
+    'islamic-ethics',
+    'islamic-civilization',
+    'contemporary-islamic-issues',
+];
+
+const islamicStudiesPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'islamic-studies',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **Islamic Studies scholar**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality Islamic Studies MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: Quran, Hadith, Fiqh, Islamic history, prophets, companions, pillars of Islam, Islamic ethics and civilization.
+
+Avoid: sectarian bias, ambiguous questions, opinion-based queries.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_ISLAMIC_STUDIES_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── General Knowledge ────────────────────────────────────────────────────────
+
+const ALL_GK_TOPICS = [
+    'world-geography',
+    'world-history',
+    'science-general',
+    'inventions-and-discoveries',
+    'books-and-authors',
+    'world-organizations',
+    'capitals-and-currencies',
+    'famous-personalities',
+    'sports-general',
+    'arts-and-culture',
+];
+
+const generalKnowledgePrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'general-knowledge',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **General Knowledge researcher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality General Knowledge MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS, and job tests.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: world geography, history, science, inventions, books/authors, world organizations, capitals/currencies, famous personalities, sports, arts & culture.
+
+Avoid: highly obscure trivia, ambiguous questions, duplicate facts.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_GK_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── English ──────────────────────────────────────────────────────────────────
+
+const ALL_ENGLISH_TOPICS = [
+    'grammar',
+    'vocabulary',
+    'synonyms-antonyms',
+    'idioms-and-phrases',
+    'sentence-correction',
+    'fill-in-the-blanks',
+    'comprehension',
+    'active-passive-voice',
+    'direct-indirect-speech',
+    'spelling',
+];
+
+const englishPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'english',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **English language teacher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality English MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: grammar rules, vocabulary, synonyms/antonyms, idioms/phrases, sentence correction, fill-in-the-blanks, comprehension, voice, speech, spelling.
+
+Avoid: ambiguous questions, culturally biased content, overly obscure vocabulary.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_ENGLISH_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Math ─────────────────────────────────────────────────────────────────────
+
+const ALL_MATH_TOPICS = [
+    'arithmetic',
+    'algebra',
+    'geometry',
+    'trigonometry',
+    'statistics',
+    'probability',
+    'number-system',
+    'ratio-and-proportion',
+    'percentage',
+    'time-and-work',
+    'profit-and-loss',
+];
+
+const mathPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'math',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **Mathematics teacher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality Mathematics MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: arithmetic, algebra, geometry, trigonometry, statistics, probability, number system, ratio & proportion, percentage, time & work, profit & loss.
+
+Each MCQ must include a clear, solvable problem with one unambiguous correct answer.
+
+Avoid: overly complex multi-step problems, ambiguous wording, trick questions without educational value.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_MATH_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Geography ────────────────────────────────────────────────────────────────
+
+const ALL_GEOGRAPHY_TOPICS = [
+    'physical-geography',
+    'human-geography',
+    'world-oceans-and-seas',
+    'world-mountains-and-rivers',
+    'continents-and-regions',
+    'climate-and-weather',
+    'pakistan-geography',
+    'maps-and-directions',
+    'natural-resources-geography',
+    'environmental-geography',
+];
+
+const geographyPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'geography',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **Geography teacher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality Geography MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: physical geography, human geography, oceans/seas, mountains/rivers, continents, climate/weather, Pakistan geography, maps, natural resources, environment.
+
+Avoid: overly obscure facts, ambiguous questions, repeated content.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_GEOGRAPHY_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Science ──────────────────────────────────────────────────────────────────
+
+const ALL_SCIENCE_TOPICS = [
+    'physics-basics',
+    'chemistry-basics',
+    'biology-basics',
+    'scientific-inventions',
+    'human-body',
+    'plants-and-animals',
+    'space-and-astronomy',
+    'environment-and-ecology',
+    'technology-and-computers',
+];
+
+const sciencePrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'science',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **Science teacher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality General Science MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: physics basics, chemistry basics, biology basics, scientific inventions, human body, plants & animals, space & astronomy, environment & ecology, technology & computers.
+
+Avoid: overly technical derivations, ambiguous questions, repeated facts.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_SCIENCE_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Computer ─────────────────────────────────────────────────────────────────
+
+const ALL_COMPUTER_TOPICS = [
+    'computer-basics',
+    'ms-office',
+    'internet-and-networking',
+    'operating-systems',
+    'programming-basics',
+    'database-basics',
+    'hardware-and-software',
+    'cyber-security',
+    'artificial-intelligence-basics',
+];
+
+const computerPrompt = (config: PromptConfig = {}): string => {
+    const {
+        topicSlug,
+        topics,
+        subjectSlug = 'computer',
+        quantity = 50,
+        createdBy = 1,
+        paperSlug = 'null',
+        customInstruction = '',
+    } = config;
+
+    return `
+You are an expert **Computer Science teacher**, **Pakistan competitive exam analyst**, and **MCQ content writer**.
+
+Generate **high-quality Computer Science MCQs** suitable for FPSC, PPSC, NTS, CSS, PMS exams.
+
+---
+
+# QUESTION QUALITY RULES
+
+Focus on: computer basics, MS Office, internet & networking, operating systems, programming basics, database basics, hardware/software, cyber security, AI basics.
+
+Avoid: overly advanced programming questions, ambiguous terminology, repeated content.
+
+---
+
+${sharedOutputFormat(subjectSlug, createdBy, paperSlug)}
+
+---
+
+# TOPIC SLUG RULE
+
+${buildTopicInstruction(topicSlug, topics, ALL_COMPUTER_TOPICS)}
+
+---
+
+${sharedFieldRules}
+
+---
+
+# OUTPUT QUANTITY
+
+Generate **${quantity} high-quality MCQs**.
+
+---
+
+${customInstruction ? `# ADDITIONAL INSTRUCTIONS\n\n${customInstruction}\n\n---` : ''}
+
+# FINAL INSTRUCTION
+
+Return output in a **single Markdown code block**. No extra commentary.
+`.trim();
+};
+
+// ─── Prompt registry ──────────────────────────────────────────────────────────
+
+export type PromptFn = (config?: PromptConfig) => string;
+
+const prompts: Record<string, PromptFn> = {
+    'current-affairs':       currentAffairsPrompt,
+    'current-affairs-mcqs':  currentAffairsPrompt,
+    'history':               historyPrompt,
+    'history-mcqs':          historyPrompt,
+    'pak-studies':           pakStudiesPrompt,
+    'pak-studies-mcqs':      pakStudiesPrompt,
+    'islamic-studies':       islamicStudiesPrompt,
+    'islamic-studies-mcqs':  islamicStudiesPrompt,
+    'general-knowledge':     generalKnowledgePrompt,
+    'general-knowledge-mcqs':generalKnowledgePrompt,
+    'english':               englishPrompt,
+    'english-mcqs':          englishPrompt,
+    'math':                  mathPrompt,
+    'math-mcqs':             mathPrompt,
+    'geography':             geographyPrompt,
+    'geography-mcqs':        geographyPrompt,
+    'science':               sciencePrompt,
+    'science-mcqs':          sciencePrompt,
+    'computer':              computerPrompt,
+    'computer-mcqs':         computerPrompt,
 };
 
 export default prompts;
