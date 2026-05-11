@@ -73,25 +73,27 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-    {{ $this->meta['canonical'] }}
+{{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-    {{ $this->meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-    {{ $this->meta['description'] }}
+{{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-    {{ $this->meta['og_image'] }}
+{{ $this->meta['og_image'] }}
 @endslot
 
 <div>
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
@@ -121,7 +123,7 @@ new class extends Component {
                 <h1 class="text-md sm:text-lg md:text-3xl font-bold" wire:ignore.self title="{{ $pageIntro['title'] }}">
                     {!! str($pageIntro['title'])->title() !!}
                 </h1>
-                <div class="text-sm sm:text-base md:text-lg text-justify">{!! str($pageIntro['description'])->markdown() !!}</div>
+                <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">{!! str($pageIntro['description'])->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base lg:text-lg font-bold">Search MCQs, Papers, Topics</h2>
@@ -137,7 +139,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($mcqs as $mcq)
-                                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                            <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                             @endforeach
                         </div>
                     </div>
@@ -148,38 +150,39 @@ new class extends Component {
                 </div>
                 <x-aside>
                     @if ($currentAffairs)
-                        <div class="rounded-lg bg-card p-6 shadow-md">
-                            <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
-                            <p class="mb-3 text-muted-foreground text-sm">Stay updated with the latest current affairs
-                                for FPSC, PPSC, NTS, CSS,
-                                PMS
-                                and other competitive exams in Pakistan.</p>
-                            <div class="md:px-2">
-                                @foreach ($currentAffairs as $currentAffair)
-                                    <x-aside.link route="public.subject.topic.show" :params="[
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Current Affairs</h2>
+                        <p class="mb-3 text-muted-foreground text-sm">Stay updated with the latest current affairs
+                            for FPSC, PPSC, NTS, CSS,
+                            PMS
+                            and other competitive exams in Pakistan.</p>
+                        <div class="md:px-2">
+                            @foreach ($currentAffairs as $currentAffair)
+                            <x-aside.link route="public.subject.topic.show" :params="[
                                         'subject' => $currentAffair->subject->slug,
                                         'topic' => $currentAffair->slug,
                                     ]"
-                                        label="{{ $currentAffair->name }}" icon="heroicon-s-book-open" />
-                                @endforeach
-                            </div>
+                                label="{{ $currentAffair->name }}" icon="heroicon-s-book-open" />
+                            @endforeach
                         </div>
+                    </div>
                     @else
-                        <div class="rounded-lg bg-card p-6 shadow-md">
-                            <h2 class="mb-2 text-lg font-semibold">Topics</h2>
-                            <p class="mb-3 text-muted-foreground text-sm">Explore topics related to
-                                {{ $subject->name }}</p>
-                            <div class="md:px-2">
-                                @foreach ($topics as $topic)
-                                    <x-aside.link route="public.subject.topic.show" :params="[
+                    <div class="rounded-lg bg-card p-6 shadow-md">
+                        <h2 class="mb-2 text-lg font-semibold">Topics</h2>
+                        <p class="mb-3 text-muted-foreground text-sm">Explore topics related to
+                            {{ $subject->name }}
+                        </p>
+                        <div class="md:px-2">
+                            @foreach ($topics as $topic)
+                            <x-aside.link route="public.subject.topic.show" :params="[
                                         'subject' => $topic->subject->slug,
                                         'topic' => $topic->slug,
                                     ]"
-                                        label="{{ $topic->name }}" icon="heroicon-s-book-open" />
-                                @endforeach
-                            </div>
+                                label="{{ $topic->name }}" icon="heroicon-s-book-open" />
+                            @endforeach
                         </div>
-                        <livewire:aside.current-affairs />
+                    </div>
+                    <livewire:aside.current-affairs />
                     @endif
                     <livewire:aside.latest-subjects />
                     <livewire:aside.latest-departments />

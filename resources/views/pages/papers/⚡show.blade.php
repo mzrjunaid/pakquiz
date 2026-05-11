@@ -115,7 +115,7 @@ new class extends Component {
                     {!! str($pageIntro->name)->title() !!}
                 </h1>
                 @if ($pageIntro->description)
-                <div class="prose prose-sm text-xs md:text-base md:prose-base lg:prose-lg text-justify space-y-3 max-w-none w-full">
+                <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">
                     {!! str($pageIntro->description)->markdown() !!}
                 </div>
                 @endif

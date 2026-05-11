@@ -85,7 +85,6 @@ new class extends Component {
                 ],
             ],
             'directApply' => (bool) $this->job->apply_url,
-            'totalJobOpenings' => $this->job->total_posts,
         ];
 
         $schema = array_filter($schema, fn($v) => $v !== null);
@@ -153,7 +152,7 @@ new class extends Component {
                     {{ $job->department->name }} · {{ $job->testingService?->short_name }}
                 </span>
                 <h1 class="font-serif text-3xl font-bold text-white mb-1 leading-tight">{{ $job->title }}</h1>
-                <p class="text-sm text-secondary-foreground font-semibold text-sm">
+                <p class="text-sm text-secondary-foreground font-semibold">
                     {{ $job->case_number ? 'Case No. ' . $job->case_number : '' }}
                     {{ $job->testingService?->short_name }} Recruitment {{ $job->created_at->format('Y') }}</p>
                 <div class="grid grid-cols-3 gap-3 mt-5">

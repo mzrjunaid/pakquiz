@@ -1,6 +1,6 @@
 <?php
 
-use App\Http\Resources\Public\Mcq\McqIndexCollection;
+use App\Http\Resources\Frontend\Mcq\McqIndexCollection;
 use App\Models\Mcq;
 use App\Models\Subject;
 use App\Models\Topic;
@@ -57,8 +57,6 @@ new class extends Component {
             'schema' => $combinedSchema,
         ];
     }
-
-    
 };
 ?>
 
@@ -84,7 +82,9 @@ new class extends Component {
 <div>
     @teleport('head')
     <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        {
+            !!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
@@ -120,7 +120,7 @@ new class extends Component {
                 <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $topic->name . ' MCQs with Answers and Explanations' }}">
                     {!! str($topic->name)->title() . ' MCQs with Answers and Explanations' !!}
                 </h1>
-                <div class="text-sm md:text-base text-justify">{!! str($pageIntro['description'])->markdown() !!}</div>
+                <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">{!! str($pageIntro['description'])->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
