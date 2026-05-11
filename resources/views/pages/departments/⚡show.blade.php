@@ -49,7 +49,7 @@ new class extends Component {
             ->has('mcqs', '>', 0)
             ->latest('created_at')
             ->paginate($limit)
-            ->onEachSide(0) 
+            ->onEachSide(0)
             ->withQueryString();
 
         $resource = PaperIndexCollection::make($papers);
@@ -177,7 +177,7 @@ new class extends Component {
                             @endforeach
                         </div>
                     </section>
-                </div>  
+                </div>
                 <x-aside>
                     <livewire:aside.latest-mcqs />
                     <livewire:aside.latest-papers />

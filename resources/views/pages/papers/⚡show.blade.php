@@ -57,25 +57,27 @@ new class extends Component {
 ?>
 
 @slot('canonical')
-    {{ $this->meta['canonical'] }}
+{{ $this->meta['canonical'] }}
 @endslot
 
 @slot('title')
-    {{ $this->meta['title'] }}
+{{ $this->meta['title'] }}
 @endslot
 
 @slot('description')
-    {{ $this->meta['description'] }}
+{{ $this->meta['description'] }}
 @endslot
 
 @slot('image')
-    {{ $this->meta['og_image'] }}
+{{ $this->meta['og_image'] }}
 @endslot
 
 <div>
     @teleport('head')
-        <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+    <script type="application/ld+json">
+        {
+            !!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!
+        }
     </script>
     @endteleport
     <div class="max-w-7xl mx-auto px-4 lg:px-0">
@@ -89,12 +91,12 @@ new class extends Component {
                                 aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                         </li>
                         @if ($department)
-                            <li class="inline-flex gap-1 items-center">
-                                <x-heroicon-o-chevron-right class="w-4 h-4" />
-                                <a href="{{ route('public.departments.show', $department->slug) }}"
-                                    class="hover:text-primary" title="{{ $department->name }}"
-                                    aria-label="{{ $department->name }}">{{ $department->name }}</a>
-                            </li>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <a href="{{ route('public.departments.show', $department->slug) }}"
+                                class="hover:text-primary" title="{{ $department->name }}"
+                                aria-label="{{ $department->name }}">{{ $department->name }}</a>
+                        </li>
                         @endif
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-chevron-right class="w-4 h-4" />
@@ -113,9 +115,9 @@ new class extends Component {
                     {!! str($pageIntro->name)->title() !!}
                 </h1>
                 @if ($pageIntro->description)
-                    <div class="prose prose-sm text-xs md:text-base text-justify space-y-3">
-                        {!! str($pageIntro->description)->markdown() !!}
-                    </div>
+                <div class="prose prose-sm text-xs md:text-base md:prose-base lg:prose-lg text-justify space-y-3 max-w-none w-full">
+                    {!! str($pageIntro->description)->markdown() !!}
+                </div>
                 @endif
             </div>
             <div class="space-y-2 w-full md:w-1/3">
@@ -132,7 +134,7 @@ new class extends Component {
                         <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                             class="space-y-4">
                             @foreach ($mcqs as $mcq)
-                                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                            <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                             @endforeach
                         </div>
                     </div>

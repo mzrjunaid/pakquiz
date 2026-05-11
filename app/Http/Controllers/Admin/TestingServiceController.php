@@ -63,7 +63,19 @@ class TestingServiceController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/services/create', []);
+        $availableTags = Tag::query()
+            ->select('id', 'name', 'slug')
+            ->orderBy('name')
+            ->get()
+            ->map(fn($tag) => [
+                'value' => $tag->id,
+                'label' => $tag->name,
+                'slug' => $tag->slug,
+            ]);
+
+        return Inertia::render('admin/services/create', [
+            'availableTags' => $availableTags,
+        ]);
     }
 
     /**
@@ -71,7 +83,7 @@ class TestingServiceController extends Controller
      */
     public function store(Request $request)
     {
-    //
+        //
     }
 
     /**
@@ -98,10 +110,10 @@ class TestingServiceController extends Controller
             ->orderBy('name')
             ->get()
             ->map(fn($tag) => [
-        'value' => $tag->id,
-        'label' => $tag->name,
-        'slug' => $tag->slug,
-        ]);
+                'value' => $tag->id,
+                'label' => $tag->name,
+                'slug' => $tag->slug,
+            ]);
 
         return Inertia::render('admin/services/edit', [
             'testingService' => [
@@ -115,8 +127,8 @@ class TestingServiceController extends Controller
             'seoData' => $testingService->seo,
 
             'keywords' => $testingService->keywords
-            ->pluck('keyword')
-            ->implode(','),
+                ->pluck('keyword')
+                ->implode(','),
 
             'selectedTagSlugs' => $testingService->tags->pluck('slug')->values(),
 
@@ -155,11 +167,11 @@ class TestingServiceController extends Controller
             ->unique()
             ->map(function ($slug) {
 
-            return Tag::firstOrCreate(
-            ['slug' => $slug],
-            ['name' => Str::headline($slug)]
-            )->id;
-        })
+                return Tag::firstOrCreate(
+                    ['slug' => $slug],
+                    ['name' => Str::headline($slug)]
+                )->id;
+            })
             ->toArray();
 
         $seoData = collect($validated)->only(['seo_title', 'seo_description', 'seo_og_title', 'seo_og_description', 'seo_og_image'])->toArray();
@@ -174,6 +186,6 @@ class TestingServiceController extends Controller
      */
     public function destroy(string $id)
     {
-    //
+        //
     }
 }
