@@ -1,9 +1,9 @@
 @php
-$categories = [
-(object) ['name' => 'Latest Papers', 'slug' => 'latest-papers'],
-(object) ['name' => 'Past Papers', 'slug' => 'past-papers'],
-(object) ['name' => 'Upcoming Papers', 'slug' => 'upcoming-papers'],
-];
+    $categories = [
+        (object) ['name' => 'Latest Papers', 'slug' => 'latest-papers'],
+        (object) ['name' => 'Past Papers', 'slug' => 'past-papers'],
+        (object) ['name' => 'Upcoming Papers', 'slug' => 'upcoming-papers'],
+    ];
 @endphp
 
 
@@ -19,7 +19,8 @@ use Livewire\WithPagination;
 use Livewire\Attributes\Url;
 use Livewire\Attributes\Computed;
 
-new class extends Component {
+new class extends Component
+{
     use WithPagination;
 
     public string $category = '';
@@ -35,7 +36,7 @@ new class extends Component {
         $this->category = $category;
         $this->type = str_replace('-papers', '', $category);
 
-        if (!in_array($this->type, ['latest', 'past', 'upcoming'])) {
+        if (! in_array($this->type, ['latest', 'past', 'upcoming'])) {
             abort(404);
         }
 
@@ -145,7 +146,7 @@ new class extends Component {
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
             '@type' => 'BreadcrumbList',
-            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => route('public.papers.index')], ['@type' => 'ListItem', 'position' => 3, 'name' => ucfirst($this->type) . ' Papers', 'item' => route('public.papers.category_index', $this->category)]],
+            'itemListElement' => [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => route('home')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => route('public.papers.index')], ['@type' => 'ListItem', 'position' => 3, 'name' => ucfirst($this->type).' Papers', 'item' => route('public.papers.category_index', $this->category)]],
         ];
 
         $resource = PaperIndexCollection::make($this->papers);
@@ -173,10 +174,10 @@ new class extends Component {
 ?>
 
 @php
-$currentAffairs = $asideData['currentAffairs'];
-$testingServices = $asideData['testingServices'];
-$latestSubjects = $asideData['subjects'];
-$latestPapers = $asideData['latestPapers'];
+    $currentAffairs = $asideData['currentAffairs'];
+    $testingServices = $asideData['testingServices'];
+    $latestSubjects = $asideData['subjects'];
+    $latestPapers = $asideData['latestPapers'];
 @endphp
 
 
@@ -203,36 +204,40 @@ $latestPapers = $asideData['latestPapers'];
     </script>
     @endteleport
 
-    <div class="max-w-7xl mx-auto px-4 lg:px-0">
-        <section class="flex flex-col gap-6 md:flex-row px-4 py-12 md:px-0">
-            <div class="space-y-4 w-full md:w-2/3">
+    <div class="max-w-7xl mx-auto px-4 py-6 lg:py-12 lg:px-0">
+        <div class="flex flex-col-reverse md:flex-row items-start justify-between gap-4">
+            <div>
                 <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                     <ol class="inline-flex items-center md:space-x-1">
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-home class="w-4 h-4" />
-                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}" aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
+                            <a href="/" class="hover:text-primary" title="{{ __('Home') }}"
+                                aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                         </li>
                         <li class="inline-flex gap-1 items-center">
                             <x-heroicon-o-chevron-right class="w-4 h-4" />
-                            <span class="font-medium text-primary" title="{{ __('All Papers') }}" aria-label="{{ __('All Papers') }}">{{ __('All Papers') }}</span>
+                            <span class="font-medium text-primary" title="{{ __('All Papers') }}"
+                                aria-label="{{ __('All Papers') }}">{{ __('All Papers') }}</span>
                         </li>
                     </ol>
                 </nav>
                 <h1 class="text-base md:text-2xl font-bold" title="{{ $pageIntro['title'] }}">
                     {!! str($pageIntro['title'])->title() !!}
                 </h1>
-                <div class="text-xs md:text-base text-justify">{!! str($pageIntro['description'])->markdown() !!}</div>
             </div>
             <div class="space-y-2 w-full md:w-1/3">
                 <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
                 <livewire:global-search />
             </div>
-        </section>
-
-        <section class="pb-12">
-            <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-                <div class="lg:col-span-2 overflow-hidden">
-                    @if ($papers->isEmpty())
+        </div>
+        <div class="grid gap-6 lg:grid-cols-3 py-6 lg:gap-8">
+            <div class="lg:col-span-2 overflow-hidden">
+                @if ($pageIntro['description'])
+                    <div class="prose prose-sm md:prose-base lg:prose-md pb-4 space-y-0 max-w-none w-full">
+                        {!! str($pageIntro['description'])->markdown() !!}
+                    </div>
+                @endif
+                @if ($papers->isEmpty())
                     <div>
                         <div class="text-center p-6 rounded-lg shadow-md border">
                             <p class="text-sm md:text-base text-muted-foreground">
@@ -249,118 +254,46 @@ $latestPapers = $asideData['latestPapers'];
                                 PPSC, NTS, CSS and other government exams in Pakistan.</p>
                             <ul class="mt-4 space-y-2">
                                 @foreach ($latestPapers as $latestPaper)
-                                <x-paper-card :paper="$latestPaper" />
+                                    <x-paper-card :paper="$latestPaper" />
                                 @endforeach
                             </ul>
                         </div>
                     </div>
-                    @elseif($papers->count() < 10)
-                        <div>
+                @else
+                    <div>
                         <div class="relative">
                             <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
                             <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
                                 class="space-y-4">
                                 @foreach ($papers as $paper)
-                                <x-paper-card :paper="$paper" />
+                                    <x-paper-card :paper="$paper" />
                                 @endforeach
                             </div>
                         </div>
+
                         <div class="mt-8">
                             {{ $papers->links('vendor.livewire.compact-pagination') }}
                         </div>
-                        <div class="mt-8">
-                            <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
-                            <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC,
-                                PPSC, NTS, CSS and other government exams in Pakistan.</p>
-                            <ul class="mt-4 space-y-2">
-                                @foreach ($latestPapers as $latestPaper)
-                                <x-paper-card :paper="$latestPaper" />
-                                @endforeach
-                            </ul>
-                        </div>
-                </div>
-                @else
-                <div>
-                    <div class="relative">
-                        <x-loading target="gotoPage, nextPage, previousPage" message="Loading Papers..." />
-                        <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                            class="space-y-4">
-                            @foreach ($papers as $paper)
-                            <x-paper-card :paper="$paper" />
-                            @endforeach
-                        </div>
                     </div>
+                @endif
+                @if($papers->count() < 10)
                     <div class="mt-8">
-                        {{ $papers->links('vendor.livewire.compact-pagination') }}
+                        <h2 class="text-xl md:text-2xl font-bold">Some of the Latest Papers</h2>
+                        <p class="text-sm md:text-base text-justify">Explore our collection of papers for FPSC,
+                            PPSC, NTS, CSS and other government exams in Pakistan.</p>
+                        <ul class="mt-4 space-y-3">
+                            @foreach ($latestPapers as $latestPaper)
+                                <x-paper-card :paper="$latestPaper" />
+                            @endforeach
+                        </ul>
                     </div>
-                </div>
                 @endif
             </div>
             <x-aside>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Browse by Category</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest papers for FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($categories as $category)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.papers.category_index', $category->slug) }}"
-                                class="my-2 block">
-                                {{ $category->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                    </div>
-                </div>
-                <livewire:aside.current-affairs />
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Prepare for Testing Services</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest Papers by Testing Services like FPSC,
-                        PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($testingServices as $testingService)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.testing_services.show', $testingService->slug) }}"
-                                class="my-2 block">
-                                {{ $testingService->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                        <div class="text-sm text-right flex justify-end mt-2">
-                            <a href="{{ route('public.testing_services.index') }}"
-                                class="text-primary hover:underline">
-                                View All Testing Services
-                            </a>
-                        </div>
-                    </div>
-                </div>
-                <div class="rounded-lg bg-card p-6 shadow-md">
-                    <h2 class="mb-2 text-lg font-semibold">Latest Subjects</h2>
-                    <p class="mb-3 text-muted text-sm">Explore the latest subjects for FPSC, PPSC, NTS, CSS, PMS and
-                        other competitive exams in Pakistan.</p>
-                    <div class="md:px-2">
-                        @foreach ($latestSubjects as $subject)
-                        <div class="flex items-center gap-1 text-sm">
-                            <x-heroicon-s-chevron-right class="h-5 w-5" />
-                            <a href="{{ route('public.subject.show', $subject->slug) }}" class="my-2 block">
-                                {{ $subject->name }}
-                            </a>
-                        </div>
-                        @endforeach
-                        <div class="text-sm text-right flex justify-end mt-2">
-                            <a href="{{ route('public.subject.index') }}" class="text-primary hover:underline">
-                                View All Subjects
-                            </a>
-                        </div>
-                    </div>
-                </div>
+                <livewire:aside.latest-mcqs />
                 <livewire:aside.latest-papers />
-
+                <livewire:aside.current-affairs />
             </x-aside>
+        </div>
     </div>
-    </section>
-</div>
 </div>

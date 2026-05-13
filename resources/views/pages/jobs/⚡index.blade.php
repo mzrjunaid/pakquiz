@@ -9,13 +9,14 @@ use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 use App\Models\JobPosting;
 
-new class extends Component {
+new class extends Component
+{
     use WithPagination;
 
     #[Computed]
     public function meta()
     {
-        return cache()->remember('page_meta_jobs', 86400, fn() => SeoData::fromModel(Page::where('key', 'jobs')->with('seo')->firstOrFail()));
+        return cache()->remember('page_meta_jobs', 86400, fn () => SeoData::fromModel(Page::where('key', 'jobs')->with('seo')->firstOrFail()));
     }
 
     public $perPage = 10;
@@ -100,13 +101,14 @@ new class extends Component {
 @endslot
 
 
-<div class="max-w-7xl mx-auto px-4 lg:px-0">
+<x-display>
     @teleport('head')
     <script type="application/ld+json">
         {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
-    <section class="flex flex-col gap-6 md:flex-row py-6 lg:py-12 md:px-0">
+
+    <x-slot:pageHeader>
         <div class="space-y-4 w-full md:w-2/3">
             <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                 <ol class="inline-flex items-center md:space-x-1">
@@ -123,51 +125,53 @@ new class extends Component {
             <h1 class="text-base md:text-2xl font-bold" wire:ignore.self title="{{ $pageIntro->title }}">
                 {!! str($pageIntro->title)->title() !!}
             </h1>
-            <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">{!! str($pageIntro->description)->markdown() !!}</div>
         </div>
         <div class="space-y-2 w-full md:w-1/3">
             <h2 class="text-sm md:text-base font-bold">Search MCQs, Papers, Topics</h2>
             <livewire:global-search />
         </div>
-    </section>
+    </x-slot:pageHeader>
 
-    <section class="pb-12">
-        <div class="grid gap-6 lg:grid-cols-3 lg:gap-8">
-            <div class="lg:col-span-2 space-y-6 overflow-hidden">
-                <section class="space-y-6">
-                <div class="relative">
-                    <x-loading target="gotoPage, nextPage, previousPage" message="Loading Jobs..." />
-                    <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                        class="space-y-4">
-                        @forelse ($jobs as $job)
-                        <x-job-card :job="$job" />
-                        @empty
-                            <div class="text-center py-12">
-                                <p class="text-gray-500">No jobs available, check back later.</p>
-                            </div>
-                        @endforelse
-                    </div>
-                </div>
-
-                <div class="mt-8">
-                    {{ $jobs->links('vendor.livewire.compact-pagination') }}
-                </div>
-                </section>
-                <section class="space-y-6">
-                    <h2 class="text-lg md:text-xl font-bold">Related Research Papers</h2>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        @foreach ($latestPapers as $paper)
-                            <x-paper-card :paper="$paper" :level="'h3'" />
-                        @endforeach
-                    </div>
-                </section>
-
-            </div>
-            <x-aside>
-                <livewire:aside.latest-mcqs />
-                <livewire:aside.latest-papers />
-                <livewire:aside.current-affairs />
-            </x-aside>
+    <x-slot:pageMain>
+        <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">
+            {!! str($pageIntro->description)->markdown() !!}
         </div>
-    </section>
-</div>
+
+        <section class="space-y-6 mt-6">
+            <div class="relative">
+                <x-loading target="gotoPage, nextPage, previousPage" message="Loading Jobs..." />
+                <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
+                    class="space-y-4">
+                    @forelse ($jobs as $job)
+                        <x-job-card :job="$job" />
+                    @empty
+                        <div class="text-center py-12">
+                            <p class="text-gray-500">No jobs available, check back later.</p>
+                        </div>
+                    @endforelse
+                </div>
+            </div>
+
+            <div class="mt-8">
+                {{ $jobs->links('vendor.livewire.compact-pagination') }}
+            </div>
+        </section>
+        <section class="space-y-6">
+            <h2 class="text-lg md:text-xl font-bold">Related Research Papers</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                @foreach ($latestPapers as $paper)
+                    <x-paper-card :paper="$paper" :level="'h3'" />
+                @endforeach
+            </div>
+        </section>
+
+    </x-slot:pageMain>
+
+    <x-slot:pageAside>
+        <x-aside>
+            <livewire:aside.latest-mcqs />
+            <livewire:aside.latest-papers />
+            <livewire:aside.current-affairs />
+        </x-aside>
+    </x-slot:pageAside>
+</x-display>
