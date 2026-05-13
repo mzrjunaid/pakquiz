@@ -9,7 +9,8 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
-new class extends Component {
+new class extends Component
+{
     use WithPagination;
 
     public $perPage = 10;
@@ -46,7 +47,7 @@ new class extends Component {
     #[Computed]
     public function meta()
     {
-        return cache()->remember('page_meta_mcqs', 86400, fn() => SeoData::fromModel(Page::where('key', 'mcqs')->with('seo')->firstOrFail()));
+        return cache()->remember('page_meta_mcqs', 86400, fn () => SeoData::fromModel(Page::where('key', 'mcqs')->with('seo')->firstOrFail()));
     }
 };
 ?>
@@ -71,13 +72,13 @@ new class extends Component {
 
 
 <x-display>
-    @teleport('head')
-    <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-    </script>
-    @endteleport
 
     <x-slot:pageHeader>
+        @teleport('head')
+        <script type="application/ld+json">
+            {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
+        @endteleport
         <div>
             <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                 <ol class="inline-flex items-center md:space-x-1">
@@ -103,13 +104,13 @@ new class extends Component {
     </x-slot:pageHeader>
 
     <x-slot:pageMain>
-        <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">{!! str($pageIntro->description)->markdown() !!}</div>
+        <div class="prose prose-sm md:prose-base lg:prose-lg space-y-3 max-w-none w-full">
+            {!! str($pageIntro->description)->markdown() !!}</div>
         <div class="relative">
             <x-loading target="gotoPage, nextPage, previousPage" message="Loading MCQs..." />
-            <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                class="space-y-4">
+            <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300" class="space-y-4">
                 @foreach ($mcqs as $mcq)
-                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                    <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                 @endforeach
             </div>
         </div>

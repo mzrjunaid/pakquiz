@@ -102,13 +102,13 @@ new class extends Component
 
 
 <x-display>
-    @teleport('head')
-    <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-    </script>
-    @endteleport
 
     <x-slot:pageHeader>
+        @teleport('head')
+        <script type="application/ld+json">
+            {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
+        @endteleport
         <div class="space-y-4 w-full md:w-2/3">
             <nav class="flex mb-5 text-sm" aria-label="{{ __('Breadcrumb') }}">
                 <ol class="inline-flex items-center md:space-x-1">

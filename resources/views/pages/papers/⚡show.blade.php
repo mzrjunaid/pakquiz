@@ -8,7 +8,8 @@ use Livewire\Component;
 use Livewire\Attributes\Computed;
 use Livewire\WithPagination;
 
-new class extends Component {
+new class extends Component
+{
     public Paper $paper;
     public $department;
 
@@ -29,7 +30,7 @@ new class extends Component {
 
         $resource = McqIndexCollection::make($mcqs);
 
-        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/' . $this->paper->slug)]];
+        $breadcrumbList = [['@type' => 'ListItem', 'position' => 1, 'name' => 'Home', 'item' => url('/')], ['@type' => 'ListItem', 'position' => 2, 'name' => 'All Papers', 'item' => url('/papers')], ['@type' => 'ListItem', 'position' => 3, 'name' => $this->paper->name, 'item' => url('/papers/'.$this->paper->slug)]];
 
         $breadcrumbSchema = [
             '@context' => 'https://schema.org',
@@ -73,13 +74,12 @@ new class extends Component {
 @endslot
 
 <x-display>
-    @teleport('head')
-    <script type="application/ld+json">
-        {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
-    </script>
-    @endteleport
-
     <x-slot:pageHeader>
+        @teleport('head')
+        <script type="application/ld+json">
+            {!!json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
+        </script>
+        @endteleport
         <div class="w-full">
             <nav class="flex items-center mb-5 text-sm overflow-hidden" aria-label="{{ __('Breadcrumb') }}">
                 <ol class="inline-flex items-center md:space-x-1">
@@ -89,12 +89,12 @@ new class extends Component {
                             aria-label="{{ __('Home') }}">{{ __('Home') }}</a>
                     </li>
                     @if ($department)
-                    <li class="inline-flex gap-1 items-center">
-                        <x-heroicon-o-chevron-right class="w-4 h-4" />
-                        <a href="{{ route('public.departments.show', $department->slug) }}"
-                            class="hover:text-primary" title="{{ $department->name }}"
-                            aria-label="{{ $department->name }}">{{ $department->name }}</a>
-                    </li>
+                        <li class="inline-flex gap-1 items-center">
+                            <x-heroicon-o-chevron-right class="w-4 h-4" />
+                            <a href="{{ route('public.departments.show', $department->slug) }}" class="hover:text-primary"
+                                title="{{ $department->name }}"
+                                aria-label="{{ $department->name }}">{{ $department->name }}</a>
+                        </li>
                     @endif
                     <li class="inline-flex gap-1 items-center">
                         <x-heroicon-o-chevron-right class="w-4 h-4" />
@@ -104,8 +104,7 @@ new class extends Component {
                     <li class="inline-flex gap-1 items-center">
                         <x-heroicon-o-chevron-right class="w-4 h-4 text-nowrap" />
                         <span class="font-medium text-primary text-wrap max-w-sm truncate line-clamp-1"
-                            title="{{ $paper->name }}"
-                            aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
+                            title="{{ $paper->name }}" aria-label="{{ $paper->name }}">{{ $paper->name }}</span>
                     </li>
                 </ol>
             </nav>
@@ -119,16 +118,15 @@ new class extends Component {
 
     <x-slot:pageMain>
         @if ($pageIntro->description)
-        <div class="prose prose-sm md:prose-base lg:prose-md pb-4 space-y-0 max-w-none w-full">
-            {!! str($pageIntro->description)->markdown() !!}
-        </div>
+            <div class="prose prose-sm md:prose-base lg:prose-md pb-4 space-y-0 max-w-none w-full">
+                {!! str($pageIntro->description)->markdown() !!}
+            </div>
         @endif
         <div class="relative">
             <x-loading target="gotoPage, nextPage, previousPage" message="Loading MCQs..." />
-            <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300"
-                class="space-y-4">
+            <div wire:loading.class="opacity-20 pointer-events-none transition-opacity duration-300" class="space-y-4">
                 @foreach ($mcqs as $mcq)
-                <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
+                    <x-mcq-card :mcq="$mcq" :idx="$loop->index" :route="route('public.mcqs.show', $mcq->slug)" />
                 @endforeach
             </div>
         </div>
