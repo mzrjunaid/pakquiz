@@ -98,6 +98,6 @@ class TestingService extends Model
 
     public function canonicalUrl()
     {
-        return route('testing_services.show', $this);
+        return route('public.testing_services.show', $this);
     }
 }

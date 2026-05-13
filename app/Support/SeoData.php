@@ -6,14 +6,15 @@ use App\Models\Department;
 use App\Models\Mcq;
 use App\Models\Paper;
 use App\Models\Subject;
+use App\Models\TestingService;
 use App\Models\Topic;
 
 class SeoData
 {
     public static function fromModel($model)
     {
-        if (!$model || !$model->seo) {
-            return self::default ();
+        if (! $model || ! $model->seo) {
+            return self::default();
         }
 
         return [
@@ -31,8 +32,8 @@ class SeoData
     {
         $subject->loadMissing('seo');
 
-        if (!$subject || !$subject->seo) {
-            return self::default ();
+        if (! $subject || ! $subject->seo) {
+            return self::default();
         }
 
         $canonical = $subject->seo->canonical
@@ -40,10 +41,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $subject->seo->title ?? $subject->name . ' | PakQuiz',
+            'title' => $subject->seo->title ?? $subject->name.' | PakQuiz',
             'description' => $subject->description ?? $subject->seo->description,
             'keywords' => $subject->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $subject->seo->og_title ?? $subject->name . ' | PakQuiz',
+            'og_title' => $subject->seo->og_title ?? $subject->name.' | PakQuiz',
             'og_description' => $subject->seo->og_description ?? $subject->description,
             'og_image' => $subject->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -54,8 +55,8 @@ class SeoData
     {
         $topic->loadMissing('seo');
 
-        if (!$topic || !$topic->seo) {
-            return self::default ();
+        if (! $topic || ! $topic->seo) {
+            return self::default();
         }
 
         $canonical = $topic->seo->canonical
@@ -63,10 +64,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $topic->seo->title ?? $topic->name . ' | ' . $subject->name . ' | PakQuiz',
+            'title' => $topic->seo->title ?? $topic->name.' | '.$subject->name.' | PakQuiz',
             'description' => $topic->description ?? $topic->seo->description,
-            'keywords' => $topic->tags->pluck('name')->implode(', ') ?? 'MCQs, ' . $subject->name . ' MCQs, ' . $topic->name . ' MCQs, Jobs',
-            'og_title' => $topic->seo->og_title ?? $topic->name . ' | ' . $subject->name . ' | PakQuiz',
+            'keywords' => $topic->tags->pluck('name')->implode(', ') ?? 'MCQs, '.$subject->name.' MCQs, '.$topic->name.' MCQs, Jobs',
+            'og_title' => $topic->seo->og_title ?? $topic->name.' | '.$subject->name.' | PakQuiz',
             'og_description' => $topic->seo->og_description ?? $topic->description,
             'og_image' => $topic->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -77,8 +78,8 @@ class SeoData
     {
         $paper->loadMissing('seo');
 
-        if (!$paper || !$paper->seo) {
-            return self::default ();
+        if (! $paper || ! $paper->seo) {
+            return self::default();
         }
 
         $canonical = $paper->seo->canonical
@@ -86,10 +87,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $paper->seo->title ?? $paper->name . ' | PakQuiz',
+            'title' => $paper->seo->title ?? $paper->name.' | PakQuiz',
             'description' => $paper->description ?? $paper->seo->description,
             'keywords' => $paper->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $paper->seo->og_title ?? $paper->name . ' | PakQuiz',
+            'og_title' => $paper->seo->og_title ?? $paper->name.' | PakQuiz',
             'og_description' => $paper->seo->og_description ?? $paper->description,
             'og_image' => $paper->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -100,8 +101,8 @@ class SeoData
     {
         $department->loadMissing('seo');
 
-        if (!$department || !$department->seo) {
-            return self::default ();
+        if (! $department || ! $department->seo) {
+            return self::default();
         }
 
         $canonical = $department->seo->canonical
@@ -109,12 +110,35 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $department->seo->title ?? $department->name . ' | PakQuiz',
+            'title' => $department->seo->title ?? $department->name.' | PakQuiz',
             'description' => $department->description ?? $department->seo->description,
             // 'keywords' => $department->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $department->seo->og_title ?? $department->name . ' | PakQuiz',
+            'og_title' => $department->seo->og_title ?? $department->name.' | PakQuiz',
             'og_description' => $department->seo->og_description ?? $department->description,
             'og_image' => $department->seo->og_image ?? asset('assets/images/og-main.png'),
+            'canonical' => $canonical,
+        ];
+    }
+
+    public static function testingServiceSeo(TestingService $testingService): array
+    {
+        $testingService->loadMissing('seo');
+
+        if (! $testingService || ! $testingService->seo) {
+            return self::default();
+        }
+
+        $canonical = $testingService->seo->canonical
+            ?? $testingService->canonicalUrl()
+            ?? url()->current();
+
+        return [
+            'title' => $testingService->seo->title ?? $testingService->name.' | PakQuiz',
+            'description' => $testingService->description ?? $testingService->seo->description,
+            // 'keywords' => $department->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
+            'og_title' => $testingService->seo->og_title ?? $testingService->name.' | PakQuiz',
+            'og_description' => $testingService->seo->og_description ?? $testingService->description,
+            'og_image' => $testingService->seo->og_image ?? asset('assets/images/og-main.png'),
             'canonical' => $canonical,
         ];
     }
@@ -123,8 +147,8 @@ class SeoData
     {
         $mcq->loadMissing('seo');
 
-        if (!$mcq || !$mcq->seo) {
-            return self::default ();
+        if (! $mcq || ! $mcq->seo) {
+            return self::default();
         }
 
         $canonical = $mcq->seo->canonical
@@ -132,10 +156,10 @@ class SeoData
             ?? url()->current();
 
         return [
-            'title' => $mcq->seo->title ?? $mcq->question . ' | PakQuiz',
+            'title' => $mcq->seo->title ?? $mcq->question.' | PakQuiz',
             'description' => $mcq->explanation ?? $mcq->seo->description,
             'keywords' => $mcq->tags->pluck('name')->implode(', ') ?? 'MCQs, Preparation, Jobs',
-            'og_title' => $mcq->seo->og_title ?? $mcq->question . ' | PakQuiz',
+            'og_title' => $mcq->seo->og_title ?? $mcq->question.' | PakQuiz',
             'og_description' => $mcq->seo->og_description ?? $mcq->explanation,
             'og_image' => $mcq->seo->og_image ? asset($mcq->seo->og_image) : asset('assets/images/og-main.png'),
             'canonical' => $canonical,
@@ -146,16 +170,15 @@ class SeoData
     {
         if ($query) {
             return [
-                'title' => 'Search results for "' . $query . '" | PakQuiz',
-                'description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
-                'keywords' => $query . ', MCQs, Preparation, Jobs',
-                'og_title' => 'Search results for "' . $query . '" | PakQuiz',
-                'og_description' => 'Search results for "' . $query . '" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
+                'title' => 'Search results for "'.$query.'" | PakQuiz',
+                'description' => 'Search results for "'.$query.'" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
+                'keywords' => $query.', MCQs, Preparation, Jobs',
+                'og_title' => 'Search results for "'.$query.'" | PakQuiz',
+                'og_description' => 'Search results for "'.$query.'" on PakQuiz – MCQs, practice papers, and subjects for FPSC, PPSC, NTS, CSS & PMS exam preparation.',
                 'og_image' => asset('assets/images/og-main.png'),
-                'canonical' => url('/search') . '?q=' . urlencode($query),
+                'canonical' => url('/search').'?q='.urlencode($query),
             ];
-        }
-        else
+        } else
             return [
                 'title' => 'Search PakQuiz – MCQs, Papers & Subjects',
                 'description' => 'Search PakQuiz\'s database of MCQs, practice papers and subjects for FPSC, PPSC, NTS, CSS and PMS exam preparation in Pakistan.',
@@ -167,7 +190,7 @@ class SeoData
             ];
     }
 
-    public static function default ()
+    public static function default()
     {
         return [
             'title' => config('app.name'),

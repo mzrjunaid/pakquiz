@@ -30,17 +30,17 @@ new class extends Component {
         return cache()->remember('site_stats', 3600, function () {
             return collect(
                 DB::select("
-            SELECT 
-                (SELECT COUNT(*) FROM mcqs) as mcqs, 
+            SELECT
+                (SELECT COUNT(*) FROM mcqs) as mcqs,
                 (SELECT COUNT(*) FROM papers) as papers
         "),
             )->first();
         });
     }
 
-    
+
     public function with()
-    {    
+    {
         return [
             'latestMcqs' => McqWithOptionsResource::collection(Mcq::latestWithOptions()->limit(5)->get()),
             'latestJobs' => JobPosting::latestJobs()->limit(5)->get(),
@@ -81,7 +81,7 @@ new class extends Component {
         {!! json_encode($schema, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES) !!}
     </script>
     @endteleport
-    <section class="max-w-7xl mx-auto px-4 lg:px-0 py-6 md:py-12 space-y-12">
+    <section class="max-w-7xl mx-auto px-4 2xl:px-0 py-6 md:py-12 space-y-12">
         <section>
             <div class="grid items-center gap-12 lg:grid-cols-2">
                 <div>
@@ -164,7 +164,7 @@ new class extends Component {
 
 Every question is based on **real past papers** and updated for the latest '.date('Y') . ' exam patterns.
 
-Practice MCQs by subject, paper, department, and topic — including **General Knowledge**, **Pakistan Studies**, **English**, **Islamiat**, **Everyday Science**, and **Current Affairs**.') 
+Practice MCQs by subject, paper, department, and topic — including **General Knowledge**, **Pakistan Studies**, **English**, **Islamiat**, **Everyday Science**, and **Current Affairs**.')
                             !!}
                     </div>
                 </header>

@@ -1,4 +1,4 @@
-<section class="max-w-7xl mx-auto px-4 py-12 lg:px-0">
+<section class="max-w-7xl mx-auto px-4 py-12 2xl:px-0">
     <!-- Header -->
     <header class="flex flex-col-reverse md:flex-row items-center mb-6 justify-between gap-6">
         {!! $pageHeader ?? '' !!}
