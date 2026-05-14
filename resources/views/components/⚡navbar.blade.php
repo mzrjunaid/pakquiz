@@ -2,12 +2,14 @@
 
 use Livewire\Component;
 
-new class extends Component {
+new class extends Component
+{
     public function with()
     {
         return [
             'nav' => config('navigation.public.nav'),
             'subjects' => config('navigation.public.subjects'),
+            'testing_services' => config('navigation.public.testing_services'),
             'papers' => config('navigation.public.papers'),
             'about_us' => config('navigation.public.about_us'),
         ];
@@ -15,11 +17,10 @@ new class extends Component {
 };
 ?>
 
-<header
-    class="w-full relative shadow-sm text-sm not-has-[nav]:hidden sticky top-0 right-0 left-0 z-50 shadow-sm backdrop-blur-lg"
+<header class="w-full text-sm not-has-[nav]:hidden sticky top-0 right-0 left-0 z-50 shadow-sm backdrop-blur-lg"
     x-data="{ mobileMenuOpen: false }">
     <div class="flex max-w-7xl px-4 xl:px-0 lg:mx-auto items-center justify-between gap-4">
-        <div class="w-full lg:w-lg">
+        <div class="w-full lg:w-xs">
             <a href="{{ route('home') }}" aria-label="PakQuiz Logo" title="PakQuiz Logo" class="text-2xl font-bold ">
                 <img src="{{ asset('logo.svg') }}" alt="PakQuiz Logo" class="h-12 w-auto" height="48" width="112"
                     fetchpriority="high" decoding="async" />
@@ -30,10 +31,42 @@ new class extends Component {
             <div>
                 <!-- Desktop Navigation -->
                 <div class="hidden lg:flex items-center space-x-3">
-                    <!-- Regular Link -->
+
+                    <!-- Home -->
                     <x-nav-link route="home">Home</x-nav-link>
 
-                    <!-- Dropdown Menu -->
+                    <!-- Jobs -->
+                    <x-nav-link route="public.jobs.index">Jobs</x-nav-link>
+
+                    <!-- Testing Services -->
+                    <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
+                        <x-nav-link route="public.testing_services.index">
+                            Testing Services
+                            <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }"
+                                fill="currentColor" viewBox="0 0 20 20">
+                                <path fill-rule="evenodd"
+                                    d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                                    clip-rule="evenodd" />
+                            </svg>
+                        </x-nav-link>
+
+                        <!-- Dropdown Content -->
+                        <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                            x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                            x-transition:leave="transition ease-in duration-150"
+                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                            class="absolute z-10 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5"
+                            x-cloak>
+                            <div class="py-1">
+                                @foreach ($testing_services as $item)
+                                    <a href="{{ $item['link'] }}"
+                                        class="block px-4 py-2 text-sm hover:bg-gray-100">{{ $item['title'] }}</a>
+                                @endforeach
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Subjects -->
                     <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <x-nav-link route="public.subject.index">
                             Subjects
@@ -61,9 +94,7 @@ new class extends Component {
                         </div>
                     </div>
 
-                    <x-nav-link route="public.jobs.index">Jobs</x-nav-link>
-
-                    <!-- Another Dropdown -->
+                    <!-- Papers -->
                     <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <x-nav-link route="public.papers.index">
                             Papers
@@ -87,6 +118,7 @@ new class extends Component {
                         </div>
                     </div>
 
+                    <!-- About Us -->
                     <div x-data="{ open: false }" @mouseenter="open = true" @mouseleave="open = false" class="relative">
                         <x-nav-link route="aboutUs">
                             About Us
@@ -110,6 +142,7 @@ new class extends Component {
                         </div>
                     </div>
 
+                    <!-- Demo -->
                     <x-nav-link route="demo">Demo</x-nav-link>
                 </div>
 
@@ -149,10 +182,44 @@ new class extends Component {
                 Home
             </a>
 
-            <!-- Dropdown Menu -->
+            <!-- Jobs -->
+            <a href="{{ route('public.jobs.index') }}"
+                class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 rounded-sm">
+                Jobs
+            </a>
+
+            <!-- Testing Services -->
+            <div x-data="{ open: false }" @click.away="open = false" class="relative">
+                <button aria-label="Testing Services" name="testing-services" @click="open = !open"
+                    class="hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
+                    Testing Services
+                    <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
+                        viewBox="0 0 20 20">
+                        <path fill-rule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clip-rule="evenodd" />
+                    </svg>
+                </button>
+
+                <!-- Dropdown Content -->
+                <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                    x-transition:enter-start="opacity-0 scale-95" x-transition:enter-end="opacity-100 scale-100"
+                    x-transition:leave="transition ease-in duration-150"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-95"
+                    x-cloak>
+                    <div class="py-1">
+                        @foreach ($testing_services as $item)
+                            <a href="{{ $item['link'] }}"
+                                class="block px-4 py-2 text-sm  hover:bg-gray-100 rounded-sm">{{ $item['title'] }}</a>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+
+            <!-- Subjects -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
                 <button aria-label="Subjects" name="subjects" @click="open = !open"
-                    class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
+                    class="hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
                     Subjects
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
                         viewBox="0 0 20 20">
@@ -177,15 +244,11 @@ new class extends Component {
                 </div>
             </div>
 
-            <a href="{{ route('public.jobs.index') }}"
-                class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 rounded-sm">
-                Jobs
-            </a>
 
-            <!-- Another Dropdown -->
+            <!-- Papers -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
                 <button aria-label="Papers" name="papers" @click="open = !open"
-                    class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
+                    class=" hover:text-primary w-full hover:bg-gray-100 px-3 py-2 flex items-center rounded-sm">
                     Papers
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
                         viewBox="0 0 20 20">
@@ -205,9 +268,10 @@ new class extends Component {
                 </div>
             </div>
 
+            <!-- About US -->
             <div x-data="{ open: false }" @click.away="open = false" class="relative">
                 <button aria-label="About Us" name="about_us" @click="open = !open"
-                    class="block w-full  hover:text-primary px-3 py-2 flex items-center hover:bg-gray-100 rounded-sm">
+                    class="w-full  hover:text-primary px-3 py-2 flex items-center hover:bg-gray-100 rounded-sm">
                     About Us
                     <svg class="ml-1 h-5 w-5 transition-transform" :class="{ 'rotate-180': open }" fill="currentColor"
                         viewBox="0 0 20 20">
@@ -227,6 +291,7 @@ new class extends Component {
                 </div>
             </div>
 
+            <!-- Demo -->
             <a href="/demo" class="block  hover:text-primary w-full hover:bg-gray-100 px-3 py-2 rounded-sm">Demo</a>
         </div>
     </div>

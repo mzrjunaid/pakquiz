@@ -16,6 +16,11 @@ return [
             ['title' => 'About Us', 'link' => '/about-us'],
             ['title' => 'Demo', 'link' => '/demo'],
         ],
+        'testing_services' => [
+            ['title' => 'PPSC', 'link' => 'testing-services/ppsc'],
+            ['title' => 'FPSC', 'link' => 'testing-services/fpsc'],
+            ['title' => 'All Services', 'link' => '/testing-services'],
+        ],
         'subjects' => [
             ['title' => 'Current Affairs', 'link' => '/current-affairs-mcqs'],
             ['title' => 'General Knowledge', 'link' => '/general-knowledge-mcqs'],
