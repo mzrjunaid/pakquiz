@@ -9,7 +9,6 @@ use App\Support\SeoData;
 use Illuminate\Support\Facades\DB;
 use Livewire\Component;
 use Livewire\Attributes\Computed;
-use Illuminate\Support\Str;
 
 new class extends Component {
     #[Computed]

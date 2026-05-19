@@ -14,6 +14,14 @@ return [
      |
      */
 
+    'facebook' => [
+        'app_id' => env('FACEBOOK_CLIENT_ID'),
+    ],
+
+    'google' => [
+        'client_id' => env('GOOGLE_CLIENT_ID'),
+    ],
+
     'indexnow' => [
         'key' => env('INDEXNOW_KEY'),
     ],
