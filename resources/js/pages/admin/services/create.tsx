@@ -65,7 +65,7 @@ export default function TestingServiceCreate({
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        form.post(admin.testingServices.create().url, {
+        form.post(admin.testingServices.store().url, {
             preserveScroll: true,
         });
     };
@@ -312,14 +312,14 @@ export default function TestingServiceCreate({
 
                         <div className="flex flex-col gap-3 border-t pt-6 sm:flex-row sm:justify-end">
                             <Button type="button" variant="outline" asChild>
-                                <Link href={admin.departments.index().url}>
+                                <Link href={admin.testingServices.index().url}>
                                     Cancel
                                 </Link>
                             </Button>
                             <Button type="submit" disabled={form.processing}>
                                 {form.processing
                                     ? 'Saving...'
-                                    : 'Update Department'}
+                                    : 'Create Testing Service'}
                             </Button>
                         </div>
                     </form>

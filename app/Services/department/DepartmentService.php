@@ -29,49 +29,49 @@ class DepartmentService
                 SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) as today,
                 SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END) as this_week
             ', [
-                now()->startOfWeek(),
-                now()->endOfWeek()
-            ])
-                ->first() ?? (object)[
-                'total' => 0,
-                'today' => 0,
-                'this_week' => 0,
-            ];
+                    now()->startOfWeek(),
+                    now()->endOfWeek()
+                ])
+                ->first() ?? (object) [
+                    'total' => 0,
+                    'today' => 0,
+                    'this_week' => 0,
+                ];
 
             $topCreator = DB::table('departments')
                 ->join('users', 'departments.created_by', '=', 'users.id')
                 ->select(
-                'users.id',
-                'users.name',
-                DB::raw('COUNT(departments.id) as total_entries')
-            )
+                    'users.id',
+                    'users.name',
+                    DB::raw('COUNT(departments.id) as total_entries')
+                )
                 ->groupBy('users.id', 'users.name')
                 ->orderByDesc('total_entries')
-                ->first() ?? (object)[
-                'id' => null,
-                'name' => null,
-                'total_entries' => 0,
-            ];
+                ->first() ?? (object) [
+                    'id' => null,
+                    'name' => null,
+                    'total_entries' => 0,
+                ];
 
             return [
-                'total' => (int)$counts->total,
-                'today' => (int)$counts->today,
-                'this_week' => (int)$counts->this_week,
+                'total' => (int) $counts->total,
+                'today' => (int) $counts->today,
+                'this_week' => (int) $counts->this_week,
                 'top_creator' => $topCreator->id ? [
                     'id' => $topCreator->id,
                     'name' => $topCreator->name,
-                    'total_entries' => (int)$topCreator->total_entries,
+                    'total_entries' => (int) $topCreator->total_entries,
                 ] : null,
             ];
         });
     }
 
     public function updateDepartment(
-        $validated,
-        $department,
-        $seoData,
+        array $validated,
+        Department $department,
+        array $seoData,
         ?UploadedFile $seoImage,
-        $keywordIds)
+        array $keywordIds)
     {
         return DB::transaction(function () use ($validated, $department, $seoData, $seoImage, $keywordIds) {
             $validated['updated_by'] = Auth::id();
@@ -89,8 +89,7 @@ class DepartmentService
             );
             if ($ogImagePath !== null) {
                 $seoData['og_image'] = $ogImagePath;
-            }
-            else {
+            } else {
                 unset($seoData['og_image']);
             }
             $seoData['updated_by'] = Auth::id();
@@ -98,8 +97,7 @@ class DepartmentService
 
             if ($seo) {
                 $seo->update($seoData);
-            }
-            else {
+            } else {
                 $department->seo()->create($seoData);
             }
 
@@ -111,7 +109,7 @@ class DepartmentService
         });
     }
 
-    public function createDepartment($data, $seoData, ?UploadedFile $seoImage, $keywordIds)
+    public function createDepartment(array $data, array $seoData, ?UploadedFile $seoImage, array $keywordIds)
     {
         return DB::transaction(function () use ($data, $seoData, $seoImage, $keywordIds) {
             $data['created_by'] = Auth::id();
