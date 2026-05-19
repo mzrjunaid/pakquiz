@@ -17,8 +17,8 @@ return [
             ['title' => 'Demo', 'link' => '/demo'],
         ],
         'testing_services' => [
-            ['title' => 'PPSC', 'link' => 'testing-services/ppsc'],
-            ['title' => 'FPSC', 'link' => 'testing-services/fpsc'],
+            ['title' => 'PPSC', 'link' => '/testing-services/ppsc'],
+            ['title' => 'FPSC', 'link' => '/testing-services/fpsc'],
             ['title' => 'All Services', 'link' => '/testing-services'],
         ],
         'subjects' => [
