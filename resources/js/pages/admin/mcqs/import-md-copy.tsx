@@ -3,8 +3,16 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { ScrollArea } from '@/components/ui/scroll-area';
+import {
+    Select,
+    SelectContent,
+    SelectItem,
+    SelectTrigger,
+    SelectValue,
+} from '@/components/ui/select';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Textarea } from '@/components/ui/textarea';
+import prompts from '@/constants/prompts';
 import { cn } from '@/lib/utils';
 import mcqs_import from '@/routes/admin/mcqs_import';
 import { useForm } from '@inertiajs/react';
@@ -21,8 +29,6 @@ import {
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { toast } from 'sonner';
 import AdminLayout from '../components/admin-layout';
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
-import prompts from '@/constants/prompts';
 
 interface Mcq {
     question: string;
@@ -90,9 +96,9 @@ function parseTags(block: string) {
     const raw = field(block, 'Tags');
     return raw
         ? raw
-            .split(',')
-            .map((t) => t.trim())
-            .filter(Boolean)
+              .split(',')
+              .map((t) => t.trim())
+              .filter(Boolean)
         : [];
 }
 
@@ -140,7 +146,7 @@ function DifficultyBadge({
             className={cn(
                 'rounded-full border px-2 py-0.5 text-xs font-medium capitalize',
                 styles[difficulty] ??
-                'border-border bg-muted text-muted-foreground',
+                    'border-border bg-muted text-muted-foreground',
             )}
         >
             {difficulty}
@@ -247,49 +253,39 @@ function McqCard({ mcq, index }: { mcq: Mcq; index: number }) {
 
 // ─── Main ────────────────────────────────────────────────────────────────────
 
-
-
-
-
-'use client';
- 
-
-
-import {
-    ChevronDown, Sparkles, Settings2,
-} from 'lucide-react';
-import { PromptConfig } from '@/constants/prompts';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import {
     Collapsible,
     CollapsibleContent,
     CollapsibleTrigger,
 } from '@/components/ui/collapsible';
- 
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { PromptConfig } from '@/constants/prompts';
+import { ChevronDown, Settings2, Sparkles } from 'lucide-react';
+
 // ─── Types ────────────────────────────────────────────────────────────────────
- 
+
 interface Subject {
     id: number;
     name: string;
     slug: string;
 }
- 
+
 interface Topic {
     id: number;
     name: string;
     slug: string;
     subject_id: number;
 }
- 
+
 interface Props {
     subjects: Subject[];
     topics: Topic[];
     authUserId?: number;
 }
- 
+
 // ─── Date scope options ───────────────────────────────────────────────────────
- 
+
 const DATE_SCOPE_OPTIONS = [
     { label: 'Yesterday', value: 'yesterday' },
     { label: 'Today', value: 'today' },
@@ -297,58 +293,64 @@ const DATE_SCOPE_OPTIONS = [
     { label: 'Last Week', value: 'the last week' },
     { label: 'Last Month', value: 'the last month' },
 ];
- 
 
-
-
-
-export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Props) {
+export default function McqMdImporter({
+    subjects,
+    topics,
+    authUserId = 1,
+}: Props) {
     // ── Inertia form ──
-    const { data, setData, post, errors } = useForm<{ json: string }>({ json: '' });
- 
+    const { data, setData, post, errors } = useForm<{ json: string }>({
+        json: '',
+    });
+
     // ── MD / parse state ──
     const [mdText, setMdText] = useState('');
     const [mcqs, setMcqs] = useState<ReturnType<typeof parseMcqMarkdown>>([]);
     const [parseError, setParseError] = useState('');
- 
+
     // ── Copy states ──
     const [copiedPrompt, setCopiedPrompt] = useState(false);
     const [copiedJson, setCopiedJson] = useState(false);
- 
+
     // ── Subject / topic selection ──
     const [selectedSubjectId, setSelectedSubjectId] = useState<number>(
         subjects[0]?.id ?? 0,
     );
     const [selectedTopicId, setSelectedTopicId] = useState<number | null>(null);
- 
+
     // ── Prompt config ──
     const [quantity, setQuantity] = useState(50);
     const [dateScope, setDateScope] = useState('yesterday');
     const [customInstruction, setCustomInstruction] = useState('');
     const [advancedOpen, setAdvancedOpen] = useState(false);
- 
+
     // ── Derived: filtered topics for current subject ──
     const filteredTopics = useMemo(
         () => topics.filter((t) => t.subject_id === selectedSubjectId),
         [topics, selectedSubjectId],
     );
- 
+
     // ── Derived: current slugs ──
     const selectedSubject = useMemo(
         () => subjects.find((s) => s.id === selectedSubjectId),
         [subjects, selectedSubjectId],
     );
     const selectedTopic = useMemo(
-        () => (selectedTopicId ? topics.find((t) => t.id === selectedTopicId) : null),
+        () =>
+            selectedTopicId
+                ? topics.find((t) => t.id === selectedTopicId)
+                : null,
         [topics, selectedTopicId],
     );
- 
+
     // ── Build prompt ──
     const buildPrompt = useCallback((): string => {
         if (!selectedSubject) return '';
         const promptFn = prompts[selectedSubject.slug];
-        if (!promptFn) return `# No prompt template found for: ${selectedSubject.slug}`;
- 
+        if (!promptFn)
+            return `# No prompt template found for: ${selectedSubject.slug}`;
+
         const config: PromptConfig = {
             subjectSlug: selectedSubject.slug,
             topicSlug: selectedTopic?.slug,
@@ -356,49 +358,79 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
             createdBy: authUserId,
             dateScope,
             customInstruction: customInstruction.trim() || undefined,
+            topics: filteredTopics
+                .map((t) => t.slug)
+                .filter(
+                    (t) =>
+                        !t.includes('current-affairs-20') &&
+                        !t.includes('current-affairs-january') &&
+                        !t.includes('current-affairs-february') &&
+                        !t.includes('current-affairs-april') &&
+                        !t.includes('current-affairs-may') &&
+                        !t.includes('current-affairs-june') &&
+                        !t.includes('current-affairs-july') &&
+                        !t.includes('current-affairs-august') &&
+                        !t.includes('current-affairs-september') &&
+                        !t.includes('current-affairs-october') &&
+                        !t.includes('current-affairs-november') &&
+                        !t.includes('current-affairs-december'),
+                ),
         };
- 
+
         return promptFn(config);
-    }, [selectedSubject, selectedTopic, quantity, dateScope, customInstruction, authUserId]);
- 
+    }, [
+        selectedSubject,
+        selectedTopic,
+        quantity,
+        dateScope,
+        customInstruction,
+        authUserId,
+        filteredTopics,
+    ]);
+
     // ── Prompt textarea (editable) ──
     const [promptText, setPromptText] = useState<string>(() => buildPrompt());
- 
+
     // ── Regenerate prompt when config changes ──
     useEffect(() => {
         setPromptText(buildPrompt());
     }, [buildPrompt]);
- 
+
     // ── Reset topic when subject changes ──
     useEffect(() => {
         setSelectedTopicId(null);
     }, [selectedSubjectId]);
- 
+
     // ── Derived: block count ──
     const blockCount = useMemo(
         () => mdText.split(/\n---+/).filter(Boolean).length,
         [mdText],
     );
- 
+
     // ── Handlers ──
     const handleParse = useCallback(() => {
         setParseError('');
         try {
             const result = parseMcqMarkdown(mdText);
             if (!result.length) {
-                setParseError('No MCQ blocks found. Make sure blocks are separated by ---.');
+                setParseError(
+                    'No MCQ blocks found. Make sure blocks are separated by ---.',
+                );
                 return;
             }
             setMcqs(result);
             setData('json', JSON.stringify(result));
-            toast.success(`${result.length} MCQ${result.length !== 1 ? 's' : ''} parsed successfully.`);
-        } catch (e: any) {
-            const msg = 'Parse error: ' + e.message;
+            toast.success(
+                `${result.length} MCQ${result.length !== 1 ? 's' : ''} parsed successfully.`,
+            );
+        } catch (e: unknown) {
+            const msg =
+                'Parse error: ' + (e instanceof Error ? e.message : String(e));
             setParseError(msg);
             toast.error(msg);
         }
     }, [mdText, setData]);
- 
+
     const handleImport = useCallback(
         (e: React.FormEvent) => {
             e.preventDefault();
@@ -408,42 +440,42 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
             }
             post(mcqs_import.store().url, {
                 onSuccess: () => toast.success('MCQs imported successfully.'),
-                onError: () => toast.error('Import failed. Check errors below.'),
+                onError: () =>
+                    toast.error('Import failed. Check errors below.'),
             });
         },
         [data, post],
     );
- 
+
     const handleCopyPrompt = useCallback(() => {
         navigator.clipboard.writeText(promptText);
         setCopiedPrompt(true);
         setTimeout(() => setCopiedPrompt(false), 1500);
     }, [promptText]);
- 
+
     const handleCopyJson = useCallback(() => {
         navigator.clipboard.writeText(JSON.stringify(mcqs, null, 2));
         setCopiedJson(true);
         setTimeout(() => setCopiedJson(false), 1500);
     }, [mcqs]);
- 
+
     const handleClear = useCallback(() => {
         setMdText('');
         setMcqs([]);
         setParseError('');
         setData('json', '');
     }, [setData]);
- 
+
     const handleRegeneratePrompt = useCallback(() => {
         setPromptText(buildPrompt());
         toast.success('Prompt regenerated.');
     }, [buildPrompt]);
- 
+
     // ─── Render ───────────────────────────────────────────────────────────────
- 
+
     return (
         <AdminLayout title="Import MD MCQs">
             <div className="grid grid-cols-1 gap-4 p-4 lg:grid-cols-2">
- 
                 {/* ── Server-side import errors ── */}
                 {errors.json && (
                     <Alert variant="destructive" className="col-span-full">
@@ -451,12 +483,11 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                         <AlertDescription>{errors.json}</AlertDescription>
                     </Alert>
                 )}
- 
+
                 {/* ════════════════════════════════════════
                     LEFT PANEL — Markdown input + Prompt
                 ════════════════════════════════════════ */}
                 <div className="flex flex-col gap-3">
- 
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium">
@@ -467,7 +498,7 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                             {blockCount} block{blockCount !== 1 ? 's' : ''}
                         </Badge>
                     </div>
- 
+
                     {/* Tabs */}
                     <Tabs defaultValue="prompt" className="flex flex-col gap-3">
                         <TabsList className="w-fit bg-muted/10">
@@ -477,10 +508,13 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                 Prompt
                             </TabsTrigger>
                         </TabsList>
- 
+
                         {/* ── MD tab ── */}
-                        <TabsContent value="md" className="mt-0 flex flex-col gap-2">
-                            <div className="min-h-[500px] max-h-[500px] overflow-y-auto">
+                        <TabsContent
+                            value="md"
+                            className="mt-0 flex flex-col gap-2"
+                        >
+                            <div className="max-h-[500px] min-h-[500px] overflow-y-auto">
                                 <Textarea
                                     value={mdText}
                                     onChange={(e) => setMdText(e.target.value)}
@@ -491,88 +525,140 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                             {parseError && (
                                 <Alert variant="destructive" className="py-2">
                                     <AlertCircle className="h-4 w-4" />
-                                    <AlertDescription className="text-xs">{parseError}</AlertDescription>
+                                    <AlertDescription className="text-xs">
+                                        {parseError}
+                                    </AlertDescription>
                                 </Alert>
                             )}
                         </TabsContent>
- 
+
                         {/* ── Prompt tab ── */}
-                        <TabsContent value="prompt" className="mt-0 flex flex-col gap-3">
- 
+                        <TabsContent
+                            value="prompt"
+                            className="mt-0 flex flex-col gap-3"
+                        >
                             {/* ── Config row ── */}
                             <div className="flex flex-wrap items-end gap-2">
- 
                                 {/* Subject */}
                                 <div className="flex flex-col gap-1">
-                                    <Label className="text-xs text-muted-foreground">Subject</Label>
+                                    <Label className="text-xs text-muted-foreground">
+                                        Subject
+                                    </Label>
                                     <Select
                                         value={String(selectedSubjectId)}
-                                        onValueChange={(v) => setSelectedSubjectId(Number(v))}
+                                        onValueChange={(v) =>
+                                            setSelectedSubjectId(Number(v))
+                                        }
                                     >
                                         <SelectTrigger className="h-8 w-40 text-xs">
                                             <SelectValue placeholder="Subject" />
                                         </SelectTrigger>
                                         <SelectContent>
                                             {subjects.map((s) => (
-                                                <SelectItem key={s.id} value={String(s.id)} className="text-xs">
+                                                <SelectItem
+                                                    key={s.id}
+                                                    value={String(s.id)}
+                                                    className="text-xs"
+                                                >
                                                     {s.name}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                 </div>
- 
+
                                 {/* Topic */}
                                 <div className="flex flex-col gap-1">
                                     <Label className="text-xs text-muted-foreground">
-                                        Topic <span className="opacity-50">(optional)</span>
+                                        Topic{' '}
+                                        <span className="opacity-50">
+                                            (optional)
+                                        </span>
                                     </Label>
                                     <Select
-                                        value={selectedTopicId ? String(selectedTopicId) : '__all__'}
+                                        value={
+                                            selectedTopicId
+                                                ? String(selectedTopicId)
+                                                : '__all__'
+                                        }
                                         onValueChange={(v) =>
-                                            setSelectedTopicId(v === '__all__' ? null : Number(v))
+                                            setSelectedTopicId(
+                                                v === '__all__'
+                                                    ? null
+                                                    : Number(v),
+                                            )
                                         }
                                     >
                                         <SelectTrigger className="h-8 w-48 text-xs">
                                             <SelectValue placeholder="All topics" />
                                         </SelectTrigger>
                                         <SelectContent>
-                                            <SelectItem value="__all__" className="text-xs text-muted-foreground">
+                                            <SelectItem
+                                                value="__all__"
+                                                className="text-xs text-muted-foreground"
+                                            >
                                                 All topics
                                             </SelectItem>
                                             {filteredTopics.map((t) => (
-                                                <SelectItem key={t.id} value={String(t.id)} className="text-xs">
+                                                <SelectItem
+                                                    key={t.id}
+                                                    value={String(t.id)}
+                                                    className="text-xs"
+                                                >
                                                     {t.name}
                                                 </SelectItem>
                                             ))}
                                         </SelectContent>
                                     </Select>
                                 </div>
- 
+
                                 {/* Quantity */}
                                 <div className="flex flex-col gap-1">
-                                    <Label className="text-xs text-muted-foreground">Quantity</Label>
+                                    <Label className="text-xs text-muted-foreground">
+                                        Quantity
+                                    </Label>
                                     <Input
                                         type="number"
                                         min={5}
                                         max={100}
                                         value={quantity}
-                                        onChange={(e) => setQuantity(Math.max(5, Math.min(100, Number(e.target.value))))}
+                                        onChange={(e) =>
+                                            setQuantity(
+                                                Math.max(
+                                                    5,
+                                                    Math.min(
+                                                        100,
+                                                        Number(e.target.value),
+                                                    ),
+                                                ),
+                                            )
+                                        }
                                         className="h-8 w-20 text-xs"
                                     />
                                 </div>
- 
+
                                 {/* Date scope (shown only for current-affairs subject) */}
-                                {selectedSubject?.slug.includes('current-affairs') && (
+                                {selectedSubject?.slug.includes(
+                                    'current-affairs',
+                                ) && (
                                     <div className="flex flex-col gap-1">
-                                        <Label className="text-xs text-muted-foreground">Date scope</Label>
-                                        <Select value={dateScope} onValueChange={setDateScope}>
+                                        <Label className="text-xs text-muted-foreground">
+                                            Date scope
+                                        </Label>
+                                        <Select
+                                            value={dateScope}
+                                            onValueChange={setDateScope}
+                                        >
                                             <SelectTrigger className="h-8 w-36 text-xs">
                                                 <SelectValue />
                                             </SelectTrigger>
                                             <SelectContent>
                                                 {DATE_SCOPE_OPTIONS.map((o) => (
-                                                    <SelectItem key={o.value} value={o.value} className="text-xs">
+                                                    <SelectItem
+                                                        key={o.value}
+                                                        value={o.value}
+                                                        className="text-xs"
+                                                    >
                                                         {o.label}
                                                     </SelectItem>
                                                 ))}
@@ -580,10 +666,10 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                         </Select>
                                     </div>
                                 )}
- 
+
                                 {/* Spacer */}
                                 <div className="flex-1" />
- 
+
                                 {/* Actions */}
                                 <Button
                                     variant="ghost"
@@ -601,17 +687,31 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                     className="h-8 gap-1.5 text-xs"
                                     onClick={handleCopyPrompt}
                                 >
-                                    {copiedPrompt
-                                        ? <><Check className="h-3.5 w-3.5" /> Copied!</>
-                                        : <><Copy className="h-3.5 w-3.5" /> Copy prompt</>
-                                    }
+                                    {copiedPrompt ? (
+                                        <>
+                                            <Check className="h-3.5 w-3.5" />{' '}
+                                            Copied!
+                                        </>
+                                    ) : (
+                                        <>
+                                            <Copy className="h-3.5 w-3.5" />{' '}
+                                            Copy prompt
+                                        </>
+                                    )}
                                 </Button>
                             </div>
- 
+
                             {/* ── Advanced: custom instruction ── */}
-                            <Collapsible open={advancedOpen} onOpenChange={setAdvancedOpen}>
+                            <Collapsible
+                                open={advancedOpen}
+                                onOpenChange={setAdvancedOpen}
+                            >
                                 <CollapsibleTrigger asChild>
-                                    <Button variant="ghost" size="sm" className="h-7 gap-1.5 text-xs text-muted-foreground">
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="h-7 gap-1.5 text-xs text-muted-foreground"
+                                    >
                                         <Settings2 className="h-3.5 w-3.5" />
                                         Advanced
                                         <ChevronDown
@@ -621,17 +721,22 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                 </CollapsibleTrigger>
                                 <CollapsibleContent className="flex flex-col gap-1.5 pt-2">
                                     <Label className="text-xs text-muted-foreground">
-                                        Custom instruction <span className="opacity-50">(appended to prompt)</span>
+                                        Custom instruction{' '}
+                                        <span className="opacity-50">
+                                            (appended to prompt)
+                                        </span>
                                     </Label>
                                     <Textarea
                                         value={customInstruction}
-                                        onChange={(e) => setCustomInstruction(e.target.value)}
+                                        onChange={(e) =>
+                                            setCustomInstruction(e.target.value)
+                                        }
                                         placeholder="e.g. Focus only on administrative reforms. Avoid military topics."
                                         className="min-h-[72px] resize-none text-xs"
                                     />
                                 </CollapsibleContent>
                             </Collapsible>
- 
+
                             {/* ── Editable prompt textarea ── */}
                             <Textarea
                                 value={promptText}
@@ -639,31 +744,45 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                 placeholder="Prompt will appear here…"
                                 className="min-h-[340px] resize-none font-mono text-xs"
                             />
- 
+
                             {/* Info badges */}
                             <div className="flex flex-wrap gap-1.5">
                                 {selectedSubject && (
-                                    <Badge variant="secondary" className="text-xs font-mono">
+                                    <Badge
+                                        variant="secondary"
+                                        className="font-mono text-xs"
+                                    >
                                         subject: {selectedSubject.slug}
                                     </Badge>
                                 )}
                                 {selectedTopic && (
-                                    <Badge variant="secondary" className="text-xs font-mono">
+                                    <Badge
+                                        variant="secondary"
+                                        className="font-mono text-xs"
+                                    >
                                         topic: {selectedTopic.slug}
                                     </Badge>
                                 )}
-                                <Badge variant="secondary" className="text-xs font-mono">
+                                <Badge
+                                    variant="secondary"
+                                    className="font-mono text-xs"
+                                >
                                     qty: {quantity}
                                 </Badge>
-                                {selectedSubject?.slug.includes('current-affairs') && (
-                                    <Badge variant="secondary" className="text-xs font-mono">
+                                {selectedSubject?.slug.includes(
+                                    'current-affairs',
+                                ) && (
+                                    <Badge
+                                        variant="secondary"
+                                        className="font-mono text-xs"
+                                    >
                                         scope: {dateScope}
                                     </Badge>
                                 )}
                             </div>
                         </TabsContent>
                     </Tabs>
- 
+
                     {/* ── Action buttons ── */}
                     <div className="flex gap-2">
                         <Button onClick={handleParse} className="flex-1">
@@ -674,12 +793,11 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                         </Button>
                     </div>
                 </div>
- 
+
                 {/* ════════════════════════════════════════
                     RIGHT PANEL — Preview / JSON output
                 ════════════════════════════════════════ */}
                 <div className="flex flex-col gap-3">
- 
                     {/* Header */}
                     <div className="flex items-center justify-between">
                         <div className="flex items-center gap-2 text-sm font-medium">
@@ -690,20 +808,25 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                             {mcqs.length} MCQ{mcqs.length !== 1 ? 's' : ''}
                         </Badge>
                     </div>
- 
-                    <Tabs defaultValue="preview" className="flex flex-col gap-3">
+
+                    <Tabs
+                        defaultValue="preview"
+                        className="flex flex-col gap-3"
+                    >
                         <TabsList className="w-fit bg-muted/10">
                             <TabsTrigger value="preview">Preview</TabsTrigger>
                             <TabsTrigger value="json">JSON</TabsTrigger>
                         </TabsList>
- 
+
                         {/* ── Preview tab ── */}
                         <TabsContent value="preview" className="mt-0">
                             <ScrollArea className="h-[500px] max-h-[500px] rounded-lg border bg-muted/20 pr-2">
                                 {mcqs.length === 0 ? (
                                     <div className="flex h-[500px] flex-col items-center justify-center gap-2 text-sm text-muted-foreground">
                                         <FileText className="h-6 w-6 opacity-30" />
-                                        <span>Paste MD on the left and click Parse</span>
+                                        <span>
+                                            Paste MD on the left and click Parse
+                                        </span>
                                     </div>
                                 ) : (
                                     mcqs.map((mcq, i) => (
@@ -712,11 +835,14 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                                 )}
                             </ScrollArea>
                         </TabsContent>
- 
+
                         {/* ── JSON tab ── */}
-                        <TabsContent value="json" className="mt-0 flex flex-col gap-2">
+                        <TabsContent
+                            value="json"
+                            className="mt-0 flex flex-col gap-2"
+                        >
                             <ScrollArea className="h-[500px] max-h-[500px] rounded-lg border bg-muted/20">
-                                <pre className="whitespace-pre-wrap break-words p-3 font-mono text-xs leading-relaxed">
+                                <pre className="p-3 font-mono text-xs leading-relaxed break-words whitespace-pre-wrap">
                                     {mcqs.length
                                         ? JSON.stringify(mcqs, null, 2)
                                         : '// No MCQs parsed yet'}
@@ -724,7 +850,7 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                             </ScrollArea>
                         </TabsContent>
                     </Tabs>
- 
+
                     {/* ── Action buttons ── */}
                     <div className="flex gap-2">
                         <Button
@@ -733,10 +859,15 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                             disabled={!mcqs.length}
                             className="flex-1 gap-2"
                         >
-                            {copiedJson
-                                ? <><Check className="h-4 w-4" /> Copied!</>
-                                : <><Copy className="h-4 w-4" /> Copy JSON</>
-                            }
+                            {copiedJson ? (
+                                <>
+                                    <Check className="h-4 w-4" /> Copied!
+                                </>
+                            ) : (
+                                <>
+                                    <Copy className="h-4 w-4" /> Copy JSON
+                                </>
+                            )}
                         </Button>
                         <Button
                             onClick={handleImport}
@@ -747,7 +878,6 @@ export default function McqMdImporter({ subjects, topics, authUserId = 1 }: Prop
                         </Button>
                     </div>
                 </div>
- 
             </div>
         </AdminLayout>
     );
