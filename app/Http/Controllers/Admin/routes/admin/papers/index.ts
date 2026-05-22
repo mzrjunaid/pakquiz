@@ -416,7 +416,7 @@ edit.head = (args: { paper: string | { slug: string } } | [paper: string | { slu
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
 export const update = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -431,7 +431,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
 update.url = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -464,7 +464,7 @@ update.url = (args: { paper: string | { slug: string } } | [paper: string | { sl
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
 update.put = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -473,7 +473,7 @@ update.put = (args: { paper: string | { slug: string } } | [paper: string | { sl
 })
 /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
 update.patch = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -483,7 +483,7 @@ update.patch = (args: { paper: string | { slug: string } } | [paper: string | { 
 
     /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
     const updateForm = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -498,7 +498,7 @@ update.patch = (args: { paper: string | { slug: string } } | [paper: string | { 
 
             /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
         updateForm.put = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -512,7 +512,7 @@ update.patch = (args: { paper: string | { slug: string } } | [paper: string | { 
         })
             /**
 * @see \App\Http\Controllers\Admin\PaperController::update
- * @see app/Http/Controllers/Admin/PaperController.php:218
+ * @see app/Http/Controllers/Admin/PaperController.php:214
  * @route '/admin/papers/{paper}'
  */
         updateForm.patch = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -528,7 +528,7 @@ update.patch = (args: { paper: string | { slug: string } } | [paper: string | { 
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\PaperController::destroy
- * @see app/Http/Controllers/Admin/PaperController.php:312
+ * @see app/Http/Controllers/Admin/PaperController.php:308
  * @route '/admin/papers/{paper}'
  */
 export const destroy = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -543,7 +543,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::destroy
- * @see app/Http/Controllers/Admin/PaperController.php:312
+ * @see app/Http/Controllers/Admin/PaperController.php:308
  * @route '/admin/papers/{paper}'
  */
 destroy.url = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -576,7 +576,7 @@ destroy.url = (args: { paper: string | { slug: string } } | [paper: string | { s
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::destroy
- * @see app/Http/Controllers/Admin/PaperController.php:312
+ * @see app/Http/Controllers/Admin/PaperController.php:308
  * @route '/admin/papers/{paper}'
  */
 destroy.delete = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { paper: string | { slug: string } } | [paper: string | 
 
     /**
 * @see \App\Http\Controllers\Admin\PaperController::destroy
- * @see app/Http/Controllers/Admin/PaperController.php:312
+ * @see app/Http/Controllers/Admin/PaperController.php:308
  * @route '/admin/papers/{paper}'
  */
     const destroyForm = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -601,7 +601,7 @@ destroy.delete = (args: { paper: string | { slug: string } } | [paper: string | 
 
             /**
 * @see \App\Http\Controllers\Admin\PaperController::destroy
- * @see app/Http/Controllers/Admin/PaperController.php:312
+ * @see app/Http/Controllers/Admin/PaperController.php:308
  * @route '/admin/papers/{paper}'
  */
         destroyForm.delete = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -617,7 +617,7 @@ destroy.delete = (args: { paper: string | { slug: string } } | [paper: string | 
     destroy.form = destroyForm
 /**
 * @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:321
+ * @see app/Http/Controllers/Admin/PaperController.php:317
  * @route '/admin/papers/{paper}/generate'
  */
 export const generate = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -632,7 +632,7 @@ generate.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:321
+ * @see app/Http/Controllers/Admin/PaperController.php:317
  * @route '/admin/papers/{paper}/generate'
  */
 generate.url = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -665,7 +665,7 @@ generate.url = (args: { paper: string | { slug: string } } | [paper: string | { 
 
 /**
 * @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:321
+ * @see app/Http/Controllers/Admin/PaperController.php:317
  * @route '/admin/papers/{paper}/generate'
  */
 generate.post = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'post'> => ({
@@ -675,7 +675,7 @@ generate.post = (args: { paper: string | { slug: string } } | [paper: string | {
 
     /**
 * @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:321
+ * @see app/Http/Controllers/Admin/PaperController.php:317
  * @route '/admin/papers/{paper}/generate'
  */
     const generateForm = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -685,7 +685,7 @@ generate.post = (args: { paper: string | { slug: string } } | [paper: string | {
 
             /**
 * @see \App\Http\Controllers\Admin\PaperController::generate
- * @see app/Http/Controllers/Admin/PaperController.php:321
+ * @see app/Http/Controllers/Admin/PaperController.php:317
  * @route '/admin/papers/{paper}/generate'
  */
         generateForm.post = (args: { paper: string | { slug: string } } | [paper: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
