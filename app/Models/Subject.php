@@ -63,6 +63,11 @@ class Subject extends Model
         return $this->morphToMany(Tag::class, 'taggable');
     }
 
+    public function keywords()
+    {
+        return $this->morphToMany(Keyword::class, 'keywordable');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

@@ -17,6 +17,7 @@ export interface Subject {
     name: string;
     slug: string;
     description: string;
+    is_active?: boolean;
     created_by: SimpleUser;
     created_at: string;
     updated_at: string;

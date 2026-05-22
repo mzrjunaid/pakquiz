@@ -173,10 +173,6 @@ class PaperController extends Controller
      */
     public function edit(Paper $paper)
     {
-
-        // $seoData = $paper->load('seo');
-        // dd($seoData);
-
         return Inertia::render('admin/papers/edit', [
             'paper' => [
                 'id' => $paper->id,
