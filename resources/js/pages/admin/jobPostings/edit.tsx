@@ -28,57 +28,50 @@ interface SubjectEditProps {
     availableTags: Tags[];
 }
 
-export default function SubjectCreate({ availableTags }: SubjectEditProps) {
+export default function SubjectEdit({
+    subject,
+    seoData,
+    keywords,
+    selectedTagSlugs,
+    availableTags,
+}: SubjectEditProps) {
     const { base_url } = usePage().props;
-    const [descriptionPreview, setDescriptionPreview] = useState('');
+    const [descriptionPreview, setDescriptionPreview] = useState(
+        subject.description ?? '',
+    );
 
-    const form = useForm<{
-        name: string;
-        slug: string;
+    const form = useForm({
+        name: subject.name,
+        slug: subject.slug,
+        description: subject.description ?? '',
 
-        is_active: boolean;
-        description: string;
-        seo_title: string;
-        seo_description: string;
-        og_title: string;
-        og_description: string;
-        keywords: string;
-        tags: string[];
+        is_active: subject.is_active,
+        seo_title: seoData?.title ?? '',
+        seo_description: seoData?.description ?? '',
+        og_title: seoData?.og_title ?? '',
+        og_description: seoData?.og_description ?? '',
+        keywords: keywords ?? '',
+        tags: selectedTagSlugs ?? [],
 
-        seo_og_image_url: string;
-        seo_og_image: File | null;
-    }>({
-        name: '',
-        slug: '',
-        description: '',
-
-        is_active: false,
-        seo_title: '',
-        seo_description: '',
-        og_title: '',
-        og_description: '',
-        keywords: '',
-        tags: [],
-
-        seo_og_image_url: '',
-        seo_og_image: null,
+        seo_og_image_url: seoData?.og_image ?? '',
+        seo_og_image: seoData?.og_image ?? '',
     });
 
     const submit = (event: FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
-        form.post(admin.subjects.store().url, {
+        form.put(admin.subjects.update(subject.slug).url, {
             preserveScroll: true,
         });
     };
 
     return (
-        <AdminLayout title={`Create Subject`}>
+        <AdminLayout title={`Edit Subject - ${subject.name}`}>
             <div className="mx-auto flex w-full max-w-7xl flex-col gap-6">
                 <div className="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
                     <div>
                         <h1 className="text-2xl font-semibold tracking-tight">
-                            Create Subject
+                            Edit Subject
                         </h1>
                         <p className="text-sm text-muted-foreground">
                             Update the subject details used on the admin and
@@ -300,7 +293,7 @@ export default function SubjectCreate({ availableTags }: SubjectEditProps) {
                                     onChange={(event) => {
                                         form.setData(
                                             'seo_og_image',
-                                            event.target.files?.[0] ?? null,
+                                            event.target.files?.[0] ?? '',
                                         );
                                     }}
                                     placeholder="Add a short SEO OG image for this paper"

@@ -10,6 +10,7 @@ use App\Http\Controllers\Admin\SeoMetaController;
 use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
+use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Frontend\AdminMcqImportController;
 use App\Http\Controllers\Frontend\PremiumController;
@@ -170,6 +171,8 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
     Route::resource('topics', AdminTopicController::class);
 
     Route::resource('papers', AdminPaperController::class);
+    
+    Route::resource('jobs', AdminJobController::class);
 
     Route::post('papers/{paper}/generate', [AdminPaperController::class, 'generate'])
         ->name('papers.generate');
@@ -206,7 +209,7 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
         ->name('papers_import.store');
 });
 
-    
+
 Route::livewire('/', 'pages::home.index')->name('home');
 Route::livewire('/demo', 'pages::demo.index')->name('demo');
 Route::livewire('/quiz/result', 'pages::demo.result', function () {

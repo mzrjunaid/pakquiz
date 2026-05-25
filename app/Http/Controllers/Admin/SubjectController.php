@@ -67,15 +67,96 @@ class SubjectController extends Controller
      */
     public function create()
     {
-        return Inertia::render('admin/subjects/create', []);
+        $availableTags = Tag::query()
+            ->select('id', 'name', 'slug')
+            ->orderBy('name')
+            ->get()
+            ->map(fn ($tag) => [
+                'value' => $tag->id,
+                'label' => $tag->name,
+                'slug' => $tag->slug,
+            ]);
+        return Inertia::render('admin/subjects/create', [
+            'availableTags' => $availableTags,
+        ]);
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function store(Request $request, SubjectService $service)
     {
-        //
+        // dd($request->all());
+
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'slug' => 'required|string|max:255',
+            'is_active' => 'required|boolean',
+            'description' => 'nullable|string',
+            'seo_title' => 'nullable|string|max:255',
+            'seo_description' => 'nullable|string|max:255',
+            'keywords' => 'nullable|string|max:500',
+            'og_title' => 'nullable|string|max:255',
+            'og_description' => 'nullable|string|max:255',
+            'tags' => 'nullable|array',
+            'tags.*' => 'nullable|string',
+        ]);
+
+        // dd($validated);
+
+        $data = [
+            'name' => $validated['name'],
+            'slug' => $validated['slug'],
+            'is_active' => $validated['is_active'],
+            'description' => $validated['description'] ?? null,
+        ];
+
+
+        $seoImage = null;
+        if ($request->hasFile('seo_og_image')) {
+            $request->validate([
+                'seo_og_image' => 'nullable|image|mimes:jpeg,png,jpg,svg,webp|max:2048',
+            ]);
+            $seoImage = $request->file('seo_og_image');
+        }
+
+        $seoData = [
+            'title' => $validated['seo_title'] ?? null,
+            'description' => $validated['seo_description'] ?? null,
+            'og_title' => $validated['og_title'] ?? null,
+            'og_description' => $validated['og_description'] ?? null,
+        ];
+
+        $keywordIds = [];
+        if (! empty($validated['keywords'])) {
+            $keywords = explode(',', $validated['keywords']);
+            foreach ($keywords as $keyword) {
+                $keyword = trim($keyword);
+                $keyword = Keyword::firstOrCreate([
+                    'keyword' => $keyword,
+                ]);
+                $keywordIds[] = $keyword->id;
+            }
+        }
+
+        $tagIds = collect($validated['tags'] ?? [])
+            ->map(fn ($slug) => Str::slug(trim($slug)))
+            ->filter()
+            ->unique()
+            ->map(function ($slug) {
+
+                return Tag::firstOrCreate(
+                    ['slug' => $slug],
+                    ['name' => Str::headline($slug)]
+                )->id;
+            })
+            ->toArray();
+
+        $subject = $service->createSubject($data, $seoData, $seoImage, $keywordIds, $tagIds);
+
+        return redirect()
+            ->route('admin.subjects.show', $subject)
+            ->with('success', 'Subject created successfully.');
     }
 
     /**

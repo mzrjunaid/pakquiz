@@ -101,9 +101,9 @@ class SubjectService
         });
     }
 
-    public function createSubject(array $data, array $seoData, ?UploadedFile $seoImage, array $keywordIds)
+    public function createSubject(array $data, array $seoData, ?UploadedFile $seoImage, array $keywordIds, array $tagIds)
     {
-        return DB::transaction(function () use ($data, $seoData, $seoImage, $keywordIds) {
+        return DB::transaction(function () use ($data, $seoData, $seoImage, $keywordIds, $tagIds) {
             $data['created_by'] = Auth::id();
             $data['created_at'] = now();
             $data['updated_at'] = now();
@@ -126,6 +126,7 @@ class SubjectService
 
             $subject->seo()->create($seoData);
 
+            $subject->tags()->sync($tagIds);
             $subject->keywords()->sync($keywordIds);
 
             $this->clearCache();
