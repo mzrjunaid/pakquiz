@@ -4,6 +4,7 @@ import departments from './departments'
 import subjects from './subjects'
 import topics from './topics'
 import papers from './papers'
+import jobs from './jobs'
 import mcqs from './mcqs'
 import seo from './seo'
 import mcqs_import from './mcqs_import'
@@ -273,6 +274,7 @@ departments: Object.assign(departments, departments),
 subjects: Object.assign(subjects, subjects),
 topics: Object.assign(topics, topics),
 papers: Object.assign(papers, papers),
+jobs: Object.assign(jobs, jobs),
 mcqs: Object.assign(mcqs, mcqs),
 seo: Object.assign(seo, seo),
 mcq_og_image: Object.assign(mcq_og_image, mcq_og_image),

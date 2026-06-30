@@ -835,7 +835,7 @@ helpCenter.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     
     helpCenter.form = helpCenterForm
 /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
 export const indexnow = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -849,7 +849,7 @@ indexnow.definition = {
 } satisfies RouteDefinition<["get","head"]>
 
 /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
 indexnow.url = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions) => {
@@ -876,7 +876,7 @@ indexnow.url = (args: { key: string | number } | [key: string | number ] | strin
 }
 
 /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
 indexnow.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -884,7 +884,7 @@ indexnow.get = (args: { key: string | number } | [key: string | number ] | strin
     method: 'get',
 })
 /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
 indexnow.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -893,7 +893,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
 })
 
     /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
     const indexnowForm = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -902,7 +902,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
     })
 
             /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
         indexnowForm.get = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -910,7 +910,7 @@ indexnow.head = (args: { key: string | number } | [key: string | number ] | stri
             method: 'get',
         })
             /**
- * @see routes/web.php:223
+ * @see routes/web.php:226
  * @route '/{key}.txt'
  */
         indexnowForm.head = (args: { key: string | number } | [key: string | number ] | string | number, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
