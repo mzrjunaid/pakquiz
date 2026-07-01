@@ -110,7 +110,7 @@ new class extends Component {
         </div>
 
         <div class="mt-8 border-t pt-8 text-center text-sm">
-            <p>&copy; {{ $year }} PAKQUIZ.COM. All rights reserved.</p>
+            <p>&copy; {{ $year }} PakQuiz Platform.</p>
             <p>Made with ❤️ by <a href="https://mzrjunaid.github.io" target="_blank"
                     class="hover:text-primary hover:underline">Junaid Mazhar</a></p>
         </div>

@@ -1,4 +1,4 @@
-import { Eye, EyeOff, Lock, Mail, Menu } from 'lucide-react';
+import { Eye, EyeOff, Lock, Mail, Menu, Phone } from 'lucide-react';
 import { useState } from 'react';
 
 import InputError from '@/components/input-error';
@@ -16,6 +16,8 @@ import { request } from '@/routes/password';
 
 import AppLogo from '@/components/app-logo';
 import { Form, Head } from '@inertiajs/react';
+import { NavigationMenu, NavigationMenuItem, NavigationMenuLink, NavigationMenuList } from '@/components/ui/navigation-menu';
+import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 
 interface LoginProps {
     status?: string;
@@ -79,7 +81,27 @@ export default function Login({
                     <nav className="flex items-center justify-between px-8 py-6">
                         <AppLogo className="h-14 w-auto lg:hidden" />
 
-                        <div className="ml-auto hidden items-center gap-8 lg:flex">
+                        <NavigationMenu className="ml-auto hidden lg:flex">
+                            <NavigationMenuList className="flex items-center gap-8">
+                                <NavigationMenuItem>
+                                    <a href="/papers" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        Explore
+                                    </a>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <a href="/about-us" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        About
+                                    </a>
+                                </NavigationMenuItem>
+                                <NavigationMenuItem>
+                                    <a href="/help-center" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        Help
+                                    </a>
+                                </NavigationMenuItem>
+                            </NavigationMenuList>
+                        </NavigationMenu>
+
+                        {/* <div className="ml-auto hidden items-center gap-8 lg:flex">
                             <a
                                 href="#"
                                 className="text-sm text-muted-foreground transition hover:text-primary"
@@ -100,15 +122,36 @@ export default function Login({
                             >
                                 Help
                             </a>
-                        </div>
+                        </div> */}
 
-                        <Button
-                            variant="ghost"
-                            size="icon"
-                            className="ml-auto lg:hidden"
-                        >
-                            <Menu className="h-5 w-5" />
-                        </Button>
+                        <DropdownMenu>
+                            <DropdownMenuTrigger asChild>
+                                <Button
+                                    variant="ghost"
+                                    size="icon"
+                                    className="ml-auto lg:hidden"
+                                >
+                                    <Menu className="h-5 w-5" />
+                                </Button>
+                            </DropdownMenuTrigger>
+                            <DropdownMenuContent align="end" className="min-w-36 border-none bg-white p-2 shadow-lg">
+                                <DropdownMenuItem>
+                                    <a href="/papers" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        Explore
+                                    </a>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <a href="/about-us" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        About
+                                    </a>
+                                </DropdownMenuItem>
+                                <DropdownMenuItem>
+                                    <a href="/help-center" className="text-sm text-muted-foreground transition hover:text-primary">
+                                        Help
+                                    </a>
+                                </DropdownMenuItem>
+                            </DropdownMenuContent>
+                        </DropdownMenu>
                     </nav>
 
                     {/* Form */}
@@ -170,7 +213,7 @@ export default function Login({
                                                 {canResetPassword && (
                                                     <TextLink
                                                         href={request()}
-                                                        className="text-sm"
+                                                        className="text-sm font-semibold hover:text-primary"
                                                         tabIndex={5}
                                                     >
                                                         Forgot password?
@@ -253,7 +296,7 @@ export default function Login({
                                                 Don't have an account?{' '}
                                                 <TextLink
                                                     href={register()}
-                                                    className="font-semibold"
+                                                    className="font-semibold hover:text-primary"
                                                 >
                                                     Sign up for free
                                                 </TextLink>
@@ -262,9 +305,10 @@ export default function Login({
                                         {/* Support */}
                                         <div className="pt-4 text-center">
                                             <a
-                                                href="#"
-                                                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition hover:text-primary"
+                                                href="/contact-us"
+                                                className="inline-flex items-center gap-2 text-sm text-muted-foreground transition group hover:text-primary"
                                             >
+                                                <Phone className="mx-auto h-5 w-5 text-muted-foreground group-hover:text-primary" />
                                                 Contact Support
                                             </a>
                                         </div>
@@ -279,15 +323,15 @@ export default function Login({
                     <footer className="px-8 py-6">
                         <div className="flex flex-col items-center justify-between gap-4 text-sm text-muted-foreground sm:flex-row">
                             <p>
-                                © {new Date().getFullYear()} PakQuiz Platform.
+                                &copy; {new Date().getFullYear()} PakQuiz Platform.
                             </p>
 
                             <div className="flex gap-6">
-                                <a href="#" className="hover:text-primary">
+                                <a href="/privacy-policy" className="hover:text-primary">
                                     Privacy
                                 </a>
 
-                                <a href="#" className="hover:text-primary">
+                                <a href="/terms-of-service" className="hover:text-primary">
                                     Terms
                                 </a>
                             </div>
@@ -298,127 +342,3 @@ export default function Login({
         </>
     );
 }
-
-// import InputError from '@/components/input-error';
-
-// import TextLink from '@/components/text-link';
-// import { Button } from '@/components/ui/button';
-// import { Checkbox } from '@/components/ui/checkbox';
-// import { Input } from '@/components/ui/input';
-// import { Label } from '@/components/ui/label';
-// import { Spinner } from '@/components/ui/spinner';
-// import AuthLayout from '@/layouts/auth-layout';
-// import { register } from '@/routes';
-// import { store } from '@/routes/login';
-// import { request } from '@/routes/password';
-// import { Form, Head } from '@inertiajs/react';
-
-// interface LoginProps {
-//     status?: string;
-//     canResetPassword: boolean;
-//     canRegister: boolean;
-// }
-
-// export default function Login({
-//     status,
-//     canResetPassword,
-//     canRegister,
-// }: LoginProps) {
-//     const loginRoute = store();
-//     return (
-//         <AuthLayout
-//             title="Log in to your account"
-//             description="Enter your email and password below to log in"
-//         >
-//             <Head title="Log in" />
-
-//             <Form
-//                 action={loginRoute.url}
-//                 method={loginRoute.method}
-//                 resetOnSuccess={['password']}
-//                 className="flex flex-col gap-6"
-//             >
-//                 {({ processing, errors }) => (
-//                     <>
-//                         <div className="grid gap-6">
-//                             <div className="grid gap-2">
-//                                 <Label htmlFor="email">Email address</Label>
-//                                 <Input
-//                                     id="email"
-//                                     type="email"
-//                                     name="email"
-//                                     required
-//                                     autoFocus
-//                                     tabIndex={1}
-//                                     autoComplete="email"
-//                                     placeholder="email@example.com"
-//                                 />
-//                                 <InputError message={errors.email} />
-//                             </div>
-
-//                             <div className="grid gap-2">
-//                                 <div className="flex items-center">
-//                                     <Label htmlFor="password">Password</Label>
-//                                     {canResetPassword && (
-//                                         <TextLink
-//                                             href={request()}
-//                                             className="ml-auto text-sm"
-//                                             tabIndex={5}
-//                                         >
-//                                             Forgot password?
-//                                         </TextLink>
-//                                     )}
-//                                 </div>
-//                                 <Input
-//                                     id="password"
-//                                     type="password"
-//                                     name="password"
-//                                     required
-//                                     tabIndex={2}
-//                                     autoComplete="current-password"
-//                                     placeholder="Password"
-//                                 />
-//                                 <InputError message={errors.password} />
-//                             </div>
-
-//                             <div className="flex items-center space-x-3">
-//                                 <Checkbox
-//                                     id="remember"
-//                                     name="remember"
-//                                     tabIndex={3}
-//                                 />
-//                                 <Label htmlFor="remember">Remember me</Label>
-//                             </div>
-
-//                             <Button
-//                                 type="submit"
-//                                 className="mt-4 w-full"
-//                                 tabIndex={4}
-//                                 disabled={processing}
-//                                 data-test="login-button"
-//                             >
-//                                 {processing && <Spinner />}
-//                                 Log in
-//                             </Button>
-//                         </div>
-
-//                         {canRegister && (
-//                             <div className="text-center text-sm text-muted-foreground">
-//                                 Don't have an account?{' '}
-//                                 <TextLink href={register()} tabIndex={5}>
-//                                     Sign up
-//                                 </TextLink>
-//                             </div>
-//                         )}
-//                     </>
-//                 )}
-//             </Form>
-
-//             {status && (
-//                 <div className="mb-4 text-center text-sm font-medium text-green-600">
-//                     {status}
-//                 </div>
-//             )}
-//         </AuthLayout>
-//     );
-// }
