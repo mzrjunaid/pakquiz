@@ -43,7 +43,10 @@ export default function Login({
                 {/* LEFT SIDE */}
                 {/* ---------------------------------------------------------------- */}
 
-                <section className="relative hidden overflow-hidden bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200 lg:flex">
+                <section className="relative hidden overflow-hidden bg-gradient-to-br from-orange-50 via-orange-100 to-orange-200
+                
+                dark:from-stone-950 dark:via-stone-900 dark:to-orange-950/50
+                 lg:flex">
                     {/* Pattern */}
 
                     <div className="absolute inset-0 opacity-10">
@@ -75,7 +78,7 @@ export default function Login({
                 {/* RIGHT SIDE */}
                 {/* ---------------------------------------------------------------- */}
 
-                <section className="flex flex-col bg-white">
+                <section className="flex flex-col bg-white dark:bg-background">
                     {/* Navbar */}
 
                     <nav className="flex items-center justify-between px-8 py-6">
