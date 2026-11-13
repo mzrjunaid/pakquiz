@@ -5,10 +5,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-    <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
-    <link rel="preconnect" href="https://www.clarity.ms" crossorigin />
-    <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
-    <link rel="dns-prefetch" href="https://www.clarity.ms" />
+    @production
+        <link rel="preconnect" href="https://www.googletagmanager.com" crossorigin />
+        <link rel="preconnect" href="https://www.clarity.ms" crossorigin />
+        <link rel="dns-prefetch" href="https://www.googletagmanager.com" />
+        <link rel="dns-prefetch" href="https://www.clarity.ms" />
+    @endproduction
 
 
     <title>{{ strip_tags($title ?? config('app.name', 'PakQuiz')) }}</title>
@@ -19,7 +21,7 @@
         content="{{ strip_tags($description ?? config('app.description', 'Pakistan\'s largest quiz website for FPSC, PPSC, NTS, CSS & competitive exam preparation.')) }}" />
 
     {{-- keywords: ignored by Google, still used by Bing — costs nothing --}}
-    @if(! empty($keywords))
+    @if(!empty($keywords))
         <meta name="keywords" content="{{ strip_tags($keywords) }}" />
     @endif
 
@@ -75,15 +77,11 @@
     </style>
 
     {{-- ── 9. Resource hints + assets ────────────────────────────────────
-    Order matters: CSS preload first (render-critical), then JS.
     Fonts need crossorigin because they are CORS requests.
+    CSS & JS entries are handled directly by @vite().
     ──────────────────────────────────────────────────────────────────────── --}}
-    <link rel="preload" href="{{ Vite::asset('resources/css/app.css') }}" as="style" />
-    <link rel="preload" href="{{ Vite::asset('resources/js/public.js') }}" as="script" />
     <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/Roboto.woff2') }}" as="font" type="font/woff2"
         crossorigin />
-    <link rel="preload" href="{{ Vite::asset('resources/fonts/woff2/NotoNastaliqUrdu.woff2') }}" as="font"
-        type="font/woff2" crossorigin />
 
     @vite(['resources/css/app.css', 'resources/js/public.js'])
 
@@ -108,28 +106,30 @@
     <x-toaster-hub />
     @livewireScripts
 
-    {{-- Google Analytics --}}
-    <script async
-        src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.analytics_id', 'G-ZVYX92FGJV') }}"></script>
-    <script>
-        window.dataLayer = window.dataLayer || [];
-        function gtag() { dataLayer.push(arguments); }
-        gtag('js', new Date());
-        gtag('config', 'G-ZVYX92FGJV');
-    </script>
+    @production
+        {{-- Google Analytics --}}
+        <script async
+            src="https://www.googletagmanager.com/gtag/js?id={{ config('services.google.analytics_id', 'G-ZVYX92FGJV') }}"></script>
+        <script>
+            window.dataLayer = window.dataLayer || [];
+            function gtag() { dataLayer.push(arguments); }
+            gtag('js', new Date());
+            gtag('config', 'G-ZVYX92FGJV');
+        </script>
 
-    {{-- Microsoft Clarity — fires after page load, zero LCP impact --}}
-    <script>
-        window.addEventListener('load', function () {
-            (function (c, l, a, r, i, t, y) {
-                c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
-                t = l.createElement(r); t.async = 1;
-                t.src = "https://www.clarity.ms/tag/" + i;
-                y = l.getElementsByTagName(r)[0];
-                y.parentNode.insertBefore(t, y);
-            })(window, document, "clarity", "script", "{{ config('services.clarity.id', 'w9eg6p0fke') }}");
-        });
-    </script>
+        {{-- Microsoft Clarity — fires after page load, zero LCP impact --}}
+        <script>
+            window.addEventListener('load', function () {
+                (function (c, l, a, r, i, t, y) {
+                    c[a] = c[a] || function () { (c[a].q = c[a].q || []).push(arguments) };
+                    t = l.createElement(r); t.async = 1;
+                    t.src = "https://www.clarity.ms/tag/" + i;
+                    y = l.getElementsByTagName(r)[0];
+                    y.parentNode.insertBefore(t, y);
+                })(window, document, "clarity", "script", "{{ config('services.clarity.id', 'w9eg6p0fke') }}");
+            });
+        </script>
+    @endproduction
 </body>
 
 </html>

@@ -289,7 +289,15 @@ export default function Login({
                                         </Button>
                                         {/* Status */}
                                         {status && (
-                                            <div className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+                                            <div
+                                                className={`rounded-lg border p-3 text-sm ${
+                                                    status.toLowerCase().includes('approval') ||
+                                                    status.toLowerCase().includes('unauthorized') ||
+                                                    status.toLowerCase().includes('pending')
+                                                        ? 'border-amber-200 bg-amber-50 text-amber-800 dark:border-amber-900/50 dark:bg-amber-950/50 dark:text-amber-300'
+                                                        : 'border-green-200 bg-green-50 text-green-700 dark:border-green-900/50 dark:bg-green-950/50 dark:text-green-300'
+                                                }`}
+                                            >
                                                 {status}
                                             </div>
                                         )}

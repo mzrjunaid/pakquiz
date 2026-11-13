@@ -10,12 +10,13 @@ use App\Http\Controllers\Admin\SeoMetaController;
 use App\Http\Controllers\Admin\SubjectController as AdminSubjectController;
 use App\Http\Controllers\Admin\TestingServiceController as AdminTestingServiceController;
 use App\Http\Controllers\Admin\TopicController as AdminTopicController;
-use App\Http\Controllers\Admin\JobController as AdminJobController;
+// use App\Http\Controllers\Admin\JobController as AdminJobController;
 use App\Http\Controllers\ChatController;
 use App\Http\Controllers\Frontend\AdminMcqImportController;
 use App\Http\Controllers\Frontend\PremiumController;
 use App\Http\Controllers\Frontend\SearchController;
 use App\Http\Controllers\Frontend\SubjectController;
+use App\Http\Controllers\lms\LMSController;
 use App\Http\Middleware\HandleInertiaRequests;
 use App\Models\Mcq;
 use Illuminate\Support\Facades\Route;
@@ -160,6 +161,7 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
         return 'Image created';
     });
 
+    Route::redirect('/', '/admin/dashboard', 308);
     Route::resource('dashboard', DashboardController::class)->only('index')->name('index', 'dashboard');
 
     Route::resource('testing-services', AdminTestingServiceController::class);
@@ -171,8 +173,8 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
     Route::resource('topics', AdminTopicController::class);
 
     Route::resource('papers', AdminPaperController::class);
-    
-    Route::resource('jobs', AdminJobController::class);
+
+    // Route::resource('jobs', AdminJobController::class);
 
     Route::post('papers/{paper}/generate', [AdminPaperController::class, 'generate'])
         ->name('papers.generate');
@@ -181,7 +183,7 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
 
     Route::resource('seo', SeoMetaController::class);
 
-    Route::get('/api/generate-mcq-og-image/{mcq:slug}', [AdminMcqController::class, 'mcqOgImage'])
+    Route::middleware('throttle:30,1')->get('/api/generate-mcq-og-image/{mcq:slug}', [AdminMcqController::class, 'mcqOgImage'])
         ->name('mcq_og_image');
 
     Route::get('/run-seo-update', [SchedulerController::class, 'runSeoUpdate'])
@@ -209,6 +211,14 @@ Route::name('admin.')->prefix('admin')->middleware(['auth', 'verified', 'role:ad
         ->name('papers_import.store');
 });
 
+Route::name('lms.')->prefix('lms')->middleware(['auth', 'verified', 'status:approved', HandleInertiaRequests::class])->group(function () {
+    Route::get('/', [LMSController::class, 'index'])->name('index');
+
+    Route::name('subjects.')->prefix('subjects')->group(function(){
+        Route::get('/', [LMSController::class, 'subjectShow'])->name('show');
+    });
+});
+
 
 Route::livewire('/', 'pages::home.index')->name('home');
 Route::livewire('/demo', 'pages::demo.index')->name('demo');
@@ -232,11 +242,14 @@ Route::get('/{key}.txt', function ($key) {
 
 Route::livewire('/chat', 'pages::chat.index')->name('chat');
 
-Route::get('/chat/stream', [ChatController::class, 'stream']);
+Route::middleware('throttle:30,1')->get('/chat/stream', [ChatController::class, 'stream']);
 
-Route::get('/api/search-suggestions', [SearchController::class, 'suggestions']);
+Route::middleware('throttle:30,1')->get('/api/search-suggestions', [SearchController::class, 'suggestions']);
 
 require __DIR__ . '/settings.php';
+
+
+
 
 Route::name('public.')->group(function () {
     Route::livewire('/search', 'pages::search.index')->name('search');
@@ -293,3 +306,9 @@ Route::name('public.')->group(function () {
         Route::get('/premium', [PremiumController::class, 'index'])->name('premium.index');
     });
 });
+
+
+
+
+
+

@@ -1,5 +1,5 @@
 @props([
-'testingService'
+    'testingService'
 ])
 
 
@@ -25,21 +25,23 @@
         </div>
         @if ($testingService->description)
             <div class="flex items-center gap-2 px-2">
-                <div class="mt-2 text-sm text-muted line-clamp-2">{!! str($testingService->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+                <div class="mt-2 text-sm line-clamp-2">
+                    {!! str($testingService->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}
+                </div>
             </div>
         @endif
     </a>
 
     <div class="flex flex-wrap gap-2 mt-4">
         @if ($testingService->papers->count() > 0)
-        @foreach ($testingService->papers->take(3) as $paper)
-        <div class="flex gap-2">
-            <a href="{{ route('public.papers.show', $paper->slug) }}"
-                class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
-                {{ $paper->name }}
-            </a>
-        </div>
-        @endforeach
+            @foreach ($testingService->papers->take(3) as $paper)
+                <div class="flex gap-2">
+                    <a href="{{ route('public.papers.show', $paper->slug) }}"
+                        class="rounded-full bg-primary/60 text-secondary-foreground hover:bg-primary/80 px-2 py-1 text-xs block max-w-[200px] lg:max-w-md truncate whitespace-nowrap font-semibold">
+                        {{ $paper->name }}
+                    </a>
+                </div>
+            @endforeach
         @endif
     </div>
 </div>

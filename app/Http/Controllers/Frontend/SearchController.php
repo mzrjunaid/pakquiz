@@ -15,7 +15,10 @@ class SearchController extends Controller
 {
     public function index(Request $request)
     {
-        $q = trim($request->get('q'));
+        $q = trim($request->input('q'));
+
+        $q = str_replace(['%', '_'], ['\%', '\_'], $q);
+
 
         if (strlen($q) < 2) {
             return Inertia::render('public/search/index', [
@@ -70,6 +73,8 @@ class SearchController extends Controller
 
 
         $query = trim($request->input('q', ''));
+        $query = str_replace(['%', '_'], ['\%', '\_'], $query);
+
         if (!$query)
             return response()->json([]);
 

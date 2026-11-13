@@ -2,7 +2,7 @@
 
 @php
     $tag = in_array($level, ['h1', 'h2', 'h3', 'h4', 'h5', 'h6']) ? $level : 'h2';
-    $levelClass = match($level) {
+    $levelClass = match ($level) {
         'h1' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
         'h2' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
         'h3' => 'text-base sm:text-lg font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl',
@@ -22,23 +22,26 @@
                 </div>
                 <div class="flex flex-col">
                     <{{ $tag }}
-                        class="{{ $levelClass }} font-semibold text-foreground transition-colors group-hover:text-primary md:text-xl line-clamp-2">
+                        class="{{ $levelClass }} font-semibold text-foreground transition-colors
+                        group-hover:text-primary md:text-xl line-clamp-2">
                         {!! str($job->title)->title() !!}
                     </{{ $tag }}>
-                        <span class="text-xs md:text-sm text-muted mt-1">
-                            Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
-                        </span>
+                    <span class="text-xs md:text-sm mt-1">
+                        Apply Before: {{ $job->closing_date ? $job->closing_date->format('d-m-Y') : 'N/A' }}
+                    </span>
                 </div>
             </div>
             <div class="flex items-center shrink-0 gap-2">
-                <span class="text-xs md:text-sm font-semibold text-muted mt-1">{{ $job->total_posts }} Posts</span>
+                <span class="text-xs md:text-sm font-semibold mt-1">{{ $job->total_posts }} Posts</span>
                 <x-heroicon-o-chevron-right
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
         @if ($job->description)
             <div class="flex items-center gap-2 px-2">
-                <div class="text-xs md:text-sm text-muted line-clamp-2">{!! str($job->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+                <div class="text-xs md:text-sm line-clamp-2">
+                    {!! str($job->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}
+                </div>
             </div>
         @endif
     </a>

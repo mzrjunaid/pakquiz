@@ -21,22 +21,25 @@
                 </div>
                 <div class="flex flex-col">
                     <{{$level}}
-                        class="{{ $levelClass }} font-semibold text-foreground capitalize transition-colors group-hover:text-primary md:text-xl line-clamp-2">
+                        class="{{ $levelClass }} font-semibold text-foreground capitalize transition-colors
+                        group-hover:text-primary md:text-xl line-clamp-2">
                         {{ str($paper->name)->title() }}
                     </{{$level}}>
                     <span
-                        class="text-sm text-muted mt-1">{{ $paper->schedule_at ? $paper->schedule_at->format('d M, Y') : $paper->paper_year }}</span>
+                        class="text-sm mt-1">{{ $paper->schedule_at ? $paper->schedule_at->format('d M, Y') : $paper->paper_year }}</span>
                 </div>
             </div>
             <div class="flex items-center shrink-0 gap-2">
-                <span class="text-sm text-muted mt-1 hidden md:block">{{ $paper->mcqs_count }} MCQs</span>
+                <span class="text-sm mt-1 hidden md:block">{{ $paper->mcqs_count }} MCQs</span>
                 <x-heroicon-o-chevron-right
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
         @if ($paper->description)
             <div class="flex items-center gap-2 px-2">
-                <div class="mt-2 text-sm text-muted line-clamp-2">{!! str($paper->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+                <div class="mt-2 text-sm line-clamp-2">
+                    {!! str($paper->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}
+                </div>
             </div>
         @endif
     </a>

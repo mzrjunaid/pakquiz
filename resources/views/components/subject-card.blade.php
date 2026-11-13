@@ -11,36 +11,39 @@
                         </path>
                     </svg>
                 </div>
-                <h2 class="text-base md:text-lg lg:text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
+                <h2
+                    class="text-base md:text-lg lg:text-xl font-semibold text-foreground transition-colors group-hover:text-primary">
                     {!! str($subject->name)->title() !!}
                 </h2>
             </div>
             <div class="flex items-center gap-2">
-                <span class="hidden md:block text-sm text-muted mt-1">{{ $subject->mcqs_count }} MCQs</span>
+                <span class="hidden md:block text-sm mt-1">{{ $subject->mcqs_count }} MCQs</span>
                 <x-heroicon-o-chevron-right
                     class="mt-1 h-5 w-5 flex-shrink-0 text-gray-400 transition-transform group-hover:translate-x-1 group-hover:text-primary" />
             </div>
         </div>
         @if ($subject->description)
-            <div class="mt-2 text-sm md:text-base text-muted line-clamp-2">{!! str($subject->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}</div>
+            <div class="mt-2 text-sm md:text-base line-clamp-2">
+                {!! str($subject->description)->limit(200, '... <span class="text-primary underline">Read More</span>')->markdown() !!}
+            </div>
         @endif
     </a>
 
     {{-- Limit only three topics loop --}}
     @if ($subject->topics->count() > 0)
-    <div class="flex flex-wrap gap-2 mt-2 md:mt-4">
-        @foreach ($subject->topics->take(3) as $topic)
-        <a href="{{ route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug]) }}"
-            class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
-            {{ $topic->name }}
-        </a>
-        @endforeach
-    </div>
+        <div class="flex flex-wrap gap-2 mt-2 md:mt-4">
+            @foreach ($subject->topics->take(3) as $topic)
+                <a href="{{ route('public.subject.topic.show', ['subject' => $subject->slug, 'topic' => $topic->slug]) }}"
+                    class="items-center justify-center rounded-full text-xs w-fit whitespace-nowrap shrink-0 [&>svg]:size-3 gap-1 [&>svg]:pointer-events-none focus-visible:border-ring focus-visible:ring-ring/50 focus-visible:ring-[3px] aria-invalid:ring-destructive/20 dark:aria-invalid:ring-destructive/40 aria-invalid:border-destructive transition-[color,box-shadow] bg-primary/60 text-secondary-foreground [a&]:hover:bg-secondary/90 block max-w-xs truncate overflow-hidden px-3 py-1 font-semibold hover:!bg-accent">
+                    {{ $topic->name }}
+                </a>
+            @endforeach
+        </div>
     @endif
     @if ($subject->updated_at)
-    <div class="mt-2 flex items-center gap-1 text-xs text-gray-500 md:text-sm">
-        <x-heroicon-o-clock class="h-4 w-4" />
-        <span>Last updated: {{ $subject->updated_at->diffForHumans() }}</span>
-    </div>
+        <div class="mt-2 flex items-center gap-1 text-xs text-gray-500 md:text-sm">
+            <x-heroicon-o-clock class="h-4 w-4" />
+            <span>Last updated: {{ $subject->updated_at->diffForHumans() }}</span>
+        </div>
     @endif
 </div>

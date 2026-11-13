@@ -50,6 +50,7 @@ export function UserMenuContent({ user }: UserMenuContentProps) {
             <DropdownMenuItem asChild>
                 <Link
                     className="block w-full"
+                    method="post"
                     href={logout()}
                     as="button"
                     onClick={handleLogout}

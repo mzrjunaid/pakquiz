@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserStatusMiddleware
@@ -21,9 +22,15 @@ class UserStatusMiddleware
             abort(401, 'Unauthenticated');
         }
 
-        if (!$user->status || $user->status->slug !== $status) {
-            auth()->logout();
-            abort(403, 'Unauthorized: Your account status has not been approved by the administrator.');
+        if (! $user->status || $user->status->slug !== $status) {
+            Auth::guard('web')->logout();
+
+            if ($request->hasSession()) {
+                $request->session()->invalidate();
+                $request->session()->regenerateToken();
+            }
+
+            return redirect()->route('login')->with('status', 'Your account need approval from admin.');
         }
 
         return $next($request);

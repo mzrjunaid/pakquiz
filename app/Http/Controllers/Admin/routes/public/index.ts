@@ -8,9 +8,9 @@ import subject from './subject'
 import premium from './premium'
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
 export const search = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: search.url(options),
     method: 'get',
@@ -23,79 +23,76 @@ search.definition = {
 
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
 search.url = (options?: RouteQueryOptions) => {
     return search.definition.url + queryParams(options)
 }
 
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
 search.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
     url: search.url(options),
     method: 'get',
 })
-
 /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
 search.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
     url: search.url(options),
     method: 'head',
 })
 
-/**
+    /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
-const searchForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: search.url(options),
-    method: 'get',
-})
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
+    const searchForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: search.url(options),
+        method: 'get',
+    })
 
-/**
+            /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
-searchForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: search.url(options),
-    method: 'get',
-})
-
-/**
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
+        searchForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: search.url(options),
+            method: 'get',
+        })
+            /**
 * @see \Livewire\Mechanisms\HandleRouting\LivewirePageController::__invoke
-* @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
-* @route '/search'
-*/
-searchForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-    action: search.url({
-        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
-            _method: 'HEAD',
-            ...(options?.query ?? options?.mergeQuery ?? {}),
-        }
-    }),
-    method: 'get',
-})
-
-search.form = searchForm
-
+ * @see vendor/livewire/livewire/src/Mechanisms/HandleRouting/LivewirePageController.php:7
+ * @route '/search'
+ */
+        searchForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: search.url({
+                        [options?.mergeQuery ? 'mergeQuery' : 'query']: {
+                            _method: 'HEAD',
+                            ...(options?.query ?? options?.mergeQuery ?? {}),
+                        }
+                    }),
+            method: 'get',
+        })
+    
+    search.form = searchForm
 const publicMethod = {
     search: Object.assign(search, search),
-    jobs: Object.assign(jobs, jobs),
-    mcqs: Object.assign(mcqs, mcqs),
-    departments: Object.assign(departments, departments),
-    testing_services: Object.assign(testing_services, testing_services),
-    papers: Object.assign(papers, papers),
-    subject: Object.assign(subject, subject),
-    premium: Object.assign(premium, premium),
+jobs: Object.assign(jobs, jobs),
+mcqs: Object.assign(mcqs, mcqs),
+departments: Object.assign(departments, departments),
+testing_services: Object.assign(testing_services, testing_services),
+papers: Object.assign(papers, papers),
+subject: Object.assign(subject, subject),
+premium: Object.assign(premium, premium),
 }
 
 export default publicMethod

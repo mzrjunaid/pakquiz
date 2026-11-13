@@ -23,7 +23,7 @@ new class extends Component {
 
 <div class="rounded-lg bg-card p-6 shadow-md">
     <h2 class="mb-2 text-lg font-semibold">Latest MCQs</h2>
-    <p class="mb-3 text-muted text-sm">Explore the latest MCQs for FPSC, PPSC, NTS, CSS, PMS and
+    <p class="mb-3 text-sm">Explore the latest MCQs for FPSC, PPSC, NTS, CSS, PMS and
         other competitive exams in Pakistan.</p>
     <div class="md:px-2">
         @foreach ($latestMcqs as $latestMcq)

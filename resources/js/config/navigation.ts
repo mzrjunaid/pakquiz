@@ -1,3 +1,4 @@
+import { demo } from '@/routes';
 import { dashboard } from '@/routes/admin';
 import departments from '@/routes/admin/departments';
 import mcqs from '@/routes/admin/mcqs';
@@ -17,6 +18,10 @@ import {
     ShieldQuestion,
     Tag,
     Trash,
+    ClipboardMinus,
+    FileQuestion,
+    FileChartColumn,
+    ShieldQuestionIcon
 } from 'lucide-react';
 
 export const adminMainNavItems: NavItems[] = [
@@ -118,5 +123,41 @@ export const adminFooterNavItems: NavItem[] = [
         title: 'Trash Bin',
         href: '#',
         icon: Trash,
+    },
+];
+
+export const lmsMainNavItems: NavItems[] = [
+    {
+        title: 'Dashboard',
+        href: dashboard(),
+        icon: LayoutGrid,
+    },
+    {
+        title: 'Subjects',
+        href: subjects.index(),
+        icon: FileBox,
+    },
+    {
+        title: 'Paractice Tests',
+        href: papers.index(),
+        icon: ClipboardMinus
+    },
+    {
+        title: 'Mock Exams',
+        href: demo(),
+        icon: FileQuestion
+    },
+    {
+        title: 'Analytics',
+        href: papers.index(),
+        icon: FileChartColumn
+    }
+];
+
+export const lmsFooterNavItems: NavItem[] = [
+    {
+        title: 'Help Center',
+        href: '#',
+        icon: ShieldQuestionIcon,
     },
 ];

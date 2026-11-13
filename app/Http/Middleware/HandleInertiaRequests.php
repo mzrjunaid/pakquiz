@@ -55,7 +55,18 @@ class HandleInertiaRequests extends Middleware
             'name' => config('app.name'),
             'quote' => ['message' => trim($message), 'author' => trim($author)],
             'auth' => [
-                'user' => $request->user(),
+                'user' => fn () => $request->user() ? [
+                    'id' => $request->user()->id,
+                    'name' => $request->user()->name,
+                    'email' => $request->user()->email,
+                    'avatar' => $request->user()->avatar,
+                    'email_verified_at' => $request->user()->email_verified_at,
+                    'two_factor_enabled' => $request->user()->two_factor_enabled,
+                    'role' => $request->user()->role()->first()->name,
+                    'status' => $request->user()->status()->first()->name,
+                    'created_at' => $request->user()->created_at,
+                    'updated_at' => $request->user()->updated_at,
+                ] : null
             ],
             'base_url' => config('app.url'),
             'seo' => app(SeoResolver::class)->resolve($request),
