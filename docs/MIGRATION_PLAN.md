@@ -59,11 +59,11 @@ PakQuiz currently runs as a **Laravel 13 monolith**:
    DB_PASSWORD=your-password
    ```
 
-3. **Fix MySQL-specific migration syntax**
+3. **Check migration syntax on PostgreSQL**
 
    | File | Issue | Fix |
    |---|---|---|
-   | `create_papers_table` | `unsignedInteger('paper_year')` | Change to `integer('paper_year')` — PG has no unsigned ints |
+   | `create_papers_table`, `create_mcq_options_table` | `unsignedInteger` / `unsignedTinyInteger` | No change expected — Laravel's PG grammar ignores unsigned and creates `integer` / `smallint`. Verify with `migrate:fresh` on a Supabase branch |
    | `create_mcqs_table` | `enum('single','multiple','true_false')` | Works in PG — keep as-is |
    | `create_mcqs_table` | `enum('easy','medium','hard')` | Works in PG — keep as-is |
    | All migrations | `softDeletes()` | Works in PG ✓ |
@@ -73,7 +73,7 @@ PakQuiz currently runs as a **Laravel 13 monolith**:
    ```bash
    php artisan migrate:fresh --database=pgsql
    ```
-   Confirm all 23 migration files run without error.
+   Confirm all 28 migration files run without error.
 
 5. **Export MySQL data → Import to Supabase**
 
@@ -90,9 +90,19 @@ PakQuiz currently runs as a **Laravel 13 monolith**:
    - Verify slugs are intact, foreign key relations are correct
    - Run the existing test suite: `php artisan test`
 
-7. **Set up Supabase Row Level Security (recommended)**
-   - Enable RLS on public tables (mcqs, papers, subjects, etc.) with open `SELECT` policies
-   - Keep all write operations exclusively through the Laravel API — do not expose Supabase PostgREST for mutations
+7. **Enable Row Level Security on every table**
+   - Supabase exposes the `public` schema through its REST API; a table without RLS is readable and writable with the public key
+   - Run `ALTER TABLE <table> ENABLE ROW LEVEL SECURITY;` for all 28 tables and add no policies. Laravel connects as the `postgres` role, which bypasses RLS, so the app is unaffected
+
+8. **Reset id sequences after the data import**
+   ```sql
+   SELECT setval(pg_get_serial_sequence('mcqs', 'id'), COALESCE(MAX(id), 1)) FROM mcqs;
+   ```
+   Repeat for every table, otherwise the first insert fails with a duplicate key.
+
+9. **Import caveats**
+   - `Mcq` dispatches `GenerateSitemapJob` on every save: wrap bulk imports in `Mcq::withoutEvents()`
+   - MySQL matches case-insensitively, PostgreSQL does not: use `ILIKE` for searches and consider `citext` for `users.email`
 
 ---
 
@@ -508,12 +518,13 @@ npx create-expo-app pakquiz-mobile --template
 
 ### Phase 1 — Database
 - [ ] Create Supabase project (Singapore region)
-- [ ] Fix `unsignedInteger` → `integer` in papers migration
-- [ ] Run `php artisan migrate:fresh --database=pgsql` — confirm all 23 migrations pass
+- [ ] Review `docs/` schema findings (RLS on all tables, sequence reset, case-sensitivity, Mcq sitemap job during import)
+- [ ] Run `php artisan migrate:fresh --database=pgsql` — confirm all 28 migrations pass
 - [ ] Export MySQL data with pgloader or CSV
 - [ ] Import data to Supabase — verify row counts
 - [ ] Run `php artisan test` — confirm tests pass on PG
-- [ ] Set up Supabase RLS policies on public tables
+- [ ] Enable RLS (no policies) on all 28 tables
+- [ ] Reset id sequences after import
 
 ### Phase 2 — Laravel API
 - [ ] Set up Oracle Cloud Free Tier VM (VM.Standard.A1.Flex, Ubuntu 22.04)
