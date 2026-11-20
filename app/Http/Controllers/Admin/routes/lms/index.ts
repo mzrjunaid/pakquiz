@@ -1,73 +1,74 @@
 import { queryParams, type RouteQueryOptions, type RouteDefinition, type RouteFormDefinition } from './../../wayfinder'
+import subjects from './subjects'
 /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-export const lms = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: lms.url(options),
+export const index = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index.url(options),
     method: 'get',
 })
 
-lms.definition = {
+index.definition = {
     methods: ["get","head"],
     url: '/lms',
 } satisfies RouteDefinition<["get","head"]>
 
 /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-lms.url = (options?: RouteQueryOptions) => {
-    return lms.definition.url + queryParams(options)
+index.url = (options?: RouteQueryOptions) => {
+    return index.definition.url + queryParams(options)
 }
 
 /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-lms.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
-    url: lms.url(options),
+index.get = (options?: RouteQueryOptions): RouteDefinition<'get'> => ({
+    url: index.url(options),
     method: 'get',
 })
 /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-lms.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
-    url: lms.url(options),
+index.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
+    url: index.url(options),
     method: 'head',
 })
 
     /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-    const lmsForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-        action: lms.url(options),
+    const indexForm = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+        action: index.url(options),
         method: 'get',
     })
 
             /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-        lmsForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: lms.url(options),
+        indexForm.get = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url(options),
             method: 'get',
         })
             /**
-* @see \App\Http\Controllers\LMSController::lms
- * @see app/Http/Controllers/LMSController.php:13
+* @see \App\Http\Controllers\lms\LMSController::index
+ * @see app/Http/Controllers/lms/LMSController.php:14
  * @route '/lms'
  */
-        lmsForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
-            action: lms.url({
+        indexForm.head = (options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
+            action: index.url({
                         [options?.mergeQuery ? 'mergeQuery' : 'query']: {
                             _method: 'HEAD',
                             ...(options?.query ?? options?.mergeQuery ?? {}),
@@ -76,9 +77,10 @@ lms.head = (options?: RouteQueryOptions): RouteDefinition<'head'> => ({
             method: 'get',
         })
     
-    lms.form = lmsForm
-const lmsNamespace = {
-    lms: Object.assign(lms, lms),
+    index.form = indexForm
+const lms = {
+    index: Object.assign(index, index),
+subjects: Object.assign(subjects, subjects),
 }
 
-export default lmsNamespace
+export default lms

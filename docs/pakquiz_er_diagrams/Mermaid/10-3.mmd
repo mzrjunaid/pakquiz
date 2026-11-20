@@ -1,0 +1,45 @@
+erDiagram
+    direction LR
+    commission_rules["commission_rules"] {
+        ID id PK
+        ID beneficiary_party_id FK
+        FIELD applicable_product_kind "optional"
+        FIELD rate_bps
+        FIELD effective_from
+        FIELD effective_to "optional"
+    }
+    revenue_allocations["revenue_allocations"] {
+        ID id PK
+        ID order_item_id FK
+        ID beneficiary_party_id FK
+        MONEY_PKR amount_paisa
+        FIELD rule_snapshot
+    }
+    payout_accounts["payout_accounts"] {
+        ID id PK
+        ID beneficiary_party_id FK
+        FIELD provider
+        FIELD tokenized_account_reference
+        FIELD status
+    }
+    payouts["payouts"] {
+        ID id PK
+        ID beneficiary_party_id FK
+        MONEY_PKR amount_paisa
+        FIELD state
+        FIELD settled_at "optional"
+    }
+    payout_items["payout_items"] {
+        ID payout_id FK
+        ID revenue_allocation_id FK
+        MONEY_PKR amount_paisa
+    }
+    commercial_parties["commercial_parties (see 10)"]
+    order_items["order_items (see 10)"]
+    commercial_parties ||..o{ commission_rules : "beneficiary_party_id"
+    order_items ||..o{ revenue_allocations : "order_item_id"
+    commercial_parties ||..o{ revenue_allocations : "beneficiary_party_id"
+    commercial_parties ||..o{ payout_accounts : "beneficiary_party_id"
+    commercial_parties ||..o{ payouts : "beneficiary_party_id"
+    payouts ||..o{ payout_items : "payout_id"
+    revenue_allocations ||..o{ payout_items : "revenue_allocation_id"

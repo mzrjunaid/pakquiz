@@ -68,34 +68,33 @@ abstract class BaseSeoUpdate
     {
         $rawSeoData = $this->seoData($model);
 
-        // 1️⃣ Extract keywords BEFORE persistence
+        // 1️⃣ Format keywords for direct persistence
         $keywords = $rawSeoData['keywords'] ?? [];
-        unset($rawSeoData['keywords']);
+        if (is_array($keywords) || $keywords instanceof \Illuminate\Support\Collection) {
+            $keywords = collect($keywords)->filter()->unique()->implode(', ');
+        }
 
         // 2️⃣ Generate SEO meta (title, description, OG, etc.)
         $seoPayload = array_merge(
             [
                 'page_type' => get_class($model),
                 'page_id' => $model->id,
+                'keywords' => !empty($keywords) ? $keywords : null,
             ],
             app(SeoMetaGeneratorService::class)->generate($rawSeoData)
         );
 
+        if (!empty($keywords)) {
+            $seoPayload['keywords'] = $keywords;
+        }
+
         // 3️⃣ Persist SeoMeta
-        $seoMeta = SeoMeta::updateOrCreate(
+        SeoMeta::updateOrCreate(
             [
                 'page_type' => get_class($model),
                 'page_id' => $model->id,
             ],
             $seoPayload
         );
-
-        // 4️⃣ Sync keywords separately (pivot-based)
-        if (!empty($keywords)) {
-            $this->keywordSync->sync(
-                model: $seoMeta,
-                keywords: $keywords
-            );
-        }
     }
 }

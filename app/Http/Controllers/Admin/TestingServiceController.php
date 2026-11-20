@@ -118,21 +118,10 @@ class TestingServiceController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
-
-        $keywordIds = [];
-        if (! empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
 
         $tagIds = collect($validated['tags'] ?? [])
             ->map(fn ($slug) => Str::slug(trim($slug)))
@@ -147,7 +136,7 @@ class TestingServiceController extends Controller
             })
             ->toArray();
 
-        $testingService = $service->createTestingService($data, $seoData, $seoImage, $tagIds, $keywordIds);
+        $testingService = $service->createTestingService($data, $seoData, $seoImage, $tagIds);
 
         return redirect()
             ->route('admin.testing-services.show', $testingService)
@@ -169,7 +158,6 @@ class TestingServiceController extends Controller
     {
         $testingService->load([
             'seo',
-            'keywords:id,keyword',
             'tags:id,name,slug',
         ]);
 
@@ -194,9 +182,7 @@ class TestingServiceController extends Controller
 
             'seoData' => $testingService->seo,
 
-            'keywords' => $testingService->keywords
-                ->pluck('keyword')
-                ->implode(','),
+            'keywords' => $testingService->seo?->keywords ?? '',
 
             'selectedTagSlugs' => $testingService->tags->pluck('slug')->values(),
 
@@ -243,21 +229,10 @@ class TestingServiceController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
-
-        $keywordIds = [];
-        if (! empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
 
         $tagIds = collect($validated['tags'] ?? [])
             ->map(fn ($slug) => Str::slug(trim($slug)))
@@ -272,7 +247,7 @@ class TestingServiceController extends Controller
             })
             ->toArray();
 
-        $testingService = $service->updateTestingService($data, $testingService, $seoData, $seoImage, $tagIds, $keywordIds);
+        $testingService = $service->updateTestingService($data, $testingService, $seoData, $seoImage, $tagIds);
 
         return redirect()->route('admin.testing-services.index')->with('success', 'Testing Service updated successfully.');
     }

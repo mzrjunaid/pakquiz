@@ -1,0 +1,66 @@
+erDiagram
+    direction LR
+    question_types["question_types"] {
+        ID id PK
+        FIELD type_code UK
+        FIELD response_schema_version
+        FIELD active
+    }
+    questions["questions"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        ID type_id FK
+        ID source_question_id FK "optional"
+        FIELD lifecycle_status
+        ID created_by FK
+    }
+    question_localizations["question_localizations"] {
+        ID id PK
+        ID question_id FK
+        FIELD language_code
+        FIELD status
+    }
+    question_revisions["question_revisions"] {
+        ID id PK
+        ID localization_id FK
+        FIELD revision_number
+        FIELD stem_content
+        FIELD explanation "optional"
+        FIELD content_schema_version
+        ID created_by FK
+        FIELD published_at "optional"
+    }
+    question_revision_options["question_revision_options"] {
+        ID id PK
+        ID revision_id FK
+        FIELD option_key
+        FIELD option_content
+        FIELD sort_order
+    }
+    question_revision_answers["question_revision_answers"] {
+        ID id PK
+        ID revision_id FK
+        FIELD answer_schema_version
+        FIELD answer_payload
+        ID grading_rule_id "optional; binding unresolved"
+    }
+    question_assets["question_assets"] {
+        ID revision_id FK
+        ID asset_id FK
+        FIELD usage_role
+        FIELD sort_order
+    }
+    organizations["organizations (see 2)"]
+    users["users (see 1)"]
+    media_assets["media_assets (see 6)"]
+    organizations |o..o{ questions : "owner_organization_id"
+    question_types ||..o{ questions : "type_id"
+    questions |o..o{ questions : "source_question_id"
+    users ||..o{ questions : "created_by"
+    questions ||..o{ question_localizations : "question_id"
+    question_localizations ||..o{ question_revisions : "localization_id"
+    users ||..o{ question_revisions : "created_by"
+    question_revisions ||..o{ question_revision_options : "revision_id"
+    question_revisions ||..o{ question_revision_answers : "revision_id"
+    question_revisions ||..o{ question_assets : "revision_id"
+    media_assets ||..o{ question_assets : "asset_id"

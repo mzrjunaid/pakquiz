@@ -1,0 +1,66 @@
+erDiagram
+    direction LR
+    organization_types["organization_types"] {
+        ID id PK
+        FIELD code UK
+        FIELD display_name
+    }
+    organizations["organizations"] {
+        ID id PK
+        ID type_id FK
+        FIELD name
+        FIELD slug UK
+        ID owner_user_id FK "optional"
+        FIELD lifecycle_status
+        FIELD created_at
+    }
+    organization_branches["organization_branches"] {
+        ID id PK
+        ID organization_id FK
+        FIELD branch_code
+        FIELD name
+        FIELD status
+        FIELD address "optional"
+    }
+    organization_memberships["organization_memberships"] {
+        ID id PK
+        ID organization_id FK
+        ID user_id FK
+        FIELD status
+        FIELD joined_at
+        FIELD ended_at "optional"
+    }
+    branch_memberships["branch_memberships"] {
+        ID id PK
+        ID organization_membership_id FK
+        ID branch_id FK
+        FIELD valid_from
+        FIELD valid_until "optional"
+    }
+    organization_invitations["organization_invitations"] {
+        ID id PK
+        ID organization_id FK
+        FIELD invitee_contact
+        FIELD token_hash
+        FIELD expires_at
+        FIELD status
+    }
+    membership_applications["membership_applications"] {
+        ID id PK
+        ID organization_id FK
+        ID applicant_user_id FK
+        FIELD status
+        ID reviewed_by FK "optional"
+    }
+    users["users (see 1)"]
+    organization_types ||..o{ organizations : "type_id"
+    users |o..o{ organizations : "owner_user_id"
+    organizations ||..o{ organization_branches : "organization_id"
+    organizations ||..o{ organization_memberships : "organization_id"
+    users ||..o{ organization_memberships : "user_id"
+    organization_memberships ||..o{ branch_memberships : "organization_membership_id"
+    organization_branches ||..o{ branch_memberships : "branch_id"
+    organizations ||..o{ organization_invitations : "organization_id"
+    organizations ||..o{ membership_applications : "organization_id"
+    users ||..o{ membership_applications : "applicant_user_id"
+    users |o..o{ membership_applications : "reviewed_by"

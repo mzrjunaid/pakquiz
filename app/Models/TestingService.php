@@ -86,11 +86,6 @@ class TestingService extends Model
         return $this->morphOne(SeoMeta::class, 'page');
     }
 
-    public function keywords()
-    {
-        return $this->morphToMany(Keyword::class, 'keywordable');
-    }
-
     public function tags()
     {
         return $this->morphToMany(Tag::class, 'taggable');

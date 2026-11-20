@@ -30,11 +30,6 @@ class SeoMeta extends Model
         return $this->morphTo();
     }
 
-    public function keywords()
-    {
-        return $this->morphToMany(Keyword::class, 'keywordable');
-    }
-
     public static function stats()
     {
         $byType = self::select('page_type')

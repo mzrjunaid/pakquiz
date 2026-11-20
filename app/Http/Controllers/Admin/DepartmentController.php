@@ -104,23 +104,12 @@ class DepartmentController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
 
-        $keywordIds = [];
-        if (!empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
-
-        $department = $service->createDepartment($data, $seoData, $seoImage, $keywordIds);
+        $department = $service->createDepartment($data, $seoData, $seoImage);
 
         return redirect()
             ->route('admin.departments.show', $department)
@@ -162,7 +151,7 @@ class DepartmentController extends Controller
      */
     public function edit(Department $department)
     {
-        $department->load('seo', 'keywords');
+        $department->load('seo');
         return Inertia::render('admin/departments/edit', [
             'department' => [
                 'id' => $department->id,
@@ -172,7 +161,7 @@ class DepartmentController extends Controller
                 'description' => $department->description,
             ],
             'seoData' => $department->seo,
-            'keywords' => $department->keywords->pluck('keyword')->implode(',') ?? '',
+            'keywords' => $department->seo?->keywords ?? '',
         ]);
     }
 
@@ -213,23 +202,12 @@ class DepartmentController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
 
-        $keywordIds = [];
-        if (!empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
-
-        $department = $service->updateDepartment($data, $department, $seoData, $seoImage, $keywordIds);
+        $department = $service->updateDepartment($data, $department, $seoData, $seoImage);
 
         return redirect()
             ->route('admin.departments.edit', $department)

@@ -1,0 +1,72 @@
+erDiagram
+    direction LR
+    question_sources["question_sources"] {
+        ID id PK
+        ID question_id FK
+        FIELD source_kind
+        FIELD verification_state
+        ID contributor_user_id FK "optional"
+        FIELD license_basis "optional"
+    }
+    question_source_references["question_source_references"] {
+        ID id PK
+        ID question_source_id FK
+        ID source_resource_id FK "optional"
+        FIELD citation_locator
+        FIELD source_url "optional"
+    }
+    question_reviews["question_reviews"] {
+        ID id PK
+        ID revision_id FK
+        ID reviewer_user_id FK
+        FIELD decision
+        FIELD reviewed_at
+        FIELD reason "optional"
+    }
+    question_duplicate_candidates["question_duplicate_candidates"] {
+        ID id PK
+        ID question_a_id FK
+        ID question_b_id FK
+        FIELD similarity_score "optional"
+        FIELD disposition
+    }
+    question_reports["question_reports"] {
+        ID id PK
+        ID question_id FK
+        ID reporter_user_id FK "optional"
+        FIELD category
+        FIELD body
+        FIELD status
+    }
+    question_collections["question_collections"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD title
+        FIELD slug
+        FIELD visibility
+        FIELD status
+    }
+    question_collection_items["question_collection_items"] {
+        ID collection_id FK
+        ID question_id FK
+        FIELD position "optional"
+        FIELD note "optional"
+    }
+    questions["questions (see 4)"]
+    users["users (see 1)"]
+    registered_resources["registered_resources (see 11)"]
+    question_revisions["question_revisions (see 4)"]
+    organizations["organizations (see 2)"]
+    questions ||..o{ question_sources : "question_id"
+    users |o..o{ question_sources : "contributor_user_id"
+    question_sources ||..o{ question_source_references : "question_source_id"
+    registered_resources |o..o{ question_source_references : "source_resource_id"
+    question_revisions ||..o{ question_reviews : "revision_id"
+    users ||..o{ question_reviews : "reviewer_user_id"
+    questions ||..o{ question_duplicate_candidates : "question_a_id"
+    questions ||..o{ question_duplicate_candidates : "question_b_id"
+    questions ||..o{ question_reports : "question_id"
+    users |o..o{ question_reports : "reporter_user_id"
+    organizations |o..o{ question_collections : "owner_organization_id"
+    question_collections ||..o{ question_collection_items : "collection_id"
+    questions ||..o{ question_collection_items : "question_id"

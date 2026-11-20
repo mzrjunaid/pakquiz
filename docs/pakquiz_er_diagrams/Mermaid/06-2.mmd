@@ -1,0 +1,46 @@
+erDiagram
+    direction LR
+    course_prerequisites["course_prerequisites"] {
+        ID course_id FK
+        ID prerequisite_course_id FK
+        FIELD rule_type
+    }
+    course_learning_objectives["course_learning_objectives"] {
+        ID course_id FK
+        ID objective_id FK
+    }
+    course_instructors["course_instructors"] {
+        ID id PK
+        ID course_id FK
+        ID instructor_user_id FK
+        ID organization_membership_id FK "optional"
+        FIELD role
+        FIELD valid_from
+        FIELD valid_to "optional"
+    }
+    course_version_migrations["course_version_migrations"] {
+        ID id PK
+        ID enrollment_id FK
+        ID from_version_id FK
+        ID to_version_id FK
+        ID approved_by FK
+        FIELD effective_at
+        FIELD mapping_reference "binding unresolved"
+    }
+    courses["courses (see 6)"]
+    learning_objectives["learning_objectives (see 3)"]
+    users["users (see 1)"]
+    organization_memberships["organization_memberships (see 2)"]
+    enrollments["enrollments (see 7)"]
+    course_versions["course_versions (see 6)"]
+    courses ||..o{ course_prerequisites : "course_id"
+    courses ||..o{ course_prerequisites : "prerequisite_course_id"
+    courses ||..o{ course_learning_objectives : "course_id"
+    learning_objectives ||..o{ course_learning_objectives : "objective_id"
+    courses ||..o{ course_instructors : "course_id"
+    users ||..o{ course_instructors : "instructor_user_id"
+    organization_memberships |o..o{ course_instructors : "organization_membership_id"
+    enrollments ||..o{ course_version_migrations : "enrollment_id"
+    course_versions ||..o{ course_version_migrations : "from_version_id"
+    course_versions ||..o{ course_version_migrations : "to_version_id"
+    users ||..o{ course_version_migrations : "approved_by"

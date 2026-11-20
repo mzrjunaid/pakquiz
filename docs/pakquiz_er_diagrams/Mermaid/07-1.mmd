@@ -1,0 +1,67 @@
+erDiagram
+    direction LR
+    course_offerings["course_offerings"] {
+        ID id PK
+        ID organization_id FK
+        ID course_id FK
+        ID course_version_id FK
+        FIELD mode
+        FIELD status
+        FIELD starts_at "optional"
+        FIELD ends_at "optional"
+    }
+    offering_branches["offering_branches"] {
+        ID offering_id FK
+        ID branch_id FK
+    }
+    batches["batches"] {
+        ID id PK
+        ID offering_id FK
+        FIELD name
+        FIELD capacity "optional"
+        FIELD starts_at "optional"
+        FIELD ends_at "optional"
+    }
+    enrollments["enrollments"] {
+        ID id PK
+        ID offering_id FK
+        ID user_id FK
+        ID course_version_id FK
+        ID access_source_id "optional; binding unresolved"
+        FIELD status
+        FIELD enrolled_at
+        FIELD expires_at "optional"
+    }
+    batch_memberships["batch_memberships"] {
+        ID id PK
+        ID batch_id FK
+        ID enrollment_id FK
+        FIELD joined_at
+        FIELD left_at "optional"
+    }
+    enrollment_status_events["enrollment_status_events"] {
+        ID id PK
+        ID enrollment_id FK
+        FIELD from_status
+        FIELD to_status
+        ID actor_id FK
+        FIELD occurred_at
+    }
+    organizations["organizations (see 2)"]
+    courses["courses (see 6)"]
+    course_versions["course_versions (see 6)"]
+    organization_branches["organization_branches (see 2)"]
+    users["users (see 1)"]
+    organizations ||..o{ course_offerings : "organization_id"
+    courses ||..o{ course_offerings : "course_id"
+    course_versions ||..o{ course_offerings : "course_version_id"
+    course_offerings ||..o{ offering_branches : "offering_id"
+    organization_branches ||..o{ offering_branches : "branch_id"
+    course_offerings ||..o{ batches : "offering_id"
+    course_offerings ||..o{ enrollments : "offering_id"
+    users ||..o{ enrollments : "user_id"
+    course_versions ||..o{ enrollments : "course_version_id"
+    batches ||..o{ batch_memberships : "batch_id"
+    enrollments ||..o{ batch_memberships : "enrollment_id"
+    enrollments ||..o{ enrollment_status_events : "enrollment_id"
+    users ||..o{ enrollment_status_events : "actor_id"

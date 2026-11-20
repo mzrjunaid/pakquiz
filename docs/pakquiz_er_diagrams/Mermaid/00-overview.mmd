@@ -1,0 +1,77 @@
+erDiagram
+    direction LR
+    organization_branches["organization_branches"]
+    organizations["organizations"]
+    organization_memberships["organization_memberships"]
+    users["users"]
+    question_subjects["question_subjects"]
+    questions["questions"]
+    subjects["subjects"]
+    question_localizations["question_localizations"]
+    question_revisions["question_revisions"]
+    past_paper_questions["past_paper_questions"]
+    past_papers["past_papers"]
+    courses["courses"]
+    course_versions["course_versions"]
+    course_offerings["course_offerings"]
+    enrollments["enrollments"]
+    assessments["assessments"]
+    assessment_versions["assessment_versions"]
+    assessment_deliveries["assessment_deliveries"]
+    assessment_attempts["assessment_attempts"]
+    attempt_sections["attempt_sections"]
+    attempt_questions["attempt_questions"]
+    grading_runs["grading_runs"]
+    assessment_results["assessment_results"]
+    lesson_progress["lesson_progress"]
+    commercial_parties["commercial_parties"]
+    products["products"]
+    product_resources["product_resources"]
+    registered_resources["registered_resources"]
+    orders["orders"]
+    order_items["order_items"]
+    content_licenses["content_licenses"]
+    entitlements["entitlements"]
+    moderation_cases["moderation_cases"]
+    organizations ||..o{ organization_branches : "organization_id"
+    organizations ||..o{ organization_memberships : "organization_id"
+    users ||..o{ organization_memberships : "user_id"
+    questions ||..o{ question_subjects : "question_id"
+    subjects ||..o{ question_subjects : "subject_id"
+    organizations |o..o{ questions : "owner_organization_id"
+    questions ||..o{ question_localizations : "question_id"
+    question_localizations ||..o{ question_revisions : "localization_id"
+    past_papers ||..o{ past_paper_questions : "past_paper_id"
+    questions ||..o{ past_paper_questions : "question_id"
+    organizations ||..o{ courses : "owner_organization_id"
+    courses ||..o{ course_versions : "course_id"
+    organizations ||..o{ course_offerings : "organization_id"
+    course_versions ||..o{ course_offerings : "course_version_id"
+    course_offerings ||..o{ enrollments : "offering_id"
+    users ||..o{ enrollments : "user_id"
+    organizations |o..o{ assessments : "owner_organization_id"
+    assessments ||..o{ assessment_versions : "assessment_id"
+    assessment_versions ||..o{ assessment_deliveries : "assessment_version_id"
+    course_offerings |o..o{ assessment_deliveries : "offering_id"
+    assessment_deliveries ||..o{ assessment_attempts : "delivery_id"
+    enrollments |o..o{ assessment_attempts : "enrollment_id"
+    assessment_attempts ||..o{ attempt_sections : "attempt_id"
+    attempt_sections ||..o{ attempt_questions : "attempt_section_id"
+    question_revisions ||..o{ attempt_questions : "question_revision_id"
+    assessment_attempts ||..o{ grading_runs : "attempt_id"
+    assessment_attempts ||..o| assessment_results : "attempt_id"
+    grading_runs ||..o{ assessment_results : "current_grading_run_id"
+    enrollments ||..o{ lesson_progress : "enrollment_id"
+    organizations |o..o{ commercial_parties : "organization_id"
+    commercial_parties ||..o{ products : "seller_party_id"
+    products ||..o{ product_resources : "product_id"
+    registered_resources ||..o{ product_resources : "registered_resource_id"
+    commercial_parties ||..o{ orders : "seller_of_record_party_id"
+    orders ||..o{ order_items : "order_id"
+    products ||..o{ order_items : "product_id"
+    organizations |o..o{ registered_resources : "owner_organization_id"
+    organizations ||..o{ content_licenses : "licensee_organization_id"
+    registered_resources ||..o{ content_licenses : "resource_id"
+    users |o..o{ entitlements : "beneficiary_user_id"
+    registered_resources ||..o{ entitlements : "resource_id"
+    registered_resources ||..o{ moderation_cases : "resource_id"

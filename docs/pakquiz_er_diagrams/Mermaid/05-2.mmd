@@ -1,0 +1,60 @@
+erDiagram
+    direction LR
+    testing_services["testing_services"] {
+        ID id PK
+        FIELD name
+        FIELD slug UK
+        FIELD short_name
+    }
+    departments["departments"] {
+        ID id PK
+        FIELD name
+        FIELD slug UK
+        FIELD type
+        FIELD status
+    }
+    past_papers["past_papers"] {
+        ID id PK
+        ID testing_service_id FK "optional"
+        ID department_id FK "optional"
+        FIELD paper_year "optional"
+        FIELD title
+        FIELD slug
+        FIELD source_date "optional"
+    }
+    past_paper_questions["past_paper_questions"] {
+        ID id PK
+        ID past_paper_id FK
+        ID question_id FK
+        ID verified_revision_id FK "optional"
+        FIELD source_position
+        FIELD key_status
+    }
+    job_advertisements["job_advertisements"] {
+        ID id PK
+        ID testing_service_id FK "optional"
+        FIELD ad_reference
+        FIELD published_on "optional"
+        FIELD closing_on "optional"
+        FIELD source_url "optional"
+    }
+    job_posts["job_posts"] {
+        ID id PK
+        ID advertisement_id FK
+        ID department_id FK "optional"
+        FIELD title
+        FIELD case_reference "optional"
+        FIELD pay_scale "optional"
+        FIELD seats "optional"
+        FIELD eligibility
+    }
+    questions["questions (see 4)"]
+    question_revisions["question_revisions (see 4)"]
+    testing_services |o..o{ past_papers : "testing_service_id"
+    departments |o..o{ past_papers : "department_id"
+    past_papers ||..o{ past_paper_questions : "past_paper_id"
+    questions ||..o{ past_paper_questions : "question_id"
+    question_revisions |o..o{ past_paper_questions : "verified_revision_id"
+    testing_services |o..o{ job_advertisements : "testing_service_id"
+    job_advertisements ||..o{ job_posts : "advertisement_id"
+    departments |o..o{ job_posts : "department_id"

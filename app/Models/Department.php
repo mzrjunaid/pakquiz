@@ -52,11 +52,6 @@ class Department extends Model
         return $this->morphOne(SeoMeta::class , 'page');
     }
 
-    public function keywords()
-    {
-        return $this->morphToMany(Keyword::class , 'keywordable');
-    }
-
     public function scopeSortByCreator($query, string $direction)
     {
         return $query

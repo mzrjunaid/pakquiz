@@ -1,0 +1,76 @@
+erDiagram
+    direction LR
+    users["users"] {
+        ID id PK
+        FIELD name
+        FIELD email "uniqueness unresolved"
+        FIELD phone "optional"
+        FIELD account_status
+        FIELD email_verified_at "optional"
+        FIELD phone_verified_at "optional"
+        FIELD created_at
+        FIELD archived_at "optional"
+    }
+    user_auth_identities["user_auth_identities"] {
+        ID id PK
+        ID user_id FK
+        FIELD provider
+        FIELD provider_subject
+        FIELD linked_at
+    }
+    user_profiles["user_profiles"] {
+        ID user_id
+        ID avatar_asset_id "optional; target inferred, see notes"
+        FIELD biography "optional"
+        FIELD privacy_preferences
+    }
+    student_profiles["student_profiles"] {
+        ID user_id
+        FIELD education_level "optional"
+        FIELD preferred_language "optional"
+        FIELD study_preferences
+    }
+    student_qualifications["student_qualifications"] {
+        ID id PK
+        ID user_id FK
+        FIELD qualification
+        FIELD institution "optional"
+        FIELD completion_year "optional"
+    }
+    student_target_jobs["student_target_jobs"] {
+        ID user_id FK
+        ID job_post_id FK
+        FIELD target_status
+        FIELD started_at
+    }
+    instructor_profiles["instructor_profiles"] {
+        ID user_id
+        FIELD credentials "optional"
+        FIELD biography "optional"
+        FIELD verification_status
+    }
+    auth_factors["auth_factors"] {
+        ID id PK
+        ID user_id FK
+        FIELD factor_type
+        FIELD secret_reference "optional"
+        FIELD verified_at "optional"
+        FIELD revoked_at "optional"
+    }
+    auth_challenges["auth_challenges"] {
+        ID id PK
+        ID user_id FK "optional"
+        FIELD challenge_type
+        FIELD verifier_hash
+        FIELD expires_at
+        FIELD consumed_at "optional"
+    }
+    media_assets["media_assets (see 6)"]
+    job_posts["job_posts (see 5)"]
+    users ||..o{ user_auth_identities : "user_id"
+    media_assets |o..o{ user_profiles : "avatar_asset_id (inferred)"
+    users ||..o{ student_qualifications : "user_id"
+    users ||..o{ student_target_jobs : "user_id"
+    job_posts ||..o{ student_target_jobs : "job_post_id"
+    users ||..o{ auth_factors : "user_id"
+    users |o..o{ auth_challenges : "user_id"

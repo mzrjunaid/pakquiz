@@ -1,0 +1,56 @@
+erDiagram
+    direction LR
+    academic_years["academic_years"] {
+        ID id PK
+        ID organization_id FK
+        FIELD name
+        FIELD starts_on
+        FIELD ends_on
+    }
+    academic_terms["academic_terms"] {
+        ID id PK
+        ID academic_year_id FK
+        FIELD title
+        FIELD starts_on
+        FIELD ends_on
+    }
+    academic_calendars["academic_calendars"] {
+        ID id PK
+        ID organization_id FK
+        ID branch_id FK "optional"
+        FIELD title
+        FIELD timezone
+    }
+    calendar_events["calendar_events"] {
+        ID id PK
+        ID calendar_id FK
+        FIELD event_type
+        FIELD start_at
+        FIELD end_at
+        FIELD state
+    }
+    calendar_exceptions["calendar_exceptions"] {
+        ID id PK
+        ID calendar_id FK
+        FIELD event_date
+        FIELD exception_code
+        FIELD reason
+    }
+    class_schedule_rules["class_schedule_rules"] {
+        ID id PK
+        ID offering_id FK
+        FIELD recurrence_rule
+        FIELD timezone
+        FIELD effective_from
+        FIELD effective_to "optional"
+    }
+    organizations["organizations (see 2)"]
+    organization_branches["organization_branches (see 2)"]
+    course_offerings["course_offerings (see 7)"]
+    organizations ||..o{ academic_years : "organization_id"
+    academic_years ||..o{ academic_terms : "academic_year_id"
+    organizations ||..o{ academic_calendars : "organization_id"
+    organization_branches |o..o{ academic_calendars : "branch_id"
+    academic_calendars ||..o{ calendar_events : "calendar_id"
+    academic_calendars ||..o{ calendar_exceptions : "calendar_id"
+    course_offerings ||..o{ class_schedule_rules : "offering_id"

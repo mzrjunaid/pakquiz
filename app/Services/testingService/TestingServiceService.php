@@ -57,10 +57,9 @@ class TestingServiceService
         TestingService $testingService,
         array $seoData,
         ?UploadedFile $seoImage,
-        array $tagIds,
-        array $keywordIds
+        array $tagIds
     ) {
-        return DB::transaction(function () use ($validated, $testingService, $seoData, $seoImage, $tagIds, $keywordIds) {
+        return DB::transaction(function () use ($validated, $testingService, $seoData, $seoImage, $tagIds) {
 
             $validated['updated_by'] = Auth::id();
 
@@ -88,14 +87,12 @@ class TestingServiceService
             }
 
             $testingService->tags()->sync($tagIds);
-            $testingService->keywords()->sync($keywordIds);
 
             $this->clearCache();
 
             return $testingService->fresh([
                 'seo',
                 'tags',
-                'keywords'
             ]);
         });
     }
@@ -105,10 +102,9 @@ class TestingServiceService
         array $testingService,
         array $seoData,
         ?UploadedFile $seoImage,
-        array $tagIds,
-        array $keywordIds
+        array $tagIds
     ) {
-        return DB::transaction(function () use ($testingService, $seoData, $seoImage, $tagIds, $keywordIds) {
+        return DB::transaction(function () use ($testingService, $seoData, $seoImage, $tagIds) {
             $testingService['created_by'] = Auth::id();
             $testingService['created_at'] = now();
             $testingService['updated_at'] = now();
@@ -133,14 +129,12 @@ class TestingServiceService
             $testingService->seo()->create($seoData);
 
             $testingService->tags()->sync($tagIds);
-            $testingService->keywords()->sync($keywordIds);
 
             $this->clearCache();
 
             return $testingService->fresh([
                 'seo',
                 'tags',
-                'keywords'
             ]);
         });
     }

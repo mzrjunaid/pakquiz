@@ -1,0 +1,72 @@
+erDiagram
+    direction LR
+    courses["courses"] {
+        ID id PK
+        ID owner_organization_id FK
+        FIELD title
+        FIELD slug
+        FIELD lifecycle_status
+    }
+    course_versions["course_versions"] {
+        ID id PK
+        ID course_id FK
+        FIELD version_number
+        FIELD publication_status
+        FIELD published_at "optional"
+        FIELD content_hash "optional"
+    }
+    course_modules["course_modules"] {
+        ID id PK
+        ID course_version_id FK
+        FIELD title
+        FIELD sort_order
+    }
+    lessons["lessons"] {
+        ID id PK
+        ID module_id FK
+        FIELD title
+        FIELD lesson_type
+        FIELD sort_order
+        FIELD required_completion_rule "optional"
+    }
+    lesson_content_blocks["lesson_content_blocks"] {
+        ID id PK
+        ID lesson_id FK
+        FIELD block_type
+        FIELD content_schema_version
+        FIELD payload
+        FIELD sort_order
+    }
+    media_assets["media_assets"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD storage_key
+        FIELD media_kind
+        FIELD mime_type
+        FIELD file_size
+        FIELD rights_status
+    }
+    lesson_assets["lesson_assets"] {
+        ID lesson_id FK
+        ID media_asset_id FK
+        FIELD usage_role
+    }
+    standalone_resources["standalone_resources"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD title
+        ID asset_id FK "optional"
+        FIELD resource_type
+        FIELD status
+    }
+    organizations["organizations (see 2)"]
+    organizations ||..o{ courses : "owner_organization_id"
+    courses ||..o{ course_versions : "course_id"
+    course_versions ||..o{ course_modules : "course_version_id"
+    course_modules ||..o{ lessons : "module_id"
+    lessons ||..o{ lesson_content_blocks : "lesson_id"
+    organizations |o..o{ media_assets : "owner_organization_id"
+    lessons ||..o{ lesson_assets : "lesson_id"
+    media_assets ||..o{ lesson_assets : "media_asset_id"
+    organizations |o..o{ standalone_resources : "owner_organization_id"
+    media_assets |o..o{ standalone_resources : "asset_id"

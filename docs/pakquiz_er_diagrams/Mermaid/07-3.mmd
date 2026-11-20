@@ -1,0 +1,68 @@
+erDiagram
+    direction LR
+    class_sessions["class_sessions"] {
+        ID id PK
+        ID offering_id FK
+        ID batch_id FK "optional"
+        FIELD scheduled_start
+        FIELD scheduled_end
+        FIELD actual_start "optional"
+        FIELD status
+    }
+    class_attendance["class_attendance"] {
+        ID id PK
+        ID session_id FK
+        ID enrollment_id FK
+        FIELD status
+        ID marked_by FK
+        FIELD marked_at
+    }
+    live_session_integrations["live_session_integrations"] {
+        ID id PK
+        ID class_session_id FK
+        FIELD provider
+        FIELD external_session_key
+        ID recording_asset_id FK "optional"
+    }
+    assignments["assignments"] {
+        ID id PK
+        ID course_version_id FK
+        ID lesson_id FK "optional"
+        FIELD title
+        FIELD grading_policy
+    }
+    assignment_deliveries["assignment_deliveries"] {
+        ID id PK
+        ID assignment_id FK
+        ID offering_id FK
+        FIELD due_at "optional"
+        FIELD status
+    }
+    assignment_submissions["assignment_submissions"] {
+        ID id PK
+        ID assignment_delivery_id FK
+        ID enrollment_id FK
+        FIELD submitted_at "optional"
+        FIELD payload_reference
+        FIELD status
+    }
+    course_offerings["course_offerings (see 7)"]
+    batches["batches (see 7)"]
+    enrollments["enrollments (see 7)"]
+    users["users (see 1)"]
+    media_assets["media_assets (see 6)"]
+    course_versions["course_versions (see 6)"]
+    lessons["lessons (see 6)"]
+    course_offerings ||..o{ class_sessions : "offering_id"
+    batches |o..o{ class_sessions : "batch_id"
+    class_sessions ||..o{ class_attendance : "session_id"
+    enrollments ||..o{ class_attendance : "enrollment_id"
+    users ||..o{ class_attendance : "marked_by"
+    class_sessions ||..o{ live_session_integrations : "class_session_id"
+    media_assets |o..o{ live_session_integrations : "recording_asset_id"
+    course_versions ||..o{ assignments : "course_version_id"
+    lessons |o..o{ assignments : "lesson_id"
+    assignments ||..o{ assignment_deliveries : "assignment_id"
+    course_offerings ||..o{ assignment_deliveries : "offering_id"
+    assignment_deliveries ||..o{ assignment_submissions : "assignment_delivery_id"
+    enrollments ||..o{ assignment_submissions : "enrollment_id"

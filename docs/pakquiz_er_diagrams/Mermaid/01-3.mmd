@@ -1,0 +1,37 @@
+erDiagram
+    direction LR
+    roles["roles"] {
+        ID id PK
+        FIELD name
+        FIELD role_scope
+        ID owner_organization_id FK "optional"
+    }
+    permissions["permissions"] {
+        ID id PK
+        FIELD resource_code
+        FIELD action_code
+        FIELD description
+    }
+    role_permissions["role_permissions"] {
+        ID role_id FK
+        ID permission_id FK
+    }
+    role_assignments["role_assignments"] {
+        ID id PK
+        ID user_id FK
+        ID role_id FK
+        ID organization_id FK "optional"
+        ID branch_id FK "optional"
+        FIELD from_at
+        FIELD to_at "optional"
+    }
+    organizations["organizations (see 2)"]
+    users["users (see 1)"]
+    organization_branches["organization_branches (see 2)"]
+    organizations |o..o{ roles : "owner_organization_id"
+    roles ||..o{ role_permissions : "role_id"
+    permissions ||..o{ role_permissions : "permission_id"
+    users ||..o{ role_assignments : "user_id"
+    roles ||..o{ role_assignments : "role_id"
+    organizations |o..o{ role_assignments : "organization_id"
+    organization_branches |o..o{ role_assignments : "branch_id"

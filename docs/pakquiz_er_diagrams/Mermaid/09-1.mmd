@@ -1,0 +1,79 @@
+erDiagram
+    direction LR
+    lesson_progress["lesson_progress"] {
+        ID id PK
+        ID enrollment_id FK
+        ID lesson_id FK
+        FIELD status
+        FIELD progress_decimal
+        FIELD completed_at "optional"
+    }
+    learning_activity_events["learning_activity_events"] {
+        ID id PK
+        ID user_id FK
+        ID organization_id FK "optional"
+        ID enrollment_id FK "optional"
+        FIELD activity_code
+        FIELD occurred_at
+        FIELD duration_seconds "optional"
+    }
+    practice_sessions["practice_sessions"] {
+        ID id PK
+        ID user_id FK
+        ID organization_id FK "optional"
+        FIELD started_at
+        FIELD finished_at "optional"
+        FIELD config_snapshot
+    }
+    practice_session_questions["practice_session_questions"] {
+        ID id PK
+        ID session_id FK
+        ID question_revision_id FK
+        FIELD response_snapshot
+        FIELD awarded_marks "optional"
+    }
+    question_bookmarks["question_bookmarks"] {
+        ID id PK
+        ID user_id FK
+        ID question_id FK
+        FIELD collection_key "optional"
+    }
+    study_goals["study_goals"] {
+        ID id PK
+        ID user_id FK
+        FIELD goal_code
+        FIELD target_value
+        FIELD interval
+        FIELD status
+    }
+    study_plan_items["study_plan_items"] {
+        ID id PK
+        ID user_id FK
+        ID subject_id FK "optional"
+        ID topic_id FK "optional"
+        FIELD scheduled_for
+        FIELD state
+    }
+    enrollments["enrollments (see 7)"]
+    lessons["lessons (see 6)"]
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    question_revisions["question_revisions (see 4)"]
+    questions["questions (see 4)"]
+    subjects["subjects (see 3)"]
+    topics["topics (see 3)"]
+    enrollments ||..o{ lesson_progress : "enrollment_id"
+    lessons ||..o{ lesson_progress : "lesson_id"
+    users ||..o{ learning_activity_events : "user_id"
+    organizations |o..o{ learning_activity_events : "organization_id"
+    enrollments |o..o{ learning_activity_events : "enrollment_id"
+    users ||..o{ practice_sessions : "user_id"
+    organizations |o..o{ practice_sessions : "organization_id"
+    practice_sessions ||..o{ practice_session_questions : "session_id"
+    question_revisions ||..o{ practice_session_questions : "question_revision_id"
+    users ||..o{ question_bookmarks : "user_id"
+    questions ||..o{ question_bookmarks : "question_id"
+    users ||..o{ study_goals : "user_id"
+    users ||..o{ study_plan_items : "user_id"
+    subjects |o..o{ study_plan_items : "subject_id"
+    topics |o..o{ study_plan_items : "topic_id"

@@ -2,11 +2,13 @@
 
 namespace App\Services\Seo;
 
-use App\Models\Keyword;
 use Illuminate\Database\Eloquent\Model;
 
 class KeywordSyncService
 {
+    /**
+     * Sync keywords directly to model or seo metadata.
+     */
     public function sync(
         Model $model,
         array $keywords,
@@ -16,23 +18,21 @@ class KeywordSyncService
             return;
         }
 
-        $keywords = collect($keywords)
+        $formatted = collect($keywords)
             ->map(fn($k) => strtolower(trim($k)))
             ->filter()
             ->unique()
             ->values()
-            ->toArray();
+            ->implode(', ');
 
-        $keywordIds = [];
-
-        foreach ($keywords as $keyword) {
-            $keywordIds[] = Keyword::firstOrCreate([
-                'keyword' => $keyword,
-            ])->id;
+        if (empty($formatted)) {
+            return;
         }
 
-        $detach
-            ? $model->keywords()->sync($keywordIds)
-            : $model->keywords()->syncWithoutDetaching($keywordIds);
+        if (method_exists($model, 'seo') && $model->seo) {
+            $model->seo->update(['keywords' => $formatted]);
+        } elseif (isset($model->keywords)) {
+            $model->update(['keywords' => $formatted]);
+        }
     }
 }

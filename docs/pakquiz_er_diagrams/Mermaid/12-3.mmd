@@ -1,0 +1,66 @@
+erDiagram
+    direction LR
+    audit_events["audit_events"] {
+        ID id PK
+        ID actor_user_id FK "optional"
+        ID organization_id FK "optional"
+        FIELD action_code
+        ID resource_id FK "optional"
+        FIELD occurred_at
+        ID correlation_id
+    }
+    privacy_requests["privacy_requests"] {
+        ID id PK
+        ID requester_user_id FK
+        FIELD request_kind
+        FIELD status
+        FIELD received_at
+        FIELD disposition_at "optional"
+    }
+    retention_policies["retention_policies"] {
+        ID id PK
+        ID organization_id FK "optional"
+        FIELD record_category
+        FIELD rule_version
+        FIELD retention_duration
+    }
+    retention_actions["retention_actions"] {
+        ID id PK
+        ID policy_id FK
+        ID resource_id FK "optional"
+        FIELD action_code
+        FIELD executed_at
+        FIELD outcome
+    }
+    data_exports["data_exports"] {
+        ID id PK
+        ID requester_user_id FK
+        ID organization_id FK "optional"
+        FIELD scope_snapshot
+        FIELD status
+        FIELD expires_at "optional"
+    }
+    support_access_grants["support_access_grants"] {
+        ID id PK
+        ID support_user_id FK
+        ID organization_id FK
+        ID approved_by FK
+        FIELD scope
+        FIELD expires_at
+        FIELD justification
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    registered_resources["registered_resources (see 11)"]
+    users |o..o{ audit_events : "actor_user_id"
+    organizations |o..o{ audit_events : "organization_id"
+    registered_resources |o..o{ audit_events : "resource_id"
+    users ||..o{ privacy_requests : "requester_user_id"
+    organizations |o..o{ retention_policies : "organization_id"
+    retention_policies ||..o{ retention_actions : "policy_id"
+    registered_resources |o..o{ retention_actions : "resource_id"
+    users ||..o{ data_exports : "requester_user_id"
+    organizations |o..o{ data_exports : "organization_id"
+    users ||..o{ support_access_grants : "support_user_id"
+    organizations ||..o{ support_access_grants : "organization_id"
+    users ||..o{ support_access_grants : "approved_by"

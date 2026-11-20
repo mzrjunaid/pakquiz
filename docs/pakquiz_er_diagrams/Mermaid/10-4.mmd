@@ -1,0 +1,58 @@
+erDiagram
+    direction LR
+    student_fee_charges["student_fee_charges"] {
+        ID id PK
+        ID organization_id FK
+        ID student_user_id FK
+        ID enrollment_id FK "optional"
+        FIELD due_at
+        MONEY_PKR amount_paisa
+        FIELD state
+    }
+    student_fee_allocations["student_fee_allocations"] {
+        ID id PK
+        ID fee_charge_id FK
+        ID payment_transaction_id FK
+        MONEY_PKR amount_paisa
+    }
+    scholarships["scholarships"] {
+        ID id PK
+        ID organization_id FK
+        FIELD rule_code
+        FIELD benefit_schema
+        FIELD state
+    }
+    financial_accounts["financial_accounts"] {
+        ID id PK
+        ID commercial_party_id FK
+        FIELD account_code
+        FIELD account_type
+    }
+    financial_journals["financial_journals"] {
+        ID id PK
+        FIELD business_event_reference "binding unresolved"
+        FIELD journal_date
+        FIELD state
+        FIELD posted_at "optional"
+    }
+    financial_journal_lines["financial_journal_lines"] {
+        ID id PK
+        ID journal_id FK
+        ID account_id FK
+        MONEY_PKR debit_paisa
+        MONEY_PKR credit_paisa
+    }
+    organizations["organizations (see 2)"]
+    users["users (see 1)"]
+    enrollments["enrollments (see 7)"]
+    payment_transactions["payment_transactions (see 10)"]
+    commercial_parties["commercial_parties (see 10)"]
+    organizations ||..o{ student_fee_charges : "organization_id"
+    users ||..o{ student_fee_charges : "student_user_id"
+    enrollments |o..o{ student_fee_charges : "enrollment_id"
+    student_fee_charges ||..o{ student_fee_allocations : "fee_charge_id"
+    payment_transactions ||..o{ student_fee_allocations : "payment_transaction_id"
+    organizations ||..o{ scholarships : "organization_id"
+    commercial_parties ||..o{ financial_accounts : "commercial_party_id"
+    financial_journals ||..o{ financial_journal_lines : "journal_id"
+    financial_accounts ||..o{ financial_journal_lines : "account_id"

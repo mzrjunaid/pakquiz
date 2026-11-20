@@ -1,0 +1,92 @@
+erDiagram
+    direction LR
+    orders["orders"] {
+        ID id PK
+        ID buyer_user_id FK "optional"
+        ID buyer_organization_id FK "optional"
+        ID seller_of_record_party_id FK
+        MONEY_PKR total_paisa
+        FIELD state
+        FIELD placed_at
+    }
+    order_items["order_items"] {
+        ID id PK
+        ID order_id FK
+        ID product_id FK
+        FIELD quantity
+        MONEY_PKR unit_price_paisa
+        FIELD terms_snapshot
+        MONEY_PKR line_total_paisa
+    }
+    invoices["invoices"] {
+        ID id PK
+        ID order_id FK "optional"
+        ID seller_party_id FK
+        FIELD invoice_number
+        MONEY_PKR total_paisa
+        FIELD issued_at
+        FIELD state
+    }
+    invoice_lines["invoice_lines"] {
+        ID id PK
+        ID invoice_id FK
+        FIELD description
+        FIELD quantity
+        MONEY_PKR amount_paisa
+    }
+    payment_transactions["payment_transactions"] {
+        ID id PK
+        ID invoice_id FK "optional"
+        FIELD provider_code
+        FIELD provider_reference "optional"
+        MONEY_PKR amount_paisa
+        FIELD status
+        FIELD initiated_at
+    }
+    payment_events["payment_events"] {
+        ID id PK
+        ID transaction_id FK
+        FIELD provider_event_reference "optional"
+        FIELD event_code
+        FIELD payload_hash
+        FIELD processed_at
+    }
+    refunds["refunds"] {
+        ID id PK
+        ID payment_transaction_id FK
+        MONEY_PKR amount_paisa
+        FIELD reason
+        FIELD status
+    }
+    coupons["coupons"] {
+        ID id PK
+        FIELD code
+        ID owner_party_id FK "optional"
+        FIELD discount_rule
+        FIELD valid_until "optional"
+        FIELD usage_limit
+    }
+    coupon_redemptions["coupon_redemptions"] {
+        ID id PK
+        ID coupon_id FK
+        ID order_id FK
+        MONEY_PKR discount_paisa
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    commercial_parties["commercial_parties (see 10)"]
+    products["products (see 10)"]
+    users |o..o{ orders : "buyer_user_id"
+    organizations |o..o{ orders : "buyer_organization_id"
+    commercial_parties ||..o{ orders : "seller_of_record_party_id"
+    orders ||..o{ order_items : "order_id"
+    products ||..o{ order_items : "product_id"
+    orders |o..o{ invoices : "order_id"
+    commercial_parties ||..o{ invoices : "seller_party_id"
+    invoices ||..o{ invoice_lines : "invoice_id"
+    invoices |o..o{ payment_transactions : "invoice_id"
+    payment_transactions ||..o{ payment_events : "transaction_id"
+    payment_transactions ||..o{ refunds : "payment_transaction_id"
+    commercial_parties |o..o{ coupons : "owner_party_id"
+    coupons ||..o{ coupon_redemptions : "coupon_id"
+    orders ||..o{ coupon_redemptions : "order_id"

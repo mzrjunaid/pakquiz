@@ -1,0 +1,27 @@
+erDiagram
+    direction LR
+    learning_objectives["learning_objectives"] {
+        ID id PK
+        ID subject_id FK "optional"
+        ID topic_id FK "optional"
+        FIELD objective_text
+        FIELD status
+    }
+    objective_question_links["objective_question_links"] {
+        ID objective_id FK
+        ID question_id FK
+    }
+    objective_course_links["objective_course_links"] {
+        ID objective_id FK
+        ID course_id FK
+    }
+    subjects["subjects (see 3)"]
+    topics["topics (see 3)"]
+    questions["questions (see 4)"]
+    courses["courses (see 6)"]
+    subjects |o..o{ learning_objectives : "subject_id"
+    topics |o..o{ learning_objectives : "topic_id"
+    learning_objectives ||..o{ objective_question_links : "objective_id"
+    questions ||..o{ objective_question_links : "question_id"
+    learning_objectives ||..o{ objective_course_links : "objective_id"
+    courses ||..o{ objective_course_links : "course_id"

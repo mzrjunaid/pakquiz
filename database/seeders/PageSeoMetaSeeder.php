@@ -20,22 +20,8 @@ class PageSeoMetaSeeder extends Seeder
             [
                 'title'       => 'PAKQUIZ – AI Powered Online MCQs for FPSC, PPSC, NTS & Job Exams',
                 'description' => 'Prepare government and private job exams in Pakistan with subject-wise MCQs, past papers, and online practice tests.',
+                'keywords'    => 'PAKQUIZ, FPSC MCQs, PPSC MCQs, NTS MCQs, Pakistan job tests, Online MCQs',
             ]
         );
-
-        // 2️⃣ Attach keywords via pivot
-        $keywordIds = collect([
-            'PAKQUIZ',
-            'FPSC MCQs',
-            'PPSC MCQs',
-            'NTS MCQs',
-            'Pakistan job tests',
-            'Online MCQs',
-        ])->map(
-            fn($k) =>
-            Keyword::firstOrCreate(['keyword' => $k])->id
-        );
-
-        $seo->keywords()->sync($keywordIds);
     }
 }

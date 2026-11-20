@@ -1,0 +1,50 @@
+erDiagram
+    direction LR
+    organization_branding["organization_branding"] {
+        ID organization_id
+        ID logo_asset_id "optional; target inferred, see notes"
+        FIELD color_config
+        ID banner_asset_id "optional; target inferred, see notes"
+        FIELD certificate_config "optional"
+    }
+    organization_domains["organization_domains"] {
+        ID id PK
+        ID organization_id FK
+        FIELD hostname UK
+        FIELD verified_at "optional"
+        FIELD status
+    }
+    organization_settings["organization_settings"] {
+        ID organization_id
+        FIELD config_version
+        FIELD settings_payload
+    }
+    organization_ownership_events["organization_ownership_events"] {
+        ID id PK
+        ID organization_id FK
+        ID previous_owner_user_id FK
+        ID new_owner_user_id FK
+        ID authorized_by FK
+        FIELD event_at
+    }
+    organization_closure_cases["organization_closure_cases"] {
+        ID id PK
+        ID organization_id FK
+        FIELD reason
+        FIELD initiated_at
+        FIELD status
+        ID retention_policy_id "optional; target inferred, see notes"
+    }
+    media_assets["media_assets (see 6)"]
+    organizations["organizations (see 2)"]
+    users["users (see 1)"]
+    retention_policies["retention_policies (see 12)"]
+    media_assets |o..o{ organization_branding : "logo_asset_id (inferred)"
+    media_assets |o..o{ organization_branding : "banner_asset_id (inferred)"
+    organizations ||..o{ organization_domains : "organization_id"
+    organizations ||..o{ organization_ownership_events : "organization_id"
+    users ||..o{ organization_ownership_events : "previous_owner_user_id"
+    users ||..o{ organization_ownership_events : "new_owner_user_id"
+    users ||..o{ organization_ownership_events : "authorized_by"
+    organizations ||..o{ organization_closure_cases : "organization_id"
+    retention_policies |o..o{ organization_closure_cases : "retention_policy_id (inferred)"

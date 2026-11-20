@@ -29,7 +29,7 @@ class PaperController extends Controller
         );
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
-            ->where('is_active', '=', '1')
+            ->where('is_active', true)
             ->latest()
             ->paginate($perPage)
             ->onEachSide(0)
@@ -137,7 +137,7 @@ class PaperController extends Controller
         );
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
-            ->where('is_active', '=', '1')
+            ->where('is_active', true)
             ->where('paper_year', '>=', date('2025'))
             ->latest()
             ->paginate($perPage)
@@ -157,7 +157,7 @@ class PaperController extends Controller
         );
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
-            ->where('is_active', '=', '1')
+            ->where('is_active', true)
             ->where('paper_year', '<', date('2025'))
             ->latest()
             ->paginate($perPage)
@@ -177,7 +177,7 @@ class PaperController extends Controller
         );
 
         $papers = Paper::select('id', 'name', 'slug', 'testing_service_id', 'paper_year', 'subject_id', 'department_id', 'created_by', 'is_active')
-            ->where('is_active', '=', '1')
+            ->where('is_active', true)
             ->where('schedule_at', '>=', date('Y-m-d'))
             ->latest()
             ->paginate($perPage)

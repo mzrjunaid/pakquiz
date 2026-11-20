@@ -1,0 +1,44 @@
+erDiagram
+    direction LR
+    entitlements["entitlements"] {
+        ID id PK
+        ID beneficiary_user_id FK "optional"
+        ID beneficiary_organization_id FK "optional"
+        ID resource_id FK
+        FIELD source_kind
+        FIELD source_reference "binding unresolved"
+        FIELD starts_at
+        FIELD expires_at "optional"
+        FIELD state
+    }
+    entitlement_events["entitlement_events"] {
+        ID id PK
+        ID entitlement_id FK
+        FIELD event_code
+        FIELD reason
+        FIELD occurred_at
+    }
+    access_policies["access_policies"] {
+        ID id PK
+        ID resource_id FK
+        FIELD visibility_code
+        FIELD policy_version
+        FIELD status
+    }
+    access_grants["access_grants"] {
+        ID id PK
+        ID access_policy_id FK
+        FIELD principal_kind
+        FIELD principal_reference "binding unresolved"
+        FIELD action_code
+        FIELD valid_until "optional"
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    registered_resources["registered_resources (see 11)"]
+    users |o..o{ entitlements : "beneficiary_user_id"
+    organizations |o..o{ entitlements : "beneficiary_organization_id"
+    registered_resources ||..o{ entitlements : "resource_id"
+    entitlements ||..o{ entitlement_events : "entitlement_id"
+    registered_resources ||..o{ access_policies : "resource_id"
+    access_policies ||..o{ access_grants : "access_policy_id"

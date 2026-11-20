@@ -1,0 +1,83 @@
+erDiagram
+    direction LR
+    learning_mastery_records["learning_mastery_records"] {
+        ID id PK
+        ID user_id FK
+        ID organization_id FK "optional"
+        ID topic_id FK "optional"
+        ID subject_id FK "optional"
+        FIELD model_version
+        FIELD score
+        FIELD computed_at
+    }
+    learning_mastery_events["learning_mastery_events"] {
+        ID id PK
+        ID mastery_record_id FK
+        ID source_event_id "optional; binding unresolved"
+        FIELD effect
+        FIELD model_version
+    }
+    ai_recommendations["ai_recommendations"] {
+        ID id PK
+        ID user_id FK
+        ID organization_id FK "optional"
+        FIELD model_version
+        FIELD rationale
+        FIELD recommendation_payload
+        FIELD state
+    }
+    certificate_templates["certificate_templates"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD template_version
+        FIELD layout_reference
+        FIELD status
+    }
+    certificates["certificates"] {
+        ID id PK
+        ID user_id FK
+        ID organization_id FK "optional"
+        FIELD source_reference "binding unresolved"
+        FIELD verification_code UK
+        FIELD issued_at
+        FIELD state
+    }
+    certificate_events["certificate_events"] {
+        ID id PK
+        ID certificate_id FK
+        FIELD event_code
+        FIELD reason "optional"
+        FIELD occurred_at
+        ID actor_id FK
+    }
+    achievement_definitions["achievement_definitions"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD achievement_code
+        FIELD eligibility_rule_version
+    }
+    student_achievements["student_achievements"] {
+        ID id PK
+        ID user_id FK
+        ID achievement_id FK
+        FIELD awarded_at
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    topics["topics (see 3)"]
+    subjects["subjects (see 3)"]
+    users ||..o{ learning_mastery_records : "user_id"
+    organizations |o..o{ learning_mastery_records : "organization_id"
+    topics |o..o{ learning_mastery_records : "topic_id"
+    subjects |o..o{ learning_mastery_records : "subject_id"
+    learning_mastery_records ||..o{ learning_mastery_events : "mastery_record_id"
+    users ||..o{ ai_recommendations : "user_id"
+    organizations |o..o{ ai_recommendations : "organization_id"
+    organizations |o..o{ certificate_templates : "owner_organization_id"
+    users ||..o{ certificates : "user_id"
+    organizations |o..o{ certificates : "organization_id"
+    certificates ||..o{ certificate_events : "certificate_id"
+    users ||..o{ certificate_events : "actor_id"
+    organizations |o..o{ achievement_definitions : "owner_organization_id"
+    users ||..o{ student_achievements : "user_id"
+    achievement_definitions ||..o{ student_achievements : "achievement_id"

@@ -1,0 +1,44 @@
+erDiagram
+    direction LR
+    grading_runs["grading_runs"] {
+        ID id PK
+        ID attempt_id FK
+        FIELD version_no
+        FIELD engine_or_examiner
+        FIELD state
+        FIELD completed_at
+    }
+    grading_decisions["grading_decisions"] {
+        ID id PK
+        ID grading_run_id FK
+        ID attempt_question_id FK
+        FIELD awarded_marks
+        FIELD rationale "optional"
+        ID grader_user_id FK "optional"
+    }
+    assessment_results["assessment_results"] {
+        ID id PK
+        ID attempt_id FK, UK
+        ID current_grading_run_id FK
+        FIELD status
+        FIELD published_at "optional"
+    }
+    result_publications["result_publications"] {
+        ID id PK
+        ID result_id FK
+        ID grading_run_id FK
+        ID published_by FK
+        FIELD published_at
+    }
+    assessment_attempts["assessment_attempts (see 8)"]
+    attempt_questions["attempt_questions (see 8)"]
+    users["users (see 1)"]
+    assessment_attempts ||..o{ grading_runs : "attempt_id"
+    grading_runs ||..o{ grading_decisions : "grading_run_id"
+    attempt_questions ||..o{ grading_decisions : "attempt_question_id"
+    users |o..o{ grading_decisions : "grader_user_id"
+    assessment_attempts ||..o| assessment_results : "attempt_id"
+    grading_runs ||..o{ assessment_results : "current_grading_run_id"
+    assessment_results ||..o{ result_publications : "result_id"
+    grading_runs ||..o{ result_publications : "grading_run_id"
+    users ||..o{ result_publications : "published_by"

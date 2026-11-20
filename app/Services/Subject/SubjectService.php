@@ -58,11 +58,10 @@ class SubjectService
         Subject $subject,
         array $seoData,
         ?UploadedFile $seoImage,
-        array $keywordIds,
         array $tagIds)
     {
 
-        return DB::transaction(function () use ($validated, $subject, $seoData, $seoImage, $keywordIds, $tagIds) {
+        return DB::transaction(function () use ($validated, $subject, $seoData, $seoImage, $tagIds) {
             $validated['updated_by'] = Auth::id();
             $validated['updated_at'] = now();
 
@@ -93,7 +92,6 @@ class SubjectService
             }
 
             $subject->tags()->sync($tagIds);
-            $subject->keywords()->sync($keywordIds);
 
             $this->clearCache();
 
@@ -101,9 +99,9 @@ class SubjectService
         });
     }
 
-    public function createSubject(array $data, array $seoData, ?UploadedFile $seoImage, array $keywordIds, array $tagIds)
+    public function createSubject(array $data, array $seoData, ?UploadedFile $seoImage, array $tagIds)
     {
-        return DB::transaction(function () use ($data, $seoData, $seoImage, $keywordIds, $tagIds) {
+        return DB::transaction(function () use ($data, $seoData, $seoImage, $tagIds) {
             $data['created_by'] = Auth::id();
             $data['created_at'] = now();
             $data['updated_at'] = now();
@@ -127,7 +125,6 @@ class SubjectService
             $subject->seo()->create($seoData);
 
             $subject->tags()->sync($tagIds);
-            $subject->keywords()->sync($keywordIds);
 
             $this->clearCache();
 

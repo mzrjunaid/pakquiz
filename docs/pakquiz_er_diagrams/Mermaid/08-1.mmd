@@ -1,0 +1,60 @@
+erDiagram
+    direction LR
+    assessment_blueprints["assessment_blueprints"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        FIELD name
+        FIELD version
+        FIELD publication_status
+    }
+    blueprint_sections["blueprint_sections"] {
+        ID id PK
+        ID blueprint_id FK
+        FIELD title
+        FIELD sort_order
+        FIELD scoring_policy_version
+        FIELD selection_rules
+    }
+    blueprint_question_pools["blueprint_question_pools"] {
+        ID id PK
+        ID blueprint_section_id FK
+        ID question_collection_id FK "optional"
+        FIELD quota
+        FIELD filter_schema
+        FIELD exclusions
+    }
+    assessments["assessments"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        ID blueprint_id FK "optional"
+        FIELD title
+        FIELD mode
+        FIELD lifecycle_status
+    }
+    assessment_versions["assessment_versions"] {
+        ID id PK
+        ID assessment_id FK
+        FIELD version_number
+        FIELD frozen_definition
+        FIELD published_at
+    }
+    assessment_fixed_questions["assessment_fixed_questions"] {
+        ID id PK
+        ID assessment_version_id FK
+        FIELD section_key
+        ID question_revision_id FK
+        FIELD position
+        FIELD marks_policy
+    }
+    organizations["organizations (see 2)"]
+    question_collections["question_collections (see 4)"]
+    question_revisions["question_revisions (see 4)"]
+    organizations |o..o{ assessment_blueprints : "owner_organization_id"
+    assessment_blueprints ||..o{ blueprint_sections : "blueprint_id"
+    blueprint_sections ||..o{ blueprint_question_pools : "blueprint_section_id"
+    question_collections |o..o{ blueprint_question_pools : "question_collection_id"
+    organizations |o..o{ assessments : "owner_organization_id"
+    assessment_blueprints |o..o{ assessments : "blueprint_id"
+    assessments ||..o{ assessment_versions : "assessment_id"
+    assessment_versions ||..o{ assessment_fixed_questions : "assessment_version_id"
+    question_revisions ||..o{ assessment_fixed_questions : "question_revision_id"

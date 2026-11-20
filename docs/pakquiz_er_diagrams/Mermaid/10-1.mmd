@@ -1,0 +1,67 @@
+erDiagram
+    direction LR
+    commercial_parties["commercial_parties"] {
+        ID id PK
+        FIELD party_kind
+        ID organization_id FK "optional"
+        FIELD platform_party_code "optional"
+        FIELD legal_name
+        FIELD verification_status
+    }
+    products["products"] {
+        ID id PK
+        ID seller_party_id FK
+        FIELD product_kind
+        FIELD title
+        FIELD status
+    }
+    product_resources["product_resources"] {
+        ID id PK
+        ID product_id FK
+        ID registered_resource_id FK
+        FIELD grant_scope
+    }
+    product_prices["product_prices"] {
+        ID id PK
+        ID product_id FK
+        MONEY_PKR amount_paisa
+        FIELD billing_period "optional"
+        FIELD valid_from
+        FIELD valid_until "optional"
+    }
+    subscription_plans["subscription_plans"] {
+        ID id PK
+        ID product_id FK
+        FIELD plan_code
+        FIELD limits_schema
+        FIELD state
+    }
+    subscriptions["subscriptions"] {
+        ID id PK
+        ID subscriber_user_id FK "optional"
+        ID subscriber_organization_id FK "optional"
+        ID plan_id FK
+        FIELD state
+        FIELD period_start
+        FIELD period_end
+    }
+    subscription_events["subscription_events"] {
+        ID id PK
+        ID subscription_id FK
+        FIELD event_code
+        FIELD effective_at
+        FIELD snapshot
+    }
+    organizations["organizations (see 2)"]
+    registered_resources["registered_resources (see 11)"]
+    users["users (see 1)"]
+    organizations |o..o{ commercial_parties : "organization_id"
+    commercial_parties ||..o{ products : "seller_party_id"
+    products ||..o{ product_resources : "product_id"
+    registered_resources ||..o{ product_resources : "registered_resource_id"
+    products ||..o{ product_prices : "product_id"
+    products ||..o{ subscription_plans : "product_id"
+    users |o..o{ subscriptions : "subscriber_user_id"
+    organizations |o..o{ subscriptions : "subscriber_organization_id"
+    subscription_plans ||..o{ subscriptions : "plan_id"
+    subscriptions ||..o{ subscription_events : "subscription_id"

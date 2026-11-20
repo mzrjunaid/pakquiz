@@ -212,7 +212,7 @@ store.post = (options?: RouteQueryOptions): RouteDefinition<'post'> => ({
     store.form = storeForm
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
 export const show = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -227,7 +227,7 @@ show.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
 show.url = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -260,7 +260,7 @@ show.url = (args: { department: string | { slug: string } } | [department: strin
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
 show.get = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -269,7 +269,7 @@ show.get = (args: { department: string | { slug: string } } | [department: strin
 })
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
 show.head = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -279,7 +279,7 @@ show.head = (args: { department: string | { slug: string } } | [department: stri
 
     /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
     const showForm = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -289,7 +289,7 @@ show.head = (args: { department: string | { slug: string } } | [department: stri
 
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
         showForm.get = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -298,7 +298,7 @@ show.head = (args: { department: string | { slug: string } } | [department: stri
         })
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::show
- * @see app/Http/Controllers/Admin/DepartmentController.php:133
+ * @see app/Http/Controllers/Admin/DepartmentController.php:122
  * @route '/admin/departments/{department}'
  */
         showForm.head = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -314,7 +314,7 @@ show.head = (args: { department: string | { slug: string } } | [department: stri
     show.form = showForm
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
 export const edit = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -329,7 +329,7 @@ edit.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
 edit.url = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -362,7 +362,7 @@ edit.url = (args: { department: string | { slug: string } } | [department: strin
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
 edit.get = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'get'> => ({
@@ -371,7 +371,7 @@ edit.get = (args: { department: string | { slug: string } } | [department: strin
 })
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
 edit.head = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'head'> => ({
@@ -381,7 +381,7 @@ edit.head = (args: { department: string | { slug: string } } | [department: stri
 
     /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
     const editForm = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -391,7 +391,7 @@ edit.head = (args: { department: string | { slug: string } } | [department: stri
 
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
         editForm.get = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -400,7 +400,7 @@ edit.head = (args: { department: string | { slug: string } } | [department: stri
         })
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::edit
- * @see app/Http/Controllers/Admin/DepartmentController.php:163
+ * @see app/Http/Controllers/Admin/DepartmentController.php:152
  * @route '/admin/departments/{department}/edit'
  */
         editForm.head = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'get'> => ({
@@ -416,7 +416,7 @@ edit.head = (args: { department: string | { slug: string } } | [department: stri
     edit.form = editForm
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
 export const update = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -431,7 +431,7 @@ update.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
 update.url = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -464,7 +464,7 @@ update.url = (args: { department: string | { slug: string } } | [department: str
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
 update.put = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'put'> => ({
@@ -473,7 +473,7 @@ update.put = (args: { department: string | { slug: string } } | [department: str
 })
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
 update.patch = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'patch'> => ({
@@ -483,7 +483,7 @@ update.patch = (args: { department: string | { slug: string } } | [department: s
 
     /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
     const updateForm = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -498,7 +498,7 @@ update.patch = (args: { department: string | { slug: string } } | [department: s
 
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
         updateForm.put = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -512,7 +512,7 @@ update.patch = (args: { department: string | { slug: string } } | [department: s
         })
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::update
- * @see app/Http/Controllers/Admin/DepartmentController.php:182
+ * @see app/Http/Controllers/Admin/DepartmentController.php:171
  * @route '/admin/departments/{department}'
  */
         updateForm.patch = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -528,7 +528,7 @@ update.patch = (args: { department: string | { slug: string } } | [department: s
     update.form = updateForm
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::destroy
- * @see app/Http/Controllers/Admin/DepartmentController.php:242
+ * @see app/Http/Controllers/Admin/DepartmentController.php:220
  * @route '/admin/departments/{department}'
  */
 export const destroy = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -543,7 +543,7 @@ destroy.definition = {
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::destroy
- * @see app/Http/Controllers/Admin/DepartmentController.php:242
+ * @see app/Http/Controllers/Admin/DepartmentController.php:220
  * @route '/admin/departments/{department}'
  */
 destroy.url = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions) => {
@@ -576,7 +576,7 @@ destroy.url = (args: { department: string | { slug: string } } | [department: st
 
 /**
 * @see \App\Http\Controllers\Admin\DepartmentController::destroy
- * @see app/Http/Controllers/Admin/DepartmentController.php:242
+ * @see app/Http/Controllers/Admin/DepartmentController.php:220
  * @route '/admin/departments/{department}'
  */
 destroy.delete = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteDefinition<'delete'> => ({
@@ -586,7 +586,7 @@ destroy.delete = (args: { department: string | { slug: string } } | [department:
 
     /**
 * @see \App\Http\Controllers\Admin\DepartmentController::destroy
- * @see app/Http/Controllers/Admin/DepartmentController.php:242
+ * @see app/Http/Controllers/Admin/DepartmentController.php:220
  * @route '/admin/departments/{department}'
  */
     const destroyForm = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({
@@ -601,7 +601,7 @@ destroy.delete = (args: { department: string | { slug: string } } | [department:
 
             /**
 * @see \App\Http\Controllers\Admin\DepartmentController::destroy
- * @see app/Http/Controllers/Admin/DepartmentController.php:242
+ * @see app/Http/Controllers/Admin/DepartmentController.php:220
  * @route '/admin/departments/{department}'
  */
         destroyForm.delete = (args: { department: string | { slug: string } } | [department: string | { slug: string } ] | string | { slug: string }, options?: RouteQueryOptions): RouteFormDefinition<'post'> => ({

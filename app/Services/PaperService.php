@@ -17,9 +17,10 @@ class PaperService
             $counts = DB::table('papers')
                 ->selectRaw('
                 COUNT(*) as total,
-                SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) as today,
+                SUM(CASE WHEN created_at >= ? THEN 1 ELSE 0 END) as today,
                 SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END) as this_week
             ', [
+                now()->startOfDay(),
                 now()->startOfWeek(),
                 now()->endOfWeek()
             ])

@@ -1,0 +1,49 @@
+erDiagram
+    direction LR
+    registered_resources["registered_resources"] {
+        ID id PK
+        FIELD resource_kind
+        ID owner_organization_id FK "optional"
+        FIELD status
+        FIELD immutable_reference "optional; binding unresolved"
+    }
+    resource_bindings["resource_bindings"] {
+        ID id PK
+        ID registered_resource_id FK
+        FIELD typed_record_reference "binding unresolved"
+        FIELD binding_kind
+    }
+    content_licenses["content_licenses"] {
+        ID id PK
+        ID licensor_organization_id FK
+        ID licensee_organization_id FK
+        ID resource_id FK
+        FIELD status
+        FIELD valid_from
+        FIELD valid_until "optional"
+    }
+    license_terms["license_terms"] {
+        ID id PK
+        ID license_id FK
+        FIELD terms_version
+        FIELD usage_rights_schema
+        FIELD retained_evidence_rights
+    }
+    content_shares["content_shares"] {
+        ID id PK
+        ID owner_organization_id FK
+        ID recipient_organization_id FK
+        ID resource_id FK
+        FIELD permission_code
+        FIELD valid_until "optional"
+    }
+    organizations["organizations (see 2)"]
+    organizations |o..o{ registered_resources : "owner_organization_id"
+    registered_resources ||..o{ resource_bindings : "registered_resource_id"
+    organizations ||..o{ content_licenses : "licensor_organization_id"
+    organizations ||..o{ content_licenses : "licensee_organization_id"
+    registered_resources ||..o{ content_licenses : "resource_id"
+    content_licenses ||..o{ license_terms : "license_id"
+    organizations ||..o{ content_shares : "owner_organization_id"
+    organizations ||..o{ content_shares : "recipient_organization_id"
+    registered_resources ||..o{ content_shares : "resource_id"

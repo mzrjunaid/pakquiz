@@ -1,0 +1,50 @@
+erDiagram
+    direction LR
+    test_patterns["test_patterns"] {
+        ID id PK
+        FIELD name
+        FIELD version_number
+        FIELD status
+        FIELD notes "optional"
+    }
+    test_pattern_sections["test_pattern_sections"] {
+        ID id PK
+        ID test_pattern_id FK
+        ID subject_id FK "optional"
+        ID category_id FK "optional"
+        FIELD quota "optional"
+        FIELD weight_percent "optional"
+        FIELD position
+    }
+    job_post_test_patterns["job_post_test_patterns"] {
+        ID job_post_id FK
+        ID test_pattern_id FK
+        FIELD valid_from "optional"
+        FIELD valid_to "optional"
+    }
+    preparation_collections["preparation_collections"] {
+        ID id PK
+        ID owner_organization_id FK "optional"
+        ID job_post_id FK "optional"
+        FIELD title
+        FIELD status
+    }
+    preparation_collection_questions["preparation_collection_questions"] {
+        ID collection_id FK
+        ID question_id FK
+        FIELD position "optional"
+    }
+    subjects["subjects (see 3)"]
+    categories["categories (see 3)"]
+    job_posts["job_posts (see 5)"]
+    organizations["organizations (see 2)"]
+    questions["questions (see 4)"]
+    test_patterns ||..o{ test_pattern_sections : "test_pattern_id"
+    subjects |o..o{ test_pattern_sections : "subject_id"
+    categories |o..o{ test_pattern_sections : "category_id"
+    job_posts ||..o{ job_post_test_patterns : "job_post_id"
+    test_patterns ||..o{ job_post_test_patterns : "test_pattern_id"
+    organizations |o..o{ preparation_collections : "owner_organization_id"
+    job_posts |o..o{ preparation_collections : "job_post_id"
+    preparation_collections ||..o{ preparation_collection_questions : "collection_id"
+    questions ||..o{ preparation_collection_questions : "question_id"

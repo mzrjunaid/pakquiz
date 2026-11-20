@@ -26,9 +26,10 @@ class DepartmentService
             $counts = DB::table('departments')
                 ->selectRaw('
                 COUNT(*) as total,
-                SUM(CASE WHEN DATE(created_at) = CURDATE() THEN 1 ELSE 0 END) as today,
+                SUM(CASE WHEN created_at >= ? THEN 1 ELSE 0 END) as today,
                 SUM(CASE WHEN created_at BETWEEN ? AND ? THEN 1 ELSE 0 END) as this_week
             ', [
+                    now()->startOfDay(),
                     now()->startOfWeek(),
                     now()->endOfWeek()
                 ])
@@ -70,10 +71,9 @@ class DepartmentService
         array $validated,
         Department $department,
         array $seoData,
-        ?UploadedFile $seoImage,
-        array $keywordIds)
+        ?UploadedFile $seoImage)
     {
-        return DB::transaction(function () use ($validated, $department, $seoData, $seoImage, $keywordIds) {
+        return DB::transaction(function () use ($validated, $department, $seoData, $seoImage) {
             $validated['updated_by'] = Auth::id();
             $validated['updated_at'] = now();
 
@@ -101,17 +101,15 @@ class DepartmentService
                 $department->seo()->create($seoData);
             }
 
-            $department->keywords()->sync($keywordIds);
-
             $this->clearCache();
 
             return $department;
         });
     }
 
-    public function createDepartment(array $data, array $seoData, ?UploadedFile $seoImage, array $keywordIds)
+    public function createDepartment(array $data, array $seoData, ?UploadedFile $seoImage)
     {
-        return DB::transaction(function () use ($data, $seoData, $seoImage, $keywordIds) {
+        return DB::transaction(function () use ($data, $seoData, $seoImage) {
             $data['created_by'] = Auth::id();
             $data['created_at'] = now();
             $data['updated_at'] = now();
@@ -133,8 +131,6 @@ class DepartmentService
             $seoData['og_image'] = $ogImagePath;
 
             $department->seo()->create($seoData);
-
-            $department->keywords()->sync($keywordIds);
 
             $this->clearCache();
 

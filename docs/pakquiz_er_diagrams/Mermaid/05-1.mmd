@@ -1,0 +1,59 @@
+erDiagram
+    direction LR
+    books["books"] {
+        ID id PK
+        FIELD title
+        FIELD slug
+        FIELD language_code "optional"
+        FIELD status
+    }
+    authors["authors"] {
+        ID id PK
+        FIELD display_name
+        FIELD biography "optional"
+    }
+    book_authors["book_authors"] {
+        ID book_id FK
+        ID author_id FK
+        FIELD credit_role
+        FIELD credit_order
+    }
+    publishers["publishers"] {
+        ID id PK
+        FIELD name
+        FIELD website "optional"
+    }
+    book_editions["book_editions"] {
+        ID id PK
+        ID book_id FK
+        ID publisher_id FK "optional"
+        FIELD edition_label
+        FIELD isbn "optional"
+        FIELD publication_year "optional"
+    }
+    book_chapters["book_chapters"] {
+        ID id PK
+        ID edition_id FK
+        ID parent_chapter_id FK "optional"
+        FIELD chapter_key
+        FIELD title
+        FIELD sort_order
+    }
+    book_question_references["book_question_references"] {
+        ID id PK
+        ID edition_id FK
+        ID chapter_id FK "optional"
+        ID question_id FK
+        FIELD page_number "optional"
+        FIELD source_question_number "optional"
+    }
+    questions["questions (see 4)"]
+    books ||..o{ book_authors : "book_id"
+    authors ||..o{ book_authors : "author_id"
+    books ||..o{ book_editions : "book_id"
+    publishers |o..o{ book_editions : "publisher_id"
+    book_editions ||..o{ book_chapters : "edition_id"
+    book_chapters |o..o{ book_chapters : "parent_chapter_id"
+    book_editions ||..o{ book_question_references : "edition_id"
+    book_chapters |o..o{ book_question_references : "chapter_id"
+    questions ||..o{ book_question_references : "question_id"

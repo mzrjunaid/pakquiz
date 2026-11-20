@@ -1,0 +1,45 @@
+erDiagram
+    direction LR
+    content_submissions["content_submissions"] {
+        ID id PK
+        ID submitted_by_user_id FK
+        ID submitting_organization_id FK "optional"
+        ID resource_id FK
+        FIELD status
+    }
+    moderation_cases["moderation_cases"] {
+        ID id PK
+        ID resource_id FK
+        ID assigned_reviewer_id FK "optional"
+        FIELD status
+        FIELD opened_at
+    }
+    moderation_decisions["moderation_decisions"] {
+        ID id PK
+        ID case_id FK
+        ID reviewer_id FK
+        FIELD decision
+        FIELD reason
+        FIELD decided_at
+    }
+    announcements["announcements"] {
+        ID id PK
+        ID organization_id FK "optional"
+        ID offering_id FK "optional"
+        FIELD title
+        FIELD audience_rule
+        FIELD published_at "optional"
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    registered_resources["registered_resources (see 11)"]
+    course_offerings["course_offerings (see 7)"]
+    users ||..o{ content_submissions : "submitted_by_user_id"
+    organizations |o..o{ content_submissions : "submitting_organization_id"
+    registered_resources ||..o{ content_submissions : "resource_id"
+    registered_resources ||..o{ moderation_cases : "resource_id"
+    users |o..o{ moderation_cases : "assigned_reviewer_id"
+    moderation_cases ||..o{ moderation_decisions : "case_id"
+    users ||..o{ moderation_decisions : "reviewer_id"
+    organizations |o..o{ announcements : "organization_id"
+    course_offerings |o..o{ announcements : "offering_id"

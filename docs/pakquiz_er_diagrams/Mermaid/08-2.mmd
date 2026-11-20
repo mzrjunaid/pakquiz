@@ -1,0 +1,94 @@
+erDiagram
+    direction LR
+    assessment_deliveries["assessment_deliveries"] {
+        ID id PK
+        ID assessment_version_id FK
+        ID organization_id FK "optional"
+        ID offering_id FK "optional"
+        ID batch_id FK "optional"
+        FIELD opens_at "optional"
+        FIELD closes_at "optional"
+        FIELD status
+    }
+    assessment_eligibility["assessment_eligibility"] {
+        ID id PK
+        ID delivery_id FK
+        ID user_id FK "optional"
+        ID enrollment_id FK "optional"
+        ID invitation_id FK "optional; FK target unresolved"
+        FIELD status
+    }
+    assessment_attempts["assessment_attempts"] {
+        ID id PK
+        ID delivery_id FK
+        ID user_id FK
+        ID enrollment_id FK "optional"
+        FIELD attempt_no
+        FIELD started_at
+        FIELD submitted_at "optional"
+        FIELD effective_scoring_snapshot
+        FIELD state
+    }
+    attempt_sections["attempt_sections"] {
+        ID id PK
+        ID attempt_id FK
+        FIELD section_no
+        FIELD section_snapshot
+    }
+    attempt_questions["attempt_questions"] {
+        ID id PK
+        ID attempt_section_id FK
+        ID question_revision_id FK
+        FIELD ordinal
+        FIELD content_snapshot
+        FIELD options_snapshot
+        FIELD correct_key_snapshot
+        FIELD scoring_snapshot
+    }
+    attempt_responses["attempt_responses"] {
+        ID id PK
+        ID attempt_question_id FK
+        FIELD response_version
+        FIELD response_payload
+        FIELD captured_at
+        FIELD time_spent_ms "optional"
+    }
+    attempt_events["attempt_events"] {
+        ID id PK
+        ID attempt_id FK
+        FIELD event_type
+        FIELD event_at
+        FIELD event_details
+    }
+    assessment_access_tokens["assessment_access_tokens"] {
+        ID id PK
+        ID delivery_id FK
+        ID user_id FK "optional"
+        FIELD token_hash
+        FIELD expires_at
+        FIELD consumed_at "optional"
+    }
+    assessment_versions["assessment_versions (see 8)"]
+    organizations["organizations (see 2)"]
+    course_offerings["course_offerings (see 7)"]
+    batches["batches (see 7)"]
+    users["users (see 1)"]
+    enrollments["enrollments (see 7)"]
+    question_revisions["question_revisions (see 4)"]
+    assessment_versions ||..o{ assessment_deliveries : "assessment_version_id"
+    organizations |o..o{ assessment_deliveries : "organization_id"
+    course_offerings |o..o{ assessment_deliveries : "offering_id"
+    batches |o..o{ assessment_deliveries : "batch_id"
+    assessment_deliveries ||..o{ assessment_eligibility : "delivery_id"
+    users |o..o{ assessment_eligibility : "user_id"
+    enrollments |o..o{ assessment_eligibility : "enrollment_id"
+    assessment_deliveries ||..o{ assessment_attempts : "delivery_id"
+    users ||..o{ assessment_attempts : "user_id"
+    enrollments |o..o{ assessment_attempts : "enrollment_id"
+    assessment_attempts ||..o{ attempt_sections : "attempt_id"
+    attempt_sections ||..o{ attempt_questions : "attempt_section_id"
+    question_revisions ||..o{ attempt_questions : "question_revision_id"
+    attempt_questions ||..o{ attempt_responses : "attempt_question_id"
+    assessment_attempts ||..o{ attempt_events : "attempt_id"
+    assessment_deliveries ||..o{ assessment_access_tokens : "delivery_id"
+    users |o..o{ assessment_access_tokens : "user_id"

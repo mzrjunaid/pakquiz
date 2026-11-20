@@ -1,0 +1,53 @@
+erDiagram
+    direction LR
+    notifications["notifications"] {
+        ID id PK
+        ID recipient_user_id FK
+        FIELD template_code
+        FIELD payload
+        FIELD status
+        FIELD created_at
+    }
+    notification_preferences["notification_preferences"] {
+        ID user_id FK
+        FIELD channel_code
+        FIELD notification_type
+        FIELD enabled
+    }
+    notification_deliveries["notification_deliveries"] {
+        ID id PK
+        ID notification_id FK
+        FIELD provider_code
+        FIELD delivery_status
+        FIELD delivered_at "optional"
+    }
+    integration_connections["integration_connections"] {
+        ID id PK
+        ID organization_id FK "optional"
+        FIELD provider_code
+        FIELD connection_state
+        FIELD secret_reference
+    }
+    integration_events["integration_events"] {
+        ID id PK
+        ID connection_id FK
+        ID external_event_id
+        FIELD event_code
+        FIELD state
+        FIELD received_at
+    }
+    api_clients["api_clients"] {
+        ID id PK
+        ID organization_id FK "optional"
+        FIELD client_name
+        FIELD scopes
+        FIELD state
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    users ||..o{ notifications : "recipient_user_id"
+    users ||..o{ notification_preferences : "user_id"
+    notifications ||..o{ notification_deliveries : "notification_id"
+    organizations |o..o{ integration_connections : "organization_id"
+    integration_connections ||..o{ integration_events : "connection_id"
+    organizations |o..o{ api_clients : "organization_id"

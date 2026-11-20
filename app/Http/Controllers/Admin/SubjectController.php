@@ -123,21 +123,10 @@ class SubjectController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
-
-        $keywordIds = [];
-        if (! empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
 
         $tagIds = collect($validated['tags'] ?? [])
             ->map(fn ($slug) => Str::slug(trim($slug)))
@@ -152,7 +141,7 @@ class SubjectController extends Controller
             })
             ->toArray();
 
-        $subject = $service->createSubject($data, $seoData, $seoImage, $keywordIds, $tagIds);
+        $subject = $service->createSubject($data, $seoData, $seoImage, $tagIds);
 
         return redirect()
             ->route('admin.subjects.show', $subject)
@@ -232,7 +221,6 @@ class SubjectController extends Controller
         $subject->load([
             'createdBy',
             'seo',
-            'keywords:id,keyword',
             'tags:id,name,slug',
         ]);
         // dd($subject);
@@ -250,9 +238,7 @@ class SubjectController extends Controller
         return Inertia::render('admin/subjects/edit', [
             'subject' => $subject,
             'seoData' => $subject->seo,
-            'keywords' => $subject->keywords
-                ->pluck('keyword')
-                ->implode(','),
+            'keywords' => $subject->seo?->keywords ?? '',
 
             'selectedTagSlugs' => $subject->tags->pluck('slug')->values(),
 
@@ -302,21 +288,10 @@ class SubjectController extends Controller
         $seoData = [
             'title' => $validated['seo_title'] ?? null,
             'description' => $validated['seo_description'] ?? null,
+            'keywords' => $validated['keywords'] ?? null,
             'og_title' => $validated['og_title'] ?? null,
             'og_description' => $validated['og_description'] ?? null,
         ];
-
-        $keywordIds = [];
-        if (! empty($validated['keywords'])) {
-            $keywords = explode(',', $validated['keywords']);
-            foreach ($keywords as $keyword) {
-                $keyword = trim($keyword);
-                $keyword = Keyword::firstOrCreate([
-                    'keyword' => $keyword,
-                ]);
-                $keywordIds[] = $keyword->id;
-            }
-        }
 
         $tagIds = collect($validated['tags'] ?? [])
             ->map(fn ($slug) => Str::slug(trim($slug)))
@@ -331,7 +306,7 @@ class SubjectController extends Controller
             })
             ->toArray();
 
-        $subject = $service->updateSubject($data, $subject, $seoData, $seoImage, $keywordIds, $tagIds);
+        $subject = $service->updateSubject($data, $subject, $seoData, $seoImage, $tagIds);
 
         return redirect()
             ->route('admin.subjects.edit', $subject)

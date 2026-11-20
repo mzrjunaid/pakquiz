@@ -1,0 +1,40 @@
+erDiagram
+    direction LR
+    guardian_relationships["guardian_relationships"] {
+        ID id PK
+        ID guardian_user_id FK
+        ID student_user_id FK
+        FIELD relation_code
+        FIELD verification_state
+    }
+    guardian_access_grants["guardian_access_grants"] {
+        ID id PK
+        ID relationship_id FK
+        ID organization_id FK "optional"
+        FIELD permission_scope
+        FIELD valid_from
+        FIELD valid_until "optional"
+    }
+    policy_versions["policy_versions"] {
+        ID id PK
+        FIELD policy_code
+        FIELD revision
+        FIELD published_at
+        FIELD content_hash
+    }
+    consent_records["consent_records"] {
+        ID id PK
+        ID user_id FK
+        ID policy_version_id FK
+        FIELD decision
+        FIELD recorded_at
+        FIELD withdrawal_at "optional"
+    }
+    users["users (see 1)"]
+    organizations["organizations (see 2)"]
+    users ||..o{ guardian_relationships : "guardian_user_id"
+    users ||..o{ guardian_relationships : "student_user_id"
+    guardian_relationships ||..o{ guardian_access_grants : "relationship_id"
+    organizations |o..o{ guardian_access_grants : "organization_id"
+    users ||..o{ consent_records : "user_id"
+    policy_versions ||..o{ consent_records : "policy_version_id"
